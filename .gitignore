@@ -61,6 +61,22 @@ volumes/
 uploads/
 *.tmp
 
+# Manual parsing workspace
+data/manuals/raw/*
+!data/manuals/raw/.gitkeep
+data/manuals/parsed/*
+!data/manuals/parsed/.gitkeep
+data/manuals/page_images/*
+!data/manuals/page_images/.gitkeep
+data/manuals/chunks/*
+!data/manuals/chunks/.gitkeep
+data/manuals/baseline_chunks*/
+data/manuals/retrieval_baselines/
+
+# Temporary review/test artifacts
+tmp_competition_pdf/
+scripts/__pycache__/
+
 # OS
 .DS_Store
 Thumbs.db

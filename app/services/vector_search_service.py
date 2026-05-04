@@ -1,16 +1,19 @@
-"""向量检索服务模块"""
+"""Vector search service built on top of Milvus."""
 
-from typing import Any, Dict, List
+from __future__ import annotations
+
+from typing import Any, Dict, List, Sequence
 
 from loguru import logger
 from pymilvus import Collection
 
 from app.core.milvus_client import milvus_manager
 from app.services.vector_embedding_service import vector_embedding_service
+from app.services.vector_store_manager import vector_store_manager
 
 
 class SearchResult:
-    """搜索结果类"""
+    """Search result value object."""
 
     def __init__(
         self,
@@ -25,7 +28,7 @@ class SearchResult:
         self.metadata = metadata
 
     def to_dict(self) -> Dict[str, Any]:
-        """转换为字典"""
+        """Convert to a serializable dict."""
         return {
             "id": self.id,
             "content": self.content,
@@ -35,70 +38,130 @@ class SearchResult:
 
 
 class VectorSearchService:
-    """向量检索服务 - 负责从 Milvus 中搜索相似向量"""
+    """Thin Milvus search wrapper with optional metadata filtering."""
 
     def __init__(self):
-        """初始化向量检索服务"""
-        logger.info("向量检索服务初始化完成")
+        logger.info("VectorSearchService initialized")
 
-    def search_similar_documents(self, query: str, top_k: int = 3) -> List[SearchResult]:
-        """
-        搜索相似文档
-
-        Args:
-            query: 查询文本
-            top_k: 返回最相似的K个结果
-
-        Returns:
-            List[SearchResult]: 搜索结果列表
-
-        Raises:
-            RuntimeError: 搜索失败时抛出
-        """
+    def search_similar_documents(
+        self,
+        query: str,
+        top_k: int = 3,
+        doc_id: str | None = None,
+        retrieval_tiers: str | Sequence[str] | None = None,
+        chunk_types: str | Sequence[str] | None = None,
+        chunk_ids: str | Sequence[str] | None = None,
+    ) -> List[SearchResult]:
+        """Search similar documents with optional metadata filters."""
         try:
-            logger.info(f"开始搜索相似文档, 查询: {query}, topK: {top_k}")
+            logger.info(
+                "Start vector search: query='{}', top_k={}, doc_id={}, retrieval_tiers={}, chunk_types={}, chunk_ids={}",
+                query,
+                top_k,
+                doc_id,
+                retrieval_tiers,
+                chunk_types,
+                chunk_ids,
+            )
 
-            # 1. 将查询文本向量化
             query_vector = vector_embedding_service.embed_query(query)
-            logger.debug(f"查询向量生成成功, 维度: {len(query_vector)}")
-
-            # 2. 获取 collection
             collection: Collection = milvus_manager.get_collection()
+            filter_expr = vector_store_manager.build_metadata_filter_expr(
+                doc_id=doc_id,
+                retrieval_tiers=retrieval_tiers,
+                chunk_types=chunk_types,
+                chunk_ids=chunk_ids,
+            )
 
-            # 3. 构建搜索参数
             search_params = {
-                "metric_type": "L2",  # 欧氏距离
+                "metric_type": "L2",
                 "params": {"nprobe": 10},
             }
 
-            # 4. 执行搜索
-            results = collection.search(
-                data=[query_vector],
-                anns_field="vector",
-                param=search_params,
-                limit=top_k,
+            search_kwargs: dict[str, Any] = {
+                "data": [query_vector],
+                "anns_field": "vector",
+                "param": search_params,
+                "limit": top_k,
+                "output_fields": ["id", "content", "metadata"],
+            }
+            if filter_expr:
+                search_kwargs["expr"] = filter_expr
+
+            results = collection.search(**search_kwargs)
+
+            search_results: List[SearchResult] = []
+            for hits in results:
+                for hit in hits:
+                    metadata = hit.entity.get("metadata", {}) or {}
+                    content = metadata.get("text") or hit.entity.get("content") or ""
+                    search_results.append(
+                        SearchResult(
+                            id=hit.entity.get("id"),
+                            content=content,
+                            score=hit.distance,
+                            metadata=metadata,
+                        )
+                    )
+
+            logger.info(
+                "Vector search finished: {} results, filter_expr={}",
+                len(search_results),
+                filter_expr,
+            )
+            return search_results
+
+        except Exception as exc:
+            logger.error(f"Vector search failed: {exc}")
+            raise RuntimeError(f"搜索失败: {exc}") from exc
+
+    def query_documents(
+        self,
+        doc_id: str | None = None,
+        retrieval_tiers: str | Sequence[str] | None = None,
+        chunk_types: str | Sequence[str] | None = None,
+        chunk_ids: str | Sequence[str] | None = None,
+        limit: int = 256,
+    ) -> List[SearchResult]:
+        """Query documents by metadata filters without vector similarity search."""
+        try:
+            collection: Collection = milvus_manager.get_collection()
+            filter_expr = vector_store_manager.build_metadata_filter_expr(
+                doc_id=doc_id,
+                retrieval_tiers=retrieval_tiers,
+                chunk_types=chunk_types,
+                chunk_ids=chunk_ids,
+            )
+            expr = filter_expr or 'id != ""'
+
+            rows = collection.query(
+                expr=expr,
+                limit=limit,
                 output_fields=["id", "content", "metadata"],
             )
 
-            # 5. 解析搜索结果
-            search_results = []
-            for hits in results:
-                for hit in hits:
-                    result = SearchResult(
-                        id=hit.entity.get("id"),
-                        content=hit.entity.get("content"),
-                        score=hit.distance,  # L2 距离，越小越相似
-                        metadata=hit.entity.get("metadata", {}),
+            results: List[SearchResult] = []
+            for row in rows:
+                metadata = row.get("metadata", {}) or {}
+                content = metadata.get("text") or row.get("content") or ""
+                results.append(
+                    SearchResult(
+                        id=row.get("id", ""),
+                        content=content,
+                        score=0.0,
+                        metadata=metadata,
                     )
-                    search_results.append(result)
+                )
 
-            logger.info(f"搜索完成, 找到 {len(search_results)} 个相似文档")
-            return search_results
+            logger.info(
+                "Metadata query finished: {} results, expr={}",
+                len(results),
+                expr,
+            )
+            return results
+        except Exception as exc:
+            logger.error(f"Metadata query failed: {exc}")
+            raise RuntimeError(f"查询失败: {exc}") from exc
 
-        except Exception as e:
-            logger.error(f"搜索相似文档失败: {e}")
-            raise RuntimeError(f"搜索失败: {e}") from e
 
-
-# 全局单例
 vector_search_service = VectorSearchService()

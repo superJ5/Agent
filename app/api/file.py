@@ -128,6 +128,28 @@ async def index_directory(directory_path: str = None):
         raise HTTPException(status_code=500, detail=f"索引目录失败: {e}")
 
 
+@router.post("/index_manual_chunks")
+async def index_manual_chunks(directory_path: str | None = None):
+    """Index structured manual chunk JSONL files into Milvus."""
+    try:
+        target = directory_path or vector_index_service.manual_chunk_path
+        logger.info(f"Start indexing manual chunk directory: {target}")
+
+        result = vector_index_service.index_manual_chunks(directory_path)
+
+        return JSONResponse(
+            status_code=200,
+            content={
+                "code": 200,
+                "message": "success" if result.success else "partial_success",
+                "data": result.to_dict(),
+            },
+        )
+    except Exception as e:
+        logger.error(f"Indexing manual chunks failed: {e}")
+        raise HTTPException(status_code=500, detail=f"Indexing manual chunks failed: {e}")
+
+
 def _get_file_extension(filename: str) -> str:
     """
     获取文件扩展名
