@@ -26,6 +26,8 @@ env/
 ENV/
 .venv
 
+
+
 # uv
 .uv/
 
@@ -45,8 +47,9 @@ poetry.lock
 # Environment
 .env.local
 
-# Logs
+# Logs / Reports
 logs/
+reports/
 *.log
 *.pid
 
@@ -62,20 +65,35 @@ uploads/
 *.tmp
 
 # Manual parsing workspace
-data/manuals/raw/*
-!data/manuals/raw/.gitkeep
-data/manuals/parsed/*
-!data/manuals/parsed/.gitkeep
-data/manuals/page_images/*
-!data/manuals/page_images/.gitkeep
-data/manuals/chunks/*
-!data/manuals/chunks/.gitkeep
-data/manuals/baseline_chunks*/
-data/manuals/retrieval_baselines/
+data/manuals/*
+!data/manuals/raw/
+!data/manuals/langchain_baseline/
+!data/manuals/chunks/
+!data/manuals/reviewed_md/
+
 
 # Temporary review/test artifacts
 tmp_competition_pdf/
 scripts/__pycache__/
+chunks.jsonl
+
+# Project documentation to ignore
+chunk_scripts_manifest.md
+chunking_strategy_notes.md
+competition_plan.md
+manual_dataset_format.md
+v1_execution_checklist.md
+
+# Local manual data preparation scripts (obsolete, do not commit)
+scripts/build_structured_chunks.py
+scripts/check_manual_indexing_readiness.py
+scripts/verify_chunk_integrity.py
+scripts/convert_manual_dataset.py
+scripts/batch_convert_manual_datasets.py
+scripts/organize_manual_raw_assets.py
+scripts/build_baseline_chunks.py
+scripts/build_retrieval_evidence_baseline.py
+scripts/compare_baseline_retrieval.py
 
 # OS
 .DS_Store

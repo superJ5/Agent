@@ -29,6 +29,9 @@ class Settings(BaseSettings):
     dashscope_model: str = "qwen-max"
     dashscope_embedding_model: str = "text-embedding-v4"  # v4 支持多种维度（默认 1024）
 
+    # 比赛接口认证
+    api_bearer_token: str = ""
+
     # Milvus 配置
     milvus_host: str = "localhost"
     milvus_port: int = 19530

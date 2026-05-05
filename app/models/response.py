@@ -1,21 +1,37 @@
-"""响应数据模型
+"""响应数据模型。"""
 
-定义 API 响应的 Pydantic 模型
-"""
+from __future__ import annotations
+
+from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel, Field
-from typing import List, Dict, Any, Optional
 
 
 class ChatResponse(BaseModel):
-    """对话响应"""
+    """旧版对话响应。"""
 
     answer: str = Field(..., description="AI 回答")
     session_id: str = Field(..., description="会话 ID")
 
 
+class CompetitionChatData(BaseModel):
+    """比赛标准对话数据。"""
+
+    answer: str = Field(..., description="智能体回答")
+    session_id: str = Field(..., description="会话 ID")
+    timestamp: int = Field(..., description="响应时间戳（秒）")
+
+
+class CompetitionChatResponse(BaseModel):
+    """比赛标准响应结构。"""
+
+    code: int = Field(..., description="业务状态码")
+    msg: str = Field(..., description="消息")
+    data: CompetitionChatData = Field(..., description="响应数据")
+
+
 class SessionInfoResponse(BaseModel):
-    """会话信息响应"""
+    """会话信息响应。"""
 
     session_id: str = Field(..., description="会话 ID")
     message_count: int = Field(..., description="消息数量")
@@ -23,7 +39,7 @@ class SessionInfoResponse(BaseModel):
 
 
 class ApiResponse(BaseModel):
-    """通用 API 响应"""
+    """通用 API 响应。"""
 
     status: str = Field(..., description="状态")
     message: str = Field(..., description="消息")
@@ -31,7 +47,7 @@ class ApiResponse(BaseModel):
 
 
 class HealthResponse(BaseModel):
-    """健康检查响应"""
+    """健康检查响应。"""
 
     status: str = Field(..., description="状态")
     service: str = Field(..., description="服务名称")

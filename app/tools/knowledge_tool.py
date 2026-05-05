@@ -41,50 +41,172 @@ ACTION_TERMS = [
     "更换",
     "拆卸",
     "调节",
+    "启动",
+    "停机",
+    "操作",
+    "加油",
+    "加注",
+    "混合",
+    "清洁",
+    "维护",
+    "保养",
+    "检查",
     "范围",
     "问题",
 ]
 
+SAFETY_TERMS = [
+    "安全",
+    "警告",
+    "警示",
+    "注意",
+    "小心",
+    "危险",
+    "禁止",
+    "防护",
+    "防护装备",
+    "个人防护装备",
+    "佩戴",
+    "宽松衣物",
+    "围巾",
+    "项链",
+    "标识",
+    "标签",
+    "电源",
+    "触电",
+    "雷雨",
+]
+
+TROUBLESHOOTING_TERMS = [
+    "故障",
+    "异常",
+    "原因",
+    "排查",
+    "解决",
+    "维修",
+    "损坏",
+    "破损",
+    "磨损",
+    "不制冷",
+    "不工作",
+    "报警",
+    "失灵",
+]
+
+MANUAL_QUERY_TERMS = [
+    "个人防护装备",
+    "防护装备",
+    "宽松衣物",
+    "警示标识",
+    "警示标签",
+    "燃油安全",
+    "燃油混合",
+    "混合方法",
+    "加油操作",
+    "冷机启动",
+    "热机启动",
+    "吹风管",
+    "吹管",
+    "喷口",
+    "空气滤清器",
+]
+
+QUERY_SYNONYMS: dict[str, tuple[str, ...]] = {
+    "吹管": ("吹风管", "喷口"),
+    "吹风管": ("吹管", "喷口"),
+    "防护装备": ("个人防护装备", "听力防护", "眼部防护", "面罩", "工作靴"),
+    "个人防护装备": ("防护装备", "听力防护", "眼部防护", "面罩", "工作靴"),
+    "宽松衣物": ("衣物", "宽松", "围巾", "项链", "长发"),
+    "警示标识": ("警示标签", "警告标识", "破损", "磨损"),
+    "警示标签": ("警示标识", "警告标识", "破损", "磨损"),
+    "加油": ("加注", "油箱", "加油操作"),
+    "燃油混合": ("混合方法", "汽油", "机油", "1:50"),
+    "混合": ("燃油混合", "混合方法"),
+    "冷机启动": ("冷机", "启动"),
+    "热机启动": ("热机", "启动"),
+    "维护": ("清洁", "保养", "检查"),
+    "空气滤清器": ("滤清器", "清洁", "维护"),
+}
+
+CHUNK_TYPE_FAMILY: dict[str, str] = {
+    "text_image_atomic": "component",
+    "feature_group": "component",
+    "procedure_step": "procedure",
+    "procedure_overview": "overview",
+    "section_summary": "overview",
+    "legal_clause": "legal",
+    "safety_clause": "safety",
+    "caution_clause": "safety",
+    "troubleshooting_case": "troubleshooting",
+    "troubleshooting_condition": "troubleshooting",
+    "metadata_image_path": "auxiliary",
+    "aux_navigation": "auxiliary",
+    "subsection": "subsection",
+}
+
+FAMILY_ROUTE_TYPES: dict[str, tuple[str, ...]] = {
+    "component": ("text_image_atomic", "feature_group", "subsection"),
+    "procedure": ("procedure_step", "feature_group", "subsection"),
+    "legal": ("legal_clause", "subsection"),
+    "image": ("text_image_atomic", "feature_group", "subsection"),
+    "ocr": ("subsection", "text_image_atomic", "feature_group", "legal_clause", "safety_clause", "caution_clause"),
+    "overview": ("section_summary", "procedure_overview", "subsection"),
+    "auxiliary": ("metadata_image_path", "aux_navigation"),
+    "safety": ("safety_clause", "caution_clause", "text_image_atomic", "feature_group", "subsection"),
+    "troubleshooting": ("troubleshooting_case", "troubleshooting_condition", "subsection"),
+    "subsection": ("subsection",),
+}
+
 INTENT_STAGE_CONFIG: dict[str, list[dict[str, Any]]] = {
     "component": [
-        {"name": "primary_route", "tiers": ["primary"], "types": ["text_image_atomic", "feature_group", "subsection"]},
-        {"name": "support_route", "tiers": ["support"], "types": ["section_summary", "procedure_overview"]},
-        {"name": "expanded_route", "tiers": ["primary", "support"], "types": None},
+        {"name": "primary_route", "tiers": ["primary"], "families": ["component"]},
+        {"name": "support_route", "tiers": ["support"], "families": ["overview"]},
+        {"name": "expanded_route", "tiers": ["primary", "support"], "families": ["component", "overview", "procedure"]},
     ],
     "procedure": [
-        {"name": "primary_route", "tiers": ["primary"], "types": ["procedure_step", "subsection", "feature_group"]},
-        {"name": "support_route", "tiers": ["support"], "types": ["procedure_overview", "section_summary"]},
-        {"name": "expanded_route", "tiers": ["primary", "support"], "types": None},
+        {"name": "primary_route", "tiers": ["primary"], "families": ["procedure"]},
+        {"name": "support_route", "tiers": ["support"], "families": ["overview"]},
+        {"name": "expanded_route", "tiers": ["primary", "support"], "families": ["procedure", "component", "overview"]},
     ],
     "legal": [
-        {"name": "primary_route", "tiers": ["primary"], "types": ["legal_clause", "subsection"]},
-        {"name": "support_route", "tiers": ["support"], "types": ["section_summary"]},
-        {"name": "expanded_route", "tiers": ["primary", "support"], "types": None},
+        {"name": "primary_route", "tiers": ["primary"], "families": ["legal"]},
+        {"name": "support_route", "tiers": ["support"], "families": ["overview"]},
+        {"name": "expanded_route", "tiers": ["primary", "support"], "families": ["legal", "overview"]},
+    ],
+    "safety": [
+        {"name": "primary_route", "tiers": ["primary"], "families": ["safety"]},
+        {"name": "support_route", "tiers": ["support"], "families": ["overview"]},
+        {"name": "expanded_route", "tiers": ["primary", "support"], "families": ["safety", "overview"]},
+    ],
+    "troubleshooting": [
+        {"name": "primary_route", "tiers": ["primary"], "families": ["troubleshooting"]},
+        {"name": "support_route", "tiers": ["support"], "families": ["overview"]},
+        {"name": "expanded_route", "tiers": ["primary", "support"], "families": ["troubleshooting", "overview", "component"]},
     ],
     "image_trace": [
-        {"name": "auxiliary_direct", "tiers": ["auxiliary"], "types": ["metadata_image_path", "aux_navigation"]},
-        {"name": "primary_route", "tiers": ["primary"], "types": ["text_image_atomic", "feature_group", "subsection"]},
-        {"name": "expanded_route", "tiers": ["primary", "support", "auxiliary"], "types": None},
+        {"name": "auxiliary_direct", "tiers": ["auxiliary"], "families": ["auxiliary"]},
+        {"name": "primary_route", "tiers": ["primary"], "families": ["image", "component"]},
+        {"name": "expanded_route", "tiers": ["primary", "support", "auxiliary"], "families": ["auxiliary", "image", "component", "overview"]},
     ],
     "ocr_audit": [
-        {"name": "auxiliary_direct", "tiers": ["auxiliary"], "types": ["aux_navigation", "metadata_image_path"]},
-        {"name": "primary_route", "tiers": ["primary", "support"], "types": None},
-        {"name": "expanded_route", "tiers": ["primary", "support", "auxiliary"], "types": None},
+        {"name": "auxiliary_direct", "tiers": ["auxiliary"], "families": ["auxiliary"]},
+        {"name": "primary_route", "tiers": ["primary", "support"], "families": ["ocr", "overview"]},
+        {"name": "expanded_route", "tiers": ["primary", "support", "auxiliary"], "families": None},
     ],
     "overview": [
-        {"name": "support_route", "tiers": ["support"], "types": ["section_summary", "procedure_overview"]},
-        {"name": "primary_route", "tiers": ["primary"], "types": ["subsection", "feature_group"]},
-        {"name": "expanded_route", "tiers": ["primary", "support"], "types": None},
+        {"name": "support_route", "tiers": ["support"], "families": ["overview"]},
+        {"name": "primary_route", "tiers": ["primary"], "families": ["overview", "component"]},
+        {"name": "expanded_route", "tiers": ["primary", "support"], "families": ["overview", "component", "procedure"]},
     ],
     "general": [
-        {"name": "primary_route", "tiers": ["primary"], "types": ["subsection", "feature_group", "text_image_atomic", "procedure_step"]},
-        {"name": "support_route", "tiers": ["support"], "types": ["section_summary", "procedure_overview"]},
-        {"name": "expanded_route", "tiers": ["primary", "support"], "types": None},
+        {"name": "primary_route", "tiers": ["primary"], "families": ["component", "procedure", "safety", "legal", "troubleshooting"]},
+        {"name": "support_route", "tiers": ["support"], "families": ["overview"]},
+        {"name": "expanded_route", "tiers": ["primary", "support"], "families": ["component", "procedure", "safety", "overview", "legal", "troubleshooting"]},
     ],
 }
 
 SUPPORT_TYPE_BOOST = {"section_summary", "procedure_overview"}
-LEGAL_MARKERS = ("保修", "法规", "声明", "责任", "政策", "支持与服务", "网站", "网址", "附录")
+LEGAL_MARKERS = ("保修", "法规", "声明", "责任", "政策", "支持与服务", "网站", "网址", "附录", "废弃", "回收", "报废", "环保")
 OCR_MARKERS = ("ocr", "识别", "截断", "缺失", "原文", "源数据", "英国用户")
 
 
@@ -119,8 +241,157 @@ class DocumentProfile:
     terms: tuple[str, ...]
     pic_prefixes: tuple[str, ...]
     chunk_types: tuple[str, ...]
+    chunk_families: tuple[str, ...]
     source_issue_flags: tuple[str, ...]
     chunk_count: int
+
+
+def infer_families_from_type_name(chunk_type: str) -> tuple[str, ...]:
+    """Infer retrieval families from flexible/rich chunk type names."""
+    type_name = str(chunk_type or "").strip().lower()
+    if not type_name:
+        return tuple()
+
+    families: set[str] = set()
+    if any(marker in type_name for marker in ("metadata", "navigation", "image_path", "aux")):
+        families.add("auxiliary")
+    if any(marker in type_name for marker in ("overview", "summary", "group")):
+        families.add("overview")
+    if any(marker in type_name for marker in ("safety", "warning", "caution", "ppe", "protection")):
+        families.add("safety")
+    if any(marker in type_name for marker in ("legal", "warranty", "regulation", "emissions")):
+        families.add("legal")
+    if any(marker in type_name for marker in ("troubleshooting", "fault", "problem", "prevention")):
+        families.add("troubleshooting")
+    if any(
+        marker in type_name
+        for marker in (
+            "step",
+            "task",
+            "install",
+            "installation",
+            "startup",
+            "start",
+            "stop",
+            "fueling",
+            "mix",
+            "mixing",
+            "operation",
+            "adjustment",
+            "cleaning",
+            "maintenance",
+            "service",
+            "prevention",
+            "requirement",
+        )
+    ):
+        families.add("procedure")
+    if any(
+        marker in type_name
+        for marker in (
+            "component",
+            "item",
+            "device",
+            "accessory",
+            "part",
+            "port",
+            "button",
+            "indicator",
+            "label",
+            "tube",
+            "nozzle",
+            "filter",
+            "carburetor",
+            "muffler",
+            "needle",
+        )
+    ):
+        families.add("component")
+
+    return tuple(sorted(families))
+
+
+def infer_chunk_families(
+    chunk_type: str,
+    title: str = "",
+    section_path: Sequence[str] | None = None,
+    text: str = "",
+) -> tuple[str, ...]:
+    """Derive stable retrieval families from one chunk."""
+    families: set[str] = set()
+    normalized_type = str(chunk_type or "").strip()
+    direct_family = CHUNK_TYPE_FAMILY.get(normalized_type)
+    if direct_family:
+        families.add(direct_family)
+    families.update(infer_families_from_type_name(normalized_type))
+
+    haystack = normalize_text(
+        " ".join(
+            [
+                str(title or ""),
+                " ".join(str(part) for part in (section_path or [])),
+                str(text or ""),
+            ]
+        )
+    )
+
+    if any(normalize_text(term) in haystack for term in SAFETY_TERMS):
+        families.add("safety")
+    if any(normalize_text(term) in haystack for term in TROUBLESHOOTING_TERMS):
+        families.add("troubleshooting")
+    if any(normalize_text(term) in haystack for term in LEGAL_MARKERS):
+        families.add("legal")
+    if any(normalize_text(term) in haystack for term in ACTION_TERMS):
+        families.add("procedure")
+    if any(normalize_text(term) in haystack for term in ("部件", "接口", "位置", "按键", "按钮", "指示灯", "追踪灯", "配件", "滤清器", "吹风管", "喷口")):
+        families.add("component")
+    if "目录" in haystack or "概览" in haystack or "附录" in haystack:
+        families.add("overview")
+
+    if not families and normalized_type:
+        families.add("subsection")
+    return tuple(sorted(families))
+
+
+def resolve_chunk_types(
+    chunk_families: Sequence[str] | None,
+    doc_id: str | None = None,
+) -> list[str] | None:
+    """Expand retrieval families into concrete chunk types for Milvus filtering."""
+    if not chunk_families:
+        return None
+
+    requested_families = {str(family) for family in chunk_families if family}
+    resolved: list[str] = []
+    for family in chunk_families:
+        resolved.extend(FAMILY_ROUTE_TYPES.get(family, (family,)))
+
+    if doc_id:
+        profile = next((item for item in load_doc_profiles() if item.doc_id == doc_id), None)
+        if profile:
+            doc_types = set(profile.chunk_types)
+            if "ocr" in requested_families:
+                # OCR/source-quality routing is controlled by source flags in post-filtering,
+                # so avoid dropping flagged chunks just because they have rich custom types.
+                resolved.extend(profile.chunk_types)
+            for doc_type in profile.chunk_types:
+                type_families = set(infer_families_from_type_name(doc_type))
+                if "image" in requested_families and type_families.intersection({"component", "auxiliary"}):
+                    resolved.append(doc_type)
+                elif requested_families.intersection(type_families):
+                    resolved.append(doc_type)
+            narrowed = [chunk_type for chunk_type in resolved if chunk_type in doc_types]
+            if narrowed:
+                resolved = narrowed
+
+    deduped: list[str] = []
+    seen: set[str] = set()
+    for chunk_type in resolved:
+        if not chunk_type or chunk_type in seen:
+            continue
+        seen.add(chunk_type)
+        deduped.append(chunk_type)
+    return deduped or None
 
 
 @tool(response_format="content_and_artifact")
@@ -171,7 +442,7 @@ def routed_retrieve(query: str) -> RetrievalBundle:
             intent=intent,
             doc_id=doc_id,
             tiers=stage["tiers"],
-            chunk_types=stage["types"],
+            chunk_families=stage.get("families"),
             top_k=max(config.rag_top_k, 4),
         )
         if stage_hits:
@@ -188,7 +459,7 @@ def routed_retrieve(query: str) -> RetrievalBundle:
             intent=intent,
             doc_id=doc_id,
             tiers=["primary", "support", "auxiliary"],
-            chunk_types=None,
+            chunk_families=None,
             top_k=max(config.rag_top_k, 6),
         )
         if hits:
@@ -214,7 +485,15 @@ def detect_intent(query: str) -> str:
         return "image_trace"
     if any(keyword.lower() in normalized for keyword in ("ocr", "原文", "源数据", "识别错误", "乱码", "截断", "缺失")):
         return "ocr_audit"
-    if any(keyword.lower() in normalized for keyword in ("保修", "法规", "声明", "责任", "政策", "支持与服务", "网站", "网址")):
+    if (
+        "状态" in normalized or any(keyword in normalized for keyword in ("红色", "白色", "蓝色", "灯灭"))
+    ) and any(keyword in normalized for keyword in ("指示灯", "追踪灯", "状态指示灯", "后侧灯光", "内部灯")):
+        return "component"
+    if any(keyword.lower() in normalized for keyword in SAFETY_TERMS):
+        return "safety"
+    if any(keyword.lower() in normalized for keyword in TROUBLESHOOTING_TERMS):
+        return "troubleshooting"
+    if any(keyword.lower() in normalized for keyword in ("保修", "法规", "声明", "责任", "政策", "支持与服务", "网站", "网址", "废弃", "回收", "报废", "环保")):
         return "legal"
     if any(keyword.lower() in normalized for keyword in ("怎么", "如何", "步骤", "安装", "设置", "更换", "切换", "使用", "拆卸", "开启", "关闭", "调节")):
         return "procedure"
@@ -250,6 +529,7 @@ def load_doc_profiles() -> tuple[DocumentProfile, ...]:
                 "terms": [],
                 "pic_prefixes": set(),
                 "chunk_types": set(),
+                "chunk_families": set(),
                 "source_issue_flags": set(),
                 "chunk_count": 0,
             },
@@ -277,8 +557,16 @@ def load_doc_profiles() -> tuple[DocumentProfile, ...]:
             )
 
         chunk_type = str(metadata.get("chunk_type") or "").strip()
+        chunk_families = infer_chunk_families(
+            chunk_type,
+            title=title,
+            section_path=section_path if isinstance(section_path, list) else [section_path],
+            text=str(metadata.get("text") or ""),
+        )
         if chunk_type:
             bucket["chunk_types"].add(chunk_type)
+        for chunk_family in chunk_families:
+            bucket["chunk_families"].add(chunk_family)
 
         for flag in flags:
             bucket["source_issue_flags"].add(flag)
@@ -302,6 +590,7 @@ def load_doc_profiles() -> tuple[DocumentProfile, ...]:
                 terms=ranked_terms,
                 pic_prefixes=tuple(sorted(bucket["pic_prefixes"])),
                 chunk_types=tuple(sorted(bucket["chunk_types"])),
+                chunk_families=tuple(sorted(bucket["chunk_families"])),
                 source_issue_flags=tuple(sorted(bucket["source_issue_flags"])),
                 chunk_count=int(bucket["chunk_count"]),
             )
@@ -511,6 +800,10 @@ def expand_queries(query: str, intent: str, query_terms: Sequence[str]) -> list[
         variants.append(f"{' '.join(query_terms)} 部件 位置 说明")
     if intent == "legal" and query_terms:
         variants.append(f"{' '.join(query_terms)} 条款 保修 声明")
+    if intent == "safety" and query_terms:
+        variants.append(f"{' '.join(query_terms)} 安全 注意 警告 电源")
+    if intent == "troubleshooting" and query_terms:
+        variants.append(f"{' '.join(query_terms)} 故障 原因 排查 解决")
     if intent == "ocr_audit" and query_terms:
         variants.append(f"{' '.join(query_terms)} OCR 原文 识别错误 缺失")
     if intent == "image_trace":
@@ -520,6 +813,9 @@ def expand_queries(query: str, intent: str, query_terms: Sequence[str]) -> list[
             variants.append(f"{pic_id} 图片 对应")
         elif query_terms:
             variants.append(f"{' '.join(query_terms)} 图片 配图")
+    if intent == "general" and query_terms:
+        variants.append(f"{' '.join(query_terms)} 说明")
+        variants.append(" ".join(dict.fromkeys(term for term in query_terms if len(normalize_text(term)) >= 2)))
 
     deduped: list[str] = []
     seen: set[str] = set()
@@ -539,12 +835,13 @@ def run_search_stage(
     intent: str,
     doc_id: str | None,
     tiers: Sequence[str] | None,
-    chunk_types: Sequence[str] | None,
+    chunk_families: Sequence[str] | None,
     top_k: int,
 ) -> list[SearchResult]:
     """Execute vector search and optional metadata scan rerank for a stage."""
     aggregated: list[SearchResult] = []
     stage_fetch_k = max(top_k * 3, 8)
+    chunk_types = resolve_chunk_types(chunk_families, doc_id=doc_id)
 
     for variant in query_variants[:3]:
         try:
@@ -562,10 +859,11 @@ def run_search_stage(
             )
         except Exception as exc:
             logger.warning(
-                "Vector stage failed: query='{}', doc_id={}, tiers={}, chunk_types={}, error={}",
+                "Vector stage failed: query='{}', doc_id={}, tiers={}, chunk_families={}, chunk_types={}, error={}",
                 variant,
                 doc_id,
                 tiers,
+                chunk_families,
                 chunk_types,
                 exc,
             )
@@ -583,17 +881,23 @@ def run_search_stage(
         query_terms=query_terms,
     )
 
-    if should_scan_stage(reranked, query_terms, intent):
+    if should_scan_stage(reranked, query_terms, intent) or query_critical_term_groups(normalize_text(original_query)):
         scanned = run_scan_stage(
             original_query=original_query,
             query_terms=query_terms,
             intent=intent,
             doc_id=doc_id,
             tiers=tiers,
-            chunk_types=chunk_types,
+            chunk_families=chunk_families,
             top_k=stage_fetch_k,
         )
-        merged = merge_ranked_results(reranked, scanned)
+        merged = rerank_results(
+            merge_ranked_results(reranked, scanned),
+            original_query=original_query,
+            query_terms=query_terms,
+            intent=intent,
+            prefer_support="support" in (tiers or ()),
+        )
         return merged[:top_k]
 
     return reranked[:top_k]
@@ -605,11 +909,12 @@ def run_scan_stage(
     intent: str,
     doc_id: str | None,
     tiers: Sequence[str] | None,
-    chunk_types: Sequence[str] | None,
+    chunk_families: Sequence[str] | None,
     top_k: int,
 ) -> list[SearchResult]:
     """Run metadata-filtered full scan fallback and rerank locally."""
     try:
+        chunk_types = resolve_chunk_types(chunk_families, doc_id=doc_id)
         scanned = filter_results_to_active_docs(
             vector_search_service.query_documents(
                 doc_id=doc_id,
@@ -637,7 +942,7 @@ def run_scan_stage(
             "Scan stage failed: doc_id={}, tiers={}, chunk_types={}, error={}",
             doc_id,
             tiers,
-            chunk_types,
+            resolve_chunk_types(chunk_families, doc_id=doc_id),
             exc,
         )
         return []
@@ -707,6 +1012,34 @@ def rerank_results(
     return [result for _, result in scored]
 
 
+def query_critical_term_groups(normalized_query: str) -> list[tuple[str, ...]]:
+    """Return must-match-ish term groups for common manual questions."""
+    groups: list[tuple[str, ...]] = []
+    if "冷机" in normalized_query:
+        groups.append(("冷机",))
+    if "热机" in normalized_query:
+        groups.append(("热机",))
+    if "加油" in normalized_query:
+        groups.append(("加油", "加注", "油箱"))
+    if "燃油" in normalized_query and "混合" in normalized_query:
+        groups.append(("燃油混合", "混合方法", "1:50", "汽油", "机油"))
+    elif "混合" in normalized_query:
+        groups.append(("混合", "1:50"))
+    if "防护装备" in normalized_query or "个人防护" in normalized_query:
+        groups.append(("个人防护装备", "防护装备", "听力防护", "眼部防护", "面罩", "工作靴"))
+    if "宽松" in normalized_query or "衣物" in normalized_query:
+        groups.append(("宽松", "衣物", "围巾", "项链", "长发"))
+    if "警示" in normalized_query or "标识" in normalized_query or "标签" in normalized_query:
+        groups.append(("警示标识", "警示标签", "警告标识", "标识", "标签"))
+    if "吹管" in normalized_query or "吹风管" in normalized_query:
+        groups.append(("吹风管", "吹管", "喷口"))
+    if "空气滤清器" in normalized_query or "滤清器" in normalized_query:
+        groups.append(("空气滤清器", "滤清器"))
+    if "ocr" in normalized_query or "缺失" in normalized_query or "识别" in normalized_query:
+        groups.append(("ocr", "缺失", "识别", "源数据"))
+    return groups
+
+
 def lexical_score(
     result: SearchResult,
     original_query: str,
@@ -726,6 +1059,14 @@ def lexical_score(
     pic_ids = metadata.get("pic_ids") or []
     source_issue_flags = metadata.get("source_issue_flags") or []
     source_issue_note = str(metadata.get("source_issue_note") or "")
+    chunk_families = set(
+        infer_chunk_families(
+            chunk_type,
+            title=title,
+            section_path=section_path if isinstance(section_path, list) else [section_path],
+            text=text,
+        )
+    )
 
     pic_text = " ".join(str(pic_id) for pic_id in pic_ids)
     hay_title = normalize_text(title)
@@ -734,6 +1075,8 @@ def lexical_score(
     hay_text = normalize_text(text)
     hay_pics = normalize_text(pic_text)
     hay_note = normalize_text(source_issue_note)
+    hay_heading = hay_title + hay_section
+    hay_all = hay_heading + hay_index + hay_text + hay_pics + hay_note
 
     score = (1.0 / (1.0 + max(result.score, 0.0))) * 10.0
 
@@ -746,33 +1089,69 @@ def lexical_score(
             score += 80
 
     normalized_query = normalize_text(original_query)
+    if query_terms and not any(normalize_text(term) in hay_all for term in query_terms):
+        score -= 28
+
     for term in query_terms:
         normalized_term = normalize_text(term)
         if not normalized_term:
             continue
         if normalized_term in hay_title:
-            score += 18
+            score += 28
         if normalized_term in hay_section:
-            score += 12
+            score += 24
         if normalized_term in hay_index:
-            score += 10
+            score += 14
         if normalized_term in hay_text:
-            score += 6
+            score += 8
         if normalized_term in hay_pics:
             score += 14
         if normalized_term in hay_note:
             score += 8
 
+    for group in query_critical_term_groups(normalized_query):
+        normalized_group = [normalize_text(term) for term in group if normalize_text(term)]
+        if any(term in hay_heading for term in normalized_group):
+            score += 55
+        elif any(term in hay_index or term in hay_text for term in normalized_group):
+            score += 30
+        else:
+            score -= 60
+
+    intent_family_map = {
+        "component": "component",
+        "procedure": "procedure",
+        "legal": "legal",
+        "image_trace": "auxiliary",
+        "ocr_audit": "ocr",
+        "overview": "overview",
+        "safety": "safety",
+        "troubleshooting": "troubleshooting",
+    }
+    target_family = intent_family_map.get(intent)
+    if target_family:
+        if target_family in chunk_families:
+            score += 18
+        elif intent in {"component", "procedure", "legal", "safety", "troubleshooting"}:
+            score -= 12
+
     if intent == "procedure":
+        type_name = chunk_type.lower()
+        if any(marker in type_name for marker in ("step", "task", "install", "start", "fueling", "mix", "maintenance", "cleaning")):
+            score += 16
         for marker in ("安装", "设置", "使用", "步骤", "切换", "更换", "拆卸", "调节"):
             normalized_marker = normalize_text(marker)
             if normalized_marker in hay_title or normalized_marker in hay_index:
                 score += 8
+        if "safety" in chunk_families:
+            score -= 30
     elif intent == "component":
-        for marker in ("部件", "接口", "指示灯", "位置", "按键", "按钮", "追踪灯"):
+        for marker in ("部件", "接口", "指示灯", "位置", "按键", "按钮", "追踪灯", "状态", "红色", "白色", "蓝色"):
             normalized_marker = normalize_text(marker)
             if normalized_marker in hay_title or normalized_marker in hay_index:
                 score += 6
+        if "safety" in chunk_families or "troubleshooting" in chunk_families:
+            score -= 14
     elif intent == "legal":
         if chunk_type == "legal_clause":
             score += 35
@@ -782,6 +1161,19 @@ def lexical_score(
                 score += 8
         if chunk_type != "legal_clause" and "保修" not in hay_title + hay_section + hay_index + hay_text:
             score -= 30
+    elif intent == "safety":
+        type_name = chunk_type.lower()
+        if any(marker in type_name for marker in ("safety", "warning", "caution", "ppe", "label")):
+            score += 18
+        if "safety" in chunk_families:
+            score += 24
+        if "troubleshooting" in chunk_families or "component" in chunk_families:
+            score -= 12
+    elif intent == "troubleshooting":
+        if "troubleshooting" in chunk_families:
+            score += 28
+        if "safety" in chunk_families:
+            score -= 18
     elif intent == "image_trace":
         if retrieval_tier == "auxiliary":
             score += 12
@@ -799,6 +1191,9 @@ def lexical_score(
     elif intent == "overview":
         if chunk_type in SUPPORT_TYPE_BOOST or retrieval_tier == "support":
             score += 20
+    elif intent == "general":
+        if "safety" in chunk_families and not any(normalize_text(term) in normalized_query for term in SAFETY_TERMS):
+            score -= 18
 
     if prefer_support and retrieval_tier == "support":
         score += 10
@@ -826,7 +1221,10 @@ def should_scan_stage(
         intent=intent,
         prefer_support=False,
     )
-    return top_score < 20
+    threshold = 20
+    if intent in {"safety", "troubleshooting", "general"}:
+        threshold = 24
+    return top_score < threshold
 
 
 def is_strong_hit(
@@ -846,6 +1244,8 @@ def is_strong_hit(
     )
     if intent in {"image_trace", "ocr_audit"}:
         return top_score >= 40
+    if intent in {"safety", "troubleshooting"}:
+        return top_score >= 28
     return top_score >= 22
 
 
@@ -958,7 +1358,7 @@ def trim_results_for_intent(results: Sequence[SearchResult], intent: str) -> lis
     """Trim noisy result lists more aggressively for special intents."""
     if intent == "ocr_audit":
         return list(results[:1])
-    if intent == "legal":
+    if intent in {"legal", "safety", "troubleshooting"}:
         return list(results[:3])
     return list(results)
 
@@ -972,10 +1372,14 @@ def extract_query_terms(query: str) -> list[str]:
     if pic_id:
         matched_terms.append(pic_id)
 
-    matched_terms.extend(match_profile_terms_in_query(normalized))
+    matched_terms.extend(term for term in MANUAL_QUERY_TERMS if normalize_text(term) in normalized)
+    profile_limit = 4 if matched_terms else 8
+    matched_terms.extend(match_profile_terms_in_query(normalized, limit=profile_limit))
     matched_terms.extend(term for term in ACTION_TERMS if normalize_text(term) in normalized)
+    matched_terms.extend(term for term in SAFETY_TERMS if normalize_text(term) in normalized)
+    matched_terms.extend(term for term in TROUBLESHOOTING_TERMS if normalize_text(term) in normalized)
     if matched_terms:
-        return list(dict.fromkeys(matched_terms))
+        return expand_query_terms_with_synonyms(list(dict.fromkeys(matched_terms)))[:16]
 
     alnum_terms = re.findall(r"[A-Za-z0-9_\-]{3,}", query)
     if alnum_terms:
@@ -983,12 +1387,36 @@ def extract_query_terms(query: str) -> list[str]:
 
     generic_terms = [term for term in PROFILE_TERM_RE.findall(query) if len(normalize_text(term)) >= 2]
     if generic_terms:
-        return list(dict.fromkeys(generic_terms))[:4]
+        return expand_query_terms_with_synonyms(list(dict.fromkeys(generic_terms))[:4])[:12]
 
     compact = re.sub(r"\s+", "", query)
     if compact:
         return [compact] if len(compact) <= 12 else [compact[:12]]
     return []
+
+
+def expand_query_terms_with_synonyms(query_terms: Sequence[str]) -> list[str]:
+    """Add compact manual-domain synonyms while preserving term priority."""
+    expanded: list[str] = []
+    for term in query_terms:
+        normalized_term = normalize_text(term)
+        if not normalized_term:
+            continue
+        expanded.append(term)
+        for key, synonyms in QUERY_SYNONYMS.items():
+            normalized_key = normalize_text(key)
+            if normalized_key in normalized_term or (len(normalized_term) >= 3 and normalized_term in normalized_key):
+                expanded.extend(synonyms)
+
+    deduped: list[str] = []
+    seen: set[str] = set()
+    for term in expanded:
+        normalized = normalize_text(term)
+        if not normalized or normalized in seen:
+            continue
+        seen.add(normalized)
+        deduped.append(term)
+    return deduped
 
 
 def extract_pic_id(query: str) -> str | None:

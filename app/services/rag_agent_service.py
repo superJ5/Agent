@@ -114,15 +114,19 @@ class RagAgentService:
         if self._agent_initialized:
             return
 
-        # 使用全局 MCP 客户端管理器（带重试拦截器）
-        mcp_client = await get_mcp_client_with_retry()
+        # 尝试加载 MCP 工具；如果 MCP 服务不可用，则降级为仅使用本地工具。
+        try:
+            mcp_client = await get_mcp_client_with_retry()
 
-        # 获取 MCP 工具
-        mcp_tools = await mcp_client.get_tools()
-        logger.info(f"成功加载 {len(mcp_tools)} 个 MCP 工具")
+            # 获取 MCP 工具
+            mcp_tools = await mcp_client.get_tools()
+            logger.info(f"成功加载 {len(mcp_tools)} 个 MCP 工具")
 
-        # 将 MCP 工具添加到实例变量中
-        self.mcp_tools = mcp_tools
+            # 将 MCP 工具添加到实例变量中
+            self.mcp_tools = mcp_tools
+        except Exception as exc:
+            self.mcp_tools = []
+            logger.warning(f"MCP 工具加载失败，降级为仅使用本地工具继续运行: {exc}")
 
         # 合并所有工具
         all_tools = self.tools + self.mcp_tools
@@ -160,6 +164,12 @@ class RagAgentService:
             2. 当需要获取实时信息或专业知识时，主动使用相关工具
             3. 基于工具返回的结果提供准确、专业的回答
             4. 如果工具无法提供足够信息，请诚实地告知用户
+
+            RAG 使用规则:
+            1. 只要问题涉及说明书、手册、部件、操作步骤、保修、图片、OCR 或原文追溯，必须先调用 retrieve_knowledge 再回答。
+            2. 优先依据 retrieve_knowledge 返回的证据回答，不要在没有检索证据时直接猜测手册内容。
+            3. 如果 retrieve_knowledge 没有找到可靠内容，要明确说明“当前检索到的信息不足”，而不是编造答案。
+            4. 如果检索结果里带有图片标识（PIC）或配图信息，回答时要优先结合这些证据。
 
             回答要求:
             - 保持友好、专业的语气

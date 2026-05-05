@@ -1,0 +1,212 @@
+{
+  "organized_manual_count": 20,
+  "skipped_count": 1,
+  "manuals": [
+    {
+      "manual_name": "VR头显手册",
+      "txt_name": "VR头显手册.txt",
+      "pic_placeholder_count": 10,
+      "image_ref_count": 10,
+      "linked_image_count": 10,
+      "missing_image_ids": [],
+      "alignment_ok": true,
+      "target_dir": "data\\manuals\\raw\\VR头显手册"
+    },
+    {
+      "manual_name": "人体工学椅手册",
+      "txt_name": "人体工学椅手册.txt",
+      "pic_placeholder_count": 16,
+      "image_ref_count": 16,
+      "linked_image_count": 16,
+      "missing_image_ids": [],
+      "alignment_ok": true,
+      "target_dir": "data\\manuals\\raw\\人体工学椅手册"
+    },
+    {
+      "manual_name": "健身单车手册",
+      "txt_name": "健身单车手册.txt",
+      "pic_placeholder_count": 43,
+      "image_ref_count": 43,
+      "linked_image_count": 43,
+      "missing_image_ids": [],
+      "alignment_ok": true,
+      "target_dir": "data\\manuals\\raw\\健身单车手册"
+    },
+    {
+      "manual_name": "健身追踪器手册",
+      "txt_name": "健身追踪器手册.txt",
+      "pic_placeholder_count": 57,
+      "image_ref_count": 57,
+      "linked_image_count": 56,
+      "missing_image_ids": [],
+      "alignment_ok": true,
+      "target_dir": "data\\manuals\\raw\\健身追踪器手册"
+    },
+    {
+      "manual_name": "儿童电动摩托车手册",
+      "txt_name": "儿童电动摩托车手册.txt",
+      "pic_placeholder_count": 23,
+      "image_ref_count": 23,
+      "linked_image_count": 23,
+      "missing_image_ids": [],
+      "alignment_ok": true,
+      "target_dir": "data\\manuals\\raw\\儿童电动摩托车手册"
+    },
+    {
+      "manual_name": "冰箱手册",
+      "txt_name": "冰箱手册.txt",
+      "pic_placeholder_count": 58,
+      "image_ref_count": 58,
+      "linked_image_count": 58,
+      "missing_image_ids": [],
+      "alignment_ok": true,
+      "target_dir": "data\\manuals\\raw\\冰箱手册"
+    },
+    {
+      "manual_name": "功能键盘手册",
+      "txt_name": "功能键盘手册.txt",
+      "pic_placeholder_count": 19,
+      "image_ref_count": 19,
+      "linked_image_count": 19,
+      "missing_image_ids": [],
+      "alignment_ok": true,
+      "target_dir": "data\\manuals\\raw\\功能键盘手册"
+    },
+    {
+      "manual_name": "发电机手册",
+      "txt_name": "发电机手册.txt",
+      "pic_placeholder_count": 102,
+      "image_ref_count": 101,
+      "linked_image_count": 100,
+      "missing_image_ids": [],
+      "alignment_ok": false,
+      "target_dir": "data\\manuals\\raw\\发电机手册"
+    },
+    {
+      "manual_name": "可编程温控器手册",
+      "txt_name": "可编程温控器手册.txt",
+      "pic_placeholder_count": 57,
+      "image_ref_count": 58,
+      "linked_image_count": 58,
+      "missing_image_ids": [],
+      "alignment_ok": false,
+      "target_dir": "data\\manuals\\raw\\可编程温控器手册"
+    },
+    {
+      "manual_name": "吹风机手册",
+      "txt_name": "吹风机手册.txt",
+      "pic_placeholder_count": 54,
+      "image_ref_count": 54,
+      "linked_image_count": 54,
+      "missing_image_ids": [],
+      "alignment_ok": true,
+      "target_dir": "data\\manuals\\raw\\吹风机手册"
+    },
+    {
+      "manual_name": "摩托艇手册",
+      "txt_name": "摩托艇手册.txt",
+      "pic_placeholder_count": 35,
+      "image_ref_count": 35,
+      "linked_image_count": 35,
+      "missing_image_ids": [],
+      "alignment_ok": true,
+      "target_dir": "data\\manuals\\raw\\摩托艇手册"
+    },
+    {
+      "manual_name": "水泵手册",
+      "txt_name": "水泵手册.txt",
+      "pic_placeholder_count": 78,
+      "image_ref_count": 78,
+      "linked_image_count": 78,
+      "missing_image_ids": [],
+      "alignment_ok": true,
+      "target_dir": "data\\manuals\\raw\\水泵手册"
+    },
+    {
+      "manual_name": "洗碗机手册",
+      "txt_name": "洗碗机手册.txt",
+      "pic_placeholder_count": 29,
+      "image_ref_count": 30,
+      "linked_image_count": 30,
+      "missing_image_ids": [],
+      "alignment_ok": false,
+      "target_dir": "data\\manuals\\raw\\洗碗机手册"
+    },
+    {
+      "manual_name": "烤箱手册",
+      "txt_name": "烤箱手册.txt",
+      "pic_placeholder_count": 30,
+      "image_ref_count": 30,
+      "linked_image_count": 30,
+      "missing_image_ids": [],
+      "alignment_ok": true,
+      "target_dir": "data\\manuals\\raw\\烤箱手册"
+    },
+    {
+      "manual_name": "电钻手册",
+      "txt_name": "电钻手册.txt",
+      "pic_placeholder_count": 26,
+      "image_ref_count": 26,
+      "linked_image_count": 22,
+      "missing_image_ids": [],
+      "alignment_ok": true,
+      "target_dir": "data\\manuals\\raw\\电钻手册"
+    },
+    {
+      "manual_name": "相机手册",
+      "txt_name": "相机手册.txt",
+      "pic_placeholder_count": 87,
+      "image_ref_count": 87,
+      "linked_image_count": 87,
+      "missing_image_ids": [],
+      "alignment_ok": true,
+      "target_dir": "data\\manuals\\raw\\相机手册"
+    },
+    {
+      "manual_name": "空气净化器手册",
+      "txt_name": "空气净化器手册.txt",
+      "pic_placeholder_count": 27,
+      "image_ref_count": 27,
+      "linked_image_count": 27,
+      "missing_image_ids": [],
+      "alignment_ok": true,
+      "target_dir": "data\\manuals\\raw\\空气净化器手册"
+    },
+    {
+      "manual_name": "空调手册",
+      "txt_name": "空调手册.txt",
+      "pic_placeholder_count": 36,
+      "image_ref_count": 36,
+      "linked_image_count": 36,
+      "missing_image_ids": [],
+      "alignment_ok": true,
+      "target_dir": "data\\manuals\\raw\\空调手册"
+    },
+    {
+      "manual_name": "蒸汽清洁机手册",
+      "txt_name": "蒸汽清洁机手册.txt",
+      "pic_placeholder_count": 17,
+      "image_ref_count": 17,
+      "linked_image_count": 17,
+      "missing_image_ids": [],
+      "alignment_ok": true,
+      "target_dir": "data\\manuals\\raw\\蒸汽清洁机手册"
+    },
+    {
+      "manual_name": "蓝牙激光鼠标手册",
+      "txt_name": "蓝牙激光鼠标手册.txt",
+      "pic_placeholder_count": 19,
+      "image_ref_count": 19,
+      "linked_image_count": 19,
+      "missing_image_ids": [],
+      "alignment_ok": true,
+      "target_dir": "data\\manuals\\raw\\蓝牙激光鼠标手册"
+    }
+  ],
+  "skipped": [
+    {
+      "txt_name": "汇总英文手册.txt",
+      "reason": "explicitly skipped"
+    }
+  ]
+}

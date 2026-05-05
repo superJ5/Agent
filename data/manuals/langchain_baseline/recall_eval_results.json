@@ -1,0 +1,1098 @@
+{
+  "summary": {
+    "label": "LangChain Baseline",
+    "recall_at_1": 48.3,
+    "hits_at_1": 29,
+    "recall_at_3": 66.7,
+    "hits_at_3": 40,
+    "recall_at_5": 78.3,
+    "hits_at_5": 47,
+    "total_queries": 60,
+    "manual_breakdown": {
+      "VR头显": "3/5 (60%)",
+      "人体工学椅": "3/5 (60%)",
+      "健身单车": "0/5 (0%)",
+      "健身追踪": "4/5 (80%)",
+      "儿童电动摩托车": "3/5 (60%)",
+      "冰箱": "4/5 (80%)",
+      "功能键盘": "5/5 (100%)",
+      "吹风机": "5/5 (100%)",
+      "烤箱": "5/5 (100%)",
+      "电钻": "5/5 (100%)",
+      "空调": "5/5 (100%)",
+      "蓝牙激光鼠标": "5/5 (100%)"
+    },
+    "failures": [
+      {
+        "query": "VR头显瞳距怎么调节",
+        "manual": "VR头显",
+        "must_contain": [
+          "瞳距"
+        ]
+      },
+      {
+        "query": "VR头显包装清单有什么",
+        "manual": "VR头显",
+        "must_contain": [
+          "包装"
+        ]
+      },
+      {
+        "query": "工学椅腰部支撑怎么调整",
+        "manual": "人体工学椅",
+        "must_contain": [
+          "腰",
+          "支撑"
+        ]
+      },
+      {
+        "query": "工学椅最大承重多少",
+        "manual": "人体工学椅",
+        "must_contain": [
+          "承重"
+        ]
+      },
+      {
+        "query": "健身单车座垫高度怎么调",
+        "manual": "健身单车",
+        "must_contain": [
+          "座",
+          "高度"
+        ]
+      },
+      {
+        "query": "健身单车阻力怎么调节",
+        "manual": "健身单车",
+        "must_contain": [
+          "阻力"
+        ]
+      },
+      {
+        "query": "健身单车心率怎么测量",
+        "manual": "健身单车",
+        "must_contain": [
+          "心率"
+        ]
+      },
+      {
+        "query": "健身单车显示屏显示什么参数",
+        "manual": "健身单车",
+        "must_contain": [
+          "显示"
+        ]
+      },
+      {
+        "query": "健身单车踏板怎么安装",
+        "manual": "健身单车",
+        "must_contain": [
+          "踏板",
+          "安装"
+        ]
+      },
+      {
+        "query": "健身追踪器防水等级是多少",
+        "manual": "健身追踪",
+        "must_contain": [
+          "防水"
+        ]
+      },
+      {
+        "query": "儿童摩托车最大承重多少",
+        "manual": "儿童电动摩托车",
+        "must_contain": [
+          "承重"
+        ]
+      },
+      {
+        "query": "儿童摩托车速度怎么调节",
+        "manual": "儿童电动摩托车",
+        "must_contain": [
+          "速度"
+        ]
+      },
+      {
+        "query": "冰箱滤水器怎么更换",
+        "manual": "冰箱",
+        "must_contain": [
+          "滤水器"
+        ]
+      }
+    ]
+  },
+  "results": [
+    {
+      "query": "VR头显怎么连接电脑",
+      "manual": "VR头显",
+      "must_contain": [
+        "连接"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "<PIC:vr_04>",
+      "top_hit_score": 0.11188583752355785,
+      "top_hit_chunk_id": "VR头显手册_langchain_0006",
+      "top_hit_preview": "### <PIC:vr_04>   - image_id：`vr_04` - 相对路径：`images/vr_04.jpg` - 绝对路径：`E:\\.codex"
+    },
+    {
+      "query": "VR头显瞳距怎么调节",
+      "manual": "VR头显",
+      "must_contain": [
+        "瞳距"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": false,
+        "5": false
+      },
+      "top_hit_title": "<PIC:vr_04>",
+      "top_hit_score": 0.1305268115175637,
+      "top_hit_chunk_id": "VR头显手册_langchain_0006",
+      "top_hit_preview": "### <PIC:vr_04>   - image_id：`vr_04` - 相对路径：`images/vr_04.jpg` - 绝对路径：`E:\\.codex"
+    },
+    {
+      "query": "VR头显镜片怎么清洁",
+      "manual": "VR头显",
+      "must_contain": [
+        "镜片",
+        "清洁"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "<PIC:vr_04>",
+      "top_hit_score": 0.12348051038430757,
+      "top_hit_chunk_id": "VR头显手册_langchain_0006",
+      "top_hit_preview": "### <PIC:vr_04>   - image_id：`vr_04` - 相对路径：`images/vr_04.jpg` - 绝对路径：`E:\\.codex"
+    },
+    {
+      "query": "VR头显可以戴眼镜使用吗",
+      "manual": "VR头显",
+      "must_contain": [
+        "眼镜"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "<PIC:vr_04>",
+      "top_hit_score": 0.12082434640102084,
+      "top_hit_chunk_id": "VR头显手册_langchain_0006",
+      "top_hit_preview": "### <PIC:vr_04>   - image_id：`vr_04` - 相对路径：`images/vr_04.jpg` - 绝对路径：`E:\\.codex"
+    },
+    {
+      "query": "VR头显包装清单有什么",
+      "manual": "VR头显",
+      "must_contain": [
+        "包装"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": false,
+        "5": false
+      },
+      "top_hit_title": "<PIC:vr_04>",
+      "top_hit_score": 0.13307652517735258,
+      "top_hit_chunk_id": "VR头显手册_langchain_0006",
+      "top_hit_preview": "### <PIC:vr_04>   - image_id：`vr_04` - 相对路径：`images/vr_04.jpg` - 绝对路径：`E:\\.codex"
+    },
+    {
+      "query": "工学椅座椅高度怎么调节",
+      "manual": "人体工学椅",
+      "must_contain": [
+        "高度",
+        "调节"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "<PIC:Manual02_7>",
+      "top_hit_score": 0.09408277888515018,
+      "top_hit_chunk_id": "人体工学椅手册_langchain_0004",
+      "top_hit_preview": "### <PIC:Manual02_7>   - image_id：`Manual02_7` - 相对路径：`images/Manual02_7.jpg` - "
+    },
+    {
+      "query": "工学椅腰部支撑怎么调整",
+      "manual": "人体工学椅",
+      "must_contain": [
+        "腰",
+        "支撑"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": false,
+        "5": false
+      },
+      "top_hit_title": "<PIC:Manual02_7>",
+      "top_hit_score": 0.11164179573506673,
+      "top_hit_chunk_id": "人体工学椅手册_langchain_0004",
+      "top_hit_preview": "### <PIC:Manual02_7>   - image_id：`Manual02_7` - 相对路径：`images/Manual02_7.jpg` - "
+    },
+    {
+      "query": "工学椅扶手怎么调整",
+      "manual": "人体工学椅",
+      "must_contain": [
+        "扶手"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": false,
+        "5": true
+      },
+      "top_hit_title": "<PIC:Manual02_7>",
+      "top_hit_score": 0.10739182690705727,
+      "top_hit_chunk_id": "人体工学椅手册_langchain_0004",
+      "top_hit_preview": "### <PIC:Manual02_7>   - image_id：`Manual02_7` - 相对路径：`images/Manual02_7.jpg` - "
+    },
+    {
+      "query": "工学椅最大承重多少",
+      "manual": "人体工学椅",
+      "must_contain": [
+        "承重"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": false,
+        "5": false
+      },
+      "top_hit_title": "<PIC:Manual02_7>",
+      "top_hit_score": 0.10849461324047213,
+      "top_hit_chunk_id": "人体工学椅手册_langchain_0004",
+      "top_hit_preview": "### <PIC:Manual02_7>   - image_id：`Manual02_7` - 相对路径：`images/Manual02_7.jpg` - "
+    },
+    {
+      "query": "工学椅头枕怎么安装",
+      "manual": "人体工学椅",
+      "must_contain": [
+        "头枕"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": false,
+        "5": true
+      },
+      "top_hit_title": "<PIC:Manual02_7>",
+      "top_hit_score": 0.09655275912441576,
+      "top_hit_chunk_id": "人体工学椅手册_langchain_0004",
+      "top_hit_preview": "### <PIC:Manual02_7>   - image_id：`Manual02_7` - 相对路径：`images/Manual02_7.jpg` - "
+    },
+    {
+      "query": "健身单车座垫高度怎么调",
+      "manual": "健身单车",
+      "must_contain": [
+        "座",
+        "高度"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": false,
+        "5": false
+      },
+      "top_hit_title": "<PIC:Manual14_3>",
+      "top_hit_score": 0.12055566776719284,
+      "top_hit_chunk_id": "健身单车手册_langchain_0021",
+      "top_hit_preview": "### <PIC:Manual14_3>   - image_id：`Manual14_3` - 相对路径：`images/Manual14_3.jpg` - "
+    },
+    {
+      "query": "健身单车阻力怎么调节",
+      "manual": "健身单车",
+      "must_contain": [
+        "阻力"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": false,
+        "5": false
+      },
+      "top_hit_title": "<PIC:Manual14_3>",
+      "top_hit_score": 0.12634023753622262,
+      "top_hit_chunk_id": "健身单车手册_langchain_0021",
+      "top_hit_preview": "### <PIC:Manual14_3>   - image_id：`Manual14_3` - 相对路径：`images/Manual14_3.jpg` - "
+    },
+    {
+      "query": "健身单车心率怎么测量",
+      "manual": "健身单车",
+      "must_contain": [
+        "心率"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": false,
+        "5": false
+      },
+      "top_hit_title": "<PIC:Manual14_3>",
+      "top_hit_score": 0.12700449251038873,
+      "top_hit_chunk_id": "健身单车手册_langchain_0021",
+      "top_hit_preview": "### <PIC:Manual14_3>   - image_id：`Manual14_3` - 相对路径：`images/Manual14_3.jpg` - "
+    },
+    {
+      "query": "健身单车显示屏显示什么参数",
+      "manual": "健身单车",
+      "must_contain": [
+        "显示"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": false,
+        "5": false
+      },
+      "top_hit_title": "<PIC:Manual14_3>",
+      "top_hit_score": 0.09230337093572778,
+      "top_hit_chunk_id": "健身单车手册_langchain_0021",
+      "top_hit_preview": "### <PIC:Manual14_3>   - image_id：`Manual14_3` - 相对路径：`images/Manual14_3.jpg` - "
+    },
+    {
+      "query": "健身单车踏板怎么安装",
+      "manual": "健身单车",
+      "must_contain": [
+        "踏板",
+        "安装"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": false,
+        "5": false
+      },
+      "top_hit_title": "<PIC:Manual14_3>",
+      "top_hit_score": 0.1261131206607875,
+      "top_hit_chunk_id": "健身单车手册_langchain_0021",
+      "top_hit_preview": "### <PIC:Manual14_3>   - image_id：`Manual14_3` - 相对路径：`images/Manual14_3.jpg` - "
+    },
+    {
+      "query": "健身追踪器怎么和手机配对",
+      "manual": "健身追踪",
+      "must_contain": [
+        "配对"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": false,
+        "5": true
+      },
+      "top_hit_title": "第三阶段重建正文人工审阅版",
+      "top_hit_score": 0.13652399945947907,
+      "top_hit_chunk_id": "健身追踪手册_langchain_0001",
+      "top_hit_preview": "# 第三阶段重建正文人工审阅版   - 文档：`健身追踪器手册` - doc_id：`manual_4d9ac205` - segment 数：`68` - 采"
+    },
+    {
+      "query": "健身追踪器怎么充电",
+      "manual": "健身追踪",
+      "must_contain": [
+        "充电"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "第三阶段重建正文人工审阅版",
+      "top_hit_score": 0.2241629053103393,
+      "top_hit_chunk_id": "健身追踪手册_langchain_0001",
+      "top_hit_preview": "# 第三阶段重建正文人工审阅版   - 文档：`健身追踪器手册` - doc_id：`manual_4d9ac205` - segment 数：`68` - 采"
+    },
+    {
+      "query": "健身追踪器防水等级是多少",
+      "manual": "健身追踪",
+      "must_contain": [
+        "防水"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": false,
+        "5": false
+      },
+      "top_hit_title": "第三阶段重建正文人工审阅版",
+      "top_hit_score": 0.17408055664486424,
+      "top_hit_chunk_id": "健身追踪手册_langchain_0001",
+      "top_hit_preview": "# 第三阶段重建正文人工审阅版   - 文档：`健身追踪器手册` - doc_id：`manual_4d9ac205` - segment 数：`68` - 采"
+    },
+    {
+      "query": "健身追踪器怎么设置闹钟",
+      "manual": "健身追踪",
+      "must_contain": [
+        "闹钟"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "计时功能",
+      "top_hit_score": 0.15037140769965515,
+      "top_hit_chunk_id": "健身追踪手册_langchain_0013",
+      "top_hit_preview": "#### 计时功能   闹钟会在你设定的时间震动提醒。最多可设置8个一次性或每周重复的闹钟。你还可以使用秒表计时或设置倒计时计时器。   注意：通过语音助手设置"
+    },
+    {
+      "query": "健身追踪器步数怎么查看",
+      "manual": "健身追踪",
+      "must_contain": [
+        "步数"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": false,
+        "5": true
+      },
+      "top_hit_title": "第三阶段重建正文人工审阅版",
+      "top_hit_score": 0.18729448664744677,
+      "top_hit_chunk_id": "健身追踪手册_langchain_0001",
+      "top_hit_preview": "# 第三阶段重建正文人工审阅版   - 文档：`健身追踪器手册` - doc_id：`manual_4d9ac205` - segment 数：`68` - 采"
+    },
+    {
+      "query": "儿童摩托车怎么充电",
+      "manual": "儿童电动摩托车",
+      "must_contain": [
+        "充电"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "第三阶段重建正文人工审阅版",
+      "top_hit_score": 0.13344689087045192,
+      "top_hit_chunk_id": "儿童电动摩托车手册_langchain_0001",
+      "top_hit_preview": "# 第三阶段重建正文人工审阅版   - 文档：`儿童电动摩托车手册` - doc_id：`manual_59002cd9` - segment 数：`12` -"
+    },
+    {
+      "query": "儿童摩托车最大承重多少",
+      "manual": "儿童电动摩托车",
+      "must_contain": [
+        "承重"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": false,
+        "5": false
+      },
+      "top_hit_title": "第三阶段重建正文人工审阅版",
+      "top_hit_score": 0.08800311689764605,
+      "top_hit_chunk_id": "儿童电动摩托车手册_langchain_0001",
+      "top_hit_preview": "# 第三阶段重建正文人工审阅版   - 文档：`儿童电动摩托车手册` - doc_id：`manual_59002cd9` - segment 数：`12` -"
+    },
+    {
+      "query": "儿童摩托车适合几岁小孩",
+      "manual": "儿童电动摩托车",
+      "must_contain": [
+        "年龄"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": false,
+        "5": true
+      },
+      "top_hit_title": "第三阶段重建正文人工审阅版",
+      "top_hit_score": 0.09864536483481487,
+      "top_hit_chunk_id": "儿童电动摩托车手册_langchain_0001",
+      "top_hit_preview": "# 第三阶段重建正文人工审阅版   - 文档：`儿童电动摩托车手册` - doc_id：`manual_59002cd9` - segment 数：`12` -"
+    },
+    {
+      "query": "儿童摩托车速度怎么调节",
+      "manual": "儿童电动摩托车",
+      "must_contain": [
+        "速度"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": false,
+        "5": false
+      },
+      "top_hit_title": "第三阶段重建正文人工审阅版",
+      "top_hit_score": 0.08127715128285236,
+      "top_hit_chunk_id": "儿童电动摩托车手册_langchain_0001",
+      "top_hit_preview": "# 第三阶段重建正文人工审阅版   - 文档：`儿童电动摩托车手册` - doc_id：`manual_59002cd9` - segment 数：`12` -"
+    },
+    {
+      "query": "儿童摩托车电池多久充满",
+      "manual": "儿童电动摩托车",
+      "must_contain": [
+        "电池"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "第三阶段重建正文人工审阅版",
+      "top_hit_score": 0.10880263813496172,
+      "top_hit_chunk_id": "儿童电动摩托车手册_langchain_0001",
+      "top_hit_preview": "# 第三阶段重建正文人工审阅版   - 文档：`儿童电动摩托车手册` - doc_id：`manual_59002cd9` - segment 数：`12` -"
+    },
+    {
+      "query": "冰箱温度怎么调节",
+      "manual": "冰箱",
+      "must_contain": [
+        "温度"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "冰箱不运行",
+      "top_hit_score": 0.08941120980470267,
+      "top_hit_chunk_id": "冰箱_langchain_0008",
+      "top_hit_preview": "#### 冰箱不运行   可能原因：   • 电源插头可能未插紧。重新牢固插入。 • 家中保险丝熔断或断路器跳闸。检查并/或更换保险丝，复位断路器。 • 停电。"
+    },
+    {
+      "query": "冰箱冷冻室结霜怎么处理",
+      "manual": "冰箱",
+      "must_contain": [
+        "结霜"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "冰箱不运行",
+      "top_hit_score": 0.09815085715527,
+      "top_hit_chunk_id": "冰箱_langchain_0008",
+      "top_hit_preview": "#### 冰箱不运行   可能原因：   • 电源插头可能未插紧。重新牢固插入。 • 家中保险丝熔断或断路器跳闸。检查并/或更换保险丝，复位断路器。 • 停电。"
+    },
+    {
+      "query": "冰箱门关不紧怎么办",
+      "manual": "冰箱",
+      "must_contain": [
+        "门"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "冰箱不运行",
+      "top_hit_score": 0.06237636906707185,
+      "top_hit_chunk_id": "冰箱_langchain_0008",
+      "top_hit_preview": "#### 冰箱不运行   可能原因：   • 电源插头可能未插紧。重新牢固插入。 • 家中保险丝熔断或断路器跳闸。检查并/或更换保险丝，复位断路器。 • 停电。"
+    },
+    {
+      "query": "冰箱不运行怎么排查",
+      "manual": "冰箱",
+      "must_contain": [
+        "不运行"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "冰箱不运行",
+      "top_hit_score": 0.15253772740582325,
+      "top_hit_chunk_id": "冰箱_langchain_0008",
+      "top_hit_preview": "#### 冰箱不运行   可能原因：   • 电源插头可能未插紧。重新牢固插入。 • 家中保险丝熔断或断路器跳闸。检查并/或更换保险丝，复位断路器。 • 停电。"
+    },
+    {
+      "query": "冰箱滤水器怎么更换",
+      "manual": "冰箱",
+      "must_contain": [
+        "滤水器"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": false,
+        "5": false
+      },
+      "top_hit_title": "冰箱不运行",
+      "top_hit_score": 0.10424083582870174,
+      "top_hit_chunk_id": "冰箱_langchain_0008",
+      "top_hit_preview": "#### 冰箱不运行   可能原因：   • 电源插头可能未插紧。重新牢固插入。 • 家中保险丝熔断或断路器跳闸。检查并/或更换保险丝，复位断路器。 • 停电。"
+    },
+    {
+      "query": "键盘USB-C接口在哪个位置",
+      "manual": "功能键盘",
+      "must_contain": [
+        "USB-C",
+        "接口"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "第三阶段重建正文人工审阅版",
+      "top_hit_score": 0.11969723141888648,
+      "top_hit_chunk_id": "功能键盘手册_langchain_0001",
+      "top_hit_preview": "# 第三阶段重建正文人工审阅版   - 文档：`功能键盘手册` - doc_id：`manual_7f829388` - segment 数：`32` - 采用"
+    },
+    {
+      "query": "键盘怎么更换轴体",
+      "manual": "功能键盘",
+      "must_contain": [
+        "轴体"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "第三阶段重建正文人工审阅版",
+      "top_hit_score": 0.1129398392735105,
+      "top_hit_chunk_id": "功能键盘手册_langchain_0001",
+      "top_hit_preview": "# 第三阶段重建正文人工审阅版   - 文档：`功能键盘手册` - doc_id：`manual_7f829388` - segment 数：`32` - 采用"
+    },
+    {
+      "query": "键盘保修期限是多久",
+      "manual": "功能键盘",
+      "must_contain": [
+        "保修"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "9.2 全球保修政策",
+      "top_hit_score": 0.10324132580265427,
+      "top_hit_chunk_id": "功能键盘手册_langchain_0003",
+      "top_hit_preview": "#### 9.2 全球保修政策 本全球保修政策适用于您所购买的产品。 ##### I. 保修期限 任何更换产品的保修期限为剩余保修期或三十天，以较长者为准。享受"
+    },
+    {
+      "query": "键盘RGB灯光怎么自定义",
+      "manual": "功能键盘",
+      "must_contain": [
+        "RGB",
+        "灯光"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "E. 自定义RGB灯光",
+      "top_hit_score": 0.16251986178308134,
+      "top_hit_chunk_id": "功能键盘手册_langchain_0002",
+      "top_hit_preview": "#### E. 自定义RGB灯光 通过CAM软件中键盘/灯光设置界面，用户可逐键自定义灯光，并按需将灯光设置保存至配置文件（详见B部分）。  #### F. 自"
+    },
+    {
+      "query": "键盘CAM软件怎么下载安装",
+      "manual": "功能键盘",
+      "must_contain": [
+        "CAM"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "第三阶段重建正文人工审阅版",
+      "top_hit_score": 0.1717231336727678,
+      "top_hit_chunk_id": "功能键盘手册_langchain_0001",
+      "top_hit_preview": "# 第三阶段重建正文人工审阅版   - 文档：`功能键盘手册` - doc_id：`manual_7f829388` - segment 数：`32` - 采用"
+    },
+    {
+      "query": "吹风机冷机启动步骤",
+      "manual": "吹风机",
+      "must_contain": [
+        "冷机",
+        "启动"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "热机启动",
+      "top_hit_score": 0.1005958874273819,
+      "top_hit_chunk_id": "吹风机_langchain_0006",
+      "top_hit_preview": "#### 热机启动 点火：将停机开关调至启动位置   阻风门：先将阻风门控制器调至阻风门位置，再转回原位（B），仅启用启动油门，不使用阻风门。 <PIC:Man"
+    },
+    {
+      "query": "吹风机燃油混合比例是多少",
+      "manual": "吹风机",
+      "must_contain": [
+        "混合",
+        "比例"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "空气滤清器（9）",
+      "top_hit_score": 0.11819648183948803,
+      "top_hit_chunk_id": "吹风机_langchain_0005",
+      "top_hit_preview": "#### 空气滤清器（9）   空气滤清器由泡沫橡胶滤材与塑料外壳组成，需定期清洁，否则吹风机油耗升高、性能下降，火花塞电极可能产生油垢。  #### 阻风门（"
+    },
+    {
+      "query": "吹风机空气滤清器怎么清洁",
+      "manual": "吹风机",
+      "must_contain": [
+        "滤清器",
+        "清洁"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "消音器",
+      "top_hit_score": 0.11710082829933655,
+      "top_hit_chunk_id": "吹风机_langchain_0011",
+      "top_hit_preview": "## 维护保养   ### 消音器 <PIC:Manual04_43>   注意！   部分消音器配备催化转化器，确认您的设备是否配备,详见 “技术参数” 。 "
+    },
+    {
+      "query": "吹风机火花塞怎么更换",
+      "manual": "吹风机",
+      "must_contain": [
+        "火花塞"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "吹风机操作安全",
+      "top_hit_score": 0.10558893808043121,
+      "top_hit_chunk_id": "吹风机_langchain_0003",
+      "top_hit_preview": "### 吹风机操作安全   1. 禁止无关人员及动物进入作业区域，即距操作人员 10 米范围内。 2. 吹风机可能高速喷射物体，物体反弹后可能击中操作人员，易造"
+    },
+    {
+      "query": "吹风机个人防护装备有哪些要求",
+      "manual": "吹风机",
+      "must_contain": [
+        "防护",
+        "装备"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "前言与适用范围",
+      "top_hit_score": 0.13362497972388943,
+      "top_hit_chunk_id": "吹风机_langchain_0002",
+      "top_hit_preview": "##  前言与适用范围 <PIC:Manual04_1>   排放控制装置和系统的维护、更换或维修可由任何非道路发动机维修机构或个人进行。 胡斯华纳公司秉持产品"
+    },
+    {
+      "query": "烤箱预热温度怎么设置",
+      "manual": "烤箱",
+      "must_contain": [
+        "温度"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "烤箱手册",
+      "top_hit_score": 0.11412003311114316,
+      "top_hit_chunk_id": "烤箱手册_langchain_0001",
+      "top_hit_preview": "# 烤箱手册   - doc_id：`manual_a7186daf` - 来源：`03_reconstructed_text.md` - 重建范围：标题层级、"
+    },
+    {
+      "query": "烤箱定时器怎么使用",
+      "manual": "烤箱",
+      "must_contain": [
+        "定时"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "烤箱手册",
+      "top_hit_score": 0.1149375231888348,
+      "top_hit_chunk_id": "烤箱手册_langchain_0001",
+      "top_hit_preview": "# 烤箱手册   - doc_id：`manual_a7186daf` - 来源：`03_reconstructed_text.md` - 重建范围：标题层级、"
+    },
+    {
+      "query": "烤箱内部怎么清洁",
+      "manual": "烤箱",
+      "must_contain": [
+        "清洁"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "烤箱门无法打开",
+      "top_hit_score": 0.08943609770542342,
+      "top_hit_chunk_id": "烤箱手册_langchain_0004",
+      "top_hit_preview": "#### 烤箱门无法打开   - 关闭烤箱后重新开机，查看故障是否仍存在。 - 重要提示：自清洁期间，烤箱门将锁定无法打开。等待自动解锁（参见“带高温自清洁功能"
+    },
+    {
+      "query": "烤箱使用时要注意什么安全事项",
+      "manual": "烤箱",
+      "must_contain": [
+        "安全"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": false,
+        "5": true
+      },
+      "top_hit_title": "烤箱使用说明",
+      "top_hit_score": 0.08103145184843813,
+      "top_hit_chunk_id": "烤箱手册_langchain_0005",
+      "top_hit_preview": "### 烤箱使用说明   电气连接参见安装章节。  #### 结构部件 <PIC:Manual28_7>   1. 控制面板 2. 顶部加热元件/烤架 3. 冷"
+    },
+    {
+      "query": "烤箱烤盘怎么取出",
+      "manual": "烤箱",
+      "must_contain": [
+        "烤盘"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "烤箱手册",
+      "top_hit_score": 0.12515048795050232,
+      "top_hit_chunk_id": "烤箱手册_langchain_0001",
+      "top_hit_preview": "# 烤箱手册   - doc_id：`manual_a7186daf` - 来源：`03_reconstructed_text.md` - 重建范围：标题层级、"
+    },
+    {
+      "query": "电钻怎么更换钻头",
+      "manual": "电钻",
+      "must_contain": [
+        "钻头"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "4.2 钻孔（图7）",
+      "top_hit_score": 0.05235102121029788,
+      "top_hit_chunk_id": "电钻手册_langchain_0014",
+      "top_hit_preview": "#### 4.2 钻孔（图7） <PIC:drill0_15>   注意：钻薄材料时，请使用木质“垫板”防止材料损坏。   1. 使用变速拨杆选择所需速度/扭矩"
+    },
+    {
+      "query": "电钻电池怎么充电",
+      "manual": "电钻",
+      "must_contain": [
+        "电池",
+        "充电"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "1.6 所有充电器的重要安全说明",
+      "top_hit_score": 0.03909698524911293,
+      "top_hit_chunk_id": "电钻手册_langchain_0009",
+      "top_hit_preview": "• 不要在充电器上放置任何物品， 或将充电器放在柔软表面上， 以免堵塞通风槽导致内部过热。 将充电器放置在远离热源的位置。充电器通过外壳顶部和底部的槽口通风。 "
+    },
+    {
+      "query": "电钻变速拨杆怎么使用",
+      "manual": "电钻",
+      "must_contain": [
+        "变速"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "3.2 功能部件说明",
+      "top_hit_score": 0.10328847710576568,
+      "top_hit_chunk_id": "电钻手册_langchain_0012",
+      "top_hit_preview": "#### 3.2 功能部件说明   ##### 3.2.1 变速扳机开关（图2） <PIC:Manual11_7>   扣动扳机开关（A）启动工具。松开扳机开关"
+    },
+    {
+      "query": "电钻正反转怎么切换",
+      "manual": "电钻",
+      "must_contain": [
+        "正反转"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "3.2 功能部件说明",
+      "top_hit_score": 0.10542268564955881,
+      "top_hit_chunk_id": "电钻手册_langchain_0012",
+      "top_hit_preview": "#### 3.2 功能部件说明   ##### 3.2.1 变速扳机开关（图2） <PIC:Manual11_7>   扣动扳机开关（A）启动工具。松开扳机开关"
+    },
+    {
+      "query": "电钻安全操作注意事项",
+      "manual": "电钻",
+      "must_contain": [
+        "安全"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "2.5 安装与存放",
+      "top_hit_score": 0.039448109948876244,
+      "top_hit_chunk_id": "电钻手册_langchain_0011",
+      "top_hit_preview": "#### 2.5 安装与存放   ##### 2.5.1 壁挂安装   这些充电器可壁挂或直立放置在桌面或工作台面。如需壁挂，将充电器安装在电源插座可及范围内。"
+    },
+    {
+      "query": "空调遥控器怎么使用",
+      "manual": "空调",
+      "must_contain": [
+        "遥控器"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "目录",
+      "top_hit_score": 0.08918024129488988,
+      "top_hit_chunk_id": "空调手册_langchain_0005",
+      "top_hit_preview": "### 目录   - `2 节能小贴士` - `3 重要安全说明` - `7 使用前准备` - `7 部件介绍` - `8 遥控器的使用` - `9 安装电池`"
+    },
+    {
+      "query": "空调怎么调节风速",
+      "manual": "空调",
+      "must_contain": [
+        "风速"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "调节风扇转速",
+      "top_hit_score": 0.12034759148979132,
+      "top_hit_chunk_id": "空调手册_langchain_0007",
+      "top_hit_preview": "#### 调节风扇转速   1 反复按下风速键调节风扇转速，选择风向箭头图标可开启自然风模式，风扇转速自动调节。<PIC:Manual01_11>  #### "
+    },
+    {
+      "query": "空调定时功能怎么设置",
+      "manual": "空调",
+      "must_contain": [
+        "定时"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "定时设置",
+      "top_hit_score": 0.09461598158995839,
+      "top_hit_chunk_id": "空调手册_langchain_0008",
+      "top_hit_preview": "#### 定时设置   使用定时功能可节约能源，让空调更高效地运行。   ##### 设置当前时间   1 按住设定 / 清除键 3 秒以上，显示屏底部的上午 "
+    },
+    {
+      "query": "空调滤网怎么清洁",
+      "manual": "空调",
+      "must_contain": [
+        "滤网",
+        "清洁"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "目录",
+      "top_hit_score": 0.08520516478700094,
+      "top_hit_chunk_id": "空调手册_langchain_0005",
+      "top_hit_preview": "### 目录   - `2 节能小贴士` - `3 重要安全说明` - `7 使用前准备` - `7 部件介绍` - `8 遥控器的使用` - `9 安装电池`"
+    },
+    {
+      "query": "空调自清洁功能怎么使用",
+      "manual": "空调",
+      "must_contain": [
+        "自清洁"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "室内空气净化",
+      "top_hit_score": 0.09957870949688541,
+      "top_hit_chunk_id": "空调手册_langchain_0009",
+      "top_hit_preview": "#### 室内空气净化   ##### 自清洁运行   制冷和除湿运行时，室内机内部会产生水汽，可使用自清洁功能去除水汽。 1 按下自清洁键，显示屏上会显示自清"
+    },
+    {
+      "query": "蓝牙鼠标怎么安装驱动程序",
+      "manual": "蓝牙激光鼠标",
+      "must_contain": [
+        "驱动程序",
+        "安装"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "3.1 安装 WIDCOMM 蓝牙驱动程序",
+      "top_hit_score": 0.1776278825466574,
+      "top_hit_chunk_id": "蓝牙激光鼠标手册_langchain_0002",
+      "top_hit_preview": "### 3 WIDCOMM 蓝牙驱动程序的安装与卸载   #### 3.1 安装 WIDCOMM 蓝牙驱动程序   安装 WIDCOMM 蓝牙驱动程序前，请将 "
+    },
+    {
+      "query": "蓝牙鼠标电池怎么更换",
+      "manual": "蓝牙激光鼠标",
+      "must_contain": [
+        "电池"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "7. 故障排除",
+      "top_hit_score": 0.19344363621199429,
+      "top_hit_chunk_id": "蓝牙激光鼠标手册_langchain_0004",
+      "top_hit_preview": "### 7. 故障排除   若您的蓝牙鼠标出现任何问题，请检查以下事项： ・检查系统要求，确保您的系统兼容。 ・检查鼠标电池是否安装正确。确保电池正负极与鼠标电"
+    },
+    {
+      "query": "蓝牙鼠标图标颜色代表什么",
+      "manual": "蓝牙激光鼠标",
+      "must_contain": [
+        "图标"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "7. 故障排除",
+      "top_hit_score": 0.11500241093511404,
+      "top_hit_chunk_id": "蓝牙激光鼠标手册_langchain_0004",
+      "top_hit_preview": "### 7. 故障排除   若您的蓝牙鼠标出现任何问题，请检查以下事项： ・检查系统要求，确保您的系统兼容。 ・检查鼠标电池是否安装正确。确保电池正负极与鼠标电"
+    },
+    {
+      "query": "蓝牙鼠标连接不上怎么排查",
+      "manual": "蓝牙激光鼠标",
+      "must_contain": [
+        "故障"
+      ],
+      "hits_at_k": {
+        "1": true,
+        "3": true,
+        "5": true
+      },
+      "top_hit_title": "3.1 安装 WIDCOMM 蓝牙驱动程序",
+      "top_hit_score": 0.1157986277031819,
+      "top_hit_chunk_id": "蓝牙激光鼠标手册_langchain_0002",
+      "top_hit_preview": "### 3 WIDCOMM 蓝牙驱动程序的安装与卸载   #### 3.1 安装 WIDCOMM 蓝牙驱动程序   安装 WIDCOMM 蓝牙驱动程序前，请将 "
+    },
+    {
+      "query": "蓝牙鼠标FCC声明的内容是什么",
+      "manual": "蓝牙激光鼠标",
+      "must_contain": [
+        "FCC"
+      ],
+      "hits_at_k": {
+        "1": false,
+        "3": false,
+        "5": true
+      },
+      "top_hit_title": "7. 故障排除",
+      "top_hit_score": 0.10482573972454172,
+      "top_hit_chunk_id": "蓝牙激光鼠标手册_langchain_0004",
+      "top_hit_preview": "### 7. 故障排除   若您的蓝牙鼠标出现任何问题，请检查以下事项： ・检查系统要求，确保您的系统兼容。 ・检查鼠标电池是否安装正确。确保电池正负极与鼠标电"
+    }
+  ]
+}
