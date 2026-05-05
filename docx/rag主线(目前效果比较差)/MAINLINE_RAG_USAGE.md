@@ -4,6 +4,7 @@
 
 当前项目里有两个版本：
 
+  后续考虑改改基线看看能不能满足要求，主线整的有点复杂了
 - 基线版本：使用 LangChain 风格的普通标题/字数切分 chunk，走独立 `biz_baseline` collection。当前测试里基线表现反而好一些，主要用于对照实验和验证主线方案是否真正提升。
 - 主线版本：使用子父块结构化 chunk。子块用于精确命中，父块用于补充上下文；召回逻辑集中在 `app/tools/knowledge_tool.py`，会先判断问题意图，再按 `doc_id`、`retrieval_tier`、`chunk_type` 等 metadata 做过滤检索，命中 primary 后补 support 父块，并结合词面重排、fallback 遍历和图片/源数据 metadata 组织上下文。
 
@@ -296,7 +297,7 @@ print(resp.json()["data"]["answer"])
 
 ## 11. 使用流程
 
-如果队友拿到 400 道题，推荐流程是：
+拿到 400 道题，推荐流程是：
 
 1. 启动 Milvus。
 2. 运行 `scripts/index_manual_chunks.py` 完成主线知识库入库。
