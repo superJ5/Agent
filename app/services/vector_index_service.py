@@ -16,6 +16,7 @@ from app.services.vector_store_manager import vector_store_manager
 
 CHUNK_REPORT_FILES = {"chunking_report.json", "chunk_integrity_report.json"}
 ABSOLUTE_IMAGE_PATH_RE = re.compile(r"绝对路径[：:]\s*`([^`]+)`")
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
 class IndexingResult:
@@ -79,7 +80,7 @@ class VectorIndexService:
             if not dir_path.exists() or not dir_path.is_dir():
                 raise ValueError(f"Invalid directory path: {target_path}")
 
-            result.directory_path = str(dir_path)
+            result.directory_path = self._to_repo_relative_path(dir_path)
             files = self._collect_plain_text_files(dir_path)
             return self._index_files(files, result, target_path)
 
@@ -102,7 +103,7 @@ class VectorIndexService:
             if not target.exists():
                 raise ValueError(f"Invalid manual chunk path: {target_path}")
 
-            result.directory_path = str(target)
+            result.directory_path = self._to_repo_relative_path(target)
             files = self._collect_manual_chunk_files(target)
             return self._index_files(files, result, target_path)
 
@@ -191,9 +192,10 @@ class VectorIndexService:
     def _index_plain_text_file(self, path: Path) -> None:
         """Index legacy txt / md uploads."""
         content = path.read_text(encoding="utf-8")
-        normalized_path = path.as_posix()
+        normalized_path = self._to_repo_relative_path(path)
 
         vector_store_manager.delete_by_source(normalized_path)
+        vector_store_manager.delete_by_source(path.as_posix())
         documents = document_splitter_service.split_document(content, normalized_path)
 
         if not documents:
@@ -213,6 +215,7 @@ class VectorIndexService:
         doc_id = chunk_records[0].get("doc_id")
         if isinstance(doc_id, str) and doc_id.strip():
             vector_store_manager.delete_by_doc_id(doc_id)
+        vector_store_manager.delete_by_source(self._to_repo_relative_path(path))
         vector_store_manager.delete_by_source(path.resolve().as_posix())
 
         documents = self._build_documents_from_chunk_records(chunk_records, path)
@@ -306,8 +309,37 @@ class VectorIndexService:
                 continue
             match = ABSOLUTE_IMAGE_PATH_RE.search(value)
             if match:
-                return match.group(1).strip()
+                return VectorIndexService._normalize_portable_path(match.group(1).strip())
         return None
+
+    @staticmethod
+    def _to_repo_relative_path(path: Path) -> str:
+        resolved = path.resolve()
+        try:
+            return resolved.relative_to(PROJECT_ROOT).as_posix()
+        except ValueError:
+            return resolved.as_posix()
+
+    @staticmethod
+    def _normalize_portable_path(value: Any) -> Any:
+        if not isinstance(value, str) or not value.strip():
+            return value
+
+        normalized = re.sub(r"/+", "/", value.strip().replace("\\", "/"))
+        path = Path(normalized)
+        if path.exists():
+            return VectorIndexService._to_repo_relative_path(path)
+
+        for marker in ("data/", "docs/", "uploads/"):
+            marker_index = normalized.find(marker)
+            if marker_index >= 0:
+                return normalized[marker_index:]
+
+        reviewed_candidate = PROJECT_ROOT / "data" / "manuals" / "reviewed_md" / Path(normalized).name
+        if reviewed_candidate.exists():
+            return VectorIndexService._to_repo_relative_path(reviewed_candidate)
+
+        return normalized
 
     @staticmethod
     def _derive_doc_name(record: Dict[str, Any], source_path: Path) -> str:
@@ -351,7 +383,7 @@ class VectorIndexService:
         section_title = title or (section_path[-1] if section_path else None)
 
         metadata = {
-            "_source": source_path.resolve().as_posix(),
+            "_source": VectorIndexService._to_repo_relative_path(source_path),
             "_extension": source_path.suffix,
             "_file_name": source_path.name,
             "doc_id": record.get("doc_id"),
@@ -367,7 +399,7 @@ class VectorIndexService:
             "pic_ids": pic_ids,
             "pic_refs": pic_ids,
             "image_paths": image_paths,
-            "source_file": record.get("source_file"),
+            "source_file": VectorIndexService._normalize_portable_path(record.get("source_file")),
             "source_lines": record.get("source_lines"),
             "source_quality": record.get("source_quality"),
             "source_issue_flags": record.get("source_issue_flags", []),
@@ -391,11 +423,15 @@ class VectorIndexService:
         if not content:
             return None
 
-        image_paths = record.get("image_paths") if isinstance(record.get("image_paths"), list) else []
+        raw_image_paths = record.get("image_paths") if isinstance(record.get("image_paths"), list) else []
+        image_paths = [
+            VectorIndexService._normalize_portable_path(image_path)
+            for image_path in raw_image_paths
+        ]
         pic_refs = record.get("pic_refs") if isinstance(record.get("pic_refs"), list) else []
 
         metadata = {
-            "_source": source_path.resolve().as_posix(),
+            "_source": VectorIndexService._to_repo_relative_path(source_path),
             "_extension": source_path.suffix,
             "_file_name": source_path.name,
             "doc_id": record.get("doc_id"),
@@ -407,7 +443,7 @@ class VectorIndexService:
             "image_paths": image_paths,
             "pic_refs": pic_refs,
             "pic_ids": pic_refs,
-            "source_parsed": record.get("source_parsed"),
+            "source_parsed": VectorIndexService._normalize_portable_path(record.get("source_parsed")),
             "index_text": content,
             "text": content,
             "char_count": record.get("char_count"),

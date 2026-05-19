@@ -76,10 +76,18 @@ def _competition_error_payload(message: str, session_id: str) -> dict:
     }
 
 
-def _build_stream_response(question: str, session_id: str) -> EventSourceResponse:
+def _build_stream_response(
+    question: str,
+    session_id: str,
+    images: list[str] | None = None,
+) -> EventSourceResponse:
     async def event_generator():
         try:
-            async for chunk in rag_agent_service.query_stream(question, session_id=session_id):
+            async for chunk in rag_agent_service.query_stream(
+                question,
+                session_id=session_id,
+                images=images,
+            ):
                 chunk_type = chunk.get("type", "unknown")
                 chunk_data = chunk.get("data", None)
 
@@ -162,12 +170,13 @@ async def competition_chat(
     )
 
     if request.stream:
-        return _build_stream_response(request.question, session_id)
+        return _build_stream_response(request.question, session_id, request.images)
 
     try:
         answer = await rag_agent_service.query(
             request.question,
             session_id=session_id,
+            images=request.images,
         )
         logger.info(f"[会话 {session_id}] 比赛标准对话完成")
         return _competition_success_payload(answer, session_id)
@@ -188,6 +197,7 @@ async def chat(request: ChatRequest):
         answer = await rag_agent_service.query(
             request.question,
             session_id=session_id,
+            images=request.images,
         )
 
         logger.info(f"[会话 {session_id}] 快速对话完成")
@@ -220,7 +230,7 @@ async def chat_stream(request: ChatRequest):
     """旧版流式接口。"""
     session_id = _resolve_session_id(request.session_id)
     logger.info(f"[会话 {session_id}] 收到流式对话请求: {request.question}")
-    return _build_stream_response(request.question, session_id)
+    return _build_stream_response(request.question, session_id, request.images)
 
 
 @router.post("/chat/clear", response_model=ApiResponse)

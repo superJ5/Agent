@@ -31,7 +31,7 @@ async def run_e2e_test(query: str):
         # Call the non-streaming method to get the final answer
         # The agent will internally call the tool 'retrieve_knowledge'
         answer = await rag_agent_service.query(query, session_id=session_id)
-        
+
         print(f"\n{'='*60}")
         print("[LLM ANSWER]:")
         print(f"{'='*60}")

@@ -9,6 +9,7 @@ UPLOAD_API = $(SERVER_URL)/api/upload
 HEALTH_CHECK_API = $(SERVER_URL)/health
 DOCS_DIR = aiops-docs
 MILVUS_CONTAINER = milvus-standalone
+DOCKER_COMPOSE := $(shell docker compose version >/dev/null 2>&1 && echo "docker compose" || echo "docker-compose")
 
 # 颜色输出
 GREEN = \033[0;32m
@@ -139,9 +140,23 @@ up:
 	@if docker ps --format '{{.Names}}' | grep -q "^$(MILVUS_CONTAINER)$$"; then \
 		echo "$(GREEN)✅ Milvus 容器已经在运行中$(NC)"; \
 		docker ps --filter "name=milvus" --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}" | head -10; \
+	elif docker ps -a --format '{{.Names}}' | grep -q "^$(MILVUS_CONTAINER)$$"; then \
+		echo "$(YELLOW)🚀 Milvus 容器已存在，正在启动已有容器...$(NC)"; \
+		docker start milvus-etcd milvus-minio milvus-standalone milvus-attu; \
+		echo "$(YELLOW)⏳ 等待容器启动...$(NC)"; \
+		sleep 5; \
+		if docker ps --format '{{.Names}}' | grep -q "^$(MILVUS_CONTAINER)$$"; then \
+			echo "$(GREEN)✅ Docker 容器启动成功！$(NC)"; \
+			echo ""; \
+			echo "$(GREEN)📋 运行中的容器:$(NC)"; \
+			docker ps --filter "name=milvus" --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}" | head -10; \
+		else \
+			echo "$(RED)❌ 已有容器启动失败$(NC)"; \
+			exit 1; \
+		fi; \
 	else \
 		echo "$(YELLOW)🚀 启动 Milvus 相关容器...$(NC)"; \
-		docker compose -f vector-database.yml up -d; \
+		$(DOCKER_COMPOSE) -f vector-database.yml up -d; \
 		echo "$(YELLOW)⏳ 等待容器启动...$(NC)"; \
 		sleep 5; \
 		if docker ps --format '{{.Names}}' | grep -q "^$(MILVUS_CONTAINER)$$"; then \
@@ -164,7 +179,7 @@ up:
 down:
 	@echo "$(YELLOW)🛑 停止 Docker 容器...$(NC)"
 	@if docker ps --format '{{.Names}}' | grep -q "milvus"; then \
-		docker compose -f vector-database.yml down; \
+		$(DOCKER_COMPOSE) -f vector-database.yml down; \
 		echo "$(GREEN)✅ Docker 容器已停止$(NC)"; \
 	else \
 		echo "$(YELLOW)⚠️  没有运行中的 Milvus 容器$(NC)"; \
@@ -192,14 +207,14 @@ status:
 # 启动 CLS MCP 服务
 start-cls:
 	@echo "$(YELLOW)📋 启动 CLS MCP 服务...$(NC)"
-	@if pgrep -f "mcp_servers/cls_server.py" > /dev/null 2>&1; then \
+	@if ss -ltn | grep -q ":8003 "; then \
 		echo "$(GREEN)✅ CLS MCP 服务已经在运行中$(NC)"; \
 	else \
 		echo "$(YELLOW)📦 正在启动 CLS MCP 服务（后台运行）...$(NC)"; \
-		nohup .venv/bin/python mcp_servers/cls_server.py > mcp_cls.log 2>&1 & \
+		nohup env -u ALL_PROXY -u all_proxy .venv/bin/python mcp_servers/cls_server.py > mcp_cls.log 2>&1 & \
 		echo $$! > mcp_cls.pid; \
 		sleep 2; \
-		if pgrep -f "mcp_servers/cls_server.py" > /dev/null 2>&1; then \
+		if ss -ltn | grep -q ":8003 "; then \
 			echo "$(GREEN)✅ CLS MCP 服务启动成功$(NC)"; \
 			echo "$(YELLOW)   PID: $$(cat mcp_cls.pid)$(NC)"; \
 			echo "$(YELLOW)   URL: http://127.0.0.1:8003/mcp$(NC)"; \
@@ -213,14 +228,14 @@ start-cls:
 # 启动 Monitor MCP 服务
 start-monitor:
 	@echo "$(YELLOW)📊 启动 Monitor MCP 服务...$(NC)"
-	@if pgrep -f "mcp_servers/monitor_server.py" > /dev/null 2>&1; then \
+	@if ss -ltn | grep -q ":8004 "; then \
 		echo "$(GREEN)✅ Monitor MCP 服务已经在运行中$(NC)"; \
 	else \
 		echo "$(YELLOW)📦 正在启动 Monitor MCP 服务（后台运行）...$(NC)"; \
-		nohup .venv/bin/python mcp_servers/monitor_server.py > mcp_monitor.log 2>&1 & \
+		nohup env -u ALL_PROXY -u all_proxy .venv/bin/python mcp_servers/monitor_server.py > mcp_monitor.log 2>&1 & \
 		echo $$! > mcp_monitor.pid; \
 		sleep 2; \
-		if pgrep -f "mcp_servers/monitor_server.py" > /dev/null 2>&1; then \
+		if ss -ltn | grep -q ":8004 "; then \
 			echo "$(GREEN)✅ Monitor MCP 服务启动成功$(NC)"; \
 			echo "$(YELLOW)   PID: $$(cat mcp_monitor.pid)$(NC)"; \
 			echo "$(YELLOW)   URL: http://127.0.0.1:8004/mcp$(NC)"; \
@@ -255,8 +270,8 @@ status-mcp:
 	@echo "$(YELLOW)📊 MCP 服务状态:$(NC)"
 	@echo ""
 	@echo "$(CYAN)CLS MCP 服务:$(NC)"
-	@if pgrep -f "mcp_servers/cls_server.py" > /dev/null 2>&1; then \
-		pid=$$(pgrep -f "mcp_servers/cls_server.py"); \
+	@if ss -ltnp | grep -q ":8003 "; then \
+		pid=$$(pgrep -f "[m]cp_servers/cls_server.py" || true); \
 		echo "  状态: $(GREEN)运行中$(NC)"; \
 		echo "  PID: $$pid"; \
 		echo "  URL: http://127.0.0.1:8003/mcp"; \
@@ -268,8 +283,8 @@ status-mcp:
 	fi
 	@echo ""
 	@echo "$(CYAN)Monitor MCP 服务:$(NC)"
-	@if pgrep -f "mcp_servers/monitor_server.py" > /dev/null 2>&1; then \
-		pid=$$(pgrep -f "mcp_servers/monitor_server.py"); \
+	@if ss -ltnp | grep -q ":8004 "; then \
+		pid=$$(pgrep -f "[m]cp_servers/monitor_server.py" || true); \
 		echo "  状态: $(GREEN)运行中$(NC)"; \
 		echo "  PID: $$pid"; \
 		echo "  URL: http://127.0.0.1:8004/mcp"; \
@@ -312,7 +327,7 @@ start-api:
 		echo "$(GREEN)✅ FastAPI 服务已经在运行中 ($(SERVER_URL))$(NC)"; \
 	else \
 		echo "$(YELLOW)📦 正在启动 FastAPI 服务（后台运行）...$(NC)"; \
-		nohup .venv/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 9900 > server.log 2>&1 & \
+		nohup env -u ALL_PROXY -u all_proxy .venv/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 9900 > server.log 2>&1 & \
 		echo $$! > server.pid; \
 		echo "$(GREEN)✅ FastAPI 服务启动命令已执行$(NC)"; \
 		echo "$(YELLOW)   PID: $$(cat server.pid)$(NC)"; \

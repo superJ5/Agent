@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import base64
+import binascii
 from typing import Any
 
 from pydantic import AliasChoices, BaseModel, ConfigDict, Field, field_validator
@@ -14,6 +16,7 @@ ALLOWED_IMAGE_PREFIXES = (
     "data:image/webp;base64,",
 )
 MAX_IMAGE_COUNT = 3
+MAX_IMAGE_BYTES = 5 * 1024 * 1024
 
 
 class ChatRequest(BaseModel):
@@ -63,6 +66,7 @@ class ChatRequest(BaseModel):
         if len(value) > MAX_IMAGE_COUNT:
             raise ValueError(f"images 最多支持 {MAX_IMAGE_COUNT} 张")
 
+        normalized_images: list[str] = []
         for image in value:
             if not isinstance(image, str):
                 raise ValueError("images 中每一项都必须是字符串")
@@ -73,7 +77,19 @@ class ChatRequest(BaseModel):
                 raise ValueError(
                     "图片必须使用 data:image/{png|jpg|jpeg|webp};base64,... 格式"
                 )
-        return value
+
+            _, encoded = normalized.split(",", 1)
+            try:
+                decoded = base64.b64decode(encoded, validate=True)
+            except (binascii.Error, ValueError) as exc:
+                raise ValueError("images 中包含非法 Base64 内容") from exc
+
+            if len(decoded) > MAX_IMAGE_BYTES:
+                raise ValueError("images 中每张图片不能超过 5MB")
+
+            normalized_images.append(normalized)
+
+        return normalized_images
 
     @classmethod
     def from_legacy_payload(cls, payload: dict[str, Any]) -> "ChatRequest":

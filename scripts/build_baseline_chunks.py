@@ -15,10 +15,9 @@ from pathlib import Path
 from typing import Any, Iterable
 
 
-DEFAULT_REVIEWED_ROOT = Path(
-    r"E:\.codex\worktrees\d883\ai_agent_competition\results\manual_batch\05_final_reviewed\manual_7f829388"
-)
-DEFAULT_CHUNKS_ROOT = DEFAULT_REVIEWED_ROOT / "chunk_outputs"
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+DEFAULT_CHUNKS_ROOT = Path("./data/manuals/chunks")
+DEFAULT_REVIEWED_MD_ROOT = Path("./data/manuals/reviewed_md")
 DEFAULT_OUTPUT_ROOT = Path("./data/manuals/baseline_chunks")
 PIC_RE = re.compile(r"<PIC:([^>]+)>")
 ABSOLUTE_IMAGE_PATH_RE = re.compile(r"(?:缁濆璺緞|绝对路径)[：:]?\s*`([^`]+)`")
@@ -105,9 +104,9 @@ def main() -> None:
             {
                 "doc_id": spec.doc_id,
                 "doc_name": spec.doc_name,
-                "source_file": str(spec.source_file),
-                "structured_chunks_file": str(spec.structured_chunks_file),
-                "chunks_file": str(chunks_path),
+                "source_file": to_repo_relative(spec.source_file),
+                "structured_chunks_file": to_repo_relative(spec.structured_chunks_file),
+                "chunks_file": to_repo_relative(chunks_path),
                 "row_count": len(rows),
                 "primary_count": sum(row["retrieval_tier"] == "primary" for row in rows),
                 "auxiliary_count": sum(row["retrieval_tier"] == "auxiliary" for row in rows),
@@ -149,7 +148,7 @@ def build_manual_spec(chunks_file: Path) -> ManualSpec:
     if not isinstance(source_value, str) or not source_value.strip():
         raise ValueError(f"Missing source_file in structured chunks: {chunks_file}")
 
-    source_file = Path(source_value)
+    source_file = resolve_source_file(source_value)
     if not source_file.exists():
         raise FileNotFoundError(f"Source markdown not found for baseline build: {source_file}")
 
@@ -215,7 +214,7 @@ def build_manual_rows(spec: ManualSpec, chunk_size: int, overlap: int) -> list[d
                 "chunk_id": f"{spec.doc_id}_{index:04d}",
                 "doc_id": spec.doc_id,
                 "doc_name": spec.doc_name,
-                "source_file": str(spec.source_file),
+                "source_file": to_repo_relative(spec.source_file),
                 "source_lines": [chunk["start_line"], chunk["end_line"]],
                 "chunk_type": "baseline_simple_chunk",
                 "retrieval_tier": "primary",
@@ -263,13 +262,14 @@ def build_image_lookup(chunks_file: Path) -> dict[str, str]:
 def build_image_metadata_rows(spec: ManualSpec, image_lookup: dict[str, str]) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     for pic_id, image_path in sorted(image_lookup.items()):
-        text = f"- pic_id: {pic_id}\n- absolute_image_path: `{image_path}`"
+        portable_image_path = normalize_portable_path(image_path)
+        text = f"- pic_id: {pic_id}\n- image_path: `{portable_image_path}`"
         rows.append(
             {
                 "chunk_id": f"{spec.doc_id}_meta_{pic_id}",
                 "doc_id": spec.doc_id,
                 "doc_name": spec.doc_name,
-                "source_file": str(spec.source_file),
+                "source_file": to_repo_relative(spec.source_file),
                 "source_lines": [],
                 "chunk_type": "metadata_image_path",
                 "retrieval_tier": "auxiliary",
@@ -278,7 +278,7 @@ def build_image_metadata_rows(spec: ManualSpec, image_lookup: dict[str, str]) ->
                 "parent_chunk_id": None,
                 "pic_ids": [pic_id],
                 "text": text,
-                "index_text": f"{pic_id} image path {image_path}",
+                "index_text": f"{pic_id} image path {portable_image_path}",
                 "source_quality": "baseline",
                 "source_issue_flags": [],
                 "source_issue_note": "",
@@ -353,7 +353,7 @@ def extract_absolute_image_path(record: dict[str, Any]) -> str | None:
             continue
         match = ABSOLUTE_IMAGE_PATH_RE.search(value)
         if match:
-            return match.group(1).strip()
+            return normalize_portable_path(match.group(1).strip())
     return None
 
 
@@ -384,9 +384,9 @@ def parse_markdown_image_lookup(path: Path) -> dict[str, str]:
 
         match = ABSOLUTE_IMAGE_PATH_RE.search(line)
         if match:
-            absolute_path = match.group(1).strip()
-            if absolute_path:
-                lookup[current_pic_id] = absolute_path
+            image_path = normalize_portable_path(match.group(1).strip())
+            if image_path:
+                lookup[current_pic_id] = image_path
             current_pic_id = None
     return lookup
 
@@ -414,8 +414,8 @@ def build_inventory(spec: ManualSpec, rows: list[dict[str, Any]]) -> str:
         f"# {spec.doc_name} baseline chunk inventory",
         "",
         f"- doc_id: `{spec.doc_id}`",
-        f"- source_file: `{spec.source_file}`",
-        f"- structured_chunks_file: `{spec.structured_chunks_file}`",
+        f"- source_file: `{to_repo_relative(spec.source_file)}`",
+        f"- structured_chunks_file: `{to_repo_relative(spec.structured_chunks_file)}`",
         f"- total_rows: `{len(rows)}`",
         "",
         "| chunk_id | tier | type | title | pic_ids | source_lines |",
@@ -434,6 +434,53 @@ def build_inventory(spec: ManualSpec, rows: list[dict[str, Any]]) -> str:
         )
     lines.append("")
     return "\n".join(lines)
+
+
+def resolve_source_file(source_value: str) -> Path:
+    normalized = re.sub(r"/+", "/", source_value.strip().replace("\\", "/"))
+
+    candidates = [
+        Path(normalized),
+        PROJECT_ROOT / normalized,
+        PROJECT_ROOT / DEFAULT_REVIEWED_MD_ROOT / Path(normalized).name,
+    ]
+
+    for marker in ("data/manuals/reviewed_md/", "data/"):
+        marker_index = normalized.find(marker)
+        if marker_index >= 0:
+            candidates.append(PROJECT_ROOT / normalized[marker_index:])
+
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate.resolve()
+
+    return candidates[-1]
+
+
+def to_repo_relative(path: Path) -> str:
+    resolved = path.resolve()
+    try:
+        return resolved.relative_to(PROJECT_ROOT).as_posix()
+    except ValueError:
+        return resolved.as_posix()
+
+
+def normalize_portable_path(value: str) -> str:
+    normalized = re.sub(r"/+", "/", value.strip().replace("\\", "/"))
+    path = Path(normalized)
+    if path.exists():
+        return to_repo_relative(path)
+
+    for marker in ("data/", "docs/", "uploads/"):
+        marker_index = normalized.find(marker)
+        if marker_index >= 0:
+            return normalized[marker_index:]
+
+    reviewed_candidate = PROJECT_ROOT / DEFAULT_REVIEWED_MD_ROOT / Path(normalized).name
+    if reviewed_candidate.exists():
+        return to_repo_relative(reviewed_candidate)
+
+    return normalized
 
 
 if __name__ == "__main__":

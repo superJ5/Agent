@@ -243,7 +243,8 @@ super_biz_agent_py/
 # 秘钥管理： https://bailian.console.aliyun.com/cn-beijing/?spm=5176.29597918.J_SEsSjsNv72yRuRFS2VknO.2.61ac133ccTVQLw&tab=demohouse#/api-key
 DASHSCOPE_API_KEY=your-api-key （配置你自己的秘钥）
 DASHSCOPE_API_BASE=https://dashscope.aliyuncs.com/compatible-mode/v1  # 不配置则默认会使用新加坡站点
-DASHSCOPE_MODEL=qwen-max
+DASHSCOPE_MODEL=qwen3.5-plus
+DASHSCOPE_EMBEDDING_MODEL=text-embedding-v4
 
 # Milvus 配置
 MILVUS_HOST=localhost
@@ -251,6 +252,7 @@ MILVUS_PORT=19530
 
 # RAG 配置
 RAG_TOP_K=3
+RAG_MODEL=qwen3.5-plus
 CHUNK_MAX_SIZE=800
 CHUNK_OVERLAP=100
 ```

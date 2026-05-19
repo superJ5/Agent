@@ -20,6 +20,7 @@ from typing_extensions import TypedDict
 from langchain_qwq import ChatQwen
 
 from app.config import config
+from app.services.multimodal_message_builder import build_user_message
 from app.tools import get_current_time, retrieve_knowledge
 from app.agent.mcp_client import get_mcp_client_with_retry
 
@@ -184,6 +185,7 @@ class RagAgentService:
         self,
         question: str,
         session_id: str,
+        images: list[str] | None = None,
     ) -> str:
         """
         非流式处理用户问题（一次性返回完整答案）
@@ -191,6 +193,7 @@ class RagAgentService:
         Args:
             question: 用户问题
             session_id: 会话ID（作为 thread_id）
+            images: Base64 图片列表
 
         Returns:
             str: 完整答案
@@ -198,12 +201,13 @@ class RagAgentService:
         try:
             await self._initialize_agent()
 
-            logger.info(f"[会话 {session_id}] RAG Agent 收到查询（非流式）: {question}")
+            image_count = len(images or [])
+            logger.info(f"[会话 {session_id}] RAG Agent 收到查询（非流式）: {question}, images={image_count}")
 
             # 构建消息列表（系统提示 + 用户问题）
             messages = [
                 SystemMessage(content=self.system_prompt),
-                HumanMessage(content=question)
+                build_user_message(question, images),
             ]
 
             # 构建 Agent 输入
@@ -246,6 +250,7 @@ class RagAgentService:
         self,
         question: str,
         session_id: str,
+        images: list[str] | None = None,
     ) -> AsyncGenerator[Dict[str, Any], None]:
         """
         流式处理用户问题（逐步返回答案片段）
@@ -253,6 +258,7 @@ class RagAgentService:
         Args:
             question: 用户问题
             session_id: 会话ID（作为 thread_id）
+            images: Base64 图片列表
 
         Yields:
             Dict[str, Any]: 包含流式数据的字典
@@ -262,12 +268,13 @@ class RagAgentService:
         try:
             await self._initialize_agent()
 
-            logger.info(f"[会话 {session_id}] RAG Agent 收到查询（流式）: {question}")
+            image_count = len(images or [])
+            logger.info(f"[会话 {session_id}] RAG Agent 收到查询（流式）: {question}, images={image_count}")
 
             # 构建消息列表（系统提示 + 用户问题）
             messages = [
                 SystemMessage(content=self.system_prompt),
-                HumanMessage(content=question)
+                build_user_message(question, images),
             ]
 
             # 构建 Agent 输入
