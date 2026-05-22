@@ -43,6 +43,15 @@ class Settings(BaseSettings):
     rag_top_k: int = 3
     rag_model: str = "qwen3.5-plus"  # 主对话模型，需支持文本和图片输入
 
+    # 记忆系统配置
+    memory_root: str = "data/memory"
+    memory_recent_limit: int = 10
+    memory_collection_name: str = "memory"
+    memory_search_top_k: int = 5
+    memory_daily_max_chars: int = 5000
+    memory_summary_input_max_chars: int = 20000
+    memory_summary_model: str = ""
+
     # 文档分块配置
     chunk_max_size: int = 800
     chunk_overlap: int = 100

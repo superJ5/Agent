@@ -17,6 +17,7 @@ from app.models.response import (
     ApiResponse,
     SessionInfoResponse,
 )
+from app.services.memory_service import memory_service
 from app.services.rag_agent_service import rag_agent_service
 
 
@@ -80,8 +81,21 @@ def _build_stream_response(
     question: str,
     session_id: str,
     images: list[str] | None = None,
+    source: str = "chat_stream",
 ) -> EventSourceResponse:
     async def event_generator():
+        answer_parts: list[str] = []
+        assistant_logged = False
+        memory_service.append_message(
+            session_id,
+            "user",
+            question,
+            metadata={
+                "source": source,
+                "stream": True,
+                "images_count": len(images or []),
+            },
+        )
         try:
             async for chunk in rag_agent_service.query_stream(
                 question,
@@ -104,6 +118,8 @@ def _build_stream_response(
                         ),
                     }
                 elif chunk_type in {"tool_call", "search_results", "content"}:
+                    if chunk_type == "content" and isinstance(chunk_data, str):
+                        answer_parts.append(chunk_data)
                     yield {
                         "event": "message",
                         "data": json.dumps(
@@ -115,6 +131,17 @@ def _build_stream_response(
                         ),
                     }
                 elif chunk_type == "complete":
+                    memory_service.append_message(
+                        session_id,
+                        "assistant",
+                        "".join(answer_parts),
+                        metadata={
+                            "source": source,
+                            "stream": True,
+                            "status": "success",
+                        },
+                    )
+                    assistant_logged = True
                     yield {
                         "event": "message",
                         "data": json.dumps(
@@ -126,6 +153,18 @@ def _build_stream_response(
                         ),
                     }
                 elif chunk_type == "error":
+                    memory_service.append_message(
+                        session_id,
+                        "assistant",
+                        "".join(answer_parts),
+                        metadata={
+                            "source": source,
+                            "stream": True,
+                            "status": "error",
+                            "error": str(chunk_data),
+                        },
+                    )
+                    assistant_logged = True
                     yield {
                         "event": "message",
                         "data": json.dumps(
@@ -138,6 +177,18 @@ def _build_stream_response(
                     }
         except Exception as exc:
             logger.error(f"流式对话接口错误: {exc}")
+            if not assistant_logged:
+                memory_service.append_message(
+                    session_id,
+                    "assistant",
+                    "".join(answer_parts),
+                    metadata={
+                        "source": source,
+                        "stream": True,
+                        "status": "error",
+                        "error": str(exc),
+                    },
+                )
             yield {
                 "event": "message",
                 "data": json.dumps(
@@ -170,13 +221,38 @@ async def competition_chat(
     )
 
     if request.stream:
-        return _build_stream_response(request.question, session_id, request.images)
+        return _build_stream_response(
+            request.question,
+            session_id,
+            request.images,
+            source="competition_chat",
+        )
 
     try:
+        memory_service.append_message(
+            session_id,
+            "user",
+            request.question,
+            metadata={
+                "source": "competition_chat",
+                "stream": False,
+                "images_count": len(request.images),
+            },
+        )
         answer = await rag_agent_service.query(
             request.question,
             session_id=session_id,
             images=request.images,
+        )
+        memory_service.append_message(
+            session_id,
+            "assistant",
+            answer,
+            metadata={
+                "source": "competition_chat",
+                "stream": False,
+                "status": "success",
+            },
         )
         logger.info(f"[会话 {session_id}] 比赛标准对话完成")
         return _competition_success_payload(answer, session_id)
@@ -184,6 +260,17 @@ async def competition_chat(
         raise
     except Exception as exc:
         logger.error(f"比赛标准对话接口错误: {exc}")
+        memory_service.append_message(
+            session_id,
+            "assistant",
+            "",
+            metadata={
+                "source": "competition_chat",
+                "stream": False,
+                "status": "error",
+                "error": str(exc),
+            },
+        )
         return _competition_error_payload(str(exc), session_id)
 
 
@@ -194,10 +281,30 @@ async def chat(request: ChatRequest):
 
     try:
         logger.info(f"[会话 {session_id}] 收到快速对话请求: {request.question}")
+        memory_service.append_message(
+            session_id,
+            "user",
+            request.question,
+            metadata={
+                "source": "legacy_chat",
+                "stream": False,
+                "images_count": len(request.images),
+            },
+        )
         answer = await rag_agent_service.query(
             request.question,
             session_id=session_id,
             images=request.images,
+        )
+        memory_service.append_message(
+            session_id,
+            "assistant",
+            answer,
+            metadata={
+                "source": "legacy_chat",
+                "stream": False,
+                "status": "success",
+            },
         )
 
         logger.info(f"[会话 {session_id}] 快速对话完成")
@@ -214,6 +321,17 @@ async def chat(request: ChatRequest):
 
     except Exception as exc:
         logger.error(f"对话接口错误: {exc}")
+        memory_service.append_message(
+            session_id,
+            "assistant",
+            "",
+            metadata={
+                "source": "legacy_chat",
+                "stream": False,
+                "status": "error",
+                "error": str(exc),
+            },
+        )
         return {
             "code": 500,
             "message": "error",
@@ -230,7 +348,12 @@ async def chat_stream(request: ChatRequest):
     """旧版流式接口。"""
     session_id = _resolve_session_id(request.session_id)
     logger.info(f"[会话 {session_id}] 收到流式对话请求: {request.question}")
-    return _build_stream_response(request.question, session_id, request.images)
+    return _build_stream_response(
+        request.question,
+        session_id,
+        request.images,
+        source="legacy_chat_stream",
+    )
 
 
 @router.post("/chat/clear", response_model=ApiResponse)

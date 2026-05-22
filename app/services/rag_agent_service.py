@@ -8,6 +8,7 @@ from typing import Annotated, Any, AsyncGenerator, Dict, Sequence
 
 from langchain.agents import create_agent
 from langchain_core.messages import (
+    AIMessage,
     BaseMessage,
     HumanMessage,
     RemoveMessage,
@@ -20,8 +21,9 @@ from typing_extensions import TypedDict
 from langchain_qwq import ChatQwen
 
 from app.config import config
+from app.services.memory_service import memory_service
 from app.services.multimodal_message_builder import build_user_message
-from app.tools import get_current_time, retrieve_knowledge
+from app.tools import get_current_time, memory_search, retrieve_knowledge
 from app.agent.mcp_client import get_mcp_client_with_retry
 
 # 阿里千问大模型和langchain集成参考： https://docs.langchain.com/oss/python/integrations/chat/qwen
@@ -96,7 +98,7 @@ class RagAgentService:
         )
 
         # 定义基础工具
-        self.tools = [retrieve_knowledge, get_current_time]
+        self.tools = [retrieve_knowledge, memory_search, get_current_time]
 
         # MCP 客户端（延迟初始化，使用全局管理）
         self.mcp_tools: list = []
@@ -172,6 +174,12 @@ class RagAgentService:
             3. 如果 retrieve_knowledge 没有找到可靠内容，要明确说明“当前检索到的信息不足”，而不是编造答案。
             4. 如果检索结果里带有图片标识（PIC）或配图信息，回答时要优先结合这些证据。
 
+            记忆使用规则:
+            1. 当用户询问之前说过什么、历史偏好、项目长期背景、已讨论方案时，可以调用 memory_search 查询历史记忆。
+            2. MEMORY.md 会直接进入系统提示词，memory_search 只查询整理后的每日记忆 daily，不查询 MEMORY.md 或其他会话原始聊天记录。
+            3. 当前会话上下文由 MemorySaver 或当前 session 的最近 N 条 JSONL 历史自动提供，不需要用 memory_search 查询。
+            4. 历史记忆只作为上下文参考；如果记忆不足，要明确说明未找到足够历史信息。
+
             回答要求:
             - 保持友好、专业的语气
             - 回答简洁明了，重点突出
@@ -180,6 +188,60 @@ class RagAgentService:
 
             请根据用户的问题，灵活使用可用工具，提供高质量的帮助。
         """).strip()
+
+    def _build_effective_system_prompt(self) -> str:
+        """Build system prompt with optional long-term memory context."""
+        long_term_memory = memory_service.load_long_term_memory()
+        if not long_term_memory:
+            return self.system_prompt
+        return (
+            f"{self.system_prompt}\n\n"
+            "长期记忆上下文（来自 data/memory/MEMORY.md，仅作为稳定背景参考）:\n"
+            f"{long_term_memory}"
+        )
+
+    def _build_persistent_history_messages(
+        self,
+        session_id: str,
+        current_question: str,
+    ) -> list[BaseMessage]:
+        """Load recent JSONL history when LangGraph has no in-memory checkpoint."""
+        if self._has_session_checkpoint(session_id):
+            return []
+
+        recent_records = memory_service.load_recent_messages(
+            session_id,
+            limit=config.memory_recent_limit,
+            exclude_latest_user_content=current_question,
+        )
+        messages: list[BaseMessage] = []
+        for record in recent_records:
+            role = record.get("role")
+            content = str(record.get("content") or "").strip()
+            if not content:
+                continue
+            if role == "user":
+                messages.append(HumanMessage(content=content))
+            elif role == "assistant":
+                messages.append(AIMessage(content=content))
+
+        if messages:
+            logger.info(
+                "[会话 {}] 从持久记忆恢复最近 {} 条历史消息",
+                session_id,
+                len(messages),
+            )
+        return messages
+
+    def _has_session_checkpoint(self, session_id: str) -> bool:
+        """Return whether MemorySaver already has state for this session."""
+        try:
+            checkpoint_tuple = self.checkpointer.get(
+                {"configurable": {"thread_id": session_id}}
+            )
+            return bool(checkpoint_tuple)
+        except Exception:
+            return False
 
     async def query(
         self,
@@ -206,7 +268,8 @@ class RagAgentService:
 
             # 构建消息列表（系统提示 + 用户问题）
             messages = [
-                SystemMessage(content=self.system_prompt),
+                SystemMessage(content=self._build_effective_system_prompt()),
+                *self._build_persistent_history_messages(session_id, question),
                 build_user_message(question, images),
             ]
 
@@ -273,7 +336,8 @@ class RagAgentService:
 
             # 构建消息列表（系统提示 + 用户问题）
             messages = [
-                SystemMessage(content=self.system_prompt),
+                SystemMessage(content=self._build_effective_system_prompt()),
+                *self._build_persistent_history_messages(session_id, question),
                 build_user_message(question, images),
             ]
 
