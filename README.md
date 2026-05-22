@@ -105,10 +105,9 @@ python mcp_servers/monitor_server.py
 # 注意：日志会自动输出到 logs\app_YYYY-MM-DD.log
 python -m uvicorn app.main:app --host 0.0.0.0 --port 9900
 
-# 9. 上传文档到向量库（新开一个 PowerShell 窗口）
-# 等待服务启动完成后执行
-timeout /t 5
-python -c "import requests, os, time; [requests.post('http://localhost:9900/api/upload', files={'file': open(f'aiops-docs/{f}', 'rb')}) or time.sleep(1) for f in os.listdir('aiops-docs') if f.endswith('.md')]"
+# 9. 手册知识库入库（新开一个 PowerShell 窗口）
+# 当前主线使用 data/manuals/chunks/*.jsonl，不走 uploads
+python scripts/index_manual_chunks.py
 ```
 
 **Windows 一键启动脚本**（推荐）
@@ -126,6 +125,47 @@ python -c "import requests, os, time; [requests.post('http://localhost:9900/api/
 ### 访问服务
 - **Web 界面**: http://localhost:9900
 - **API 文档**: http://localhost:9900/docs
+
+### 知识库入库
+
+当前项目有几条不同的入库路径：
+
+```text
+data/manuals/chunks/*.jsonl
+当前手册 RAG 主线，推荐使用。
+
+aiops-docs/*.md → uploads/
+旧版上传入口，主要用于临时上传和兼容 AIOps 示例。
+
+data/memory/daily/*.md
+记忆系统 daily 总结，进入独立的 memory 向量库。
+```
+
+手册知识库入库：
+
+```bash
+python scripts/index_manual_chunks.py
+```
+
+如果使用虚拟环境：
+
+```bash
+.venv/bin/python scripts/index_manual_chunks.py
+```
+
+记忆 daily 入库：
+
+```bash
+python scripts/index_memory.py --rebuild
+```
+
+旧上传入口：
+
+```bash
+make upload
+```
+
+`make upload` 只处理 `aiops-docs/*.md`，会通过 `/api/upload` 保存副本到 `uploads/` 后再写入 Milvus；它不会处理 `data/manuals/chunks/*.jsonl`。
 
 ## 📡 API 接口
 
@@ -218,10 +258,13 @@ super_biz_agent_py/
 │   ├── cls_server.py                       # CLS 日志查询服务
 │   ├── monitor_server.py                   # 监控数据服务
 │   └── README.md                           # MCP 服务说明
-├── aiops-docs/                             # 运维知识库（Markdown 文档）
+├── aiops-docs/                             # 旧版运维知识库（Markdown 文档，make upload 使用）
+├── data/                                   # 当前主线数据目录
+│   ├── manuals/chunks/                     # 手册结构化 chunks，scripts/index_manual_chunks.py 使用
+│   └── memory/                             # 记忆系统数据
 ├── logs/                                   # 日志目录（Loguru 自动创建）
 │   └── app_YYYY-MM-DD.log                  # 按天轮转的日志文件
-├── uploads/                                # 上传文件临时目录
+├── uploads/                                # 上传文件临时目录（legacy/debug）
 ├── volumes/                                # Milvus 数据持久化目录
 ├── .env                                    # 环境变量配置（需手动创建）
 ├── Makefile                                # 项目管理命令（Linux/macOS）
@@ -378,8 +421,8 @@ docker compose -f vector-database.yml restart standalone
 ```bash
 # 查看服务日志
 tail -f logs/app_$(date +%Y-%m-%d).log  # FastAPI 主服务（Loguru 日志）
-tail -f mcp_cls.log                      # CLS MCP 服务
-tail -f mcp_monitor.log                  # Monitor MCP 服务
+tail -f logs/mcp_cls.log                 # CLS MCP 服务
+tail -f logs/mcp_monitor.log             # Monitor MCP 服务
 
 # 检查端口占用
 lsof -i :9900  # FastAPI
@@ -392,8 +435,8 @@ lsof -i :8004  # Monitor MCP
 # 查看服务日志（获取今天的日期）
 $today = Get-Date -Format "yyyy-MM-dd"
 type logs\app_$today.log  # FastAPI 主服务（Loguru 日志）
-type mcp_cls.log          # CLS MCP 服务
-type mcp_monitor.log      # Monitor MCP 服务
+type logs\mcp_cls.log     # CLS MCP 服务
+type logs\mcp_monitor.log # Monitor MCP 服务
 
 # 或者查看最新的日志文件
 Get-ChildItem logs\*.log | Sort-Object LastWriteTime -Descending | Select-Object -First 1 | Get-Content -Tail 50

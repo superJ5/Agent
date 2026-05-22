@@ -10,6 +10,13 @@ HEALTH_CHECK_API = $(SERVER_URL)/health
 DOCS_DIR = aiops-docs
 MILVUS_CONTAINER = milvus-standalone
 DOCKER_COMPOSE := $(shell docker compose version >/dev/null 2>&1 && echo "docker compose" || echo "docker-compose")
+LOG_DIR = logs
+SERVER_LOG = $(LOG_DIR)/server.log
+SERVER_PID = $(LOG_DIR)/server.pid
+MCP_CLS_LOG = $(LOG_DIR)/mcp_cls.log
+MCP_CLS_PID = $(LOG_DIR)/mcp_cls.pid
+MCP_MONITOR_LOG = $(LOG_DIR)/mcp_monitor.log
+MCP_MONITOR_PID = $(LOG_DIR)/mcp_monitor.pid
 
 # 颜色输出
 GREEN = \033[0;32m
@@ -122,7 +129,7 @@ init:
 	@echo "   MinIO: http://localhost:9001 (admin/minioadmin)"
 	@echo ""
 	@echo "$(YELLOW)💡 提示: 服务正在后台运行$(NC)"
-	@echo "   查看日志: $(YELLOW)tail -f server.log$(NC)"
+	@echo "   查看日志: $(YELLOW)tail -f $(SERVER_LOG)$(NC)"
 	@echo "   停止服务: $(YELLOW)make stop$(NC)"
 
 # ============================================================
@@ -211,17 +218,18 @@ start-cls:
 		echo "$(GREEN)✅ CLS MCP 服务已经在运行中$(NC)"; \
 	else \
 		echo "$(YELLOW)📦 正在启动 CLS MCP 服务（后台运行）...$(NC)"; \
-		nohup env -u ALL_PROXY -u all_proxy .venv/bin/python mcp_servers/cls_server.py > mcp_cls.log 2>&1 & \
-		echo $$! > mcp_cls.pid; \
+		mkdir -p $(LOG_DIR); \
+		nohup env -u ALL_PROXY -u all_proxy .venv/bin/python mcp_servers/cls_server.py > $(MCP_CLS_LOG) 2>&1 & \
+		echo $$! > $(MCP_CLS_PID); \
 		sleep 2; \
 		if ss -ltn | grep -q ":8003 "; then \
 			echo "$(GREEN)✅ CLS MCP 服务启动成功$(NC)"; \
-			echo "$(YELLOW)   PID: $$(cat mcp_cls.pid)$(NC)"; \
+			echo "$(YELLOW)   PID: $$(cat $(MCP_CLS_PID))$(NC)"; \
 			echo "$(YELLOW)   URL: http://127.0.0.1:8003/mcp$(NC)"; \
-			echo "$(YELLOW)   日志: mcp_cls.log$(NC)"; \
+			echo "$(YELLOW)   日志: $(MCP_CLS_LOG)$(NC)"; \
 		else \
 			echo "$(RED)❌ CLS MCP 服务启动失败$(NC)"; \
-			echo "$(YELLOW)请检查日志: tail -f mcp_cls.log$(NC)"; \
+			echo "$(YELLOW)请检查日志: tail -f $(MCP_CLS_LOG)$(NC)"; \
 		fi; \
 	fi
 
@@ -232,34 +240,37 @@ start-monitor:
 		echo "$(GREEN)✅ Monitor MCP 服务已经在运行中$(NC)"; \
 	else \
 		echo "$(YELLOW)📦 正在启动 Monitor MCP 服务（后台运行）...$(NC)"; \
-		nohup env -u ALL_PROXY -u all_proxy .venv/bin/python mcp_servers/monitor_server.py > mcp_monitor.log 2>&1 & \
-		echo $$! > mcp_monitor.pid; \
+		mkdir -p $(LOG_DIR); \
+		nohup env -u ALL_PROXY -u all_proxy .venv/bin/python mcp_servers/monitor_server.py > $(MCP_MONITOR_LOG) 2>&1 & \
+		echo $$! > $(MCP_MONITOR_PID); \
 		sleep 2; \
 		if ss -ltn | grep -q ":8004 "; then \
 			echo "$(GREEN)✅ Monitor MCP 服务启动成功$(NC)"; \
-			echo "$(YELLOW)   PID: $$(cat mcp_monitor.pid)$(NC)"; \
+			echo "$(YELLOW)   PID: $$(cat $(MCP_MONITOR_PID))$(NC)"; \
 			echo "$(YELLOW)   URL: http://127.0.0.1:8004/mcp$(NC)"; \
-			echo "$(YELLOW)   日志: mcp_monitor.log$(NC)"; \
+			echo "$(YELLOW)   日志: $(MCP_MONITOR_LOG)$(NC)"; \
 		else \
 			echo "$(RED)❌ Monitor MCP 服务启动失败$(NC)"; \
-			echo "$(YELLOW)请检查日志: tail -f mcp_monitor.log$(NC)"; \
+			echo "$(YELLOW)请检查日志: tail -f $(MCP_MONITOR_LOG)$(NC)"; \
 		fi; \
 	fi
 
 # 停止 Monitor MCP 服务
 stop-monitor:
 	@echo "$(YELLOW)🛑 停止 Monitor MCP 服务...$(NC)"
-	@if [ -f mcp_monitor.pid ]; then \
-		pid=$$(cat mcp_monitor.pid); \
+	@if [ -f $(MCP_MONITOR_PID) ] || [ -f mcp_monitor.pid ]; then \
+		pid_file="$(MCP_MONITOR_PID)"; \
+		[ -f "$$pid_file" ] || pid_file="mcp_monitor.pid"; \
+		pid=$$(cat $$pid_file); \
 		if ps -p $$pid > /dev/null 2>&1; then \
 			kill $$pid; \
 			echo "$(GREEN)✅ Monitor MCP 服务已停止 (PID: $$pid)$(NC)"; \
 		else \
 			echo "$(YELLOW)⚠️  进程不存在 (PID: $$pid)$(NC)"; \
 		fi; \
-		rm -f mcp_monitor.pid; \
+		rm -f $$pid_file mcp_monitor.pid $(MCP_MONITOR_PID); \
 	else \
-		echo "$(YELLOW)⚠️  未找到 mcp_monitor.pid 文件$(NC)"; \
+		echo "$(YELLOW)⚠️  未找到 $(MCP_MONITOR_PID) 文件$(NC)"; \
 		pkill -f "mcp_servers/monitor_server.py" 2>/dev/null && \
 			echo "$(GREEN)✅ 已停止所有 Monitor MCP 进程$(NC)" || \
 			echo "$(YELLOW)⚠️  没有运行中的 Monitor MCP 进程$(NC)"; \
@@ -327,12 +338,13 @@ start-api:
 		echo "$(GREEN)✅ FastAPI 服务已经在运行中 ($(SERVER_URL))$(NC)"; \
 	else \
 		echo "$(YELLOW)📦 正在启动 FastAPI 服务（后台运行）...$(NC)"; \
-		nohup env -u ALL_PROXY -u all_proxy .venv/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 9900 > server.log 2>&1 & \
-		echo $$! > server.pid; \
+		mkdir -p $(LOG_DIR); \
+		nohup env -u ALL_PROXY -u all_proxy .venv/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 9900 > $(SERVER_LOG) 2>&1 & \
+		echo $$! > $(SERVER_PID); \
 		echo "$(GREEN)✅ FastAPI 服务启动命令已执行$(NC)"; \
-		echo "$(YELLOW)   PID: $$(cat server.pid)$(NC)"; \
+		echo "$(YELLOW)   PID: $$(cat $(SERVER_PID))$(NC)"; \
 		echo "$(YELLOW)   URL: $(SERVER_URL)$(NC)"; \
-		echo "$(YELLOW)   日志: server.log$(NC)"; \
+		echo "$(YELLOW)   日志: $(SERVER_LOG)$(NC)"; \
 	fi
 
 # 停止所有服务（FastAPI + MCP）
@@ -354,17 +366,19 @@ stop:
 # 停止 CLS MCP 服务
 stop-cls:
 	@echo "$(YELLOW)🛑 停止 CLS MCP 服务...$(NC)"
-	@if [ -f mcp_cls.pid ]; then \
-		pid=$$(cat mcp_cls.pid); \
+	@if [ -f $(MCP_CLS_PID) ] || [ -f mcp_cls.pid ]; then \
+		pid_file="$(MCP_CLS_PID)"; \
+		[ -f "$$pid_file" ] || pid_file="mcp_cls.pid"; \
+		pid=$$(cat $$pid_file); \
 		if ps -p $$pid > /dev/null 2>&1; then \
 			kill $$pid; \
 			echo "$(GREEN)✅ CLS MCP 服务已停止 (PID: $$pid)$(NC)"; \
 		else \
 			echo "$(YELLOW)⚠️  进程不存在 (PID: $$pid)$(NC)"; \
 		fi; \
-		rm -f mcp_cls.pid; \
+		rm -f $$pid_file mcp_cls.pid $(MCP_CLS_PID); \
 	else \
-		echo "$(YELLOW)⚠️  未找到 mcp_cls.pid 文件$(NC)"; \
+		echo "$(YELLOW)⚠️  未找到 $(MCP_CLS_PID) 文件$(NC)"; \
 		pkill -f "mcp_servers/cls_server.py" 2>/dev/null && \
 			echo "$(GREEN)✅ 已停止所有 CLS MCP 进程$(NC)" || \
 			echo "$(YELLOW)⚠️  没有运行中的 CLS MCP 进程$(NC)"; \
@@ -373,17 +387,19 @@ stop-cls:
 # 停止 FastAPI 服务
 stop-api:
 	@echo "$(YELLOW)🛑 停止 FastAPI 服务...$(NC)"
-	@if [ -f server.pid ]; then \
-		pid=$$(cat server.pid); \
+	@if [ -f $(SERVER_PID) ] || [ -f server.pid ]; then \
+		pid_file="$(SERVER_PID)"; \
+		[ -f "$$pid_file" ] || pid_file="server.pid"; \
+		pid=$$(cat $$pid_file); \
 		if ps -p $$pid > /dev/null 2>&1; then \
 			kill $$pid; \
 			echo "$(GREEN)✅ FastAPI 服务已停止 (PID: $$pid)$(NC)"; \
 		else \
 			echo "$(YELLOW)⚠️  进程不存在 (PID: $$pid)$(NC)"; \
 		fi; \
-		rm -f server.pid; \
+		rm -f $$pid_file server.pid $(SERVER_PID); \
 	else \
-		echo "$(YELLOW)⚠️  未找到 server.pid 文件$(NC)"; \
+		echo "$(YELLOW)⚠️  未找到 $(SERVER_PID) 文件$(NC)"; \
 		pkill -f "uvicorn app.main:app" 2>/dev/null && \
 			echo "$(GREEN)✅ 已停止所有 uvicorn 进程$(NC)" || \
 			echo "$(YELLOW)⚠️  没有运行中的 uvicorn 进程$(NC)"; \
@@ -417,7 +433,7 @@ wait:
 	done; \
 	echo ""; \
 	echo "$(RED)❌ 服务器启动超时！$(NC)"; \
-	echo "$(YELLOW)请检查日志: tail -f server.log$(NC)"; \
+	echo "$(YELLOW)请检查日志: tail -f $(SERVER_LOG)$(NC)"; \
 	exit 1
 
 # 检查服务状态
@@ -616,9 +632,9 @@ clean:  ## 清理临时文件
 	find . -type d -name "*.egg-info" -exec rm -rf {} + 2>/dev/null || true
 	find . -type f -name "*.pyc" -delete 2>/dev/null || true
 	rm -rf htmlcov/ .coverage
-	rm -f server.pid server.log
-	rm -f mcp_cls.pid mcp_cls.log
-	rm -f mcp_monitor.pid mcp_monitor.log
+	rm -f $(SERVER_PID) $(SERVER_LOG) server.pid server.log
+	rm -f $(MCP_CLS_PID) $(MCP_CLS_LOG) mcp_cls.pid mcp_cls.log
+	rm -f $(MCP_MONITOR_PID) $(MCP_MONITOR_LOG) mcp_monitor.pid mcp_monitor.log
 	rm -rf uploads/*.tmp 2>/dev/null || true
 	@echo "$(GREEN)✅ 清理完成$(NC)"
 
@@ -640,7 +656,9 @@ watch:  ## 监视文件变化并自动运行测试
 
 logs:  ## 查看服务日志
 	@echo "$(YELLOW)📜 查看服务日志...$(NC)"
-	@if [ -f server.log ]; then \
+	@if [ -f $(SERVER_LOG) ]; then \
+		tail -f $(SERVER_LOG); \
+	elif [ -f server.log ]; then \
 		tail -f server.log; \
 	else \
 		echo "$(RED)日志文件不存在$(NC)"; \

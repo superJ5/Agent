@@ -167,8 +167,8 @@ echo API 文档: http://localhost:9900/docs
 echo.
 echo 查看日志:
 echo   - FastAPI: logs\app_*.log（Loguru 日志，按天轮转）
-echo   - CLS MCP: type mcp_cls.log
-echo   - Monitor: type mcp_monitor.log
+echo   - CLS MCP: type logs\mcp_cls.log
+echo   - Monitor: type logs\mcp_monitor.log
 echo 停止服务: stop-windows.bat
 echo ====================================
 pause
