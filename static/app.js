@@ -8,6 +8,8 @@ class SuperBizAgentApp {
         this.currentChatHistory = []; // 当前对话的消息历史
         this.chatHistories = this.loadChatHistories(); // 所有历史对话
         this.isCurrentChatFromHistory = false; // 标记当前对话是否是从历史记录加载的
+        this.pendingRequestSessionIds = new Set(); // 正在等待响应的会话，防止切换历史时串写
+        this.displayedSessionId = this.sessionId; // 当前聊天窗口实际显示的会话
         
         this.initializeElements();
         this.bindEvents();
@@ -265,6 +267,7 @@ class SuperBizAgentApp {
         
         // 生成新的会话ID
         this.sessionId = this.generateSessionId();
+        this.setDisplayedSession(this.sessionId);
         
         // 重置模式为快速
         this.currentMode = 'quick';
@@ -352,6 +355,65 @@ class SuperBizAgentApp {
         // 保存到localStorage
         this.saveChatHistories();
     }
+
+    // 保存指定会话的完整消息列表
+    saveSessionMessages(sessionId, messages) {
+        if (!messages || messages.length === 0) {
+            return;
+        }
+
+        const history = this.getOrCreateHistory(sessionId);
+        history.messages = [...messages];
+        history.updatedAt = new Date().toISOString();
+        this.updateHistoryTitle(history);
+        this.saveChatHistories();
+        this.renderChatHistory();
+    }
+
+    // 获取或创建指定会话历史
+    getOrCreateHistory(sessionId) {
+        let history = this.chatHistories.find(h => h.id === sessionId);
+        if (history) {
+            return history;
+        }
+
+        history = {
+            id: sessionId,
+            title: '新对话',
+            messages: [],
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        };
+        this.chatHistories.unshift(history);
+
+        if (this.chatHistories.length > 50) {
+            this.chatHistories = this.chatHistories.slice(0, 50);
+        }
+
+        return history;
+    }
+
+    // 根据第一条用户消息更新历史标题
+    updateHistoryTitle(history) {
+        const firstUserMessage = history.messages.find(msg => msg.type === 'user');
+        if (firstUserMessage) {
+            history.title = firstUserMessage.content.substring(0, 30)
+                + (firstUserMessage.content.length > 30 ? '...' : '');
+        }
+    }
+
+    // 渲染指定消息列表到当前聊天窗口
+    renderMessages(messages) {
+        if (!this.chatMessages) {
+            return;
+        }
+
+        this.chatMessages.innerHTML = '';
+        messages.forEach(msg => {
+            this.addMessage(msg.type, msg.content, false, false);
+        });
+        this.checkAndSetCentered();
+    }
     
     // 加载历史对话列表
     loadChatHistories() {
@@ -436,6 +498,20 @@ class SuperBizAgentApp {
                 this.saveCurrentChat();
             }
         }
+
+        // 先切换当前会话身份，再异步加载内容，避免未完成请求回包时写入错误窗口。
+        this.sessionId = history.id;
+        this.isCurrentChatFromHistory = true;
+        this.setDisplayedSession(history.id);
+        this.currentChatHistory = [...history.messages];
+        if (this.chatMessages) {
+            this.chatMessages.innerHTML = '';
+            history.messages.forEach(msg => {
+                this.addMessage(msg.type, msg.content, false, false);
+            });
+        }
+        this.checkAndSetCentered();
+        this.renderChatHistory();
         
         try {
             // 从后端获取会话历史
@@ -443,10 +519,11 @@ class SuperBizAgentApp {
             if (response.ok) {
                 const data = await response.json();
                 const backendHistory = data.history || [];
-                
-                // 更新会话ID
-                this.sessionId = history.id;
-                this.isCurrentChatFromHistory = true;
+
+                // 如果用户在后端历史返回前又切走了，不再重绘当前窗口。
+                if (this.sessionId !== history.id) {
+                    return;
+                }
                 
                 // 清空并重新渲染消息
                 if (this.chatMessages) {
@@ -454,11 +531,14 @@ class SuperBizAgentApp {
                     
                     // 如果后端有历史记录，使用后端的
                     if (backendHistory.length > 0) {
-                        this.currentChatHistory = [];
-                        backendHistory.forEach(msg => {
+                        this.currentChatHistory = backendHistory.map(msg => ({
                             // 后端返回格式: {role: "user|assistant", content: "...", timestamp: "..."}
-                            const messageType = msg.role === 'user' ? 'user' : 'bot';
-                            this.addMessage(messageType, msg.content, false, false);
+                            type: msg.role === 'user' ? 'user' : 'assistant',
+                            content: msg.content,
+                            timestamp: msg.timestamp || new Date().toISOString()
+                        }));
+                        this.currentChatHistory.forEach(msg => {
+                            this.addMessage(msg.type, msg.content, false, false);
                         });
                     } else {
                         // 否则使用localStorage的历史记录
@@ -471,9 +551,9 @@ class SuperBizAgentApp {
             } else {
                 // 如果后端请求失败，使用localStorage的历史记录
                 console.warn('从后端加载历史失败，使用本地缓存');
-                this.sessionId = history.id;
-                this.currentChatHistory = [...history.messages];
-                this.isCurrentChatFromHistory = true;
+                if (this.sessionId !== history.id) {
+                    return;
+                }
                 
                 if (this.chatMessages) {
                     this.chatMessages.innerHTML = '';
@@ -485,9 +565,9 @@ class SuperBizAgentApp {
         } catch (error) {
             console.error('加载会话历史失败:', error);
             // 出错时使用localStorage的历史记录
-            this.sessionId = history.id;
-            this.currentChatHistory = [...history.messages];
-            this.isCurrentChatFromHistory = true;
+            if (this.sessionId !== history.id) {
+                return;
+            }
             
             if (this.chatMessages) {
                 this.chatMessages.innerHTML = '';
@@ -535,6 +615,7 @@ class SuperBizAgentApp {
                         this.chatMessages.innerHTML = '';
                     }
                     this.sessionId = this.generateSessionId();
+                    this.setDisplayedSession(this.sessionId);
                     this.checkAndSetCentered();
                 }
                 
@@ -642,8 +723,13 @@ class SuperBizAgentApp {
             return;
         }
 
+        const requestSessionId = this.sessionId;
+        this.pendingRequestSessionIds.add(requestSessionId);
+        this.setDisplayedSession(requestSessionId);
+
         // 显示用户消息
         this.addMessage('user', message);
+        this.saveSessionMessages(requestSessionId, this.currentChatHistory);
         
         // 清空输入框
         if (this.messageInput) {
@@ -656,19 +742,27 @@ class SuperBizAgentApp {
 
         try {
             if (this.currentMode === 'quick') {
-                await this.sendQuickMessage(message);
+                await this.sendQuickMessage(message, requestSessionId);
             } else if (this.currentMode === 'stream') {
-                await this.sendStreamMessage(message);
+                await this.sendStreamMessage(message, requestSessionId);
             }
         } catch (error) {
             console.error('发送消息失败:', error);
-            this.addMessage('assistant', '抱歉，发送消息时出现错误：' + error.message);
+            this.addAssistantMessageForSession(
+                requestSessionId,
+                '抱歉，发送消息时出现错误：' + error.message
+            );
         } finally {
+            this.pendingRequestSessionIds.delete(requestSessionId);
             this.isStreaming = false;
             this.updateUI();
             
-            // 如果当前对话是从历史记录加载的，更新历史记录
-            if (this.isCurrentChatFromHistory && this.currentChatHistory.length > 0) {
+            // 只有用户仍停留在发起请求的会话时，才更新当前会话历史
+            if (
+                this.sessionId === requestSessionId
+                && this.isCurrentChatFromHistory
+                && this.currentChatHistory.length > 0
+            ) {
                 this.updateCurrentChatHistory();
                 this.renderChatHistory(); // 更新历史对话列表显示
             }
@@ -676,9 +770,11 @@ class SuperBizAgentApp {
     }
 
     // 发送快速消息（普通对话）
-    async sendQuickMessage(message) {
+    async sendQuickMessage(message, requestSessionId) {
         // 添加等待提示消息
-        const loadingMessage = this.addLoadingMessage('正在思考...');
+        const loadingMessage = this.isSessionDisplayed(requestSessionId)
+            ? this.addLoadingMessage('正在思考...')
+            : null;
         
         try {
             const response = await fetch(`${this.apiBaseUrl}/chat`, {
@@ -687,7 +783,7 @@ class SuperBizAgentApp {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    Id: this.sessionId,
+                    Id: requestSessionId,
                     Question: message
                 })
             });
@@ -712,14 +808,14 @@ class SuperBizAgentApp {
                 if (chatResponse && chatResponse.success) {
                     // 成功：添加实际响应消息（即使 answer 为空也显示）
                     const answer = chatResponse.answer || '（无回复内容）';
-                    this.addMessage('assistant', answer);
+                    this.addAssistantMessageForSession(requestSessionId, answer);
                 } else if (chatResponse && chatResponse.errorMessage) {
                     // 业务错误
                     throw new Error(chatResponse.errorMessage);
                 } else {
                     // 兜底：尝试显示任何可用内容
                     const fallbackAnswer = chatResponse?.answer || chatResponse?.errorMessage || '服务返回了空内容';
-                    this.addMessage('assistant', fallbackAnswer);
+                    this.addAssistantMessageForSession(requestSessionId, fallbackAnswer);
                 }
             } else {
                 // HTTP 成功但业务失败
@@ -735,7 +831,7 @@ class SuperBizAgentApp {
     }
 
     // 发送流式消息
-    async sendStreamMessage(message) {
+    async sendStreamMessage(message, requestSessionId) {
         try {
             const response = await fetch(`${this.apiBaseUrl}/chat_stream`, {
                 method: 'POST',
@@ -743,7 +839,7 @@ class SuperBizAgentApp {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    Id: this.sessionId,
+                    Id: requestSessionId,
                     Question: message
                 })
             });
@@ -753,7 +849,9 @@ class SuperBizAgentApp {
             }
             
             // 创建助手消息元素
-            const assistantMessageElement = this.addMessage('assistant', '', true);
+            const assistantMessageElement = this.isSessionDisplayed(requestSessionId)
+                ? this.addMessage('assistant', '', true)
+                : null;
             let fullResponse = '';
 
             // 处理流式响应
@@ -768,7 +866,7 @@ class SuperBizAgentApp {
                     
                     if (done) {
                         // 流结束，使用统一的处理方法
-                        this.handleStreamComplete(assistantMessageElement, fullResponse);
+                        this.handleStreamComplete(assistantMessageElement, fullResponse, requestSessionId);
                         break;
                     }
 
@@ -803,7 +901,7 @@ class SuperBizAgentApp {
                             // 兼容旧格式 [DONE] 标记
                             if (rawData === '[DONE]') {
                                 // 流结束标记，将内容转换为Markdown渲染
-                                this.handleStreamComplete(assistantMessageElement, fullResponse);
+                                this.handleStreamComplete(assistantMessageElement, fullResponse, requestSessionId);
                                 return;
                             }
                             
@@ -820,7 +918,7 @@ class SuperBizAgentApp {
                                         console.log('[SSE调试] 添加内容:', content);
                                         
                                         // 实时渲染 Markdown
-                                        if (assistantMessageElement) {
+                                        if (assistantMessageElement && this.isSessionDisplayed(requestSessionId)) {
                                             const messageContent = assistantMessageElement.querySelector('.message-content');
                                             messageContent.innerHTML = this.renderMarkdown(fullResponse);
                                             // 高亮代码块
@@ -829,11 +927,11 @@ class SuperBizAgentApp {
                                         }
                                     } else if (sseMessage.type === 'done') {
                                         console.log('[SSE调试] 收到done标记，流结束');
-                                        this.handleStreamComplete(assistantMessageElement, fullResponse);
+                                        this.handleStreamComplete(assistantMessageElement, fullResponse, requestSessionId);
                                         return;
                                     } else if (sseMessage.type === 'error') {
                                         console.error('[SSE调试] 收到错误:', sseMessage.data);
-                                        if (assistantMessageElement) {
+                                        if (assistantMessageElement && this.isSessionDisplayed(requestSessionId)) {
                                             const messageContent = assistantMessageElement.querySelector('.message-content');
                                             messageContent.innerHTML = this.renderMarkdown('错误: ' + (sseMessage.data || '未知错误'));
                                         }
@@ -843,7 +941,7 @@ class SuperBizAgentApp {
                                     // 不是标准 SseMessage 格式，尝试兼容处理
                                     console.log('[SSE调试] 非标准格式，尝试兼容处理');
                                     fullResponse += rawData;
-                                    if (assistantMessageElement) {
+                                    if (assistantMessageElement && this.isSessionDisplayed(requestSessionId)) {
                                         const messageContent = assistantMessageElement.querySelector('.message-content');
                                         messageContent.innerHTML = this.renderMarkdown(fullResponse);
                                         this.highlightCodeBlocks(messageContent);
@@ -859,7 +957,7 @@ class SuperBizAgentApp {
                                     fullResponse += rawData;
                                 }
                                 
-                                if (assistantMessageElement) {
+                                if (assistantMessageElement && this.isSessionDisplayed(requestSessionId)) {
                                     const messageContent = assistantMessageElement.querySelector('.message-content');
                                     messageContent.innerHTML = this.renderMarkdown(fullResponse);
                                     this.highlightCodeBlocks(messageContent);
@@ -874,6 +972,48 @@ class SuperBizAgentApp {
             }
         } catch (error) {
             throw error;
+        }
+    }
+
+    // 将助手消息写回指定会话，避免请求返回时污染当前切换后的对话
+    addAssistantMessageForSession(sessionId, content) {
+        this.appendMessageToSession(sessionId, 'assistant', content);
+    }
+
+    // 标记当前聊天窗口正在显示哪个会话
+    setDisplayedSession(sessionId) {
+        this.displayedSessionId = sessionId;
+        if (this.chatMessages) {
+            this.chatMessages.dataset.sessionId = sessionId;
+        }
+    }
+
+    // 判断某个会话是否仍然显示在当前聊天窗口
+    isSessionDisplayed(sessionId) {
+        const domSessionId = this.chatMessages?.dataset?.sessionId;
+        return this.displayedSessionId === sessionId && domSessionId === sessionId;
+    }
+
+    // 追加消息到指定会话，并按需刷新当前视图
+    appendMessageToSession(sessionId, type, content) {
+        if (!content) {
+            return;
+        }
+
+        const history = this.getOrCreateHistory(sessionId);
+        history.messages.push({
+            type,
+            content,
+            timestamp: new Date().toISOString()
+        });
+        history.updatedAt = new Date().toISOString();
+        this.updateHistoryTitle(history);
+        this.saveChatHistories();
+        this.renderChatHistory();
+
+        if (this.isSessionDisplayed(sessionId)) {
+            this.currentChatHistory = [...history.messages];
+            this.renderMessages(this.currentChatHistory);
         }
     }
 
@@ -1019,8 +1159,8 @@ class SuperBizAgentApp {
     }
 
     // 处理流式传输完成
-    handleStreamComplete(assistantMessageElement, fullResponse) {
-        if (assistantMessageElement) {
+    handleStreamComplete(assistantMessageElement, fullResponse, sessionId = this.sessionId) {
+        if (assistantMessageElement && this.isSessionDisplayed(sessionId)) {
             assistantMessageElement.classList.remove('streaming');
             const messageContent = assistantMessageElement.querySelector('.message-content');
             if (messageContent) {
@@ -1031,16 +1171,7 @@ class SuperBizAgentApp {
         }
         // 保存流式消息到历史记录
         if (fullResponse) {
-            this.currentChatHistory.push({
-                type: 'assistant',
-                content: fullResponse,
-                timestamp: new Date().toISOString()
-            });
-            // 如果当前对话是从历史记录加载的，更新历史记录
-            if (this.isCurrentChatFromHistory) {
-                this.updateCurrentChatHistory();
-                this.renderChatHistory();
-            }
+            this.appendMessageToSession(sessionId, 'assistant', fullResponse);
         }
     }
 

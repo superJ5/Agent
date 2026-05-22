@@ -71,6 +71,10 @@ data/manuals/*
 !data/manuals/chunks/
 !data/manuals/reviewed_md/
 
+# Runtime memory records
+data/memory/sessions/
+data/memory/daily/
+
 
 # Temporary review/test artifacts
 tmp_competition_pdf/
@@ -111,4 +115,3 @@ dmypy.json
 
 # Ruff
 .ruff_cache/
-
