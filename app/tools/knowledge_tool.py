@@ -2,22 +2,62 @@
 
 from __future__ import annotations
 
-from collections import Counter
-from datetime import datetime, timezone
-from functools import lru_cache
 import re
-from dataclasses import dataclass
-from typing import Any, Iterable, List, Sequence, Tuple
+from collections import Counter
+from collections.abc import Iterable, Sequence
+from contextvars import ContextVar
+from dataclasses import dataclass, field
+from datetime import UTC, datetime
+from functools import lru_cache
+from pathlib import Path
+from typing import Any, cast
 
 from langchain_core.documents import Document
 from langchain_core.tools import tool
 from loguru import logger
 
 from app.config import config
+from app.models.response import sanitize_summary_metadata
 from app.services.vector_search_service import SearchResult, vector_search_service
+
+retrieval_orchestrator: Any = None
+try:
+    from app.retrieval import orchestrator as retrieval_orchestrator
+except Exception:
+    retrieval_orchestrator = None
+
+_evidence_bundle_to_evidence_payload: Any = None
+_evidence_format_bundle: Any = None
+_evidence_format_search_results: Any = None
+_evidence_display_path_list: Any = None
+_evidence_image_reference_lines: Any = None
+_evidence_search_result_to_document: Any = None
+_evidence_search_result_to_evidence_hit: Any = None
+_evidence_unique_flatten: Any = None
+try:
+    from app.retrieval.evidence import (
+        bundle_to_evidence_payload as _evidence_bundle_to_evidence_payload,
+        display_path_list as _evidence_display_path_list,
+        format_bundle as _evidence_format_bundle,
+        format_search_results as _evidence_format_search_results,
+        image_reference_lines as _evidence_image_reference_lines,
+        search_result_to_document as _evidence_search_result_to_document,
+        search_result_to_evidence_hit as _evidence_search_result_to_evidence_hit,
+        unique_flatten as _evidence_unique_flatten,
+    )
+except Exception:
+    pass
 
 
 EVIDENCE_SCHEMA_VERSION = "retrieval_evidence_v1"
+LEGACY_INTENT_STRATEGY = "legacy_routed"
+LEGACY_RERANKER_PROVIDER = "lexical"
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+_LAST_RETRIEVAL_METADATA: ContextVar[dict[str, Any] | None] = ContextVar(
+    "last_retrieval_metadata",
+    default=None,
+)
+_last_retrieval_metadata_fallback: dict[str, Any] | None = None
 PIC_ID_RE = re.compile(r"([A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+)", re.IGNORECASE)
 PROFILE_TERM_RE = re.compile(r"[A-Za-z][A-Za-z0-9+\-]{1,}|[\u4e00-\u9fff]{2,16}")
 PROFILE_SCAN_LIMIT = 4096
@@ -129,32 +169,44 @@ QUERY_SYNONYMS: dict[str, tuple[str, ...]] = {
 }
 
 CHUNK_TYPE_FAMILY: dict[str, str] = {
-    "text_image_atomic": "component",
-    "feature_group": "component",
-    "procedure_step": "procedure",
-    "procedure_overview": "overview",
-    "section_summary": "overview",
-    "legal_clause": "legal",
-    "safety_clause": "safety",
-    "caution_clause": "safety",
-    "troubleshooting_case": "troubleshooting",
-    "troubleshooting_condition": "troubleshooting",
+    "product_overview": "overview",
+    "component_description": "component",
+    "assembly_steps": "procedure",
+    "operation_guide": "procedure",
+    "maintenance_guide": "procedure",
+    "troubleshooting_qa": "troubleshooting",
+    "safety_warning": "safety",
+    "legal_statement": "legal",
+    "parts_list": "component",
+    "specification_table": "component",
+    "general_info": "general",
     "metadata_image_path": "auxiliary",
     "aux_navigation": "auxiliary",
-    "subsection": "subsection",
 }
 
 FAMILY_ROUTE_TYPES: dict[str, tuple[str, ...]] = {
-    "component": ("text_image_atomic", "feature_group", "subsection"),
-    "procedure": ("procedure_step", "feature_group", "subsection"),
-    "legal": ("legal_clause", "subsection"),
-    "image": ("text_image_atomic", "feature_group", "subsection"),
-    "ocr": ("subsection", "text_image_atomic", "feature_group", "legal_clause", "safety_clause", "caution_clause"),
-    "overview": ("section_summary", "procedure_overview", "subsection"),
+    "component": ("component_description", "parts_list", "specification_table", "general_info"),
+    "procedure": ("assembly_steps", "operation_guide", "maintenance_guide", "general_info"),
+    "legal": ("legal_statement", "general_info"),
+    "overview": ("product_overview", "general_info"),
+    "safety": ("safety_warning", "general_info"),
+    "troubleshooting": ("troubleshooting_qa", "general_info"),
+    "general": (
+        "product_overview",
+        "component_description",
+        "assembly_steps",
+        "operation_guide",
+        "maintenance_guide",
+        "troubleshooting_qa",
+        "safety_warning",
+        "legal_statement",
+        "parts_list",
+        "specification_table",
+        "general_info",
+    ),
     "auxiliary": ("metadata_image_path", "aux_navigation"),
-    "safety": ("safety_clause", "caution_clause", "text_image_atomic", "feature_group", "subsection"),
-    "troubleshooting": ("troubleshooting_case", "troubleshooting_condition", "subsection"),
-    "subsection": ("subsection",),
+    "image": ("component_description", "parts_list", "specification_table", "general_info", "metadata_image_path", "aux_navigation"),
+    "ocr": ("general_info", "metadata_image_path", "aux_navigation"),
 }
 
 INTENT_STAGE_CONFIG: dict[str, list[dict[str, Any]]] = {
@@ -171,17 +223,17 @@ INTENT_STAGE_CONFIG: dict[str, list[dict[str, Any]]] = {
     "legal": [
         {"name": "primary_route", "tiers": ["primary"], "families": ["legal"]},
         {"name": "support_route", "tiers": ["support"], "families": ["overview"]},
-        {"name": "expanded_route", "tiers": ["primary", "support"], "families": ["legal", "overview"]},
+        {"name": "expanded_route", "tiers": ["primary", "support"], "families": ["legal", "overview", "general"]},
     ],
     "safety": [
         {"name": "primary_route", "tiers": ["primary"], "families": ["safety"]},
         {"name": "support_route", "tiers": ["support"], "families": ["overview"]},
-        {"name": "expanded_route", "tiers": ["primary", "support"], "families": ["safety", "overview"]},
+        {"name": "expanded_route", "tiers": ["primary", "support"], "families": ["safety", "overview", "general"]},
     ],
     "troubleshooting": [
         {"name": "primary_route", "tiers": ["primary"], "families": ["troubleshooting"]},
         {"name": "support_route", "tiers": ["support"], "families": ["overview"]},
-        {"name": "expanded_route", "tiers": ["primary", "support"], "families": ["troubleshooting", "overview", "component"]},
+        {"name": "expanded_route", "tiers": ["primary", "support"], "families": ["troubleshooting", "overview", "general"]},
     ],
     "image_trace": [
         {"name": "auxiliary_direct", "tiers": ["auxiliary"], "families": ["auxiliary"]},
@@ -194,14 +246,12 @@ INTENT_STAGE_CONFIG: dict[str, list[dict[str, Any]]] = {
         {"name": "expanded_route", "tiers": ["primary", "support", "auxiliary"], "families": None},
     ],
     "overview": [
-        {"name": "support_route", "tiers": ["support"], "families": ["overview"]},
-        {"name": "primary_route", "tiers": ["primary"], "families": ["overview", "component"]},
+        {"name": "primary_route", "tiers": ["primary", "support"], "families": ["overview"]},
         {"name": "expanded_route", "tiers": ["primary", "support"], "families": ["overview", "component", "procedure"]},
     ],
     "general": [
-        {"name": "primary_route", "tiers": ["primary"], "families": ["component", "procedure", "safety", "legal", "troubleshooting"]},
-        {"name": "support_route", "tiers": ["support"], "families": ["overview"]},
-        {"name": "expanded_route", "tiers": ["primary", "support"], "families": ["component", "procedure", "safety", "overview", "legal", "troubleshooting"]},
+        {"name": "primary_route", "tiers": ["primary"], "families": None},
+        {"name": "expanded_route", "tiers": ["primary", "support"], "families": None},
     ],
 }
 
@@ -219,6 +269,7 @@ class RetrievalBundle:
     hits: list[SearchResult]
     support_hits: list[SearchResult]
     warnings: list[str]
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     @property
     def all_hits(self) -> list[SearchResult]:
@@ -230,6 +281,27 @@ class RetrievalBundle:
             seen.add(result.id)
             combined.append(result)
         return combined
+
+
+def set_last_retrieval_metadata(metadata: dict[str, Any] | None) -> None:
+    """Store the latest Summary-level retrieval metadata for the current tool call."""
+    global _last_retrieval_metadata_fallback
+
+    sanitized = sanitize_summary_metadata(metadata)
+    snapshot = dict(sanitized) if sanitized else None
+    _LAST_RETRIEVAL_METADATA.set(snapshot)
+    _last_retrieval_metadata_fallback = dict(snapshot) if snapshot else None
+
+
+def clear_last_retrieval_metadata() -> None:
+    """Clear stale retrieval metadata before a new agent query starts."""
+    set_last_retrieval_metadata(None)
+
+
+def get_last_retrieval_metadata() -> dict[str, Any] | None:
+    """Return a defensive copy of the latest Summary-level retrieval metadata."""
+    metadata = _LAST_RETRIEVAL_METADATA.get() or _last_retrieval_metadata_fallback
+    return dict(metadata) if metadata else None
 
 
 @dataclass(frozen=True)
@@ -250,7 +322,7 @@ def infer_families_from_type_name(chunk_type: str) -> tuple[str, ...]:
     """Infer retrieval families from flexible/rich chunk type names."""
     type_name = str(chunk_type or "").strip().lower()
     if not type_name:
-        return tuple()
+        return ()
 
     families: set[str] = set()
     if any(marker in type_name for marker in ("metadata", "navigation", "image_path", "aux")):
@@ -361,7 +433,6 @@ def resolve_chunk_types(
     if not chunk_families:
         return None
 
-    requested_families = {str(family) for family in chunk_families if family}
     resolved: list[str] = []
     for family in chunk_families:
         resolved.extend(FAMILY_ROUTE_TYPES.get(family, (family,)))
@@ -370,16 +441,8 @@ def resolve_chunk_types(
         profile = next((item for item in load_doc_profiles() if item.doc_id == doc_id), None)
         if profile:
             doc_types = set(profile.chunk_types)
-            if "ocr" in requested_families:
-                # OCR/source-quality routing is controlled by source flags in post-filtering,
-                # so avoid dropping flagged chunks just because they have rich custom types.
-                resolved.extend(profile.chunk_types)
-            for doc_type in profile.chunk_types:
-                type_families = set(infer_families_from_type_name(doc_type))
-                if "image" in requested_families and type_families.intersection({"component", "auxiliary"}):
-                    resolved.append(doc_type)
-                elif requested_families.intersection(type_families):
-                    resolved.append(doc_type)
+            # User requested: bypass intent-based filtering and absorb all chunk types.
+            resolved.extend(profile.chunk_types)
             narrowed = [chunk_type for chunk_type in resolved if chunk_type in doc_types]
             if narrowed:
                 resolved = narrowed
@@ -395,11 +458,13 @@ def resolve_chunk_types(
 
 
 @tool(response_format="content_and_artifact")
-def retrieve_knowledge(query: str) -> Tuple[str, List[Document]]:
+def retrieve_knowledge(query: str) -> tuple[str, list[Document]]:
     """Retrieve relevant manual knowledge for a user query."""
+    clear_last_retrieval_metadata()
     try:
         logger.info("Knowledge retrieval called: query='{}'", query)
         bundle = routed_retrieve(query)
+        set_last_retrieval_metadata(bundle.metadata)
         docs = [search_result_to_document(result) for result in bundle.all_hits]
 
         if not docs:
@@ -415,11 +480,61 @@ def retrieve_knowledge(query: str) -> Tuple[str, List[Document]]:
         )
         return context, docs
     except Exception as exc:
+        clear_last_retrieval_metadata()
         logger.error(f"Knowledge retrieval failed: {exc}")
         return f"检索知识时发生错误: {str(exc)}", []
 
 
 def routed_retrieve(query: str) -> RetrievalBundle:
+    """Run the modular retrieval pipeline, falling back to the legacy path."""
+    if retrieval_orchestrator is not None:
+        try:
+            bundle = retrieval_orchestrator.retrieve(query)
+            set_last_retrieval_metadata(bundle.metadata)
+            return cast(RetrievalBundle, bundle)
+        except Exception as exc:
+            logger.warning(
+                "Modular retrieval failed; falling back to legacy retrieval: {}",
+                exc,
+            )
+            fallback_bundle = _legacy_routed_retrieve(query)
+            _mark_legacy_fallback_metadata(fallback_bundle, exc)
+            set_last_retrieval_metadata(fallback_bundle.metadata)
+            return fallback_bundle
+
+    fallback_bundle = _legacy_routed_retrieve(query)
+    set_last_retrieval_metadata(fallback_bundle.metadata)
+    return fallback_bundle
+
+
+def legacy_routed_retrieve(query: str) -> RetrievalBundle:
+    """Backward-compatible explicit entry point for the legacy retrieval path."""
+    return _legacy_routed_retrieve(query)
+
+
+def _mark_legacy_fallback_metadata(bundle: RetrievalBundle, exc: Exception) -> None:
+    """Keep fallback metadata Summary-only while recording degraded execution."""
+    warning = f"orchestrator fallback: {exc}"
+    if warning not in bundle.warnings:
+        bundle.warnings.append(warning)
+
+    metadata = dict(bundle.metadata or {})
+    warnings = list(metadata.get("warnings") or [])
+    if warning not in warnings:
+        warnings.append(warning)
+    metadata.update(
+        {
+            "warnings": warnings,
+            "degraded": True,
+            "intent_strategy": metadata.get("intent_strategy") or LEGACY_INTENT_STRATEGY,
+            "reranker_provider": metadata.get("reranker_provider")
+            or LEGACY_RERANKER_PROVIDER,
+        }
+    )
+    bundle.metadata = sanitize_summary_metadata(metadata) or {}
+
+
+def _legacy_routed_retrieve(query: str) -> RetrievalBundle:
     """Run intent-routed retrieval with layered fallback."""
     intent = detect_intent(query)
     doc_id = infer_doc_id(query)
@@ -475,7 +590,67 @@ def routed_retrieve(query: str) -> RetrievalBundle:
         hits=hits,
         support_hits=support_hits,
         warnings=warnings,
+        metadata=build_legacy_summary_metadata(
+            intent=intent,
+            doc_id=doc_id,
+            retrieval_stage=retrieval_stage,
+            hits=hits,
+            warnings=warnings,
+        ),
     )
+
+
+def build_legacy_summary_metadata(
+    intent: str,
+    doc_id: str | None,
+    retrieval_stage: str,
+    hits: Sequence[SearchResult],
+    warnings: Sequence[str],
+) -> dict[str, Any]:
+    """Build API-safe Summary metadata for the pre-orchestrator retrieval path."""
+    recall_channels = infer_recall_channels(retrieval_stage, hits)
+    metadata = {
+        "intent": intent,
+        "doc_id": doc_id,
+        "retrieval_stage": retrieval_stage,
+        "intent_strategy": LEGACY_INTENT_STRATEGY,
+        "recall_channels": recall_channels,
+        "reranker_provider": LEGACY_RERANKER_PROVIDER,
+        "reranker_fallback": retrieval_stage == "fallback_full_collection",
+        "timeout": False,
+        "degraded": bool(warnings) or retrieval_stage == "none",
+        "top_hits": [
+            summarize_search_result_for_metadata(result, recall_channels)
+            for result in hits[: max(config.rag_top_k, 3)]
+        ],
+        "warnings": list(warnings),
+    }
+    return sanitize_summary_metadata(metadata) or {}
+
+
+def infer_recall_channels(
+    retrieval_stage: str,
+    hits: Sequence[SearchResult],
+) -> list[str]:
+    """Infer compact recall-channel labels from the legacy retrieval stage."""
+    if not hits or retrieval_stage == "none":
+        return []
+    if retrieval_stage == "fallback_full_collection":
+        return ["scan"]
+    return ["vector", "scan"]
+
+
+def summarize_search_result_for_metadata(
+    result: SearchResult,
+    recall_channels: Sequence[str],
+) -> dict[str, Any]:
+    """Return a compact top-hit summary without trace-level fields."""
+    metadata = result.metadata or {}
+    return {
+        "chunk_id": metadata.get("chunk_id") or result.id,
+        "score": result.score,
+        "channels": list(recall_channels),
+    }
 
 
 def detect_intent(query: str) -> str:
@@ -511,7 +686,7 @@ def load_doc_profiles() -> tuple[DocumentProfile, ...]:
         results = vector_search_service.query_documents(limit=PROFILE_SCAN_LIMIT)
     except Exception as exc:
         logger.warning("Failed to load document profiles from Milvus: {}", exc)
-        return tuple()
+        return ()
 
     buckets: dict[str, dict[str, Any]] = {}
     for result in results:
@@ -916,11 +1091,10 @@ def run_scan_stage(
     try:
         chunk_types = resolve_chunk_types(chunk_families, doc_id=doc_id)
         scanned = filter_results_to_active_docs(
-            vector_search_service.query_documents(
+            vector_search_service.query_all_documents(
                 doc_id=doc_id,
                 retrieval_tiers=list(tiers) if tiers else None,
                 chunk_types=list(chunk_types) if chunk_types else None,
-                limit=max(top_k * 10, 64),
             ),
             scoped_doc_id=doc_id,
         )
@@ -1078,7 +1252,7 @@ def lexical_score(
     hay_heading = hay_title + hay_section
     hay_all = hay_heading + hay_index + hay_text + hay_pics + hay_note
 
-    score = (1.0 / (1.0 + max(result.score, 0.0))) * 10.0
+    score = (1.0 / (1.0 + max(float(result.score), 0.0))) * 10.0
 
     pic_id = extract_pic_id(original_query)
     if pic_id:
@@ -1365,34 +1539,22 @@ def trim_results_for_intent(results: Sequence[SearchResult], intent: str) -> lis
 
 def extract_query_terms(query: str) -> list[str]:
     """Extract high-signal terms from the query."""
-    matched_terms: list[str] = []
-    normalized = normalize_text(query)
+    import jieba.analyse
 
+    # 1. TF-IDF 提取关键词（不依赖任何词表）
+    keywords = jieba.analyse.extract_tags(query, topK=8, withWeight=False)
+
+    # 2. 补充图片 ID
     pic_id = extract_pic_id(query)
     if pic_id:
-        matched_terms.append(pic_id)
+        keywords.insert(0, pic_id)
 
-    matched_terms.extend(term for term in MANUAL_QUERY_TERMS if normalize_text(term) in normalized)
-    profile_limit = 4 if matched_terms else 8
-    matched_terms.extend(match_profile_terms_in_query(normalized, limit=profile_limit))
-    matched_terms.extend(term for term in ACTION_TERMS if normalize_text(term) in normalized)
-    matched_terms.extend(term for term in SAFETY_TERMS if normalize_text(term) in normalized)
-    matched_terms.extend(term for term in TROUBLESHOOTING_TERMS if normalize_text(term) in normalized)
-    if matched_terms:
-        return expand_query_terms_with_synonyms(list(dict.fromkeys(matched_terms)))[:16]
+    # 3. 补充 profile 术语（领域加权）
+    normalized = normalize_text(query)
+    keywords.extend(match_profile_terms_in_query(normalized, limit=4))
 
-    alnum_terms = re.findall(r"[A-Za-z0-9_\-]{3,}", query)
-    if alnum_terms:
-        return alnum_terms[:4]
-
-    generic_terms = [term for term in PROFILE_TERM_RE.findall(query) if len(normalize_text(term)) >= 2]
-    if generic_terms:
-        return expand_query_terms_with_synonyms(list(dict.fromkeys(generic_terms))[:4])[:12]
-
-    compact = re.sub(r"\s+", "", query)
-    if compact:
-        return [compact] if len(compact) <= 12 else [compact[:12]]
-    return []
+    # 4. 去重
+    return list(dict.fromkeys(keywords))[:16]
 
 
 def expand_query_terms_with_synonyms(query_terms: Sequence[str]) -> list[str]:
@@ -1437,7 +1599,7 @@ def extract_pic_id(query: str) -> str | None:
     for token in tokens:
         normalized = normalize_text(token)
         if any(normalized.startswith(prefix) for prefix in known_prefixes):
-            return token
+            return str(token)
     return None
 
 
@@ -1467,6 +1629,9 @@ def deduplicate_results(results: Iterable[SearchResult]) -> list[SearchResult]:
 
 def search_result_to_document(result: SearchResult) -> Document:
     """Convert a SearchResult back into a LangChain Document."""
+    if _evidence_search_result_to_document is not None:
+        return _evidence_search_result_to_document(result)
+
     metadata = dict(result.metadata or {})
     metadata["score"] = result.score
     metadata["evidence_schema_version"] = EVIDENCE_SCHEMA_VERSION
@@ -1478,6 +1643,12 @@ def bundle_to_evidence_payload(
     query: str | None = None,
 ) -> dict[str, Any]:
     """Convert retrieval output into a stable evidence payload for upper layers."""
+    if _evidence_bundle_to_evidence_payload is not None:
+        return cast(
+            dict[str, Any],
+            _evidence_bundle_to_evidence_payload(cast(Any, bundle), query=query),
+        )
+
     primary_hits = [
         search_result_to_evidence_hit(result, rank=index, role="primary")
         for index, result in enumerate(bundle.hits, start=1)
@@ -1494,7 +1665,7 @@ def bundle_to_evidence_payload(
 
     return {
         "schema_version": EVIDENCE_SCHEMA_VERSION,
-        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "generated_at": datetime.now(UTC).isoformat(),
         "query": query,
         "intent": bundle.intent,
         "retrieval_stage": bundle.retrieval_stage,
@@ -1517,6 +1688,12 @@ def search_result_to_evidence_hit(
     role: str,
 ) -> dict[str, Any]:
     """Convert one search result into a compact evidence hit."""
+    if _evidence_search_result_to_evidence_hit is not None:
+        return cast(
+            dict[str, Any],
+            _evidence_search_result_to_evidence_hit(result, rank=rank, role=role),
+        )
+
     metadata = result.metadata or {}
     return {
         "rank": rank,
@@ -1531,7 +1708,7 @@ def search_result_to_evidence_hit(
         "parent_chunk_id": metadata.get("parent_chunk_id"),
         "score": result.score,
         "pic_ids": metadata.get("pic_ids") or [],
-        "image_paths": metadata.get("image_paths") or [],
+        "image_paths": display_path_list(metadata.get("image_paths") or []),
         "source_file": metadata.get("source_file") or metadata.get("_source"),
         "source_lines": metadata.get("source_lines") or [],
         "source_quality": metadata.get("source_quality"),
@@ -1543,6 +1720,9 @@ def search_result_to_evidence_hit(
 
 def unique_flatten(items: Iterable[Iterable[Any]]) -> list[Any]:
     """Flatten nested iterables while preserving first-seen order."""
+    if _evidence_unique_flatten is not None:
+        return cast(list[Any], _evidence_unique_flatten(items))
+
     flattened: list[Any] = []
     seen: set[str] = set()
     for group in items:
@@ -1555,8 +1735,54 @@ def unique_flatten(items: Iterable[Iterable[Any]]) -> list[Any]:
     return flattened
 
 
+def display_path_list(value: Any) -> list[str]:
+    """Render project-local absolute paths as portable relative paths."""
+    if _evidence_display_path_list is not None:
+        return cast(list[str], _evidence_display_path_list(value))
+
+    values = value if isinstance(value, list | tuple | set) else [value]
+    rendered_paths: list[str] = []
+    for item in values:
+        text = str(item or "").strip()
+        if not text:
+            continue
+        normalized = text.replace("\\", "/")
+        try:
+            path = Path(text)
+            if path.is_absolute():
+                normalized = path.resolve().relative_to(PROJECT_ROOT).as_posix()
+        except (OSError, RuntimeError, ValueError):
+            pass
+        rendered_paths.append(normalized)
+    return rendered_paths
+
+
+def image_reference_lines(pic_ids: Sequence[Any], image_paths: Sequence[str]) -> list[str]:
+    """Pair picture ids with paths so answers keep non-empty image placeholders."""
+    if _evidence_image_reference_lines is not None:
+        return cast(list[str], _evidence_image_reference_lines(pic_ids, image_paths))
+
+    pic_id_texts = [str(pic_id).strip() for pic_id in pic_ids if str(pic_id).strip()]
+    lines: list[str] = []
+    for index, image_path in enumerate(image_paths):
+        image_stem = Path(str(image_path)).stem
+        pic_id = next(
+            (
+                candidate
+                for candidate in pic_id_texts
+                if candidate == image_stem or candidate in image_stem
+            ),
+            pic_id_texts[index] if index < len(pic_id_texts) else image_stem,
+        )
+        lines.append(f"- ![{pic_id}]({image_path})" if pic_id else f"- {image_path}")
+    return lines
+
+
 def format_bundle(bundle: RetrievalBundle, query: str | None = None) -> str:
     """Format retrieval results into a model-readable context block."""
+    if _evidence_format_bundle is not None:
+        return str(_evidence_format_bundle(cast(Any, bundle), query=query))
+
     evidence = bundle_to_evidence_payload(bundle, query=query)
     sections: list[str] = [
         f"【证据结构】{evidence['schema_version']}",
@@ -1582,6 +1808,9 @@ def format_bundle(bundle: RetrievalBundle, query: str | None = None) -> str:
 
 def format_search_results(results: Sequence[SearchResult]) -> str:
     """Format search results into readable context."""
+    if _evidence_format_search_results is not None:
+        return str(_evidence_format_search_results(results))
+
     parts: list[str] = []
 
     for index, result in enumerate(results, 1):
@@ -1591,7 +1820,7 @@ def format_search_results(results: Sequence[SearchResult]) -> str:
         section_path = metadata.get("section_path") or []
         section_path_str = " > ".join(str(part) for part in section_path if part) if isinstance(section_path, list) else ""
         source_lines = metadata.get("source_lines") or []
-        image_paths = metadata.get("image_paths") or []
+        image_paths = display_path_list(metadata.get("image_paths") or [])
         chunk_id = metadata.get("chunk_id") or result.id
         retrieval_tier = metadata.get("retrieval_tier") or ""
         chunk_type = metadata.get("chunk_type") or ""
@@ -1609,10 +1838,10 @@ def format_search_results(results: Sequence[SearchResult]) -> str:
             block.append(f"切片ID: {chunk_id}")
         if source_lines:
             block.append(f"行号: {source_lines}")
-        if image_paths:
-            block.append("相关图片路径:")
-            for image_path in image_paths:
-                block.append(f"- {image_path}")
+        image_refs = image_reference_lines(metadata.get("pic_ids") or [], image_paths)
+        if image_refs:
+            block.append("相关图片，引用时必须使用以下 Markdown 格式:")
+            block.extend(image_refs)
         block.append(f"内容:\n{result.content}")
         parts.append("\n".join(block))
 

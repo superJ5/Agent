@@ -1,0 +1,182 @@
+from __future__ import annotations
+
+import importlib
+import sys
+from types import SimpleNamespace
+
+import pytest
+from fastapi import FastAPI
+from fastapi.testclient import TestClient
+
+
+class FakeRagAgentService:
+    def __init__(self) -> None:
+        self.answer = "compat answer"
+        self.metadata = None
+        self.calls: list[tuple[str, str]] = []
+        self.metadata_session_id: str | None = None
+
+    async def query(self, question: str, session_id: str) -> str:
+        self.calls.append((question, session_id))
+        return self.answer
+
+    def get_last_retrieval_metadata(self, session_id: str):
+        self.metadata_session_id = session_id
+        return self.metadata
+
+    async def query_stream(self, question: str, session_id: str):
+        yield {"type": "complete", "data": None}
+
+
+@pytest.fixture()
+def competition_client(monkeypatch):
+    service = FakeRagAgentService()
+    config_module = SimpleNamespace(
+        config=SimpleNamespace(api_bearer_token="secret-token", debug=False)
+    )
+    service_module = SimpleNamespace(rag_agent_service=service)
+
+    monkeypatch.setitem(sys.modules, "app.config", config_module)
+    monkeypatch.setitem(sys.modules, "app.services.rag_agent_service", service_module)
+    sys.modules.pop("app.api.chat", None)
+
+    chat_module = importlib.import_module("app.api.chat")
+    monkeypatch.setattr(chat_module.time, "time", lambda: 1710000000)
+
+    app = FastAPI()
+    app.include_router(chat_module.competition_router)
+    with TestClient(app) as client:
+        yield client, service
+
+    sys.modules.pop("app.api.chat", None)
+
+
+def auth_headers() -> dict[str, str]:
+    return {"Authorization": "Bearer secret-token"}
+
+
+def test_competition_chat_omits_metadata_when_empty(competition_client):
+    client, service = competition_client
+    service.metadata = {}
+
+    response = client.post(
+        "/chat",
+        json={"question": "hello", "session_id": "session-a", "stream": False},
+        headers=auth_headers(),
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body == {
+        "code": 0,
+        "msg": "success",
+        "data": {
+            "answer": "compat answer",
+            "session_id": "session-a",
+            "timestamp": 1710000000,
+        },
+    }
+    assert "metadata" not in body["data"]
+    assert service.calls == [("hello", "session-a")]
+    assert service.metadata_session_id == "session-a"
+
+
+def test_competition_chat_includes_only_summary_metadata(competition_client):
+    client, service = competition_client
+    service.metadata = {
+        "intent": "procedure",
+        "doc_id": "manual-1",
+        "retrieval_stage": "hybrid_search",
+        "intent_strategy": "hybrid",
+        "recall_channels": ["vector", "bm25"],
+        "reranker_provider": "lexical",
+        "reranker_fallback": True,
+        "timeout": False,
+        "degraded": True,
+        "top_hits": [
+            {
+                "chunk_id": "chunk-1",
+                "score": 0.91,
+                "channels": ["vector"],
+                "trace": {"raw_score": 123},
+            }
+        ],
+        "warnings": ["fallback used"],
+        "trace": {"raw_query": "secret"},
+        "request_id": "retrieval-secret",
+        "query": "secret",
+        "diagnostics": {"raw_candidates": []},
+    }
+
+    response = client.post(
+        "/chat",
+        json={"question": "how to install", "session_id": "session-b"},
+        headers=auth_headers(),
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["data"]["answer"] == "compat answer"
+    assert body["data"]["session_id"] == "session-b"
+    assert body["data"]["timestamp"] == 1710000000
+    assert body["data"]["metadata"] == {
+        "intent": "procedure",
+        "doc_id": "manual-1",
+        "retrieval_stage": "hybrid_search",
+        "intent_strategy": "hybrid",
+        "recall_channels": ["vector", "bm25"],
+        "reranker_provider": "lexical",
+        "reranker_fallback": True,
+        "timeout": False,
+        "degraded": True,
+        "top_hits": [
+            {"chunk_id": "chunk-1", "score": 0.91, "channels": ["vector"]}
+        ],
+        "warnings": ["fallback used"],
+    }
+    assert "trace" not in body["data"]["metadata"]
+    assert "request_id" not in body["data"]["metadata"]
+    assert "query" not in body["data"]["metadata"]
+
+
+def test_competition_chat_accepts_legacy_request_aliases_and_images(competition_client):
+    client, service = competition_client
+
+    response = client.post(
+        "/chat",
+        json={
+            "Question": "  legacy question  ",
+            "Id": "legacy-session",
+            "images": ["data:image/png;base64,AAAA"],
+            "stream": False,
+            "ignored": "still ignored",
+        },
+        headers=auth_headers(),
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["data"]["answer"] == "compat answer"
+    assert body["data"]["session_id"] == "legacy-session"
+    assert body["data"]["timestamp"] == 1710000000
+    assert service.calls == [("legacy question", "legacy-session")]
+
+
+def test_competition_chat_keeps_auth_and_question_validation(competition_client):
+    client, _ = competition_client
+
+    missing_auth = client.post("/chat", json={"question": "hello"})
+    invalid_auth = client.post(
+        "/chat",
+        json={"question": "hello"},
+        headers={"Authorization": "Bearer wrong"},
+    )
+    blank_question = client.post(
+        "/chat",
+        json={"question": "   "},
+        headers=auth_headers(),
+    )
+
+    assert missing_auth.status_code == 401
+    assert invalid_auth.status_code == 401
+    assert blank_question.status_code == 422

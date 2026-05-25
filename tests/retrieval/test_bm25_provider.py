@@ -1,0 +1,174 @@
+from __future__ import annotations
+
+import sys
+from dataclasses import dataclass, field
+from types import ModuleType, SimpleNamespace
+from typing import Any
+
+from app.retrieval import bm25_provider
+from app.retrieval.bm25_provider import JiebaBM25Provider
+
+
+@dataclass
+class Result:
+    id: str
+    content: str = ""
+    score: float = 0.0
+    metadata: dict[str, object] = field(default_factory=dict)
+
+
+class FakeBM25Okapi:
+    def __init__(self, corpus: list[list[str]]) -> None:
+        self.corpus = corpus
+
+    def get_scores(self, query_tokens: list[str]) -> list[float]:
+        query_terms = set(query_tokens)
+        return [
+            float(sum(1 for token in document if token in query_terms))
+            for document in self.corpus
+        ]
+
+
+def whitespace_tokenizer(text: str) -> list[str]:
+    return text.split()
+
+
+def make_provider() -> JiebaBM25Provider:
+    return JiebaBM25Provider(tokenizer=whitespace_tokenizer, bm25_factory=FakeBM25Okapi)
+
+
+def test_build_and_search_returns_positive_bm25_hits() -> None:
+    provider = make_provider()
+    docs = [
+        Result(
+            "chunk-1",
+            "battery install battery",
+            metadata={
+                "chunk_id": "chunk-1",
+                "doc_id": "manual-a",
+                "retrieval_tier": "primary",
+                "chunk_type": "procedure",
+            },
+        ),
+        Result(
+            "chunk-2",
+            metadata={
+                "chunk_id": "chunk-2",
+                "text": "battery safety",
+                "title": "Safety",
+                "section_path": ["Operations", "Battery"],
+                "index_text": "ppe checklist",
+            },
+        ),
+        Result("empty", metadata={"chunk_id": "empty"}),
+    ]
+
+    provider.build_index(docs)
+    results = provider.search("battery", top_k=2)
+
+    assert [result.id for result in results] == ["chunk-1", "chunk-2"]
+    assert results[0] is docs[0]
+    assert results[0].score == 2.0
+    assert provider.document_count == 3
+
+
+def test_search_filters_by_doc_id() -> None:
+    provider = make_provider()
+    provider.build_index(
+        [
+            Result("manual-a", "battery", metadata={"doc_id": "manual-a"}),
+            Result("manual-b", "battery", metadata={"doc_id": "manual-b"}),
+        ]
+    )
+
+    results = provider.search("battery", top_k=5, doc_id="manual-b")
+
+    assert [result.id for result in results] == ["manual-b"]
+
+
+def test_search_filters_by_tier_and_chunk_type() -> None:
+    provider = make_provider()
+    provider.build_index(
+        [
+            Result(
+                "procedure-primary",
+                "battery",
+                metadata={"retrieval_tier": "primary", "chunk_type": "procedure"},
+            ),
+            Result(
+                "overview-support",
+                "battery",
+                metadata={"retrieval_tier": "support", "chunk_type": "overview"},
+            ),
+            Result(
+                "legal-primary",
+                "battery",
+                metadata={"retrieval_tier": "primary", "chunk_type": "legal"},
+            ),
+        ]
+    )
+
+    results = provider.search(
+        "battery",
+        top_k=5,
+        retrieval_tiers=["primary"],
+        chunk_types=["procedure"],
+    )
+
+    assert [result.id for result in results] == ["procedure-primary"]
+
+
+def test_search_without_build_returns_empty() -> None:
+    provider = make_provider()
+
+    assert provider.search("battery", top_k=3) == []
+
+
+def test_init_bm25_provider_registers_provider(monkeypatch: Any) -> None:
+    docs = [Result("chunk-1", "battery")]
+    registered: list[object] = []
+
+    class FakeProvider:
+        def __init__(self) -> None:
+            self.docs: list[Result] = []
+            self.document_count = 0
+
+        def build_index(self, all_results: list[Result]) -> None:
+            self.docs = list(all_results)
+            self.document_count = len(self.docs)
+
+    recall_module = ModuleType("app.retrieval.recall")
+    recall_module.set_bm25_provider = registered.append  # type: ignore[attr-defined]
+    vector_module = ModuleType("app.services.vector_search_service")
+    vector_module.vector_search_service = SimpleNamespace(  # type: ignore[attr-defined]
+        query_all_documents=lambda: docs
+    )
+    monkeypatch.setitem(sys.modules, "app.retrieval.recall", recall_module)
+    monkeypatch.setitem(sys.modules, "app.services.vector_search_service", vector_module)
+    monkeypatch.setattr(bm25_provider, "JiebaBM25Provider", FakeProvider)
+
+    bm25_provider.init_bm25_provider()
+
+    assert isinstance(registered[-1], FakeProvider)
+    assert registered[-1].docs == docs
+
+
+def test_init_bm25_provider_failure_clears_provider_and_does_not_raise(
+    monkeypatch: Any,
+    caplog: Any,
+) -> None:
+    registered: list[object | None] = []
+
+    recall_module = ModuleType("app.retrieval.recall")
+    recall_module.set_bm25_provider = registered.append  # type: ignore[attr-defined]
+    vector_module = ModuleType("app.services.vector_search_service")
+    vector_module.vector_search_service = SimpleNamespace(  # type: ignore[attr-defined]
+        query_all_documents=lambda: (_ for _ in ()).throw(RuntimeError("boom"))
+    )
+    monkeypatch.setitem(sys.modules, "app.retrieval.recall", recall_module)
+    monkeypatch.setitem(sys.modules, "app.services.vector_search_service", vector_module)
+
+    bm25_provider.init_bm25_provider()
+
+    assert registered == [None]
+    assert "BM25 provider initialization failed" in caplog.text
