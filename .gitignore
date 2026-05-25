@@ -115,3 +115,7 @@ dmypy.json
 
 # Ruff
 .ruff_cache/
+
+plan/
+..ai_agent_competition_main_view/
+*.pdf
