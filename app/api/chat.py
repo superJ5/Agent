@@ -5,21 +5,21 @@ from __future__ import annotations
 import json
 import time
 import uuid
-from typing import Annotated
+from typing import Annotated, Any
 
 from fastapi import APIRouter, Header, HTTPException, status
-from sse_starlette.sse import EventSourceResponse
 from loguru import logger
+from sse_starlette.sse import EventSourceResponse
 
 from app.config import config
 from app.models.request import ChatRequest, ClearRequest
 from app.models.response import (
     ApiResponse,
     SessionInfoResponse,
+    sanitize_summary_metadata,
 )
 from app.services.memory_service import memory_service
 from app.services.rag_agent_service import rag_agent_service
-
 
 router = APIRouter()
 competition_router = APIRouter()
@@ -53,15 +53,24 @@ def _require_bearer_token(authorization: str | None) -> None:
         )
 
 
-def _competition_success_payload(answer: str, session_id: str) -> dict:
+def _competition_success_payload(
+    answer: str,
+    session_id: str,
+    metadata: dict[str, Any] | None = None,
+) -> dict:
+    data: dict[str, Any] = {
+        "answer": answer,
+        "session_id": session_id,
+        "timestamp": int(time.time()),
+    }
+    safe_metadata = sanitize_summary_metadata(metadata)
+    if safe_metadata:
+        data["metadata"] = safe_metadata
+
     return {
         "code": 0,
         "msg": "success",
-        "data": {
-            "answer": answer,
-            "session_id": session_id,
-            "timestamp": int(time.time()),
-        },
+        "data": data,
     }
 
 
@@ -254,8 +263,9 @@ async def competition_chat(
                 "status": "success",
             },
         )
+        metadata = rag_agent_service.get_last_retrieval_metadata(session_id)
         logger.info(f"[会话 {session_id}] 比赛标准对话完成")
-        return _competition_success_payload(answer, session_id)
+        return _competition_success_payload(answer, session_id, metadata=metadata)
     except HTTPException:
         raise
     except Exception as exc:
@@ -371,7 +381,7 @@ async def clear_session(request: ClearRequest):
 
     except Exception as exc:
         logger.error(f"清空会话错误: {exc}")
-        raise HTTPException(status_code=500, detail=str(exc))
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
 @router.get("/chat/session/{session_id}", response_model=SessionInfoResponse)
@@ -388,4 +398,4 @@ async def get_session_info(session_id: str) -> SessionInfoResponse:
 
     except Exception as exc:
         logger.error(f"获取会话信息错误: {exc}")
-        raise HTTPException(status_code=500, detail=str(exc))
+        raise HTTPException(status_code=500, detail=str(exc)) from exc

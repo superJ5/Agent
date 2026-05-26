@@ -10,37 +10,83 @@ from __future__ import annotations
 
 import argparse
 import json
-from datetime import datetime, timezone
+import sys
+from collections.abc import Iterable, Sequence
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Iterable, Sequence
+from typing import Any
 
-from app.config import config
-from app.services.vector_search_service import SearchResult, vector_search_service
-from app.tools.knowledge_tool import (
-    INTENT_STAGE_CONFIG,
-    detect_intent,
-    deduplicate_results,
-    expand_queries,
-    extract_query_terms,
-    fetch_support_hits,
-    filter_results_to_active_docs,
-    infer_doc_id,
-    is_strong_hit,
-    lexical_score,
-    merge_ranked_results,
-    normalize_text,
-    post_filter_results,
-    query_critical_term_groups,
-    rerank_results,
-    reset_profile_caches,
-    resolve_chunk_types,
-    should_scan_stage,
-    trim_results_for_intent,
-)
-
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 DEFAULT_OUTPUT_DIR = Path("./reports/retrieval_traces")
 DEFAULT_TOP_K = 5
+_PIPELINE_DEPENDENCIES_LOADED = False
+_KNOWLEDGE_TOOL_SYMBOLS = (
+    "INTENT_STAGE_CONFIG",
+    "deduplicate_results",
+    "detect_intent",
+    "expand_queries",
+    "extract_query_terms",
+    "fetch_support_hits",
+    "filter_results_to_active_docs",
+    "infer_doc_id",
+    "is_strong_hit",
+    "lexical_score",
+    "merge_ranked_results",
+    "normalize_text",
+    "post_filter_results",
+    "query_critical_term_groups",
+    "rerank_results",
+    "reset_profile_caches",
+    "resolve_chunk_types",
+    "should_scan_stage",
+    "trim_results_for_intent",
+)
+
+SearchResult = Any
+vector_search_service: Any = None
+INTENT_STAGE_CONFIG: Any = None
+deduplicate_results: Any = None
+detect_intent: Any = None
+expand_queries: Any = None
+extract_query_terms: Any = None
+fetch_support_hits: Any = None
+filter_results_to_active_docs: Any = None
+infer_doc_id: Any = None
+is_strong_hit: Any = None
+lexical_score: Any = None
+merge_ranked_results: Any = None
+normalize_text: Any = None
+post_filter_results: Any = None
+query_critical_term_groups: Any = None
+rerank_results: Any = None
+reset_profile_caches: Any = None
+resolve_chunk_types: Any = None
+should_scan_stage: Any = None
+trim_results_for_intent: Any = None
+
+
+def _load_pipeline_dependencies() -> None:
+    global SearchResult, _PIPELINE_DEPENDENCIES_LOADED, vector_search_service
+
+    if _PIPELINE_DEPENDENCIES_LOADED:
+        return
+
+    from app.config import config as app_config
+    from app.services.vector_search_service import (
+        SearchResult as search_result_cls,
+        vector_search_service as loaded_vector_search_service,
+    )
+    from app.tools import knowledge_tool
+
+    _ = app_config
+    SearchResult = search_result_cls
+    vector_search_service = loaded_vector_search_service
+    for symbol in _KNOWLEDGE_TOOL_SYMBOLS:
+        globals()[symbol] = getattr(knowledge_tool, symbol)
+    _PIPELINE_DEPENDENCIES_LOADED = True
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -74,10 +120,23 @@ def main() -> None:
     if not cases:
         raise SystemExit("No queries provided. Use --query or --queries-file.")
 
-    reset_profile_caches()
     output_dir = Path(args.output_dir).resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    try:
+        _load_pipeline_dependencies()
+    except Exception as exc:
+        write_trace_report(
+            output_dir=output_dir,
+            rows=build_blocked_rows(
+                cases=cases,
+                forced_doc_id=args.doc_id,
+                error=exc,
+            ),
+        )
+        return
+
+    reset_profile_caches()
     rows = [
         trace_case(
             case=case,
@@ -86,9 +145,13 @@ def main() -> None:
         )
         for case in cases
     ]
+    write_trace_report(output_dir=output_dir, rows=rows)
+
+
+def write_trace_report(output_dir: Path, rows: list[dict[str, Any]]) -> None:
     summary = build_summary(rows)
     payload = {
-        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "generated_at": datetime.now(UTC).isoformat(),
         "summary": summary,
         "cases": rows,
     }
@@ -110,6 +173,47 @@ def main() -> None:
             indent=2,
         )
     )
+
+
+def build_blocked_rows(
+    cases: Sequence[dict[str, Any]],
+    forced_doc_id: str | None,
+    error: Exception,
+) -> list[dict[str, Any]]:
+    error_text = f"{type(error).__name__}: {error}"
+    return [
+        {
+            "case_id": case.get("case_id"),
+            "query": str(case.get("query") or ""),
+            "intent": None,
+            "inferred_doc_id": None,
+            "effective_doc_id": forced_doc_id or case.get("doc_id"),
+            "query_terms": [],
+            "query_variants": [],
+            "selected_stage": "blocked",
+            "status": "blocked",
+            "error": error_text,
+            "evaluation": {
+                "expected_chunk_ids": [
+                    str(item) for item in (case.get("expected_chunk_ids") or [])
+                ],
+                "expected_terms": [str(item) for item in (case.get("expected_terms") or [])],
+                "expected_pic_ids": [
+                    str(item) for item in (case.get("expected_pic_ids") or [])
+                ],
+                "expected_in_final_top3": False,
+                "expected_in_support": False,
+                "expected_terms_in_top3": {},
+                "pic_hit": False,
+                "failure_hypothesis": "blocked_pipeline_dependencies_unavailable",
+            },
+            "stage_traces": [],
+            "fallback_trace": None,
+            "final_hits": [],
+            "support_hits": [],
+        }
+        for case in cases
+    ]
 
 
 def load_cases(args: argparse.Namespace) -> list[dict[str, Any]]:
@@ -301,8 +405,9 @@ def trace_stage(
     should_scan = should_scan_stage(post_filtered, query_terms, intent)
     scan_triggered = bool(should_scan or critical_groups)
     scan_hits: list[SearchResult] = []
+    scan_candidate_count = 0
     if scan_triggered:
-        scan_hits = run_scan_for_trace(
+        scan_hits, scan_candidate_count = run_scan_for_trace(
             query=query,
             query_terms=query_terms,
             intent=intent,
@@ -345,6 +450,7 @@ def trace_stage(
             "weak_vector_hit": should_scan,
             "critical_term_groups": bool(critical_groups),
         },
+        "scan_candidate_count": scan_candidate_count,
         "scan_top_hits": [
             hit_to_payload(hit, query, query_terms, intent, prefer_support=prefer_support)
             for hit in scan_hits[:top_k]
@@ -365,7 +471,7 @@ def trace_fallback_full_collection(
     doc_id: str | None,
     top_k: int,
 ) -> tuple[dict[str, Any], list[SearchResult]]:
-    hits = run_scan_for_trace(
+    hits, scan_candidate_count = run_scan_for_trace(
         query=query,
         query_terms=query_terms,
         intent=intent,
@@ -380,6 +486,7 @@ def trace_fallback_full_collection(
         "tiers": ["primary", "support", "auxiliary"],
         "families": None,
         "resolved_chunk_types": None,
+        "scan_candidate_count": scan_candidate_count,
         "scan_top_hits": [hit_to_payload(hit, query, query_terms, intent) for hit in hits[:top_k]],
     }, hits[:top_k]
 
@@ -393,14 +500,14 @@ def run_scan_for_trace(
     chunk_types: Sequence[str] | None,
     top_k: int,
     prefer_support: bool,
-) -> list[SearchResult]:
+) -> tuple[list[SearchResult], int]:
+    raw_scanned = vector_search_service.query_all_documents(
+        doc_id=doc_id,
+        retrieval_tiers=list(tiers) if tiers else None,
+        chunk_types=list(chunk_types) if chunk_types else None,
+    )
     scanned = filter_results_to_active_docs(
-        vector_search_service.query_documents(
-            doc_id=doc_id,
-            retrieval_tiers=list(tiers) if tiers else None,
-            chunk_types=list(chunk_types) if chunk_types else None,
-            limit=max(top_k * 10, 64),
-        ),
+        raw_scanned,
         scoped_doc_id=doc_id,
     )
     reranked = rerank_results(
@@ -410,7 +517,7 @@ def run_scan_for_trace(
         intent=intent,
         prefer_support=prefer_support,
     )
-    return post_filter_results(reranked, intent=intent, query_terms=query_terms)[:top_k]
+    return post_filter_results(reranked, intent=intent, query_terms=query_terms)[:top_k], len(raw_scanned)
 
 
 def hit_to_payload(
@@ -559,15 +666,17 @@ def diagnose_failure(
 
 
 def build_summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    blocked_count = sum(1 for row in rows if row.get("status") == "blocked")
     return {
         "case_count": len(rows),
+        "blocked_count": blocked_count,
         "expected_top3_hits": sum(
-            1 for row in rows if row["evaluation"]["expected_in_final_top3"]
+            1 for row in rows if row.get("evaluation", {}).get("expected_in_final_top3")
         ),
         "term_top3_full_hits": sum(
             1
             for row in rows
-            if row["evaluation"]["expected_terms_in_top3"]
+            if row.get("evaluation", {}).get("expected_terms_in_top3")
             and all(row["evaluation"]["expected_terms_in_top3"].values())
         ),
         "stage_counts": count_values(row.get("selected_stage") for row in rows),
@@ -596,6 +705,7 @@ def render_markdown(payload: dict[str, Any]) -> str:
         "## Summary",
         "",
         f"- Cases: `{payload['summary']['case_count']}`",
+        f"- Blocked: `{payload['summary'].get('blocked_count', 0)}`",
         f"- Expected chunk H@3: `{payload['summary']['expected_top3_hits']}`",
         f"- Stage counts: `{payload['summary']['stage_counts']}`",
         f"- Intent counts: `{payload['summary']['intent_counts']}`",
@@ -606,6 +716,7 @@ def render_markdown(payload: dict[str, Any]) -> str:
 
     for row in rows:
         top1 = (row.get("final_hits") or [{}])[0]
+        top1_text = "not run" if row.get("status") == "blocked" else f"{top1.get('chunk_id')} / {top1.get('title')}"
         lines.append(
             "| {case_id} | {query} | {intent} | {doc} | {stage} | {top1} | {why} |".format(
                 case_id=escape(row.get("case_id")),
@@ -613,7 +724,7 @@ def render_markdown(payload: dict[str, Any]) -> str:
                 intent=escape(row.get("intent")),
                 doc=escape(row.get("effective_doc_id")),
                 stage=escape(row.get("selected_stage")),
-                top1=escape(f"{top1.get('chunk_id')} / {top1.get('title')}"),
+                top1=escape(top1_text),
                 why=escape(row["evaluation"]["failure_hypothesis"]),
             )
         )
@@ -641,6 +752,16 @@ def render_case_detail(row: dict[str, Any]) -> list[str]:
         "",
     ]
 
+    if row.get("status") == "blocked":
+        lines.extend(
+            [
+                f"- Status: `{escape(row.get('status'))}`",
+                f"- Error: `{escape(row.get('error'))}`",
+                "- Trace execution: blocked before retrieval; no vector, scan, or rerank stages were run.",
+                "",
+            ]
+        )
+
     for stage in row.get("stage_traces") or []:
         lines.extend(
             [
@@ -652,6 +773,7 @@ def render_case_detail(row: dict[str, Any]) -> list[str]:
                 f"- Vector deduped count: `{stage.get('vector_deduped_count')}`",
                 f"- Post-filter count: `{stage.get('post_filter_count')}`",
                 f"- Scan triggered: `{stage.get('scan_triggered')}` / `{escape(stage.get('scan_reason'))}`",
+                f"- Scan candidate count: `{stage.get('scan_candidate_count')}`",
                 f"- Strong hit: `{stage.get('strong_hit')}`",
                 f"- Decision: `{escape(stage.get('decision'))}`",
                 "",
@@ -670,6 +792,8 @@ def render_case_detail(row: dict[str, Any]) -> list[str]:
 
     if row.get("fallback_trace"):
         lines.extend(["", "#### Fallback Full Collection", ""])
+        lines.append(f"- Scan candidate count: `{row['fallback_trace'].get('scan_candidate_count')}`")
+        lines.append("")
         lines.extend(render_hits_table(row["fallback_trace"].get("scan_top_hits") or []))
 
     lines.extend(["", "Final hits:"])

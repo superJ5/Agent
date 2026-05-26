@@ -4,7 +4,9 @@
 支持真正的流式输出和更好的模型适配。
 """
 
-from typing import Annotated, Any, AsyncGenerator, Dict, Sequence
+import re
+from collections.abc import AsyncGenerator, Sequence
+from typing import Annotated, Any
 
 from langchain.agents import create_agent
 from langchain_core.messages import (
@@ -14,17 +16,21 @@ from langchain_core.messages import (
     RemoveMessage,
     SystemMessage,
 )
+from langchain_qwq import ChatQwen
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph.message import REMOVE_ALL_MESSAGES, add_messages
 from loguru import logger
 from typing_extensions import TypedDict
-from langchain_qwq import ChatQwen
 
+from app.agent.mcp_client import get_mcp_client_with_retry
 from app.config import config
+from app.models.response import sanitize_summary_metadata
 from app.services.memory_service import memory_service
 from app.services.multimodal_message_builder import build_user_message
 from app.tools import get_current_time, memory_search, retrieve_knowledge
-from app.agent.mcp_client import get_mcp_client_with_retry
+
+EMPTY_IMAGE_ALT_RE = re.compile(r"!\[\]\(([^)]+)\)")
+PIC_ID_IN_PATH_RE = re.compile(r"([A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+)")
 
 # 阿里千问大模型和langchain集成参考： https://docs.langchain.com/oss/python/integrations/chat/qwen
 # 注意：需要配置环境变量 DASHSCOPE_API_BASE=https://dashscope.aliyuncs.com/compatible-mode/v1 否则默认访问的是新加坡站点
@@ -93,6 +99,7 @@ class RagAgentService:
         self.model = ChatQwen(
             model=self.model_name,
             api_key=config.dashscope_api_key,
+            base_url=config.dashscope_api_base,
             temperature=0.7,
             streaming=streaming,
         )
@@ -102,6 +109,7 @@ class RagAgentService:
 
         # MCP 客户端（延迟初始化，使用全局管理）
         self.mcp_tools: list = []
+        self._last_retrieval_metadata_by_session: dict[str, dict[str, Any] | None] = {}
 
         # 创建内存检查点（用于会话管理）
         self.checkpointer = MemorySaver()
@@ -159,7 +167,7 @@ class RagAgentService:
         """
         from textwrap import dedent
 
-        return dedent("""
+        prompt = dedent("""
             你是一个专业的AI助手，能够使用多种工具来帮助用户解决问题。
 
             工作原则:
@@ -188,6 +196,13 @@ class RagAgentService:
 
             请根据用户的问题，灵活使用可用工具，提供高质量的帮助。
         """).strip()
+        return (
+            prompt
+            + "\n\nImage output rules:\n"
+            + "- If an answer cites an image, use markdown with the picture id as the alt text: "
+            + "![Manual01_5](data/manuals/raw/.../Manual01_5.jpg).\n"
+            + "- Never use an empty image placeholder like ![](path)."
+        )
 
     def _build_effective_system_prompt(self) -> str:
         """Build system prompt with optional long-term memory context."""
@@ -262,6 +277,8 @@ class RagAgentService:
         """
         try:
             await self._initialize_agent()
+            self._last_retrieval_metadata_by_session[session_id] = None
+            self._clear_last_retrieval_metadata()
 
             image_count = len(images or [])
             logger.info(f"[会话 {session_id}] RAG Agent 收到查询（非流式）: {question}, images={image_count}")
@@ -283,9 +300,15 @@ class RagAgentService:
                 }
             }
 
+            if self.agent is None:
+                raise RuntimeError("Agent 未初始化")
+
             result = await self.agent.ainvoke(
                 input=agent_input,
                 config=config_dict,
+            )
+            self._last_retrieval_metadata_by_session[session_id] = (
+                self._read_last_retrieval_metadata()
             )
 
             # 提取最终答案
@@ -300,7 +323,7 @@ class RagAgentService:
                     logger.info(f"[会话 {session_id}] Agent 调用了工具: {tool_names}")
 
                 logger.info(f"[会话 {session_id}] RAG Agent 查询完成（非流式）")
-                return answer
+                return self._ensure_image_placeholders(str(answer))
 
             logger.warning(f"[会话 {session_id}] Agent 返回结果为空")
             return ""
@@ -309,12 +332,59 @@ class RagAgentService:
             logger.error(f"[会话 {session_id}] RAG Agent 查询失败（非流式）: {e}")
             raise
 
+    def get_last_retrieval_metadata(self, session_id: str) -> dict[str, Any] | None:
+        """Return the latest Summary-level retrieval diagnostics for one session."""
+        metadata = self._last_retrieval_metadata_by_session.get(session_id)
+        return dict(metadata) if metadata else None
+
+    @staticmethod
+    def _read_last_retrieval_metadata() -> dict[str, Any] | None:
+        try:
+            from app.tools.knowledge_tool import get_last_retrieval_metadata
+
+            metadata = get_last_retrieval_metadata()
+        except Exception as exc:
+            logger.debug(f"读取检索诊断摘要失败，忽略 metadata 扩展: {exc}")
+            return None
+
+        return sanitize_summary_metadata(metadata)
+
+    @staticmethod
+    def _clear_last_retrieval_metadata() -> None:
+        try:
+            from app.tools.knowledge_tool import clear_last_retrieval_metadata
+
+            clear_last_retrieval_metadata()
+        except Exception as exc:
+            logger.debug(f"清理检索诊断摘要失败，忽略 metadata 扩展: {exc}")
+
+    @staticmethod
+    def _ensure_image_placeholders(answer: str) -> str:
+        """Fill empty markdown image alt text with the picture id from the path."""
+
+        def replace_empty_alt(match: re.Match[str]) -> str:
+            image_path = match.group(1).strip()
+            pic_id = RagAgentService._pic_id_from_image_path(image_path)
+            if not pic_id:
+                return match.group(0)
+            return f"![{pic_id}]({image_path})"
+
+        return EMPTY_IMAGE_ALT_RE.sub(replace_empty_alt, answer)
+
+    @staticmethod
+    def _pic_id_from_image_path(image_path: str) -> str:
+        file_name = image_path.replace("\\", "/").split("/")[-1]
+        file_name = file_name.split("?", 1)[0].split("#", 1)[0]
+        stem = file_name.rsplit(".", 1)[0]
+        match = PIC_ID_IN_PATH_RE.search(stem)
+        return match.group(1) if match else stem
+
     async def query_stream(
         self,
         question: str,
         session_id: str,
         images: list[str] | None = None,
-    ) -> AsyncGenerator[Dict[str, Any], None]:
+    ) -> AsyncGenerator[dict[str, Any], None]:
         """
         流式处理用户问题（逐步返回答案片段）
 
@@ -330,6 +400,7 @@ class RagAgentService:
         """
         try:
             await self._initialize_agent()
+            self._clear_last_retrieval_metadata()
 
             image_count = len(images or [])
             logger.info(f"[会话 {session_id}] RAG Agent 收到查询（流式）: {question}, images={image_count}")
@@ -350,6 +421,9 @@ class RagAgentService:
                     "thread_id": session_id
                 }
             }
+
+            if self.agent is None:
+                raise RuntimeError("Agent 未初始化")
 
             async for token, metadata in self.agent.astream(
                 input=agent_input,
@@ -397,35 +471,35 @@ class RagAgentService:
         try:
             # 使用 checkpointer 的 get 方法获取最新的检查点
             config = {"configurable": {"thread_id": session_id}}
-            
+
             # 获取该 thread 的最新检查点
             checkpoint_tuple = self.checkpointer.get(config)
-            
+
             if not checkpoint_tuple:
                 logger.info(f"获取会话历史: {session_id}, 消息数量: 0")
                 return []
-            
+
             # checkpoint_tuple 可能是命名元组或普通元组，安全地提取 checkpoint
             # 通常第一个元素是 checkpoint 数据
             if hasattr(checkpoint_tuple, 'checkpoint'):
-                checkpoint_data = checkpoint_tuple.checkpoint  # type: ignore
+                checkpoint_data = checkpoint_tuple.checkpoint
             else:
                 # 如果是普通元组，第一个元素是 checkpoint
                 checkpoint_data = checkpoint_tuple[0] if checkpoint_tuple else {}
-            
+
             # 从检查点中提取消息
             messages = checkpoint_data.get("channel_values", {}).get("messages", [])
-            
+
             # 转换为前端需要的格式
             history = []
             for msg in messages:
                 # 跳过系统消息
                 if isinstance(msg, SystemMessage):
                     continue
-                    
+
                 role = "user" if isinstance(msg, HumanMessage) else "assistant"
                 content = msg.content if hasattr(msg, 'content') else str(msg)
-                
+
                 # 提取时间戳（如果有的话）
                 timestamp = getattr(msg, 'timestamp', None)
                 if timestamp:
@@ -441,10 +515,10 @@ class RagAgentService:
                         "content": content,
                         "timestamp": datetime.now().isoformat()
                     })
-            
+
             logger.info(f"获取会话历史: {session_id}, 消息数量: {len(history)}")
             return history
-            
+
         except Exception as e:
             logger.error(f"获取会话历史失败: {session_id}, 错误: {e}")
             return []
@@ -462,10 +536,10 @@ class RagAgentService:
         try:
             # 使用 checkpointer 的 delete_thread 方法删除该 thread 的所有检查点
             self.checkpointer.delete_thread(session_id)
-            
+
             logger.info(f"已清除会话历史: {session_id}")
             return True
-            
+
         except Exception as e:
             logger.error(f"清空会话历史失败: {session_id}, 错误: {e}")
             return False

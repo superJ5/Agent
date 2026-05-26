@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Sequence
+from typing import Any, Dict, Iterable, List, Sequence
 
 from loguru import logger
 from pymilvus import Collection
@@ -10,6 +10,9 @@ from pymilvus import Collection
 from app.core.milvus_client import milvus_manager
 from app.services.vector_embedding_service import vector_embedding_service
 from app.services.vector_store_manager import vector_store_manager
+
+
+METADATA_QUERY_BATCH_SIZE = 1000
 
 
 class SearchResult:
@@ -43,6 +46,44 @@ class VectorSearchService:
     def __init__(self):
         logger.info("VectorSearchService initialized")
 
+    @staticmethod
+    def _rows_to_search_results(rows: Iterable[dict[str, Any]]) -> List[SearchResult]:
+        """Convert Milvus query rows into search results."""
+        results: List[SearchResult] = []
+        for row in rows:
+            metadata = row.get("metadata", {}) or {}
+            content = metadata.get("text") or row.get("content") or ""
+            results.append(
+                SearchResult(
+                    id=row.get("id", ""),
+                    content=content,
+                    score=0.0,
+                    metadata=metadata,
+                )
+            )
+        return results
+
+    @staticmethod
+    def _close_query_iterator(iterator: Any) -> None:
+        close = getattr(iterator, "close", None)
+        if callable(close):
+            close()
+
+    def _build_query_expr(
+        self,
+        doc_id: str | None = None,
+        retrieval_tiers: str | Sequence[str] | None = None,
+        chunk_types: str | Sequence[str] | None = None,
+        chunk_ids: str | Sequence[str] | None = None,
+    ) -> str:
+        filter_expr = vector_store_manager.build_metadata_filter_expr(
+            doc_id=doc_id,
+            retrieval_tiers=retrieval_tiers,
+            chunk_types=chunk_types,
+            chunk_ids=chunk_ids,
+        )
+        return filter_expr or 'id != ""'
+
     def search_similar_documents(
         self,
         query: str,
@@ -74,7 +115,7 @@ class VectorSearchService:
             )
 
             search_params = {
-                "metric_type": "L2",
+                "metric_type": "COSINE",
                 "params": {"nprobe": 10},
             }
 
@@ -126,32 +167,19 @@ class VectorSearchService:
         """Query documents by metadata filters without vector similarity search."""
         try:
             collection: Collection = milvus_manager.get_collection()
-            filter_expr = vector_store_manager.build_metadata_filter_expr(
+            expr = self._build_query_expr(
                 doc_id=doc_id,
                 retrieval_tiers=retrieval_tiers,
                 chunk_types=chunk_types,
                 chunk_ids=chunk_ids,
             )
-            expr = filter_expr or 'id != ""'
 
             rows = collection.query(
                 expr=expr,
                 limit=limit,
                 output_fields=["id", "content", "metadata"],
             )
-
-            results: List[SearchResult] = []
-            for row in rows:
-                metadata = row.get("metadata", {}) or {}
-                content = metadata.get("text") or row.get("content") or ""
-                results.append(
-                    SearchResult(
-                        id=row.get("id", ""),
-                        content=content,
-                        score=0.0,
-                        metadata=metadata,
-                    )
-                )
+            results = self._rows_to_search_results(rows)
 
             logger.info(
                 "Metadata query finished: {} results, expr={}",
@@ -162,6 +190,83 @@ class VectorSearchService:
         except Exception as exc:
             logger.error(f"Metadata query failed: {exc}")
             raise RuntimeError(f"查询失败: {exc}") from exc
+
+    def query_all_documents(
+        self,
+        doc_id: str | None = None,
+        retrieval_tiers: str | Sequence[str] | None = None,
+        chunk_types: str | Sequence[str] | None = None,
+        chunk_ids: str | Sequence[str] | None = None,
+        batch_size: int = METADATA_QUERY_BATCH_SIZE,
+    ) -> List[SearchResult]:
+        """Query all documents matching metadata filters without vector similarity search."""
+        try:
+            collection: Collection = milvus_manager.get_collection()
+            expr = self._build_query_expr(
+                doc_id=doc_id,
+                retrieval_tiers=retrieval_tiers,
+                chunk_types=chunk_types,
+                chunk_ids=chunk_ids,
+            )
+            safe_batch_size = max(int(batch_size), 1)
+
+            query_iterator = getattr(collection, "query_iterator", None)
+            if callable(query_iterator):
+                iterator = None
+                results: List[SearchResult] = []
+                try:
+                    iterator = query_iterator(
+                        expr=expr,
+                        batch_size=safe_batch_size,
+                        limit=-1,
+                        output_fields=["id", "content", "metadata"],
+                    )
+                    while True:
+                        rows = iterator.next()
+                        if not rows:
+                            break
+                        results.extend(self._rows_to_search_results(rows))
+                finally:
+                    if iterator is not None:
+                        self._close_query_iterator(iterator)
+
+                logger.info(
+                    "Metadata full query finished: {} results, expr={}, batch_size={}",
+                    len(results),
+                    expr,
+                    safe_batch_size,
+                )
+                return results
+
+            logger.warning(
+                "Milvus query_iterator is unavailable; falling back to offset pagination."
+            )
+            results = []
+            offset = 0
+            while True:
+                rows = collection.query(
+                    expr=expr,
+                    limit=safe_batch_size,
+                    offset=offset,
+                    output_fields=["id", "content", "metadata"],
+                )
+                if not rows:
+                    break
+                results.extend(self._rows_to_search_results(rows))
+                if len(rows) < safe_batch_size:
+                    break
+                offset += len(rows)
+
+            logger.info(
+                "Metadata full query finished via pagination: {} results, expr={}, batch_size={}",
+                len(results),
+                expr,
+                safe_batch_size,
+            )
+            return results
+        except Exception as exc:
+            logger.error(f"Full metadata query failed: {exc}")
+            raise RuntimeError(f"Full metadata query failed: {exc}") from exc
 
 
 vector_search_service = VectorSearchService()
