@@ -45,6 +45,7 @@ poetry.lock
 .codebuddy/
 
 # Environment
+.env
 .env.local
 
 # Logs / Reports
@@ -119,3 +120,6 @@ dmypy.json
 plan/
 ..ai_agent_competition_main_view/
 *.pdf
+
+# Test reports
+report/
