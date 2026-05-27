@@ -45,7 +45,6 @@ poetry.lock
 .codebuddy/
 
 # Environment
-.env
 .env.local
 
 # Logs / Reports
