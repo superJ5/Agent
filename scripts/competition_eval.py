@@ -10,7 +10,11 @@
     # 方式一：一键全流程（初始化 → 启动 → 测试 → 输出）
     python scripts/competition_eval.py --pipeline
 
-    # 方式二：分步执行
+    # 方式二：一步到位（推荐 🎯）
+    # 如果服务未运行，会自动通过 make start 启动，等待就绪后再测试
+    python scripts/competition_eval.py --run --input data/question_public.csv --output data/submission.csv
+
+    # 方式三：分步执行
 
     # 第一步：环境初始化（安装依赖 + 启动 Milvus + 入库知识库）
     python scripts/competition_eval.py --init
@@ -220,6 +224,71 @@ def cmd_start():
     print("   手动启动: python -m uvicorn app.main:app --host 0.0.0.0 --port 9900")
 
 
+def _ensure_server_running(api_url: str, max_wait: int = 60) -> bool:
+    """
+    检查服务是否运行，如果未运行则自动通过 make start 启动。
+
+    Args:
+        api_url: API 地址
+        max_wait: 最大等待秒数
+
+    Returns:
+        bool: 服务是否就绪
+    """
+    import urllib.request
+    import urllib.error
+
+    # 从 api_url 提取 health 地址 (http://host:port/chat -> http://host:port/health)
+    health_url = api_url.rsplit("/", 1)[0] + "/health" if "/chat" in api_url else api_url + "/health"
+
+    # 先检查是否已在运行
+    try:
+        resp = urllib.request.urlopen(health_url, timeout=3)
+        if resp.status == 200:
+            return True
+    except Exception:
+        pass
+
+    print("=" * 60)
+    print("🚀 服务未运行，正在自动启动...")
+    print("=" * 60)
+
+    # 通过 make start 启动服务
+    make_path = _which("make")
+    if not make_path:
+        # 如果 make 不在 PATH 中，直接启动 uvicorn
+        venv_python = _get_venv_python()
+        log_file = DEFAULT_LOG_DIR / "server.log"
+        DEFAULT_LOG_DIR.mkdir(parents=True, exist_ok=True)
+        proc = subprocess.Popen(
+            [venv_python, "-m", "uvicorn", "app.main:app",
+             "--host", "0.0.0.0", "--port", "9900"],
+            cwd=PROJECT_ROOT,
+            stdout=open(log_file, "a", encoding="utf-8"),
+            stderr=subprocess.STDOUT,
+        )
+        print(f"   FastAPI 已启动 (PID: {proc.pid})")
+    else:
+        _run_cmd([make_path, "start"], cwd=PROJECT_ROOT, check=False, capture=True)
+
+    # 等待服务就绪
+    print(f"⏳ 等待服务就绪（最多 {max_wait} 秒）...")
+    for i in range(max_wait):
+        try:
+            resp = urllib.request.urlopen(health_url, timeout=3)
+            if resp.status == 200:
+                print(f"✅ 服务已就绪（耗时 {i + 1} 秒）")
+                return True
+        except Exception:
+            pass
+        if i % 5 == 4:
+            print(f"   等待中... [{i + 1}/{max_wait}]")
+        time.sleep(1)
+
+    print(f"❌ 服务启动超时（{max_wait} 秒），请检查日志: logs/server.log")
+    return False
+
+
 # ══════════════════════════════════════════════════════════════════════════
 # 第三步: 批量测试
 # ══════════════════════════════════════════════════════════════════════════
@@ -237,6 +306,10 @@ async def cmd_test(args):
     if not input_csv.exists():
         print(f"❌ 测试文件不存在: {input_csv}")
         print(f"   请指定正确的 --input 路径")
+        sys.exit(1)
+
+    # 确保服务在运行（如果未运行则自动启动）
+    if not _ensure_server_running(api_url):
         sys.exit(1)
 
     test_cases = _load_test_cases(input_csv)
@@ -665,14 +738,16 @@ def _run_cmd(cmd: list[str], cwd: Path | None = None, capture: bool = False,
 
 
 def _which(name: str) -> str | None:
-    """查找可执行文件路径"""
-    return os.pathsep.join(
-        p for p in (
-            _find_on_path(name)
-            or [_get_venv_python().rsplit("\\" if sys.platform == "win32" else "/", 1)[0]]
-        )
-        if p
-    ) or None
+    """查找可执行文件路径，返回第一个匹配的路径。"""
+    found = _find_on_path(name)
+    if found:
+        return found[0]
+    # 回退到虚拟环境目录
+    venv_dir = _get_venv_python().rsplit("\\" if sys.platform == "win32" else "/", 1)[0]
+    fallback = os.path.join(venv_dir, name)
+    if os.path.isfile(fallback) or os.path.isfile(fallback + ".exe"):
+        return fallback
+    return None
 
 
 def _find_on_path(name: str) -> list[str]:
@@ -716,7 +791,10 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 使用示例:
-  # 一键全流程
+  # 🎯 推荐：一步到位（自动启动服务+测试）
+  python scripts/competition_eval.py --run --input data/question_public.csv --output data/submission.csv
+
+  # 一键全流程（初始化→启动→测试→停止）
   python scripts/competition_eval.py --pipeline
 
   # 分步执行
@@ -737,14 +815,15 @@ def main():
     parser.add_argument("--pipeline", action="store_true", help="一键全流程（初始化→启动→测试→停止）")
     parser.add_argument("--init", action="store_true", help="初始化环境（安装依赖+启动Milvus+入库知识库）")
     parser.add_argument("--start", action="store_true", help="启动 FastAPI 服务")
-    parser.add_argument("--test", action="store_true", help="批量测试（读取 CSV → 调用 API → 输出 CSV）")
+    parser.add_argument("--test", action="store_true", help="批量测试（如果服务未运行则自动启动）")
+    parser.add_argument("--run", action="store_true", help="一键启动服务并执行测试（推荐）")
     parser.add_argument("--stop", action="store_true", help="停止 FastAPI 服务")
 
     # 测试参数
     parser.add_argument("--input", default=str(DEFAULT_INPUT_CSV), help=f"测试问题 CSV 路径（默认: {DEFAULT_INPUT_CSV}）")
     parser.add_argument("--output", default=str(DEFAULT_OUTPUT_CSV), help=f"提交答案 CSV 路径（默认: {DEFAULT_OUTPUT_CSV}）")
     parser.add_argument("--api-url", default=DEFAULT_API_URL, help=f"API 地址（默认: {DEFAULT_API_URL}）")
-    parser.add_argument("--token", default="sk-7102e3de117945928d99e398e6db3cfa", help="Bearer Token（默认）")
+    parser.add_argument("--token", default="", help="Bearer Token（默认）")
     parser.add_argument("--workers", type=int, default=8, help="并发数（默认: 1）")
     parser.add_argument("--timeout", type=int, default=30, help="单题超时秒数（默认: 30）")
 
@@ -752,7 +831,7 @@ def main():
 
     # 确定操作模式
     mode = None
-    for flag in ["pipeline", "init", "start", "test", "stop"]:
+    for flag in ["pipeline", "init", "start", "test", "run", "stop"]:
         if getattr(args, flag):
             mode = flag
             break
@@ -773,7 +852,7 @@ def main():
         cmd_init()
     elif mode == "start":
         cmd_start()
-    elif mode == "test":
+    elif mode in ("test", "run"):
         asyncio.run(cmd_test(args))
     elif mode == "stop":
         cmd_stop()
