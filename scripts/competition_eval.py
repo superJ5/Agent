@@ -105,12 +105,17 @@ def cmd_init():
     print("📦 [1/4] 检查 Python 虚拟环境...")
     print("=" * 60)
 
-    venv_python = _get_venv_python()
+    venv_path = _venv_python_path()
+    venv_python = str(venv_path) if venv_path.exists() else ""
     if not venv_python:
         print("⚠️   未检测到虚拟环境，是否创建？(y/n): ", end="")
         answer = input().strip().lower()
         if answer == "y":
-            _run_cmd([sys.executable, "-m", "venv", ".venv"])
+            uv_path = _which("uv")
+            if uv_path:
+                _run_cmd([uv_path, "venv"], cwd=PROJECT_ROOT)
+            else:
+                _run_cmd([sys.executable, "-m", "venv", ".venv"])
             print("✅ 虚拟环境已创建")
             venv_python = _get_venv_python()
         else:
@@ -713,16 +718,19 @@ def cmd_pipeline(args):
 
 def _get_venv_python() -> str:
     """获取虚拟环境的 Python 路径"""
-    if sys.platform == "win32":
-        venv_python = PROJECT_ROOT / ".venv" / "Scripts" / "python.exe"
-    else:
-        venv_python = PROJECT_ROOT / ".venv" / "bin" / "python"
-
+    venv_python = _venv_python_path()
     if venv_python.exists():
         return str(venv_python)
 
     # 回退到当前 Python
     return sys.executable
+
+
+def _venv_python_path() -> Path:
+    """获取项目虚拟环境的 Python 路径，不做系统 Python 回退。"""
+    if sys.platform == "win32":
+        return PROJECT_ROOT / ".venv" / "Scripts" / "python.exe"
+    return PROJECT_ROOT / ".venv" / "bin" / "python"
 
 
 def _load_token_from_env() -> str:

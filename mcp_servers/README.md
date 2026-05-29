@@ -28,7 +28,7 @@
 
 ### 安装依赖
 ```bash
-pip install fastmcp
+uv pip install fastmcp
 ```
 
 ### 启动服务
@@ -102,7 +102,7 @@ search_historical_tickets(
 **腾讯云 CLS：**
 ```bash
 # 安装 SDK
-pip install tencentcloud-sdk-python
+uv pip install tencentcloud-sdk-python
 
 # 配置环境变量
 export TENCENTCLOUD_SECRET_ID="your-id"
