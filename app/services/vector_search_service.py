@@ -116,7 +116,7 @@ class VectorSearchService:
 
             search_params = {
                 "metric_type": "COSINE",
-                "params": {"nprobe": 10},
+                "params": {"ef": 64},
             }
 
             search_kwargs: dict[str, Any] = {

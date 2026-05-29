@@ -8,6 +8,7 @@ SERVER_URL = http://localhost:9900
 UPLOAD_API = $(SERVER_URL)/api/upload
 HEALTH_CHECK_API = $(SERVER_URL)/health
 DOCS_DIR = aiops-docs
+MANUAL_CHUNKS_DIR = data/manuals/chunks
 MILVUS_CONTAINER = milvus-standalone
 DOCKER_COMPOSE := $(shell docker compose version >/dev/null 2>&1 && echo "docker compose" || echo "docker-compose")
 LOG_DIR = logs
@@ -25,7 +26,7 @@ RED = \033[0;31m
 CYAN = \033[0;36m
 NC = \033[0m
 
-.PHONY: help init start stop restart check upload clean up down status wait \
+.PHONY: help init start stop restart check upload index-manuals clean up down status wait \
         install install-dev dev run test test-quick format lint fix type-check \
         security pre-commit-install pre-commit check-all coverage docs shell \
         ipython watch add add-dev remove list-docs test-upload sync logs \
@@ -40,7 +41,7 @@ help:
 	@echo "$(GREEN)═══════════════════════════════════════════════════════$(NC)"
 	@echo ""
 	@echo "$(CYAN)【一键操作】$(NC)"
-	@echo "  $(YELLOW)make init$(NC)         - 🚀 一键初始化（Docker → 服务 → 上传文档）"
+	@echo "  $(YELLOW)make init$(NC)         - 🚀 一键初始化（Docker → 服务 → 手册入库）"
 	@echo ""
 	@echo "$(CYAN)【Docker 管理】$(NC)"
 	@echo "  $(YELLOW)make up$(NC)           - 🐳 启动 Milvus 容器"
@@ -67,9 +68,7 @@ help:
 	@echo "  $(YELLOW)make run$(NC)          - 🏭 生产模式运行（前台）"
 	@echo ""
 	@echo "$(CYAN)【文档管理】$(NC)"
-	@echo "  $(YELLOW)make upload$(NC)       - 📤 上传 docs 目录下的文档"
-	@echo "  $(YELLOW)make list-docs$(NC)    - 📚 列出可上传的文档"
-	@echo "  $(YELLOW)make test-upload$(NC)  - 🧪 测试上传单个文件"
+	@echo "  $(YELLOW)make index-manuals$(NC) - 📚 入库 data/manuals/chunks 手册知识库"
 	@echo ""
 	@echo "$(CYAN)【依赖管理】$(NC)"
 	@echo "  $(YELLOW)make install$(NC)      - 📦 安装生产依赖"
@@ -115,11 +114,11 @@ init:
 	@echo "$(YELLOW)步骤 3/4: 等待服务就绪$(NC)"
 	@$(MAKE) wait
 	@echo ""
-	@echo "$(YELLOW)步骤 4/4: 上传文档到向量数据库$(NC)"
-	@$(MAKE) upload
+	@echo "$(YELLOW)步骤 4/4: 手册知识库入库$(NC)"
+	@$(MAKE) index-manuals
 	@echo ""
 	@echo "$(GREEN)═══════════════════════════════════════════════════════$(NC)"
-	@echo "$(GREEN)✅ 初始化完成！所有文档已成功向量化存储到数据库$(NC)"
+	@echo "$(GREEN)✅ 初始化完成！手册知识库已成功向量化存储到数据库$(NC)"
 	@echo "$(GREEN)═══════════════════════════════════════════════════════$(NC)"
 	@echo ""
 	@echo "$(GREEN)🌐 服务访问地址:$(NC)"
@@ -463,6 +462,15 @@ run:
 # ============================================================
 # 文档管理
 # ============================================================
+
+# 入库手册知识库
+index-manuals:
+	@echo "$(YELLOW)📚 开始入库手册知识库: $(MANUAL_CHUNKS_DIR)$(NC)"
+	@if [ ! -d "$(MANUAL_CHUNKS_DIR)" ]; then \
+		echo "$(RED)❌ 目录 $(MANUAL_CHUNKS_DIR) 不存在！$(NC)"; \
+		exit 1; \
+	fi
+	.venv/bin/python scripts/index_manual_chunks.py --directory $(MANUAL_CHUNKS_DIR)
 
 # 上传所有文档
 upload:

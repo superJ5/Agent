@@ -8,24 +8,31 @@
 
 用法:
     # 方式一：一键全流程（初始化 → 启动 → 测试 → 输出）
+    # 会启动 Milvus 容器并重新执行手册入库，耗时更长，不建议日常反复跑。
     .venv/bin/python scripts/competition_eval.py --pipeline
 
-    # 方式二：一步到位（推荐 🎯）
-    # 如果服务未运行，会自动通过 make start 启动，等待就绪后再测试
+    # 方式二：一步到位测试
+    # 如果 FastAPI/MCP 服务未运行，会尝试自动启动服务后再跑测试。
+    # 但不会启动 Milvus 容器，也不会重新入库。
+    # 适合 Milvus 容器和知识库已经准备好时使用。
     .venv/bin/python scripts/competition_eval.py --run --input data/question_public.csv --output data/submission.csv
 
     # 方式三：分步执行
 
     # 第一步：环境初始化（安装依赖 + 启动 Milvus + 入库知识库）
+    # 通常只在首次部署、删除 biz、chunk 更新或索引类型变更后需要重新执行。
     .venv/bin/python scripts/competition_eval.py --init
 
     # 第二步：启动服务
+    # 只启动 FastAPI/MCP 服务，不启动 Milvus 容器，也不重新入库。
     .venv/bin/python scripts/competition_eval.py --start
 
     # 第三步：批量测试（传入问题 CSV，输出答案 CSV）
+    # 只跑评测；服务未运行会尝试 make start，但不会启动 Milvus 容器，也不会重新入库。
     .venv/bin/python scripts/competition_eval.py --test --input questions.csv --output submission.csv
 
     # 第四步：停止服务
+    # 停止 FastAPI/MCP 服务，不停止 Milvus 容器。
     .venv/bin/python scripts/competition_eval.py --stop
 
 参数:
@@ -35,7 +42,6 @@
     --token     Bearer Token（默认: 从 .env 读取）
     --workers   并发数（默认: 1；想快一点可改成 2/4/8，但太大容易超时）
     --timeout   单题超时秒数，文本 20s / 多模态 30s（默认: 30）
-    --skip-init 跳过初始化检查，直接测试
 
 运行指令参考：
 .venv/bin/python scripts/competition_eval.py --test --input data/question_public.csv --output data/submission.csv --workers 1
@@ -148,6 +154,8 @@ def cmd_init():
     print("\n" + "=" * 60)
     print("📚 [4/4] 入库手册知识库...")
     print("=" * 60)
+    print("说明：入库会读取 data/manuals/chunks/*.jsonl 并写入 Milvus biz。")
+    print("通常只有首次部署、删除 biz、chunk 更新或索引类型变更后才需要重新入库。")
 
     index_script = PROJECT_ROOT / "scripts" / "index_manual_chunks.py"
     if index_script.exists():
@@ -160,9 +168,9 @@ def cmd_init():
     print("✅ 环境初始化完成！")
     print("=" * 60)
     print("\n下一步: 启动服务")
-    print(f"  python scripts/competition_eval.py --start")
-    print("\n或者一键全流程:")
-    print(f"  python scripts/competition_eval.py --pipeline")
+    print("  .venv/bin/python scripts/competition_eval.py --start")
+    print("\n如果 Milvus 和知识库已经准备好，日常测试可直接运行:")
+    print("  .venv/bin/python scripts/competition_eval.py --test --input data/question_public.csv --output data/submission.csv")
 
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -245,7 +253,8 @@ def cmd_start():
 
 def _ensure_server_running(api_url: str, max_wait: int = 60) -> bool:
     """
-    检查服务是否运行，如果未运行则自动通过 make start 启动。
+    检查 FastAPI 服务是否运行，如果未运行则自动通过 make start 启动。
+    不负责启动 Milvus 容器，也不负责重新入库。
 
     Args:
         api_url: API 地址
@@ -813,16 +822,23 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 使用示例:
-  # 🎯 推荐：一步到位（自动启动服务+测试）
-  .venv/bin/python scripts/competition_eval.py --run --input data/question_public.csv --output data/submission.csv
-
-  # 一键全流程（初始化→启动→测试→停止）
+  # 方式一：一键全流程。会初始化/入库，耗时较长，不建议日常反复跑。
   .venv/bin/python scripts/competition_eval.py --pipeline
 
-  # 分步执行
+  # 方式二：一步到位测试。不会启动 Milvus 容器，也不会重新入库。
+  .venv/bin/python scripts/competition_eval.py --run --input data/question_public.csv --output data/submission.csv
+
+  # 方式三：分步执行
+  # --init 只在首次部署、删除 biz、chunk 更新或索引类型变更后需要跑。
   .venv/bin/python scripts/competition_eval.py --init
+
+  # --start 只启动 FastAPI/MCP 服务，不启动 Milvus 容器，不重新入库。
   .venv/bin/python scripts/competition_eval.py --start
+
+  # --test 只跑评测；服务未运行会尝试 make start，不启动 Milvus 容器，不重新入库。
   .venv/bin/python scripts/competition_eval.py --test --input data/test_questions.csv --output data/submission.csv
+
+  # --stop 停止 FastAPI/MCP 服务，不停止 Milvus 容器。
   .venv/bin/python scripts/competition_eval.py --stop
 
   # 并发数说明：
@@ -835,12 +851,12 @@ def main():
     )
 
     # 操作模式
-    parser.add_argument("--pipeline", action="store_true", help="一键全流程（初始化→启动→测试→停止）")
-    parser.add_argument("--init", action="store_true", help="初始化环境（安装依赖+启动Milvus+入库知识库）")
-    parser.add_argument("--start", action="store_true", help="启动 FastAPI 服务")
-    parser.add_argument("--test", action="store_true", help="批量测试（如果服务未运行则自动启动）")
-    parser.add_argument("--run", action="store_true", help="一键启动服务并执行测试（推荐）")
-    parser.add_argument("--stop", action="store_true", help="停止 FastAPI 服务")
+    parser.add_argument("--pipeline", action="store_true", help="全流程：初始化/入库→启动服务→测试→询问停止")
+    parser.add_argument("--init", action="store_true", help="初始化：安装依赖、启动 Milvus 容器并入库手册知识库")
+    parser.add_argument("--start", action="store_true", help="启动 FastAPI/MCP 服务；不启动 Milvus 容器，不入库")
+    parser.add_argument("--test", action="store_true", help="批量测试；服务未运行会尝试 make start，不启动 Milvus/不入库")
+    parser.add_argument("--run", action="store_true", help="确保服务启动后测试；不启动 Milvus 容器，不入库")
+    parser.add_argument("--stop", action="store_true", help="停止 FastAPI/MCP 服务；不停止 Milvus 容器")
 
     # 测试参数
     parser.add_argument("--input", default=str(DEFAULT_INPUT_CSV), help=f"测试问题 CSV 路径（默认: {DEFAULT_INPUT_CSV}）")
