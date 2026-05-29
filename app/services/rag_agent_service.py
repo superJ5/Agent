@@ -6,7 +6,7 @@
 
 import re
 from collections.abc import AsyncGenerator, Sequence
-from typing import Annotated, Any
+from typing import Annotated, Any, cast
 
 from langchain.agents import create_agent
 from langchain_core.messages import (
@@ -98,7 +98,7 @@ class RagAgentService:
 
         self.model = ChatQwen(
             model=self.model_name,
-            api_key=config.dashscope_api_key,
+            api_key=cast(Any, config.dashscope_api_key),
             base_url=config.dashscope_api_base,
             temperature=0.7,
             streaming=streaming,
@@ -181,6 +181,9 @@ class RagAgentService:
             2. 优先依据 retrieve_knowledge 返回的证据回答，不要在没有检索证据时直接猜测手册内容。
             3. 如果 retrieve_knowledge 没有找到可靠内容，要明确说明“当前检索到的信息不足”，而不是编造答案。
             4. 如果检索结果里带有图片标识（PIC）或配图信息，回答时要优先结合这些证据。
+            5. For manual-related English questions, call retrieve_knowledge first.
+            6. When calling retrieve_knowledge for English manual questions, pass a concise English search query.
+            7. Do not translate English questions into Chinese unless the user asks.
 
             记忆使用规则:
             1. 当用户询问之前说过什么、历史偏好、项目长期背景、已讨论方案时，可以调用 memory_search 查询历史记忆。
@@ -251,8 +254,8 @@ class RagAgentService:
     def _has_session_checkpoint(self, session_id: str) -> bool:
         """Return whether MemorySaver already has state for this session."""
         try:
-            checkpoint_tuple = self.checkpointer.get(
-                {"configurable": {"thread_id": session_id}}
+            checkpoint_tuple = cast(Any, self.checkpointer).get(
+                cast(Any, {"configurable": {"thread_id": session_id}})
             )
             return bool(checkpoint_tuple)
         except Exception:
@@ -473,7 +476,7 @@ class RagAgentService:
             config = {"configurable": {"thread_id": session_id}}
 
             # 获取该 thread 的最新检查点
-            checkpoint_tuple = self.checkpointer.get(config)
+            checkpoint_tuple = cast(Any, self.checkpointer).get(cast(Any, config))
 
             if not checkpoint_tuple:
                 logger.info(f"获取会话历史: {session_id}, 消息数量: 0")
@@ -481,14 +484,17 @@ class RagAgentService:
 
             # checkpoint_tuple 可能是命名元组或普通元组，安全地提取 checkpoint
             # 通常第一个元素是 checkpoint 数据
-            if hasattr(checkpoint_tuple, 'checkpoint'):
-                checkpoint_data = checkpoint_tuple.checkpoint
+            if hasattr(checkpoint_tuple, "checkpoint"):
+                checkpoint_data = cast(Any, checkpoint_tuple).checkpoint
             else:
                 # 如果是普通元组，第一个元素是 checkpoint
                 checkpoint_data = checkpoint_tuple[0] if checkpoint_tuple else {}
 
             # 从检查点中提取消息
-            messages = checkpoint_data.get("channel_values", {}).get("messages", [])
+            messages = cast(Any, checkpoint_data).get("channel_values", {}).get(
+                "messages",
+                [],
+            )
 
             # 转换为前端需要的格式
             history = []
