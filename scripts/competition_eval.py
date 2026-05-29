@@ -8,37 +8,37 @@
 
 用法:
     # 方式一：一键全流程（初始化 → 启动 → 测试 → 输出）
-    python scripts/competition_eval.py --pipeline
+    .venv/bin/python scripts/competition_eval.py --pipeline
 
     # 方式二：一步到位（推荐 🎯）
     # 如果服务未运行，会自动通过 make start 启动，等待就绪后再测试
-    python scripts/competition_eval.py --run --input data/question_public.csv --output data/submission.csv
+    .venv/bin/python scripts/competition_eval.py --run --input data/question_public.csv --output data/submission.csv
 
     # 方式三：分步执行
 
     # 第一步：环境初始化（安装依赖 + 启动 Milvus + 入库知识库）
-    python scripts/competition_eval.py --init
+    .venv/bin/python scripts/competition_eval.py --init
 
     # 第二步：启动服务
-    python scripts/competition_eval.py --start
+    .venv/bin/python scripts/competition_eval.py --start
 
     # 第三步：批量测试（传入问题 CSV，输出答案 CSV）
-    python scripts/competition_eval.py --test --input questions.csv --output submission.csv
+    .venv/bin/python scripts/competition_eval.py --test --input questions.csv --output submission.csv
 
     # 第四步：停止服务
-    python scripts/competition_eval.py --stop
+    .venv/bin/python scripts/competition_eval.py --stop
 
 参数:
     --input     测试问题 CSV 路径（默认: data/test_questions.csv）
     --output    提交答案 CSV 路径（默认: data/submission.csv）
     --api-url   API 地址（默认: http://localhost:9900/chat）
     --token     Bearer Token（默认: 从 .env 读取）
-    --workers   并发数（默认: 1，设为 >1 启用并发加速）
+    --workers   并发数（默认: 1；想快一点可改成 2/4/8，但太大容易超时）
     --timeout   单题超时秒数，文本 20s / 多模态 30s（默认: 30）
     --skip-init 跳过初始化检查，直接测试
 
 运行指令参考：
-python3 scripts/competition_eval.py --test --input data/question_public.csv --output data/submission.csv --workers 8
+.venv/bin/python scripts/competition_eval.py --test --input data/question_public.csv --output data/submission.csv --workers 1
 """
 
 from __future__ import annotations
@@ -68,6 +68,25 @@ DEFAULT_LOG_DIR = PROJECT_ROOT / "logs"
 DEFAULT_API_URL = "http://localhost:9900/chat"
 API_TIMEOUT_TEXT = 20       # 纯文本请求超时（秒）
 API_TIMEOUT_MULTIMODAL = 30  # 多模态请求超时（秒）
+
+
+def _reexec_in_venv_if_needed() -> None:
+    """如果用户误用系统 Python 运行脚本，自动切换到项目虚拟环境。"""
+    if sys.platform == "win32":
+        venv_python = PROJECT_ROOT / ".venv" / "Scripts" / "python.exe"
+    else:
+        venv_python = PROJECT_ROOT / ".venv" / "bin" / "python"
+
+    if not venv_python.exists():
+        return
+
+    current_python = Path(sys.executable).resolve()
+    target_python = venv_python.resolve()
+    if current_python == target_python:
+        return
+
+    print(f"🔁 当前使用的是 {current_python}，自动切换到虚拟环境 {target_python}")
+    os.execv(str(target_python), [str(target_python), *sys.argv])
 
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -299,7 +318,7 @@ async def cmd_test(args):
     output_csv = Path(args.output)
     api_url = args.api_url
     token = args.token or _load_token_from_env()
-    max_workers = args.workers
+    max_workers = max(1, args.workers)
     timeout = args.timeout
 
     # 读取测试问题
@@ -317,6 +336,7 @@ async def cmd_test(args):
     print(f"🔗 API: {api_url}")
     print(f"⚡ 并发: {max_workers}")
     print(f"⏱️  超时: {timeout}s")
+    print(f"💾 输出: 全部测试完成后写入 {output_csv}")
     print()
 
     # 执行测试
@@ -584,7 +604,7 @@ async def _run_batch_test(
     print("=" * 60)
     print()
 
-    semaphore = asyncio.Semaphore(max_workers)
+    semaphore = asyncio.Semaphore(max(1, max_workers))
 
     tasks = [
         _run_single_test(case, api_url, token, timeout, semaphore)
@@ -786,28 +806,31 @@ def _is_process_running(pid: int) -> bool:
 # ══════════════════════════════════════════════════════════════════════════
 
 def main():
+    _reexec_in_venv_if_needed()
+
     parser = argparse.ArgumentParser(
         description="🏆 多模态客服智能体 - 比赛评测工具",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 使用示例:
   # 🎯 推荐：一步到位（自动启动服务+测试）
-  python scripts/competition_eval.py --run --input data/question_public.csv --output data/submission.csv
+  .venv/bin/python scripts/competition_eval.py --run --input data/question_public.csv --output data/submission.csv
 
   # 一键全流程（初始化→启动→测试→停止）
-  python scripts/competition_eval.py --pipeline
+  .venv/bin/python scripts/competition_eval.py --pipeline
 
   # 分步执行
-  python scripts/competition_eval.py --init
-  python scripts/competition_eval.py --start
-  python scripts/competition_eval.py --test --input data/test_questions.csv --output data/submission.csv
-  python scripts/competition_eval.py --stop
+  .venv/bin/python scripts/competition_eval.py --init
+  .venv/bin/python scripts/competition_eval.py --start
+  .venv/bin/python scripts/competition_eval.py --test --input data/test_questions.csv --output data/submission.csv
+  .venv/bin/python scripts/competition_eval.py --stop
 
-  # 并发加速（8 线程）
-  python scripts/competition_eval.py --test --workers 8
+  # 并发数说明：
+  # --workers 1 最稳，逐题跑；--workers 2/4/8 会更快，但接口压力更大，可能更容易超时。
+  .venv/bin/python scripts/competition_eval.py --test --input data/question_public.csv --output data/submission.csv --workers 1
 
   # 指定 API 地址
-  python scripts/competition_eval.py --test --api-url http://192.168.1.100:9900/chat
+  .venv/bin/python scripts/competition_eval.py --test --api-url http://192.168.1.100:9900/chat
         """,
     )
 
@@ -824,7 +847,7 @@ def main():
     parser.add_argument("--output", default=str(DEFAULT_OUTPUT_CSV), help=f"提交答案 CSV 路径（默认: {DEFAULT_OUTPUT_CSV}）")
     parser.add_argument("--api-url", default=DEFAULT_API_URL, help=f"API 地址（默认: {DEFAULT_API_URL}）")
     parser.add_argument("--token", default="", help="Bearer Token（默认）")
-    parser.add_argument("--workers", type=int, default=8, help="并发数（默认: 1）")
+    parser.add_argument("--workers", type=int, default=1, help="并发数（默认: 1；可改 2/4/8 加速，但过大容易超时）")
     parser.add_argument("--timeout", type=int, default=30, help="单题超时秒数（默认: 30）")
 
     args = parser.parse_args()

@@ -41,6 +41,10 @@ class MemoryService:
         metadata: dict[str, Any] | None = None,
     ) -> None:
         """Append one chat message to ``sessions/<session_id>.jsonl``."""
+        if not config.memory_write_enabled:
+            logger.debug("跳过会话记忆写入: MEMORY_WRITE_ENABLED=false")
+            return
+
         try:
             self.sessions_dir.mkdir(parents=True, exist_ok=True)
             record = {
@@ -116,6 +120,10 @@ class MemoryService:
 
     def append_daily_note(self, text: str) -> None:
         """Append one line to today's daily memory note."""
+        if not config.memory_write_enabled:
+            logger.debug("跳过每日记忆写入: MEMORY_WRITE_ENABLED=false")
+            return
+
         note = str(text or "").strip()
         if not note:
             return
