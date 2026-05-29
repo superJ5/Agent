@@ -123,8 +123,34 @@ def test_analyze_query_none_records_trace_and_extracts_terms():
     assert analysis.intent_candidates == []
     assert analysis.doc_candidates == []
     assert [term.term for term in analysis.query_terms] == ["battery", "install"]
+    assert analysis.language == "en"
+    assert diagnostics.trace["query_understanding"]["language"] == "en"
     assert diagnostics.trace["query_understanding"]["enabled_strategies"] == []
     assert diagnostics.trace["query_understanding"]["analysis"]["strategy"] == "none"
+
+
+def test_analyze_query_records_language_trace():
+    english_diagnostics = RetrievalDiagnostics(request_id="req-en")
+
+    assert qu.detect_lang("How to install the battery pack?") == "en"
+    qu.analyze_query("How to install the battery pack?", options("none"), english_diagnostics)
+
+    english_trace = english_diagnostics.trace["query_understanding"]
+    assert english_trace["language"] == "en"
+    assert english_trace["analysis"]["language"] == "en"
+
+    chinese_diagnostics = RetrievalDiagnostics(request_id="req-zh")
+
+    assert qu.detect_lang("\u4f7f\u7528 VR-300 \u5934\u663e\u5982\u4f55\u64cd\u4f5c") == "zh"
+    qu.analyze_query(
+        "\u4f7f\u7528 VR-300 \u5934\u663e\u5982\u4f55\u64cd\u4f5c",
+        options("none"),
+        chinese_diagnostics,
+    )
+
+    chinese_trace = chinese_diagnostics.trace["query_understanding"]
+    assert chinese_trace["language"] == "zh"
+    assert chinese_trace["analysis"]["language"] == "zh"
 
 
 def test_profile_strategy_uses_existing_profiles_for_docs_intents_and_terms(monkeypatch):

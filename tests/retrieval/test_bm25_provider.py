@@ -37,6 +37,43 @@ def make_provider() -> JiebaBM25Provider:
     return JiebaBM25Provider(tokenizer=whitespace_tokenizer, bm25_factory=FakeBM25Okapi)
 
 
+def test_english_tokenizer_removes_stop_words_and_keeps_required_terms() -> None:
+    provider = make_provider()
+
+    assert provider._tokenize(  # noqa: SLF001 - focused tokenizer regression coverage.
+        "How to install the battery pack?",
+        language="en",
+    ) == ["install", "battery", "pack"]
+    assert provider._tokenize(  # noqa: SLF001
+        "What should not be washed?",
+        language="en",
+    ) == ["not", "washed"]
+    assert provider._tokenize(  # noqa: SLF001
+        "use set run turn change check open close start stop",
+        language="en",
+    ) == [
+        "use",
+        "set",
+        "run",
+        "turn",
+        "change",
+        "check",
+        "open",
+        "close",
+        "start",
+        "stop",
+    ]
+
+
+def test_chinese_tokenizer_keeps_configured_jieba_path() -> None:
+    provider = make_provider()
+
+    assert provider._tokenize(  # noqa: SLF001
+        "\u7535\u6c60 \u5b89\u88c5",
+        language="zh",
+    ) == ["\u7535\u6c60", "\u5b89\u88c5"]
+
+
 def test_build_and_search_returns_positive_bm25_hits() -> None:
     provider = make_provider()
     docs = [
@@ -116,6 +153,28 @@ def test_search_filters_by_tier_and_chunk_type() -> None:
     )
 
     assert [result.id for result in results] == ["procedure-primary"]
+
+
+def test_search_filters_by_language() -> None:
+    provider = make_provider()
+    provider.build_index(
+        [
+            Result(
+                "english",
+                "the battery pack install procedure",
+                metadata={"language": "en"},
+            ),
+            Result(
+                "chinese",
+                "battery pack install procedure",
+                metadata={"language": "zh"},
+            ),
+        ]
+    )
+
+    results = provider.search("How to install the battery pack?", top_k=5, language="en")
+
+    assert [result.id for result in results] == ["english"]
 
 
 def test_search_without_build_returns_empty() -> None:

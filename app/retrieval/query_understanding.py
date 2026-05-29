@@ -21,9 +21,12 @@ from app.retrieval.schemas import (
 )
 
 KNOWN_STRATEGIES = ("none", "profile", "rules", "summary", "llm", "hybrid")
-HYBRID_STRATEGIES = ("rules", "llm")
+HYBRID_STRATEGIES = ("profile", "rules", "summary", "llm")
 MAX_CANDIDATES = 8
 MAX_TERMS = 16
+DOC_CANDIDATE_MIN_SCORE = 0.18
+INTENT_CANDIDATE_MIN_SCORE = 0.18
+DOC_FILTER_CONFIDENCE_THRESHOLD = 0.7
 
 # 硬编码的关键词 → doc_id 映射表。
 # 极度保守：只写绝对确定的映射，宁缺勿错。后续根据评测结果手动补充。
@@ -54,8 +57,10 @@ def analyze_query(
 ) -> QueryAnalysis:
     """Analyze a query with the selected strategy and record trace diagnostics."""
     strategy = _normalize_strategy(getattr(options, "intent_strategy", "hybrid"))
+    language = _detect_lang(query)
     trace = _ensure_query_understanding_trace(diagnostics)
     trace["strategy"] = strategy
+    trace["language"] = language
 
     if strategy == "none":
         analysis = QueryAnalysis(
@@ -65,6 +70,7 @@ def analyze_query(
             doc_candidates=[],
             query_terms=extract_terms(query),
             warnings=[],
+            language=language,
         )
         trace["enabled_strategies"] = []
         trace["analysis"] = _serialize_analysis(analysis)
@@ -168,11 +174,13 @@ def analyze_with_rules(query: str) -> QueryAnalysisPart:
     intent = _detect_intent_with_local_rules(query)
     intent_candidates: list[IntentCandidate] = []
     if intent and intent != "general":
+        score = _intent_rule_score(query, intent)
         intent_candidates.append(
             IntentCandidate(
                 intent=intent,
+                score=score,
                 source="rules",
-                reason="keyword rule",
+                reason="high-confidence keyword or identifier rule",
             )
         )
 
@@ -189,8 +197,17 @@ def analyze_with_rules(query: str) -> QueryAnalysisPart:
 def _rules_doc_candidates(query: str) -> list[DocCandidate]:
     """Match query against the hardcoded RULES_DOC_MAPPING table."""
     normalized = _normalize_text(query)
-    candidates: list[DocCandidate] = []
+    candidates: list[DocCandidate] = [
+        DocCandidate(
+            doc_id=candidate.doc_id,
+            score=candidate.score or 0.95,
+            source="rules",
+            reason=candidate.reason,
+        )
+        for candidate in _explicit_doc_candidates(query)
+    ]
     seen: set[str] = set()
+    seen.update(candidate.doc_id for candidate in candidates)
     for keywords, doc_id in RULES_DOC_MAPPING.items():
         if doc_id in seen:
             continue
@@ -199,6 +216,7 @@ def _rules_doc_candidates(query: str) -> list[DocCandidate]:
             candidates.append(
                 DocCandidate(
                     doc_id=doc_id,
+                    score=0.95,
                     source="rules",
                     reason=f"hardcoded keyword match: {', '.join(keywords)}",
                 )
@@ -330,6 +348,7 @@ def merge_analysis_parts(
         doc_candidates=doc_candidates,
         query_terms=query_terms,
         warnings=warnings,
+        language=_detect_lang(query),
     )
 
 
@@ -493,8 +512,9 @@ def _explicit_doc_candidates(query: str) -> list[DocCandidate]:
             candidates.append(
                 DocCandidate(
                     doc_id=doc_id,
+                    score=0.95,
                     source="profile",
-                    reason=f"picture id matched prefix: {normalized_pic_id}",
+                    reason=f"picture id matched profile prefix: {normalized_pic_id}",
                 )
             )
             continue
@@ -503,6 +523,7 @@ def _explicit_doc_candidates(query: str) -> list[DocCandidate]:
             candidates.append(
                 DocCandidate(
                     doc_id=doc_id,
+                    score=0.9,
                     source="profile",
                     reason="doc id appeared in query",
                 )
@@ -513,6 +534,7 @@ def _explicit_doc_candidates(query: str) -> list[DocCandidate]:
             candidates.append(
                 DocCandidate(
                     doc_id=doc_id,
+                    score=0.85,
                     source="profile",
                     reason="doc name appeared in query",
                 )
@@ -568,36 +590,60 @@ def _detect_intent_with_local_rules(query: str) -> str:
 
 def _merge_intent_candidates(candidates: Iterable[IntentCandidate]) -> list[IntentCandidate]:
     """Deduplicate intent candidates by intent label, merge sources."""
-    seen: dict[str, IntentCandidate] = {}
+    grouped: dict[str, list[IntentCandidate]] = {}
     for candidate in candidates:
         if not candidate.intent:
             continue
         key = str(candidate.intent)
-        if key not in seen:
-            seen[key] = candidate
-        else:
-            existing = seen[key]
-            sources = "+".join(_dedupe_strings([existing.source, candidate.source]))
-            reasons = "; ".join(_dedupe_strings([existing.reason, candidate.reason]))
-            seen[key] = IntentCandidate(intent=key, source=sources, reason=reasons)
-    return list(seen.values())[:MAX_CANDIDATES]
+        grouped.setdefault(key, []).append(candidate)
+
+    merged: list[IntentCandidate] = []
+    for intent, items in grouped.items():
+        sources = "+".join(_dedupe_strings(str(item.source) for item in items))
+        reasons = "; ".join(_dedupe_strings(str(item.reason) for item in items))
+        score = _fuse_scores(float(item.score or 0.0) for item in items)
+        merged.append(
+            IntentCandidate(
+                intent=intent,
+                score=score,
+                source=sources,
+                reason=reasons,
+            )
+        )
+    merged.sort(key=lambda item: item.score, reverse=True)
+    return merged[:MAX_CANDIDATES]
 
 
 def _merge_doc_candidates(candidates: Iterable[DocCandidate]) -> list[DocCandidate]:
     """Deduplicate doc candidates by doc_id, merge sources."""
-    seen: dict[str, DocCandidate] = {}
+    grouped: dict[str, list[DocCandidate]] = {}
     for candidate in candidates:
         if not candidate.doc_id:
             continue
         key = str(candidate.doc_id)
-        if key not in seen:
-            seen[key] = candidate
-        else:
-            existing = seen[key]
-            sources = "+".join(_dedupe_strings([existing.source, candidate.source]))
-            reasons = "; ".join(_dedupe_strings([existing.reason, candidate.reason]))
-            seen[key] = DocCandidate(doc_id=key, source=sources, reason=reasons)
-    return list(seen.values())[:MAX_CANDIDATES]
+        grouped.setdefault(key, []).append(candidate)
+
+    merged: list[DocCandidate] = []
+    for doc_id, items in grouped.items():
+        sources = "+".join(_dedupe_strings(str(item.source) for item in items))
+        base_reasons = _dedupe_strings(str(item.reason) for item in items)
+        score = _fuse_scores(float(item.score or 0.0) for item in items)
+        filter_label = (
+            "filter=strong"
+            if score >= DOC_FILTER_CONFIDENCE_THRESHOLD
+            else "filter=sort_only"
+        )
+        reasons = "; ".join([*base_reasons, filter_label])
+        merged.append(
+            DocCandidate(
+                doc_id=doc_id,
+                score=score,
+                source=sources,
+                reason=reasons,
+            )
+        )
+    merged.sort(key=lambda item: item.score, reverse=True)
+    return merged[:MAX_CANDIDATES]
 
 
 def _fuse_scores(scores: Iterable[float]) -> float:
@@ -788,6 +834,20 @@ def _legacy_detect_intent(query: str) -> str:
     return str(knowledge_tool.detect_intent(query))
 
 
+def detect_lang(text: str) -> str:
+    return _detect_lang(text)
+
+
+def _detect_lang(text: str) -> str:
+    knowledge_tool = _knowledge_tool()
+    if knowledge_tool is not None and hasattr(knowledge_tool, "detect_lang"):
+        try:
+            return str(knowledge_tool.detect_lang(text))
+        except Exception:
+            pass
+    return "zh" if re.search(r"[\u4e00-\u9fff]", str(text or "")) else "en"
+
+
 def _legacy_extract_pic_id(query: str) -> str | None:
     knowledge_tool = _knowledge_tool()
     if knowledge_tool is not None and hasattr(knowledge_tool, "extract_pic_id"):
@@ -837,6 +897,7 @@ def _serialize_part(part: QueryAnalysisPart) -> dict[str, Any]:
 def _serialize_analysis(analysis: QueryAnalysis) -> dict[str, Any]:
     return {
         "query": analysis.query,
+        "language": getattr(analysis, "language", None) or _detect_lang(analysis.query),
         "strategy": analysis.strategy,
         "primary_intent": getattr(analysis, "primary_intent", None),
         "primary_doc_id": getattr(analysis, "primary_doc_id", None),
