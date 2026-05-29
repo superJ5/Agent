@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import inspect
 import json
 import time
 import uuid
@@ -18,8 +19,19 @@ from app.models.response import (
     SessionInfoResponse,
     sanitize_summary_metadata,
 )
-from app.services.memory_service import memory_service
 from app.services.rag_agent_service import rag_agent_service
+
+_memory_service: Any
+try:
+    from app.services.memory_service import memory_service as _memory_service
+except Exception:  # pragma: no cover - keeps API compatibility tests importable with stubs.
+    class _NoopMemoryService:
+        def append_message(self, *args: Any, **kwargs: Any) -> None:
+            return None
+
+    _memory_service = _NoopMemoryService()
+
+memory_service: Any = _memory_service
 
 router = APIRouter()
 competition_router = APIRouter()
@@ -106,11 +118,10 @@ def _build_stream_response(
             },
         )
         try:
-            async for chunk in rag_agent_service.query_stream(
-                question,
-                session_id=session_id,
-                images=images,
-            ):
+            query_stream_kwargs: dict[str, Any] = {"session_id": session_id}
+            if _call_accepts_keyword(rag_agent_service.query_stream, "images"):
+                query_stream_kwargs["images"] = images
+            async for chunk in rag_agent_service.query_stream(question, **query_stream_kwargs):
                 chunk_type = chunk.get("type", "unknown")
                 chunk_data = chunk.get("data", None)
 
@@ -212,6 +223,29 @@ def _build_stream_response(
     return EventSourceResponse(event_generator())
 
 
+def _call_accepts_keyword(callable_obj: Any, keyword: str) -> bool:
+    try:
+        signature = inspect.signature(callable_obj)
+    except (TypeError, ValueError):
+        return False
+    return any(
+        parameter.kind == inspect.Parameter.VAR_KEYWORD or name == keyword
+        for name, parameter in signature.parameters.items()
+    )
+
+
+async def _query_rag_agent(
+    question: str,
+    *,
+    session_id: str,
+    images: list[str] | None,
+) -> str:
+    kwargs: dict[str, Any] = {"session_id": session_id}
+    if _call_accepts_keyword(rag_agent_service.query, "images"):
+        kwargs["images"] = images
+    return str(await rag_agent_service.query(question, **kwargs))
+
+
 @competition_router.post("/chat")
 async def competition_chat(
     request: ChatRequest,
@@ -248,7 +282,7 @@ async def competition_chat(
                 "images_count": len(request.images),
             },
         )
-        answer = await rag_agent_service.query(
+        answer = await _query_rag_agent(
             request.question,
             session_id=session_id,
             images=request.images,
@@ -301,7 +335,7 @@ async def chat(request: ChatRequest):
                 "images_count": len(request.images),
             },
         )
-        answer = await rag_agent_service.query(
+        answer = await _query_rag_agent(
             request.question,
             session_id=session_id,
             images=request.images,

@@ -199,6 +199,7 @@ def test_build_retrieval_bundle_fetches_only_primary_parents_and_traces_images()
         {
             "retrieval_tiers": ["support"],
             "chunk_ids": ["parent-1"],
+            "language": "en",
             "limit": 1,
         }
     ]
@@ -210,6 +211,7 @@ def test_build_retrieval_bundle_fetches_only_primary_parents_and_traces_images()
         "channels": ["vector"],
     }
     assert diagnostics.trace["support_parent_ids"] == ["parent-1"]
+    assert diagnostics.trace["support_parent_request"]["language"] == "en"
     assert diagnostics.trace["support_parent_hits"][0]["chunk_id"] == "parent-1"
     assert diagnostics.trace["evidence_images"]["pic_ids"] == ["pic-child", "pic-parent"]
     assert diagnostics.trace["evidence_images"]["image_paths"] == [
@@ -243,6 +245,40 @@ def test_fetch_parent_support_hits_skips_missing_or_non_primary_parent_ids():
     assert service.calls == []
     assert diagnostics.trace["support_parent_ids"] == []
     assert diagnostics.trace["support_parent_hits"] == []
+
+
+def test_fetch_parent_support_hits_passes_hit_language_to_parent_query():
+    evidence, schemas, service = load_evidence_module()
+    primary = Result(
+        "child-id",
+        "child content",
+        0.2,
+        {
+            "chunk_id": "child-1",
+            "retrieval_tier": "primary",
+            "parent_chunk_id": "parent-1",
+            "language": "zh",
+        },
+    )
+    parent = Result(
+        "parent-id",
+        "parent content",
+        0.0,
+        {"chunk_id": "parent-1", "retrieval_tier": "support", "language": "zh"},
+    )
+    service.parents = [parent]
+    diagnostics = schemas.RetrievalDiagnostics(request_id="req-language")
+
+    assert evidence.fetch_parent_support_hits([primary], diagnostics) == [parent]
+    assert service.calls == [
+        {
+            "retrieval_tiers": ["support"],
+            "chunk_ids": ["parent-1"],
+            "limit": 1,
+            "language": "zh",
+        }
+    ]
+    assert diagnostics.trace["support_parent_request"]["language"] == "zh"
 
 
 def test_support_parent_failure_keeps_primary_hits_and_records_warning():

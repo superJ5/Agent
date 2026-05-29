@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from dataclasses import is_dataclass
 from types import SimpleNamespace
 from typing import Any
@@ -60,11 +61,15 @@ def _run_query_understanding(
     diagnostics: RetrievalDiagnostics,
 ) -> QueryAnalysis:
     try:
-        return analyze_query(query, options, diagnostics)
+        analysis = analyze_query(query, options, diagnostics)
+        _record_language(diagnostics, analysis, query)
+        return analysis
     except Exception as exc:
         message = f"query understanding failed: {exc}"
         diagnostics.add_warning(message)
         diagnostics.trace.setdefault("query_understanding", {})["error"] = str(exc)
+        language = _detect_language(query)
+        diagnostics.trace.setdefault("query_understanding", {})["language"] = language
         return QueryAnalysis(
             query=query,
             strategy="none",
@@ -72,6 +77,7 @@ def _run_query_understanding(
             doc_candidates=[],
             query_terms=[],
             warnings=["query understanding degraded to none"],
+            language=language,
         )
 
 
@@ -196,7 +202,31 @@ def _initialize_trace(
 ) -> None:
     diagnostics.trace["request_id"] = diagnostics.request_id
     diagnostics.trace["query"] = query
+    diagnostics.trace["language"] = _detect_language(query)
     diagnostics.trace["options"] = _json_safe(options)
+
+
+def _record_language(
+    diagnostics: RetrievalDiagnostics,
+    analysis: QueryAnalysis,
+    query: str,
+) -> None:
+    language = _normalize_language(getattr(analysis, "language", None)) or _detect_language(query)
+    try:
+        analysis.language = language
+    except Exception:
+        pass
+    diagnostics.trace["language"] = language
+    diagnostics.trace.setdefault("query_understanding", {})["language"] = language
+
+
+def _detect_language(query: str) -> str:
+    return "zh" if re.search(r"[\u4e00-\u9fff]", str(query or "")) else "en"
+
+
+def _normalize_language(value: Any) -> str | None:
+    normalized = str(value or "").strip().lower()
+    return normalized if normalized in {"en", "zh"} else None
 
 
 def _safe_top_k(options: RetrievalOptions) -> int:

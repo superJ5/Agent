@@ -226,6 +226,8 @@ def test_retrieve_runs_pipeline_from_config_and_writes_summary_metadata(monkeypa
         ],
         "warnings": [],
     }
+    assert trace_calls[0].trace["language"] == "en"
+    assert trace_calls[0].trace["query_understanding"]["language"] == "en"
 
 
 def test_query_understanding_exception_degrades_to_none(monkeypatch):
@@ -270,6 +272,7 @@ def test_query_understanding_exception_degrades_to_none(monkeypatch):
         "query understanding degraded to none",
     ]
     assert trace_calls[0].trace["query_understanding"]["error"] == "broken rules"
+    assert trace_calls[0].trace["query_understanding"]["language"] == "en"
 
 
 def test_recall_exception_degrades_to_empty_candidates(monkeypatch):
