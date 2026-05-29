@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import re
 from collections.abc import Callable, Iterable, Mapping, Sequence
 from importlib import import_module
 from typing import Any, Protocol, TypeVar, cast
@@ -13,6 +14,77 @@ Tokenizer = Callable[[str], Iterable[str]]
 logger = logging.getLogger(__name__)
 
 _EMPTY_DOCUMENT_TOKEN = "__bm25_empty_document__"
+_ENGLISH_PRESERVED_TERMS = {
+    "not",
+    "no",
+    "use",
+    "set",
+    "run",
+    "turn",
+    "change",
+    "check",
+    "open",
+    "close",
+    "start",
+    "stop",
+}
+_ENGLISH_STOP_WORDS = {
+    "a",
+    "an",
+    "the",
+    "of",
+    "to",
+    "for",
+    "in",
+    "on",
+    "at",
+    "by",
+    "with",
+    "from",
+    "and",
+    "or",
+    "is",
+    "are",
+    "was",
+    "were",
+    "be",
+    "been",
+    "it",
+    "its",
+    "this",
+    "that",
+    "these",
+    "those",
+    "how",
+    "what",
+    "where",
+    "when",
+    "why",
+    "which",
+    "who",
+    "do",
+    "does",
+    "did",
+    "can",
+    "could",
+    "will",
+    "would",
+    "should",
+    "may",
+    "might",
+    "shall",
+    "i",
+    "my",
+    "me",
+    "we",
+    "our",
+    "you",
+    "your",
+    "if",
+    "but",
+    "so",
+    "then",
+} - _ENGLISH_PRESERVED_TERMS
 
 
 class BM25Index(Protocol):
@@ -26,7 +98,7 @@ BM25Factory = Callable[[list[list[str]]], BM25Index]
 
 
 class JiebaBM25Provider:
-    """BM25 provider that indexes SearchResult-like chunks with jieba tokens."""
+    """BM25 provider that indexes SearchResult-like chunks with language-aware tokens."""
 
     def __init__(
         self,
@@ -67,12 +139,14 @@ class JiebaBM25Provider:
         doc_id: str | None = None,
         retrieval_tiers: Sequence[str] | None = None,
         chunk_types: Sequence[str] | None = None,
+        language: str | None = None,
     ) -> list[Any]:
         """Search indexed chunks and return matching SearchResult-like objects."""
         if self._bm25 is None or not self._results:
             return []
 
-        query_tokens = self._tokenize(query)
+        language_filter = _normalise_language(language)
+        query_tokens = self._tokenize(query, language=language_filter)
         if not query_tokens:
             return []
 
@@ -93,6 +167,7 @@ class JiebaBM25Provider:
                 doc_id=doc_id,
                 retrieval_tiers=tier_filter,
                 chunk_types=type_filter,
+                language=language_filter,
             ):
                 continue
             scored.append((score, index, result))
@@ -101,14 +176,23 @@ class JiebaBM25Provider:
         return [_set_result_score(result, score) for score, _, result in scored[:safe_top_k]]
 
     def _tokens_for_result(self, result: object) -> list[str]:
-        tokens = self._tokenize(_result_index_text(result))
+        index_text = _result_index_text(result)
+        tokens = self._tokenize(
+            index_text,
+            language=_result_language(result) or _detect_language(index_text),
+        )
         return tokens or [_EMPTY_DOCUMENT_TOKEN]
 
-    def _tokenize(self, text: object) -> list[str]:
+    def _tokenize(self, text: object, *, language: str | None = None) -> list[str]:
         if text is None:
             return []
+        text_value = str(text)
+        token_language = _normalise_language(language) or _detect_language(text_value)
+        if token_language == "en":
+            return _english_tokens(text_value)
+
         tokens: list[str] = []
-        for raw_token in self._tokenizer(str(text)):
+        for raw_token in self._tokenizer(text_value):
             token = str(raw_token or "").strip().lower()
             if token:
                 tokens.append(token)
@@ -178,6 +262,23 @@ def _result_index_text(result: object) -> str:
     return " ".join(part for value in parts for part in _string_parts(value))
 
 
+def _result_language(result: object) -> str | None:
+    metadata = _metadata_for_result(result)
+    return _normalise_language(_lookup_value(result, metadata, ("language", "lang")))
+
+
+def _detect_language(text: str) -> str:
+    return "zh" if re.search(r"[\u4e00-\u9fff]", text) else "en"
+
+
+def _english_tokens(text: str) -> list[str]:
+    return [
+        token
+        for token in re.findall(r"[A-Za-z0-9]+", text.lower())
+        if token and token not in _ENGLISH_STOP_WORDS
+    ]
+
+
 def _string_parts(value: object) -> list[str]:
     if value is None:
         return []
@@ -202,6 +303,7 @@ def _matches_filters(
     doc_id: str | None,
     retrieval_tiers: set[str],
     chunk_types: set[str],
+    language: str | None,
 ) -> bool:
     metadata = _metadata_for_result(result)
     if doc_id is not None and not _value_matches(
@@ -221,6 +323,11 @@ def _matches_filters(
             ("chunk_type", "chunk_types", "type", "chunk_family", "family"),
         ),
         chunk_types,
+    ):
+        return False
+    if language is not None and not _language_matches(
+        _lookup_value(result, metadata, ("language", "lang")),
+        language,
     ):
         return False
     return True
@@ -254,11 +361,33 @@ def _normalise_filter_values(values: Sequence[str] | None) -> set[str]:
     return {str(value).strip() for value in values if str(value).strip()}
 
 
+def _normalise_language(value: object) -> str | None:
+    if value is None:
+        return None
+    normalized = str(value).strip().lower().replace("_", "-")
+    if not normalized:
+        return None
+    if normalized.startswith("en"):
+        return "en"
+    if normalized.startswith("zh") or normalized in {"cn", "chinese"}:
+        return "zh"
+    return None
+
+
 def _value_matches(value: object, allowed: set[str]) -> bool:
     if not allowed:
         return True
     candidates = _normalise_candidate_values(value)
     return any(candidate in allowed for candidate in candidates)
+
+
+def _language_matches(value: object, allowed: str) -> bool:
+    candidates = {
+        normalized
+        for candidate in _normalise_candidate_values(value)
+        if (normalized := _normalise_language(candidate)) is not None
+    }
+    return allowed in candidates
 
 
 def _normalise_candidate_values(value: object) -> set[str]:
