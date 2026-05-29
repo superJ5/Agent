@@ -6,7 +6,7 @@ import json
 import re
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from langchain_core.documents import Document
 from loguru import logger
@@ -28,10 +28,10 @@ class IndexingResult:
         self.total_files = 0
         self.success_count = 0
         self.fail_count = 0
-        self.start_time: Optional[datetime] = None
-        self.end_time: Optional[datetime] = None
+        self.start_time: datetime | None = None
+        self.end_time: datetime | None = None
         self.error_message = ""
-        self.failed_files: Dict[str, str] = {}
+        self.failed_files: dict[str, str] = {}
 
     def increment_success_count(self) -> None:
         self.success_count += 1
@@ -47,7 +47,7 @@ class IndexingResult:
             return int((self.end_time - self.start_time).total_seconds() * 1000)
         return 0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "success": self.success,
             "directory_path": self.directory_path,
@@ -68,7 +68,7 @@ class VectorIndexService:
         self.manual_chunk_path = "./data/manuals/chunks"
         logger.info("VectorIndexService initialized")
 
-    def index_directory(self, directory_path: Optional[str] = None) -> IndexingResult:
+    def index_directory(self, directory_path: str | None = None) -> IndexingResult:
         """Index all supported files in a directory."""
         result = IndexingResult()
         result.start_time = datetime.now()
@@ -91,7 +91,7 @@ class VectorIndexService:
             result.end_time = datetime.now()
             return result
 
-    def index_manual_chunks(self, directory_path: Optional[str] = None) -> IndexingResult:
+    def index_manual_chunks(self, directory_path: str | None = None) -> IndexingResult:
         """Index generated manual chunk JSONL files."""
         result = IndexingResult()
         result.start_time = datetime.now()
@@ -115,7 +115,7 @@ class VectorIndexService:
             return result
 
     @staticmethod
-    def _collect_plain_text_files(dir_path: Path) -> List[Path]:
+    def _collect_plain_text_files(dir_path: Path) -> list[Path]:
         return sorted(
             list(dir_path.glob("*.txt"))
             + list(dir_path.glob("*.md"))
@@ -127,7 +127,7 @@ class VectorIndexService:
         )
 
     @staticmethod
-    def _collect_manual_chunk_files(target: Path) -> List[Path]:
+    def _collect_manual_chunk_files(target: Path) -> list[Path]:
         if target.is_file():
             if target.suffix.lower() != ".jsonl":
                 raise ValueError(f"Manual chunk input must be a JSONL file: {target}")
@@ -145,7 +145,7 @@ class VectorIndexService:
 
     def _index_files(
         self,
-        files: List[Path],
+        files: list[Path],
         result: IndexingResult,
         target_path: str,
     ) -> IndexingResult:
@@ -228,9 +228,9 @@ class VectorIndexService:
         logger.info("Indexed {} chunk documents from {}", len(documents), path)
 
     @staticmethod
-    def _load_chunk_records(path: Path) -> List[Dict[str, Any]]:
+    def _load_chunk_records(path: Path) -> list[dict[str, Any]]:
         """Load all chunk rows from a JSONL file."""
-        records: List[Dict[str, Any]] = []
+        records: list[dict[str, Any]] = []
         for line in path.read_text(encoding="utf-8").splitlines():
             if not line.strip():
                 continue
@@ -239,11 +239,11 @@ class VectorIndexService:
 
     @staticmethod
     def _build_documents_from_chunk_records(
-        chunk_records: List[Dict[str, Any]],
+        chunk_records: list[dict[str, Any]],
         source_path: Path,
-    ) -> List[Document]:
+    ) -> list[Document]:
         """Convert chunk rows to LangChain documents."""
-        documents: List[Document] = []
+        documents: list[Document] = []
         image_path_lookup = VectorIndexService._build_image_path_lookup(chunk_records)
 
         for index, record in enumerate(chunk_records, start=1):
@@ -267,7 +267,7 @@ class VectorIndexService:
         return documents
 
     @staticmethod
-    def _is_structured_chunk_record(record: Dict[str, Any]) -> bool:
+    def _is_structured_chunk_record(record: dict[str, Any]) -> bool:
         return any(
             key in record
             for key in (
@@ -280,8 +280,8 @@ class VectorIndexService:
         )
 
     @staticmethod
-    def _build_image_path_lookup(chunk_records: List[Dict[str, Any]]) -> Dict[str, str]:
-        image_paths: Dict[str, str] = {}
+    def _build_image_path_lookup(chunk_records: list[dict[str, Any]]) -> dict[str, str]:
+        image_paths: dict[str, str] = {}
 
         for record in chunk_records:
             if record.get("chunk_type") != "metadata_image_path":
@@ -302,7 +302,7 @@ class VectorIndexService:
         return image_paths
 
     @staticmethod
-    def _extract_absolute_image_path(record: Dict[str, Any]) -> Optional[str]:
+    def _extract_absolute_image_path(record: dict[str, Any]) -> str | None:
         for field in ("text", "index_text"):
             value = record.get(field)
             if not isinstance(value, str):
@@ -321,9 +321,9 @@ class VectorIndexService:
             return resolved.as_posix()
 
     @staticmethod
-    def _normalize_portable_path(value: Any) -> Any:
+    def _normalize_portable_path(value: Any) -> str | None:
         if not isinstance(value, str) or not value.strip():
-            return value
+            return None
 
         normalized = re.sub(r"/+", "/", value.strip().replace("\\", "/"))
         path = Path(normalized)
@@ -342,7 +342,7 @@ class VectorIndexService:
         return normalized
 
     @staticmethod
-    def _derive_doc_name(record: Dict[str, Any], source_path: Path) -> str:
+    def _derive_doc_name(record: dict[str, Any], source_path: Path) -> str:
         doc_name = record.get("doc_name")
         if isinstance(doc_name, str) and doc_name.strip():
             return doc_name.strip()
@@ -361,17 +361,18 @@ class VectorIndexService:
 
     @staticmethod
     def _build_structured_document(
-        record: Dict[str, Any],
+        record: dict[str, Any],
         source_path: Path,
-        image_path_lookup: Dict[str, str],
+        image_path_lookup: dict[str, str],
         fallback_index: int,
-    ) -> Optional[Document]:
+    ) -> Document | None:
         content = str(record.get("text", "")).strip()
         if not content:
             return None
 
         index_text = str(record.get("index_text") or content).strip()
-        pic_ids = record.get("pic_ids") if isinstance(record.get("pic_ids"), list) else []
+        raw_pic_ids = record.get("pic_ids")
+        pic_ids: list[Any] = raw_pic_ids if isinstance(raw_pic_ids, list) else []
         image_paths = [
             image_path_lookup[pic_id]
             for pic_id in pic_ids
@@ -379,7 +380,8 @@ class VectorIndexService:
         ]
 
         title = record.get("title")
-        section_path = record.get("section_path") if isinstance(record.get("section_path"), list) else []
+        raw_section_path = record.get("section_path")
+        section_path: list[Any] = raw_section_path if isinstance(raw_section_path, list) else []
         section_title = title or (section_path[-1] if section_path else None)
 
         metadata = {
@@ -388,6 +390,7 @@ class VectorIndexService:
             "_file_name": source_path.name,
             "doc_id": record.get("doc_id"),
             "doc_name": VectorIndexService._derive_doc_name(record, source_path),
+            "language": record.get("language"),
             "chunk_id": record.get("chunk_id"),
             "chunk_index": record.get("chunk_index", fallback_index),
             "section_title": section_title,
@@ -415,20 +418,24 @@ class VectorIndexService:
 
     @staticmethod
     def _build_legacy_document(
-        record: Dict[str, Any],
+        record: dict[str, Any],
         source_path: Path,
         fallback_index: int,
-    ) -> Optional[Document]:
+    ) -> Document | None:
         content = str(record.get("text", "")).strip()
         if not content:
             return None
 
-        raw_image_paths = record.get("image_paths") if isinstance(record.get("image_paths"), list) else []
+        raw_image_paths_value = record.get("image_paths")
+        raw_image_paths: list[Any] = (
+            raw_image_paths_value if isinstance(raw_image_paths_value, list) else []
+        )
         image_paths = [
             VectorIndexService._normalize_portable_path(image_path)
             for image_path in raw_image_paths
         ]
-        pic_refs = record.get("pic_refs") if isinstance(record.get("pic_refs"), list) else []
+        raw_pic_refs = record.get("pic_refs")
+        pic_refs: list[Any] = raw_pic_refs if isinstance(raw_pic_refs, list) else []
 
         metadata = {
             "_source": VectorIndexService._to_repo_relative_path(source_path),
@@ -436,6 +443,7 @@ class VectorIndexService:
             "_file_name": source_path.name,
             "doc_id": record.get("doc_id"),
             "doc_name": VectorIndexService._derive_doc_name(record, source_path),
+            "language": record.get("language"),
             "chunk_id": record.get("chunk_id"),
             "chunk_index": record.get("chunk_index", fallback_index),
             "section_title": record.get("section_title"),

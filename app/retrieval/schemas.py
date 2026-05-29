@@ -57,17 +57,17 @@ def derive_chunk_id(result: Any) -> str:
 @dataclass(frozen=True)
 class IntentCandidate:
     intent: str
-    source: str
-    reason: str = ""
     score: float = 0.0
+    source: str = ""
+    reason: str = ""
 
 
 @dataclass(frozen=True)
 class DocCandidate:
     doc_id: str
+    score: float = 0.0
     source: str = ""
     reason: str = ""
-    score: float = 0.0
 
 
 @dataclass(frozen=True)
@@ -85,18 +85,19 @@ class QueryAnalysis:
     doc_candidates: list[DocCandidate] = field(default_factory=list)
     query_terms: list[QueryTerm] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
+    language: str = ""
 
     @property
     def primary_intent(self) -> str | None:
         if not self.intent_candidates:
             return None
-        return self.intent_candidates[0].intent or None
+        return max(self.intent_candidates, key=lambda item: item.score).intent or None
 
     @property
     def primary_doc_id(self) -> str | None:
         if not self.doc_candidates:
             return None
-        return self.doc_candidates[0].doc_id or None
+        return max(self.doc_candidates, key=lambda item: item.score).doc_id or None
 
     @property
     def all_intents(self) -> list[str]:

@@ -6,7 +6,8 @@ import hashlib
 import json
 import time
 import uuid
-from typing import Any, List, Sequence
+from collections.abc import Sequence
+from typing import Any, cast
 
 from langchain_core.documents import Document
 from langchain_milvus import Milvus
@@ -15,7 +16,6 @@ from loguru import logger
 from app.config import config
 from app.core.milvus_client import milvus_manager
 from app.services.vector_embedding_service import vector_embedding_service
-
 
 COLLECTION_NAME = "biz"
 MAX_PRIMARY_KEY_LENGTH = 100
@@ -63,7 +63,7 @@ class VectorStoreManager:
             logger.error(f"VectorStore initialization failed: {exc}")
             raise
 
-    def add_documents(self, documents: List[Document]) -> List[str]:
+    def add_documents(self, documents: list[Document]) -> list[str]:
         """Add documents to Milvus using index_text embeddings and text as display content."""
         if not documents:
             return []
@@ -85,6 +85,7 @@ class VectorStoreManager:
                     batch_ids,
                     batch_documents,
                     embeddings,
+                    strict=True,
                 ):
                     stored_content = self._truncate_varchar_bytes(document.page_content)
                     rows.append(
@@ -157,7 +158,10 @@ class VectorStoreManager:
 
     @staticmethod
     def _sanitize_metadata(metadata: dict[str, Any]) -> dict[str, Any]:
-        return json.loads(json.dumps(metadata, ensure_ascii=False, default=str))
+        return cast(
+            dict[str, Any],
+            json.loads(json.dumps(metadata, ensure_ascii=False, default=str)),
+        )
 
     @staticmethod
     def _normalize_filter_values(
@@ -206,17 +210,19 @@ class VectorStoreManager:
     def build_metadata_filter_expr(
         cls,
         doc_id: str | None = None,
+        language: str | None = None,
         retrieval_tiers: str | Sequence[str] | None = None,
         chunk_types: str | Sequence[str] | None = None,
         chunk_ids: str | Sequence[str] | None = None,
     ) -> str | None:
-        parts = [
+        optional_parts: list[str | None] = [
             cls.build_metadata_equals_expr("doc_id", doc_id),
+            cls.build_metadata_equals_expr("language", language),
             cls._build_metadata_in_expr("retrieval_tier", retrieval_tiers),
             cls._build_metadata_in_expr("chunk_type", chunk_types),
             cls._build_metadata_in_expr("chunk_id", chunk_ids),
         ]
-        parts = [part for part in parts if part]
+        parts = [part for part in optional_parts if part]
         if not parts:
             return None
         return " and ".join(parts)
@@ -231,7 +237,7 @@ class VectorStoreManager:
             result = collection.delete(expr)
             deleted_count = result.delete_count if hasattr(result, "delete_count") else 0
             logger.info("Deleted {} rows for source={}", deleted_count, file_path)
-            return deleted_count
+            return int(deleted_count)
         except Exception as exc:
             logger.warning(f"Delete by source skipped for {file_path}: {exc}")
             return 0
@@ -246,7 +252,7 @@ class VectorStoreManager:
             result = collection.delete(expr)
             deleted_count = result.delete_count if hasattr(result, "delete_count") else 0
             logger.info("Deleted {} rows for doc_id={}", deleted_count, doc_id)
-            return deleted_count
+            return int(deleted_count)
         except Exception as exc:
             logger.warning(f"Delete by doc_id skipped for {doc_id}: {exc}")
             return 0
@@ -257,7 +263,7 @@ class VectorStoreManager:
             raise RuntimeError("VectorStore is not initialized")
         return self.vector_store
 
-    def similarity_search(self, query: str, k: int = 3) -> List[Document]:
+    def similarity_search(self, query: str, k: int = 3) -> list[Document]:
         """Run a similarity search directly through LangChain Milvus."""
         if self.vector_store is None:
             raise RuntimeError("VectorStore is not initialized")
