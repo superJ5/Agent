@@ -35,16 +35,36 @@ _evidence_search_result_to_document: Any = None
 _evidence_search_result_to_evidence_hit: Any = None
 _evidence_unique_flatten: Any = None
 try:
-    from app.retrieval.evidence import (
-        bundle_to_evidence_payload as _evidence_bundle_to_evidence_payload,
-        display_path_list as _evidence_display_path_list,
-        format_bundle as _evidence_format_bundle,
-        format_search_results as _evidence_format_search_results,
-        image_reference_lines as _evidence_image_reference_lines,
-        search_result_to_document as _evidence_search_result_to_document,
-        search_result_to_evidence_hit as _evidence_search_result_to_evidence_hit,
-        unique_flatten as _evidence_unique_flatten,
+    from app.retrieval import evidence as _evidence_module
+
+    _evidence_bundle_to_evidence_payload = getattr(
+        _evidence_module,
+        "bundle_to_evidence_payload",
+        None,
     )
+    _evidence_display_path_list = getattr(_evidence_module, "display_path_list", None)
+    _evidence_format_bundle = getattr(_evidence_module, "format_bundle", None)
+    _evidence_format_search_results = getattr(
+        _evidence_module,
+        "format_search_results",
+        None,
+    )
+    _evidence_image_reference_lines = getattr(
+        _evidence_module,
+        "image_reference_lines",
+        None,
+    )
+    _evidence_search_result_to_document = getattr(
+        _evidence_module,
+        "search_result_to_document",
+        None,
+    )
+    _evidence_search_result_to_evidence_hit = getattr(
+        _evidence_module,
+        "search_result_to_evidence_hit",
+        None,
+    )
+    _evidence_unique_flatten = getattr(_evidence_module, "unique_flatten", None)
 except Exception:
     pass
 
@@ -71,6 +91,84 @@ PROFILE_STOP_TERMS = {
     "chunk",
     "manual",
 }
+CHINESE_CHAR_RE = re.compile(r"[\u4e00-\u9fff]")
+EN_TOKEN_RE = re.compile(r"[A-Za-z0-9]+")
+EN_PROTECTED_QUERY_TERMS = frozenset(
+    {
+        "not",
+        "no",
+        "use",
+        "set",
+        "run",
+        "turn",
+        "change",
+        "check",
+        "open",
+        "close",
+        "start",
+        "stop",
+    }
+)
+_EN_STOP_WORD_CANDIDATES = {
+    "a",
+    "an",
+    "the",
+    "of",
+    "to",
+    "for",
+    "in",
+    "on",
+    "at",
+    "by",
+    "with",
+    "from",
+    "and",
+    "or",
+    "is",
+    "are",
+    "was",
+    "were",
+    "be",
+    "been",
+    "it",
+    "its",
+    "this",
+    "that",
+    "these",
+    "those",
+    "how",
+    "what",
+    "where",
+    "when",
+    "why",
+    "which",
+    "who",
+    "do",
+    "does",
+    "did",
+    "can",
+    "could",
+    "will",
+    "would",
+    "should",
+    "may",
+    "might",
+    "shall",
+    "i",
+    "my",
+    "me",
+    "we",
+    "our",
+    "you",
+    "your",
+    "if",
+    "but",
+    "so",
+    "then",
+}
+EN_STOP_WORDS = frozenset(
+    term for term in _EN_STOP_WORD_CANDIDATES if term not in EN_PROTECTED_QUERY_TERMS
+)
 
 ACTION_TERMS = [
     "安装",
@@ -316,6 +414,18 @@ class DocumentProfile:
     chunk_families: tuple[str, ...]
     source_issue_flags: tuple[str, ...]
     chunk_count: int
+
+
+def detect_lang(text: str) -> str:
+    """Classify a query as Chinese when it contains any CJK character."""
+    return "zh" if CHINESE_CHAR_RE.search(str(text or "")) else "en"
+
+
+def extract_english_query_terms(text: str) -> list[str]:
+    """Extract English query terms without stemming, phrases, or synonym expansion."""
+    tokens = EN_TOKEN_RE.findall(str(text or "").lower())
+    terms = [token for token in tokens if token and token not in EN_STOP_WORDS]
+    return list(dict.fromkeys(terms))[:16]
 
 
 def infer_families_from_type_name(chunk_type: str) -> tuple[str, ...]:
@@ -955,6 +1065,20 @@ def expand_queries(query: str, intent: str, query_terms: Sequence[str]) -> list[
     """Create retrieval-friendly rewrites for short manual questions."""
     variants = [query.strip()]
 
+    if detect_lang(query) == "en":
+        if query_terms:
+            variants.append(" ".join(dict.fromkeys(query_terms)))
+
+        english_deduped: list[str] = []
+        english_seen: set[str] = set()
+        for variant in variants:
+            cleaned = variant.strip()
+            if not cleaned or cleaned in english_seen:
+                continue
+            english_seen.add(cleaned)
+            english_deduped.append(cleaned)
+        return english_deduped
+
     compact = re.sub(r"\s+", "", query)
     stripped = compact
     for prefix in ("怎么", "如何", "请问", "想问", "帮我", "一下", "这个", "这个是", "请问一下"):
@@ -989,7 +1113,6 @@ def expand_queries(query: str, intent: str, query_terms: Sequence[str]) -> list[
         elif query_terms:
             variants.append(f"{' '.join(query_terms)} 图片 配图")
     if intent == "general" and query_terms:
-        variants.append(f"{' '.join(query_terms)} 说明")
         variants.append(" ".join(dict.fromkeys(term for term in query_terms if len(normalize_text(term)) >= 2)))
 
     deduped: list[str] = []
@@ -1188,6 +1311,9 @@ def rerank_results(
 
 def query_critical_term_groups(normalized_query: str) -> list[tuple[str, ...]]:
     """Return must-match-ish term groups for common manual questions."""
+    if detect_lang(normalized_query) == "en":
+        return []
+
     groups: list[tuple[str, ...]] = []
     if "冷机" in normalized_query:
         groups.append(("冷机",))
@@ -1539,6 +1665,9 @@ def trim_results_for_intent(results: Sequence[SearchResult], intent: str) -> lis
 
 def extract_query_terms(query: str) -> list[str]:
     """Extract high-signal terms from the query."""
+    if detect_lang(query) == "en":
+        return extract_english_query_terms(query)
+
     import jieba.analyse
 
     # 1. TF-IDF 提取关键词（不依赖任何词表）
@@ -1630,7 +1759,7 @@ def deduplicate_results(results: Iterable[SearchResult]) -> list[SearchResult]:
 def search_result_to_document(result: SearchResult) -> Document:
     """Convert a SearchResult back into a LangChain Document."""
     if _evidence_search_result_to_document is not None:
-        return _evidence_search_result_to_document(result)
+        return cast(Document, _evidence_search_result_to_document(result))
 
     metadata = dict(result.metadata or {})
     metadata["score"] = result.score

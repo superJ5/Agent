@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from collections.abc import Iterable, Mapping, Sequence
 from datetime import UTC, datetime
 from pathlib import Path
@@ -55,7 +56,13 @@ def build_retrieval_bundle(
     for warning in _read_field(rerank_result, "warnings", []) or []:
         add_diagnostic_warning(diagnostics, str(warning))
 
-    support_hits = fetch_parent_support_hits(primary_hits, diagnostics)
+    language = language_filter(
+        analysis=analysis,
+        diagnostics=diagnostics,
+        hits=primary_hits,
+        query=query,
+    )
+    support_hits = fetch_parent_support_hits(primary_hits, diagnostics, language=language)
     intent = _read_field(analysis, "primary_intent") or "general"
 
     summary = _ensure_summary(diagnostics)
@@ -65,6 +72,7 @@ def build_retrieval_bundle(
     )
 
     trace = _ensure_trace(diagnostics)
+    trace["language"] = language
     trace["evidence_primary_hits"] = [
         evidence_hit_summary(result) for result in primary_hits if result is not None
     ]
@@ -89,14 +97,17 @@ def build_retrieval_bundle(
 def fetch_parent_support_hits(
     hits: list[SearchResult],
     diagnostics: RetrievalDiagnostics,
+    language: str | None = None,
 ) -> list[SearchResult]:
     """Fetch one-hop support parent chunks for primary hits."""
+    language = language_filter(diagnostics=diagnostics, hits=hits, language=language)
     parent_ids = collect_parent_chunk_ids(hits)
     trace = _ensure_trace(diagnostics)
     trace["support_parent_ids"] = list(parent_ids)
     trace["support_parent_request"] = {
         "retrieval_tiers": ["support"],
         "chunk_ids": list(parent_ids),
+        "language": language,
         "limit": len(parent_ids),
     }
 
@@ -111,11 +122,14 @@ def fetch_parent_support_hits(
         return []
 
     try:
-        parents = vector_search_service.query_documents(
-            retrieval_tiers=["support"],
-            chunk_ids=parent_ids,
-            limit=len(parent_ids),
-        )
+        query_kwargs: dict[str, Any] = {
+            "retrieval_tiers": ["support"],
+            "chunk_ids": parent_ids,
+            "limit": len(parent_ids),
+        }
+        if language:
+            query_kwargs["language"] = language
+        parents = vector_search_service.query_documents(**query_kwargs)
     except Exception as exc:
         add_diagnostic_warning(diagnostics, f"support expansion failed: {exc}")
         trace["support_parent_error"] = str(exc)
@@ -363,6 +377,7 @@ def evidence_hit_summary(result: SearchResult) -> dict[str, Any]:
     return {
         "chunk_id": metadata.get("chunk_id") or _read_field(result, "id"),
         "doc_id": metadata.get("doc_id"),
+        "language": metadata.get("language"),
         "retrieval_tier": metadata.get("retrieval_tier"),
         "chunk_type": metadata.get("chunk_type"),
         "parent_chunk_id": metadata.get("parent_chunk_id"),
@@ -456,6 +471,64 @@ def result_metadata(result: SearchResult) -> dict[str, Any]:
     """Return a defensive copy of SearchResult metadata."""
     metadata = _read_field(result, "metadata", {}) or {}
     return dict(metadata) if isinstance(metadata, Mapping) else {}
+
+
+def language_filter(
+    *,
+    analysis: Any = None,
+    diagnostics: Any = None,
+    hits: Sequence[SearchResult] | None = None,
+    query: str | None = None,
+    language: str | None = None,
+) -> str | None:
+    """Resolve the language filter used by evidence support queries."""
+    for candidate in (
+        language,
+        _read_field(analysis, "language"),
+        _trace_language(diagnostics),
+        _hits_language(hits or []),
+    ):
+        normalized = normalize_language(candidate)
+        if normalized:
+            return normalized
+    if query:
+        return detect_language(query)
+    return None
+
+
+def _trace_language(diagnostics: Any) -> str | None:
+    trace = _read_field(diagnostics, "trace", {}) or {}
+    if not isinstance(trace, Mapping):
+        return None
+    query_trace = trace.get("query_understanding")
+    if isinstance(query_trace, Mapping):
+        language = normalize_language(query_trace.get("language"))
+        if language:
+            return language
+    return normalize_language(trace.get("language"))
+
+
+def _hits_language(hits: Sequence[SearchResult]) -> str | None:
+    for hit in hits:
+        language = normalize_language(result_metadata(hit).get("language"))
+        if language:
+            return language
+    return None
+
+
+def detect_language(text: str) -> str:
+    return "zh" if re.search(r"[\u4e00-\u9fff]", str(text or "")) else "en"
+
+
+def normalize_language(value: Any) -> str | None:
+    normalized = str(value or "").strip().lower().replace("_", "-")
+    if not normalized:
+        return None
+    if normalized.startswith("en"):
+        return "en"
+    if normalized.startswith("zh") or normalized in {"cn", "chinese"}:
+        return "zh"
+    return None
 
 
 def list_value(value: Any) -> list[Any]:
