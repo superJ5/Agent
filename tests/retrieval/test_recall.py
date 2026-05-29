@@ -98,16 +98,22 @@ def make_analysis(
     doc_score: float | None = None,
     doc_id: str = "doc-1",
     terms: list[str] | None = None,
+    language: str | None = None,
 ):
     doc_candidates = []
     if doc_score is not None:
         doc_candidates.append(SimpleNamespace(doc_id=doc_id, score=doc_score))
+    values = {
+        "query": query,
+        "primary_intent": intent,
+        "primary_doc_id": doc_id if doc_candidates else None,
+        "doc_candidates": doc_candidates,
+        "query_terms": [SimpleNamespace(term=term) for term in (terms or [query])],
+    }
+    if language is not None:
+        values["language"] = language
     return SimpleNamespace(
-        query=query,
-        primary_intent=intent,
-        primary_doc_id=doc_id if doc_candidates else None,
-        doc_candidates=doc_candidates,
-        query_terms=[SimpleNamespace(term=term) for term in (terms or [query])],
+        **values,
     )
 
 
@@ -125,14 +131,19 @@ def patch_lightweight_helpers(monkeypatch):
     monkeypatch.setattr(recall, "_query_variants", lambda query, intent, query_terms: [query])
     monkeypatch.setattr(
         recall,
+        "_resolve_chunk_types",
+        lambda chunk_families, doc_id=None: list(chunk_families) if chunk_families else None,
+    )
+    monkeypatch.setattr(
+        recall,
         "_route_for_intent",
         lambda intent: {"tiers": ("primary",), "chunk_families": ("component",)},
     )
 
 
-def test_normalize_channel_scores_handles_vector_distance_and_scan_rank():
+def test_normalize_channel_scores_handles_vector_cosine_and_scan_rank():
     vector_scores = recall.normalize_channel_scores(
-        [Result("near", 0.1), Result("far", 0.9)],
+        [Result("high_similarity", 0.9), Result("low_similarity", 0.1)],
         "vector",
     )
     scan_scores = recall.normalize_channel_scores(
@@ -246,6 +257,21 @@ def test_vector_recall_uses_high_confidence_doc_filter_and_unscoped_safety_path(
         "chunk-safe",
     }
     assert [call["doc_id"] for call in fake_service.search_calls] == ["doc-1", None]
+    assert [call["language"] for call in fake_service.search_calls] == ["en", "en"]
+
+
+def test_vector_recall_passes_chinese_language_filter(monkeypatch):
+    patch_lightweight_helpers(monkeypatch)
+    fake_service = FakeVectorSearchService()
+    monkeypatch.setattr(recall, "vector_search_service", fake_service)
+
+    recall.vector_recall(
+        "如何安装电池",
+        make_analysis(query="如何安装电池", doc_score=0.95, terms=["安装", "电池"]),
+        make_options(reranker_top_n=8),
+    )
+
+    assert [call["language"] for call in fake_service.search_calls] == ["zh", "zh"]
 
 
 def test_vector_recall_does_not_use_low_confidence_doc_as_only_filter(monkeypatch):
@@ -294,6 +320,26 @@ def test_bm25_provider_results_are_returned(monkeypatch):
 
     assert [result.metadata["chunk_id"] for result in results] == ["shared", "bm25-2"]
     assert [call["doc_id"] for call in provider.calls] == ["doc-1", None]
+    assert [call["language"] for call in provider.calls] == ["en", "en"]
+
+
+def test_bm25_recall_detects_language_when_analysis_has_no_language(monkeypatch):
+    patch_lightweight_helpers(monkeypatch)
+    provider = FakeBM25Provider()
+    recall.set_bm25_provider(provider)
+    query = "\u7535\u6c60"
+
+    try:
+        recall.bm25_recall(
+            query,
+            make_analysis(query=query, terms=[query]),
+            make_options(enable_bm25_recall=True),
+            Diagnostics(),
+        )
+    finally:
+        recall.set_bm25_provider(None)
+
+    assert [call["language"] for call in provider.calls] == ["zh"]
 
 
 def test_scan_recall_preserves_unscoped_safety_path_for_high_confidence_doc(monkeypatch):
@@ -334,6 +380,21 @@ def test_scan_recall_preserves_unscoped_safety_path_for_high_confidence_doc(monk
         "safe-scan",
     ]
     assert [call["doc_id"] for call in fake_service.scan_calls] == ["doc-1", None]
+    assert [call["language"] for call in fake_service.scan_calls] == ["en", "en"]
+
+
+def test_scan_recall_passes_chinese_language_filter(monkeypatch):
+    patch_lightweight_helpers(monkeypatch)
+    fake_service = FakeVectorSearchService()
+    monkeypatch.setattr(recall, "vector_search_service", fake_service)
+
+    recall.scan_recall(
+        "如何安装电池",
+        make_analysis(query="如何安装电池", doc_score=0.95, terms=["安装", "电池"]),
+        make_options(scan_candidate_limit=4, reranker_top_n=8),
+    )
+
+    assert [call["language"] for call in fake_service.scan_calls] == ["zh", "zh"]
 
 
 def test_empty_recall_triggers_scan_and_respects_scan_limit(monkeypatch):
@@ -354,3 +415,6 @@ def test_empty_recall_triggers_scan_and_respects_scan_limit(monkeypatch):
     assert all(candidate.recall_channels == {"scan"} for candidate in candidates)
     assert fake_service.scan_calls[0]["batch_size"] == 2
     assert diagnostics.trace["recall"]["scan_triggered"] is True
+    assert diagnostics.trace["recall"]["language_filter"] == "en"
+    assert diagnostics.trace["recall"]["channel_filters"]["vector"] == {"language": "en"}
+    assert diagnostics.trace["recall"]["channel_filters"]["scan"] == {"language": "en"}

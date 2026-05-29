@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import inspect
+import re
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any, Protocol, cast
@@ -78,6 +80,7 @@ class BM25Provider(Protocol):
         doc_id: str | None = None,
         retrieval_tiers: Sequence[str] | None = None,
         chunk_types: Sequence[str] | None = None,
+        language: str | None = None,
     ) -> list[SearchResult]:
         """Return lexical search hits."""
 
@@ -101,11 +104,17 @@ def recall_candidates(
     channel_results: list[tuple[str, list[SearchResult]]] = []
     trace = _recall_trace(diagnostics)
     trace["query"] = query
+    language = _analysis_language(analysis, query)
+    trace["language"] = language
+    trace["language_filter"] = language
+    channel_filters = trace.setdefault("channel_filters", {})
 
     if getattr(options, "enable_vector_recall", True):
         try:
             vector_results = vector_recall(query, analysis, options)
             channel_results.append(("vector", vector_results))
+            if isinstance(channel_filters, dict):
+                channel_filters["vector"] = {"language": language}
             trace.setdefault("channels", {})["vector"] = _serialize_results(vector_results)
         except Exception as exc:
             _add_warning(diagnostics, f"vector recall failed: {exc}")
@@ -114,6 +123,8 @@ def recall_candidates(
         try:
             bm25_results = bm25_recall(query, analysis, options, diagnostics)
             channel_results.append(("bm25", bm25_results))
+            if isinstance(channel_filters, dict):
+                channel_filters["bm25"] = {"language": language}
             trace.setdefault("channels", {})["bm25"] = _serialize_results(bm25_results)
         except Exception as exc:
             _add_warning(diagnostics, f"bm25 recall failed: {exc}")
@@ -124,6 +135,8 @@ def recall_candidates(
         try:
             scan_results = scan_recall(query, analysis, options)
             channel_results.append(("scan", scan_results))
+            if isinstance(channel_filters, dict):
+                channel_filters["scan"] = {"language": language}
             trace.setdefault("channels", {})["scan"] = _serialize_results(scan_results)
             merged = merge_recall_results(channel_results, options, diagnostics)
             trace["scan_triggered"] = True
@@ -153,6 +166,7 @@ def vector_recall(
     fetch_k = _recall_fetch_limit(options)
     intent = _primary_intent(analysis)
     query_terms = _query_terms(analysis)
+    language = _analysis_language(analysis, query)
     results: list[SearchResult] = []
 
     for route in _recall_routes(intent, analysis):
@@ -162,6 +176,7 @@ def vector_recall(
                 query=variant,
                 top_k=fetch_k,
                 doc_id=route["doc_id"],
+                language=language,
                 retrieval_tiers=list(route["tiers"]) if route["tiers"] else None,
                 chunk_types=list(chunk_types) if chunk_types else None,
             )
@@ -195,20 +210,44 @@ def bm25_recall(
 
     fetch_k = _recall_fetch_limit(options)
     intent = _primary_intent(analysis)
+    language = _analysis_language(analysis, query)
     results: list[SearchResult] = []
 
     for route in _recall_routes(intent, analysis):
         chunk_types = _resolve_chunk_types(route["chunk_families"], doc_id=route["doc_id"])
-        hits = provider.search(
-            query,
+        hits = _search_bm25_provider(
+            provider,
+            query=query,
             top_k=fetch_k,
             doc_id=route["doc_id"],
+            language=language,
             retrieval_tiers=list(route["tiers"]) if route["tiers"] else None,
             chunk_types=list(chunk_types) if chunk_types else None,
         )
         results.extend(_filter_results_to_active_docs(hits, scoped_doc_id=route["doc_id"]))
 
     return deduplicate_results(results)[:fetch_k]
+
+
+def _search_bm25_provider(
+    provider: BM25Provider,
+    *,
+    query: str,
+    top_k: int,
+    doc_id: str | None,
+    language: str,
+    retrieval_tiers: Sequence[str] | None,
+    chunk_types: Sequence[str] | None,
+) -> list[SearchResult]:
+    kwargs: dict[str, Any] = {
+        "top_k": top_k,
+        "doc_id": doc_id,
+        "retrieval_tiers": retrieval_tiers,
+        "chunk_types": chunk_types,
+    }
+    if _call_accepts_keyword(provider.search, "language"):
+        kwargs["language"] = language
+    return provider.search(query, **kwargs)
 
 
 def scan_recall(
@@ -220,6 +259,7 @@ def scan_recall(
     service = _require_vector_search_service()
     intent = _primary_intent(analysis)
     query_terms = _query_terms(analysis)
+    language = _analysis_language(analysis, query)
     limit = max(int(getattr(options, "scan_candidate_limit", 4096) or 0), 1)
     fetch_k = min(_recall_fetch_limit(options), limit)
     results: list[SearchResult] = []
@@ -239,6 +279,7 @@ def scan_recall(
         chunk_types = _resolve_chunk_types(route["chunk_families"], doc_id=route["doc_id"])
         hits = service.query_all_documents(
             doc_id=route["doc_id"],
+            language=language,
             retrieval_tiers=list(route["tiers"]) if route["tiers"] else None,
             chunk_types=list(chunk_types) if chunk_types else None,
             batch_size=route_limit,
@@ -358,7 +399,7 @@ def normalize_channel_scores(
 
     raw_scores = [_safe_float(getattr(result, "score", 0.0)) for result in results]
     if channel == "vector":
-        channel_scores = [1.0 / (1.0 + max(score, 0.0)) for score in raw_scores]
+        channel_scores = raw_scores
     else:
         channel_scores = raw_scores
 
@@ -483,12 +524,25 @@ def _all_intents(analysis: QueryAnalysis) -> list[str]:
 
 def _all_doc_ids(analysis: QueryAnalysis) -> list[str]:
     """Return all doc_ids from analysis."""
-    doc_ids = getattr(analysis, "all_doc_ids", None)
-    if doc_ids:
-        return list(doc_ids)
-    primary = getattr(analysis, "primary_doc_id", None)
-    if primary:
-        return [str(primary)]
+    doc_candidates = getattr(analysis, "doc_candidates", None) or []
+    high_confidence_doc_ids: list[str] = []
+    for candidate in doc_candidates:
+        doc_id = getattr(candidate, "doc_id", None)
+        if not doc_id:
+            continue
+        if _safe_float(getattr(candidate, "score", 0.0)) < DOC_FILTER_CONFIDENCE_THRESHOLD:
+            continue
+        high_confidence_doc_ids.append(str(doc_id))
+    if high_confidence_doc_ids:
+        return list(dict.fromkeys(high_confidence_doc_ids))
+
+    if not doc_candidates:
+        doc_ids = getattr(analysis, "all_doc_ids", None)
+        if doc_ids:
+            return list(doc_ids)
+        primary = getattr(analysis, "primary_doc_id", None)
+        if primary:
+            return [str(primary)]
     return []
 
 
@@ -498,6 +552,49 @@ def _primary_intent(analysis: QueryAnalysis) -> str:
 
 def _analysis_query(analysis: QueryAnalysis) -> str:
     return str(getattr(analysis, "query", "") or "")
+
+
+def _analysis_language(analysis: QueryAnalysis, query: str) -> str:
+    for attr_name in ("language", "detected_language", "query_language"):
+        language = _normalise_language(getattr(analysis, attr_name, None))
+        if language is not None:
+            return language
+
+    metadata = getattr(analysis, "metadata", None)
+    if isinstance(metadata, dict):
+        language = _normalise_language(metadata.get("language"))
+        if language is not None:
+            return language
+
+    return _detect_language(query or _analysis_query(analysis))
+
+
+def _detect_language(text: str) -> str:
+    return "zh" if re.search(r"[\u4e00-\u9fff]", str(text or "")) else "en"
+
+
+def _normalise_language(value: object) -> str | None:
+    if value is None:
+        return None
+    normalized = str(value).strip().lower().replace("_", "-")
+    if not normalized:
+        return None
+    if normalized.startswith("en"):
+        return "en"
+    if normalized.startswith("zh") or normalized in {"cn", "chinese"}:
+        return "zh"
+    return None
+
+
+def _call_accepts_keyword(callable_obj: Any, keyword: str) -> bool:
+    try:
+        signature = inspect.signature(callable_obj)
+    except (TypeError, ValueError):
+        return False
+    return any(
+        parameter.kind == inspect.Parameter.VAR_KEYWORD or name == keyword
+        for name, parameter in signature.parameters.items()
+    )
 
 
 def _query_terms(analysis: QueryAnalysis) -> list[str]:
@@ -700,6 +797,7 @@ def _serialize_result(result: SearchResult) -> dict[str, Any]:
         "chunk_id": metadata.get("chunk_id") or getattr(result, "id", None),
         "score": getattr(result, "score", None),
         "doc_id": metadata.get("doc_id"),
+        "language": metadata.get("language"),
         "retrieval_tier": metadata.get("retrieval_tier"),
         "chunk_type": metadata.get("chunk_type"),
     }

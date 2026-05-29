@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, Iterable, List, Sequence
+from collections.abc import Iterable, Sequence
+from typing import Any
 
 from loguru import logger
 from pymilvus import Collection
@@ -10,7 +11,6 @@ from pymilvus import Collection
 from app.core.milvus_client import milvus_manager
 from app.services.vector_embedding_service import vector_embedding_service
 from app.services.vector_store_manager import vector_store_manager
-
 
 METADATA_QUERY_BATCH_SIZE = 1000
 
@@ -23,14 +23,14 @@ class SearchResult:
         id: str,
         content: str,
         score: float,
-        metadata: Dict[str, Any],
+        metadata: dict[str, Any],
     ):
         self.id = id
         self.content = content
         self.score = score
         self.metadata = metadata
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to a serializable dict."""
         return {
             "id": self.id,
@@ -47,9 +47,9 @@ class VectorSearchService:
         logger.info("VectorSearchService initialized")
 
     @staticmethod
-    def _rows_to_search_results(rows: Iterable[dict[str, Any]]) -> List[SearchResult]:
+    def _rows_to_search_results(rows: Iterable[dict[str, Any]]) -> list[SearchResult]:
         """Convert Milvus query rows into search results."""
-        results: List[SearchResult] = []
+        results: list[SearchResult] = []
         for row in rows:
             metadata = row.get("metadata", {}) or {}
             content = metadata.get("text") or row.get("content") or ""
@@ -72,12 +72,14 @@ class VectorSearchService:
     def _build_query_expr(
         self,
         doc_id: str | None = None,
+        language: str | None = None,
         retrieval_tiers: str | Sequence[str] | None = None,
         chunk_types: str | Sequence[str] | None = None,
         chunk_ids: str | Sequence[str] | None = None,
     ) -> str:
         filter_expr = vector_store_manager.build_metadata_filter_expr(
             doc_id=doc_id,
+            language=language,
             retrieval_tiers=retrieval_tiers,
             chunk_types=chunk_types,
             chunk_ids=chunk_ids,
@@ -89,17 +91,19 @@ class VectorSearchService:
         query: str,
         top_k: int = 3,
         doc_id: str | None = None,
+        language: str | None = None,
         retrieval_tiers: str | Sequence[str] | None = None,
         chunk_types: str | Sequence[str] | None = None,
         chunk_ids: str | Sequence[str] | None = None,
-    ) -> List[SearchResult]:
+    ) -> list[SearchResult]:
         """Search similar documents with optional metadata filters."""
         try:
             logger.info(
-                "Start vector search: query='{}', top_k={}, doc_id={}, retrieval_tiers={}, chunk_types={}, chunk_ids={}",
+                "Start vector search: query='{}', top_k={}, doc_id={}, language={}, retrieval_tiers={}, chunk_types={}, chunk_ids={}",
                 query,
                 top_k,
                 doc_id,
+                language,
                 retrieval_tiers,
                 chunk_types,
                 chunk_ids,
@@ -109,6 +113,7 @@ class VectorSearchService:
             collection: Collection = milvus_manager.get_collection()
             filter_expr = vector_store_manager.build_metadata_filter_expr(
                 doc_id=doc_id,
+                language=language,
                 retrieval_tiers=retrieval_tiers,
                 chunk_types=chunk_types,
                 chunk_ids=chunk_ids,
@@ -131,7 +136,7 @@ class VectorSearchService:
 
             results = collection.search(**search_kwargs)
 
-            search_results: List[SearchResult] = []
+            search_results: list[SearchResult] = []
             for hits in results:
                 for hit in hits:
                     metadata = hit.entity.get("metadata", {}) or {}
@@ -159,16 +164,18 @@ class VectorSearchService:
     def query_documents(
         self,
         doc_id: str | None = None,
+        language: str | None = None,
         retrieval_tiers: str | Sequence[str] | None = None,
         chunk_types: str | Sequence[str] | None = None,
         chunk_ids: str | Sequence[str] | None = None,
         limit: int = 256,
-    ) -> List[SearchResult]:
+    ) -> list[SearchResult]:
         """Query documents by metadata filters without vector similarity search."""
         try:
             collection: Collection = milvus_manager.get_collection()
             expr = self._build_query_expr(
                 doc_id=doc_id,
+                language=language,
                 retrieval_tiers=retrieval_tiers,
                 chunk_types=chunk_types,
                 chunk_ids=chunk_ids,
@@ -194,16 +201,18 @@ class VectorSearchService:
     def query_all_documents(
         self,
         doc_id: str | None = None,
+        language: str | None = None,
         retrieval_tiers: str | Sequence[str] | None = None,
         chunk_types: str | Sequence[str] | None = None,
         chunk_ids: str | Sequence[str] | None = None,
         batch_size: int = METADATA_QUERY_BATCH_SIZE,
-    ) -> List[SearchResult]:
+    ) -> list[SearchResult]:
         """Query all documents matching metadata filters without vector similarity search."""
         try:
             collection: Collection = milvus_manager.get_collection()
             expr = self._build_query_expr(
                 doc_id=doc_id,
+                language=language,
                 retrieval_tiers=retrieval_tiers,
                 chunk_types=chunk_types,
                 chunk_ids=chunk_ids,
@@ -213,7 +222,7 @@ class VectorSearchService:
             query_iterator = getattr(collection, "query_iterator", None)
             if callable(query_iterator):
                 iterator = None
-                results: List[SearchResult] = []
+                results: list[SearchResult] = []
                 try:
                     iterator = query_iterator(
                         expr=expr,
