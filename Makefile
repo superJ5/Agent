@@ -11,6 +11,7 @@ DOCS_DIR = aiops-docs
 MANUAL_CHUNKS_DIR = data/manuals/chunks
 MILVUS_CONTAINER = milvus-standalone
 DOCKER_COMPOSE := $(shell docker compose version >/dev/null 2>&1 && echo "docker compose" || echo "docker-compose")
+UV ?= uv
 LOG_DIR = logs
 SERVER_LOG = $(LOG_DIR)/server.log
 SERVER_PID = $(LOG_DIR)/server.pid
@@ -540,30 +541,30 @@ test-upload:
 
 install:  ## 安装依赖（生产环境）
 	@echo "$(YELLOW)📦 安装依赖...$(NC)"
-	pip install -r requirements.txt 2>/dev/null || pip install -e .
+	$(UV) pip install -e .
 	@echo "$(GREEN)✅ 依赖安装完成$(NC)"
 
 install-dev:  ## 安装开发依赖
 	@echo "$(YELLOW)📦 安装开发依赖...$(NC)"
-	pip install -e ".[dev]" 2>/dev/null || pip install -e .
+	$(UV) pip install -e ".[dev]"
 	@echo "$(GREEN)✅ 开发依赖安装完成$(NC)"
 
 sync:  ## 同步依赖
 	@echo "$(YELLOW)🔄 同步依赖...$(NC)"
-	pip install -e . --upgrade
+	$(UV) pip install -e . --upgrade
 	@echo "$(GREEN)✅ 依赖同步完成$(NC)"
 
 add:  ## 添加依赖包 (用法: make add PKG=package_name)
 	@echo "$(YELLOW)📦 添加依赖: $(PKG)...$(NC)"
-	pip install $(PKG)
+	$(UV) pip install $(PKG)
 
 add-dev:  ## 添加开发依赖 (用法: make add-dev PKG=package_name)
 	@echo "$(YELLOW)📦 添加开发依赖: $(PKG)...$(NC)"
-	pip install $(PKG)
+	$(UV) pip install $(PKG)
 
 remove:  ## 移除依赖包 (用法: make remove PKG=package_name)
 	@echo "$(YELLOW)🗑️  移除依赖: $(PKG)...$(NC)"
-	pip uninstall $(PKG)
+	$(UV) pip uninstall $(PKG)
 
 # ============================================================
 # 代码质量

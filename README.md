@@ -40,9 +40,9 @@
 git clone <repository_url>
 cd super_biz_agent_py
 
-pip install uv
+python3 -m pip install --user uv  # 如果系统已安装 uv，可跳过
 uv venv
-.venv/bin/python -m pip install -e .
+uv pip install -e .
 ```
 
 配置 `.env`：
