@@ -1,11 +1,15 @@
-### Table of Contents
+# EReader Manual
+
+## Table of Contents
 
 \*Introduction…………………………………………………………………page 1  \*Device description…………………………………………………………page 2  \*Front view…………………………………………………………………...page 2  \*Navigation button view……………………………………………………page 3  \*Bottom view…………………………………………………………………page 3  \*Power management………………………………………………………..page 4  \*General Operation………………………………………………………….page 4  \*Main Menu……… …………………………………………………………..page 5  \*Browser History…………………………………………………………….page 6  \*eBook………………………………………………………………………page 6  \*Music……………………………………………………………………….page 8  \*Video………………………………………………………………………..page 11  \*Photo………………………………………………………………………..page 12  \*Voice Recording…………………………………………………………..page 13  \*Setting………………………………………………………………………page 15  \*Document Management………………………………………………....page 17  \*Connect eBook to the computer……………………………………….page 17  \*Manage files……………………………………………………………….page 17  \*Inserting Micro SD card…………………………………………………page 17  \*Taking care of your E Reader…………………………………………..page 17  \*Maintenance and Attention……………………………………………..page 18  \*Firmware upgrade………………………………………………………..page 18  \*Technical specification………………………………………………….page 19  \*Troubleshooting………………………………………………………….page 19
 Thank you for purchase Color E-Reader. We suggested  you to read through this user manual to have better understanding  before using this device. All pictures and graphics display below are  simulated and are not intended to specify included application or  content. Technical information and specification are subject to change  without notice.
 
-### Notes:
+**Notes:**
 
 1. If the player can not power on for the first time, please charge it via USB  cable till the battery indicator is full.  2. Please handle this reader with care to prevent screen damage.  3. Please do not remove the built in battery when device is in charging mode.  4. Built in battery is replaceable however this need to be done by  manufacturer. Please contact manufacturer by phone or email.  5. Please contact manufacturer if you encounter problem with the device. Do  not intend to disassemble the device by yourself.
+
+## Introduction
 
 ### Special Features:
 
@@ -15,23 +19,23 @@ This E Reader has multifunction and is compatible with below format:  \*E Book: 
 
 We includes below accessories to gether with this device. Please contact  manufacturer is you are missing some part:  \*Leather Carrying Bag  \*USB Cable  $^{\star}\mathsf{A C}$  Power Adaptor
 
-### Device Description
+## Device Description
 
-### FRONT VIEW  
+### FRONT VIEW
 
   [1]  Home/ESC button:  When you are prompted to select or enter, press this button to cancel  the operation; sub-interface, or to exit the current interface and return to the previous.  [2]  Prev/Next Page:  press this button to open the Previous/Next page.  [3]  Navigation /Menu:  Navigation button is a 4 way control button (left, right, up, down; Menu  button is menu and confirm.  [4]  Zoom in/out:  zoom in / out of the JPEG file. Also increase or decrease the font size of the  E book content.  [5]  Rotate:  Use this function to rotate your E Book either in horizontal or vertical view.  [6]   $\pmb{3.5~\mathsf{m m}}$   Earphone Jack:  Connect your earphone for your private enjoyment (earphone  not included).  [7]  USB Port:  use USB cable to charge the device and to connect to computer to transfer  your contents.  [8]  Micro SD card reader:  Compatible with Micro SD/SDHC up to 16 GB memory  [9]  Play/Pause:  Press this button to Start / Pause play the music or recording by MIC.  [10]  Power button:  Press the button 3-5 Seconds to power on/off the device.  [11]  Volume   $^+$:  press the UP button to increase the volume when playing music.  [12]  Volume  $\bullet\colon$   press the DOWN button to reduce the volume when playing music.  [13]  Reset On/Off switch:  This is located on the back of the device next to card reader. This  is to reset the device back to factory original default. You might use this key when you  encounter some minor problem with the device.  [14]  Speaker:  0.5W audio output  [15]  TFT LCD Display Screen:  7” in diagonal  
 
 <PIC:Manual13_0>
 
-### NAVIGATION BUTTON VIEW  
+### NAVIGATION BUTTON VIEW
 
 <PIC:Manual13_1>
 
-### BOTTOM VIEW  
+### BOTTOM VIEW
 
 <PIC:Manual13_2>
 
-### Power Management
+## Power Management
 
 ### Charging the battery
 
@@ -45,7 +49,7 @@ The e-book's battery has been partially charged at the factory. The battery indi
 
 This device includes a Lithium polymer rechargeable battery (3.7V 2000mAh). Shall you  in need of replacing the battery, please contact manufacturer and DO NOT intend to do  so by yourself. This process only can be done by manufacturer’s technician.
 
-### General Operation
+## General Operation
 
 ### Power ON/OFF the device:
 
@@ -55,7 +59,7 @@ This device includes a Lithium polymer rechargeable battery (3.7V 2000mAh). Shal
 
 1. The Navigation button: Use the  $"<>$  keys" to select the left/right/up/down direction.  2. Confirm / Enter: Selected items press the "M" key to enter the currently selected  function or refurbish screen.  3. ESC: press the "Home/ESC" button to return to the previous screen.
 
-### Main Menu
+## Main Menu
 
 This interface shows all features of this device as follows: "Browser History",  "eBook",  "Music", "Video", "Photo“, "Record", "Explorer", "settings" Select the desire function, then  enter.
 
@@ -73,7 +77,7 @@ Display the file recently browsed, move the Navigation keys to select a book pre
 
 Compatible Format:  EPUB, FB2, HTML, PDF AND TXT  Selecting the Book:  Select the desire book then click "M" button to start reading its  content.  Previous/Next Page:  You can use these buttons to “turn” the page. You can also use  up and down in Navigation control to do the same task.
 
-### Page Jump, Save Mark, Load Mark, Del Mark, Browser
+### Page Jump, Save Mark, Load Mark, Del Mark, Browser Mode
 
 Mode
 When in eBook mode, you can press “M” button to enter "Page Jump", "Save Mark",  "Load Mark", "Del Mark", "Browser Mode", "Flip Time", "Brightness", "Set color".  
@@ -124,13 +128,13 @@ Select the "Record" in the main menu, click "M" button to enter the voice record
 
 <PIC:Manual13_11>
 
-### How to start the Recording:
+#### How to start the Recording:
 
 Press the "Play/Pause" button to start the recording, press it again to pause the recording,  press the "HOME" to stop the recording.  After you done with the recording you will be prompted to ask if want to save into the  device. Please select “YES” or “NOT” by pressing the “M” key.
 
 <PIC:Manual13_12>
 
-### Record Playback Function:
+#### Record Playback Function:
 
 1.  Go to main menu and select “Music”, press “M” to go to “Musci Menu”.  2.  Select "Record" and press the "M" button to go to “Recorded” file list.  3.  Select the desire recorded file then press “M” to start playback.
 
@@ -164,9 +168,9 @@ Date Settings:   Display the current system's date information. You can change t
 Calendar:   Select the "Calendar" then click "M" button to enter.  
 <PIC:eReader_07>
 
-### Document Management
+## Document Management
 
-### Connect e-book to the computer
+### Connecting the e-book to the computer
 
 Please connect this device to your computer via USB data cable. This reader with auto  turn on and the screen will show “USB Connection”, and your computer will identify  this reader as a Removable Disk after the connection is completed.  Your computer  will show 2 Removable disk for this device: One is for Built in internal memory  of this device and the other is for Micro SD card (not included) if you have  insert one.
 
@@ -178,7 +182,7 @@ After the device is properly connected to your computer, you can select the remo
 
 You can expand the memory of this device (up to 16 GB) by inserting a micro SD or SDHC  card (its also call TF card). First power off the device then insert a micro SD card and turn  the device back on.
 
-### Note about the use of Micro SD card:
+**Note about the use of Micro SD card:**
 
 If your device is encounter a problem identifying your inserted Micro SD card, please turn  off the device, pull the memory card out and reinsert it again. VERY IMPORTANT:  Please make sure to turn the power off when pulling the memory care and/or inserting  the memory card. Also DO NOT reset the unit when your memory card is inserted into  the device.  Taking Care of your E Reader:  This E reader is designed to be light,  compact and durable. However since it’s an electronic device and must be  treated and maintain carefully:  Putting unnecessary pressure on it or striking the device against other objects  can cause damage. In order to avoid damage to your E Reader, please:
 - Keep the device covered when you are not using it. This will protect the  screen from being scratched or damaged in any way.
@@ -186,11 +190,11 @@ If your device is encounter a problem identifying your inserted Micro SD card, p
 - Do not expose this device to moisture, extreme temperature or any  harmful conditions.
 - Clean the device by wiping with a soft, dry cloth. Do not use harsh  chemicals.
 
-### Maintenance and Attention
+## Maintenance and Attention
 
 Please DO NOT intend to repair or dissemble this reader but to contact manufacturer  shall your device encounter the below  1. The device subjects to spill or foreign liquid objects falling into the device.  2. The device got wet by rain or water.  3. The device got damaged by falling.  4. There are obvious overheating.  5. The implementation of the correct operation, but the product still can not work properly.
 
-### Firmware Upgrade
+## Firmware Upgrade
 
 We will upload any firmware onto our website shall it need any  firmware upgrade in the future. You can also download the user manual and/or any other  instruction related to this E Reader.
 
@@ -206,13 +210,13 @@ Please do not shake severely, squeeze or impact this device, and avoid imposing 
 
 Do not place any object in the gaps or other opening space they are used to provide  ventilation and heat dissipation. These openings can not be blocked or hidden.
 
-### TECHNICAL SPECIFICATIONS
+## TECHNICAL SPECIFICATIONS
 
 Size:  $9.13\times{\mathsf{6}}\times0.6$  inches  $(201\times132\times12.8\,\mathsf{m m})$  Weight: 0.40 lb (170g) (battery included)  Screen Size: 7" TFT Color LCD,  Resolution:  $800\times480$  pixels  Storage Memory: 32 MB RAM, 2GB Flash  Processor: ARM 400MHz  Communication Ports: USB Client (v2.0) - Mini USB connector,  Micro SD card slot  Audio outputs:  $3.5\mathsf{m m}$  stereo earphone jack, built in speaker.  Battery: Rechargeable built-in Li-Polymer battery  $(2000\,\mathsf{m A h})$  )  Peripherals: USB synchronization cable  Operating System: Android  Software Suite: Multi-format eBook reader  Supported image formats: JPG, GIF, PNG  Supported sound format: WAV, WMA, MP3….  Supported Video formats: AVI, RMVB, MOV.MP4…  Supported TXT format: TXT, EPUB, FB2, PDF, HTML  Power Source: 5V--2A  Power Consumption:  $\tt<\!5W$
 
-### Troubleshooting
+## Troubleshooting
 
-### 1. Can not Power on the e-book reader
+1. Can not Power on the e-book reader
 
 a. Please charge the device till the power indicator bar is full.  b. Defective device; please contact manufacturer for instruction.  2. Not able to charge the device  a. Defective AC adaptor; please contact manufacturer for replacement.  b. Defective USB Cable; please contact manufacturer for replacement.  2. No sound or noise when using earphone  a. Adjust volume setting, make sure the volume not in 0 position.  b. Try another pair of earphone.  c. Make sure the music file compression rate is high, low quality music files may cause  noisy and distortion  3. Can not download files into the reader  a. Possible defective USB cable.  b. E Reader’s memory is full.  c. Windows 98 may require a new USB2.0 DRIVER to detect the e-book reader as the a  removable disk ( Please visit a website to download the driver).  4. Can not play the Music files  a. This reader has the powerful Audio processor and is able to play most of popular audio  formats. However there might be some latest music formats or resolutions not working  properly in this device. Please contact manufacturer tech support for assistance.
 

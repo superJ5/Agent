@@ -71,7 +71,7 @@ Always keep the vacuum plugged in and make sure it is in an area with consistent
 
 Turn vacuum over and remove the yellow bin insert and battery pull tab. Then, place vacuum on the Home Base to activate the battery.
 
-### Vacuum is ready to clean
+**Vacuum is ready to clean**
 
 Vacuum has a partial battery charge, so it's ready to start cleaning.
 

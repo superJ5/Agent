@@ -2,11 +2,11 @@
 
 ## Important Safety Instructions
 
-### Warning
+**WARNING:**
 
 TO REDUCE THE RISK OF FIRE OR ELECTRIC SHOCK, DO NOT EXPOSE THIS PRODUCT TO RAIN OR MOISTURE.
 
-### Caution
+**CAUTION:**
 
 TO REDUCE THE RISK OF ELECTRIC SHOCK, DO NOT REMOVE COVER (OR BACK). NO USER-SERVICEABLE PARTS INSIDE. REFER SERVICING TO QUALIFIED SERVICE PERSONNEL.
 
@@ -26,7 +26,7 @@ Do not use this television receiver near water, for example, near a bathtub, was
 
 The serial number and model number are found on the back of this unit. The serial number is unique to this unit. You should record requested information here and retain this guide as a permanent record of your purchase. Please retain your purchase receipt as your proof of purchase.
 
-### Wet Location Marking:
+### Wet Location Marking
 
 Apparatus shall not be exposed to dripping or splashing and no objects filled with liquids, such as vases, shall be placed on the apparatus.
 
@@ -140,7 +140,7 @@ This is the function to memorize all the active channels in your area before you
 
 AUTO PROGRAM searches and memorizes all the active channels in your area then you can select the desired channel with the arrow buttons.
 
-#### Using the A.PROG button
+**Using the A.PROG button**
 
 You can conveniently perform AUTO PROGRAM using the AUTO PRG. button on the remote control.
 
@@ -165,7 +165,7 @@ Notes:
 <PIC:Manual35_7>
 
 
-#### Using the MENU button
+**Using the MENU button**
 
 1. Press the MENU button and then the right arrow button until the menu is displayed as shown right.
 2. Press the down arrow and then the right arrow button to select Auto prog.
@@ -189,7 +189,7 @@ You can conveniently perform MANUAL PROGRAM using the MEMORY/ERASE button on the
 <PIC:Manual35_9>
 
 
-#### Using the MENU button
+**Using the MENU button**
 
 1. Press the MENU button and then the right arrow button until the menu is displayed as shown right.
 2. Press the right arrow and then use the up/down arrow button to select Manual
@@ -399,7 +399,7 @@ The set will automatically adjust the picture according to the surrounding condi
 
 You can select picture modes programmed at factory as you prefer.
 
-### Using the APC button
+**Using the APC button**
 
 1. Press the APC button.
 2. Press the APC button to select Magic eye (some models), Clear, Optimum, Soft or User.
@@ -409,7 +409,7 @@ You can select picture modes programmed at factory as you prefer.
 <PIC:Manual35_27>
 
 
-#### Using the MENU button
+**Using the MENU button**
 
 1. Press the MENU button and then the right arrow button until the menu is displayed as shown right
 2. Press the down arrow and then the right arrow button to select APC
@@ -441,12 +441,12 @@ This is the function to manually adjust the desired picture levels (Contrast, Br
 
 This TV set can receive MTS stereo programs and any SAP (Secondary Audio Program) that accompanies the stereo program, as the system to be transmitted one additional sound signal as well as the original one. MTS function doesn't operate in the video mode.
 
-### Using the MTS button
+**Using the MTS button**
 
 1. Press the MTS button to select your desired MTS mode. Each time you press this button, the MONO, STEREO or SAP mode appears in turn.
 2. Press the ENTER button to exit
 
-### Notes:
+**Notes:**
 - Stereo or SAP can only be received if the TV station transmits those signals, even though you have selected STEREO or SAP.
 - Mono sound is automatically received if the broadcast is only in Mono; even though STEREO or SAP has been selected.
 - Select Mono if you want to listen to mono sound in remote fringe areas during stereo/SAP broadcasting
@@ -467,7 +467,7 @@ You can enjoy the best sound without any special adjustment because this TV set 
 
 AVL automatically keeps on an equal volume level even if you change channels.
 
-### Using the MENU button
+**Using the MENU button**
 1. Press the MENU button and then the right arrow button until the menu is displayed as shown right
 2. Press the down arrow and then the right arrow button to select AVL
 3. Press the down arrow and then the right arrow button to select On or Off
@@ -563,7 +563,7 @@ If your receiver is located at the weak, fringe area of a TV signal your picture
 
 
 
-#### Using the Text Function
+**Using the Text Function**
 
 Text services give a wide variety of information on all kind of subjects (ex. captioned program lists, weather forecasts, stock exchange topics, news for hearing-impaired) through the full TV screen. But not all stations offer text services, even though they might offer captioning.
 
@@ -580,7 +580,7 @@ Using the CAPTION button
 <PIC:Manual35_37>
 
 
-#### Using the MENU button
+**Using the MENU button**
 
 1. Press the MENU button and then use arrow button to select the Special menu.
 2. Press the down arrow and then the right arrow button to select Caption
@@ -684,7 +684,7 @@ Note: In some mono models, when the input jacks on the front panel and back pane
 - Connect component DVD inputs to Y, PB, PR(480i) and audio IN to audio (L/R) ports
 - Note: This TV is programmed to remember the last mode used, even if you turn the TV off
 
-#### 1. How to connect
+**1. How to connect**
 
 
 <PIC:Manual35_43>
@@ -693,13 +693,13 @@ Note: In some mono models, when the input jacks on the front panel and back pane
 <PIC:Manual35_44>
 
 
-#### 2. How to use
+**2. How to use**
 - Turn the set on and press the TV/VIDEO button on the remote control or TV/VIDEO button on the front panel to select COMPONENT.
 - Try this after turning on the DVD set.
 
 ## Troubleshooting check list
 
-### SYMPTOMS
+**SYMPTOMS**
 
 
 <PIC:Manual35_45>

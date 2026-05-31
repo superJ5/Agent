@@ -8,11 +8,11 @@ OWNER'S/OPERATOR'S MANUAL
 
 Thank you for choosing a Yamaha boat. This owner's/operator's manual contains information you will need for proper operation, maintenance, and care. A thorough understanding of these simple instructions will help you to obtain maximum enjoyment from your new boat. If you have any questions about the operation or maintenance of your boat, please consult a Boat Dealer. In this manual, information of particular importance is distinguished in the following ways:  This is the safety alert symbol. It is used to alert you to potential personal injury hazards. Obey all safety messages that follow this symbol to avoid possible injury or death.
 
-### WARNING
+**WARNING:**
 
 A WARNING indicates a hazardous situation which, if not avoided, could result in death or serious injury.
 
-### NOTICE
+**NOTICE:**
 
 A NOTICE indicates special precautions that must be taken to avoid damage to the boat or other property.  TIP: A TIP provides key information to make procedures easier or clearer.
 
@@ -153,73 +153,73 @@ Read the following labels before operating this boat. If you need any additional
 
 If any of these labels is damaged or missing, contact a Boat Dealer for a replacement.
 
-#### 1
+1.
 
 <PIC:Manual09_11>
 
-#### 2
+2.
 
 <PIC:Manual09_12>
 
-#### 3
+3.
 
 <PIC:Manual09_13>
 
-#### 4
+4.
 
 <PIC:Manual09_14>
 
-#### 5
+5.
 
 <PIC:Manual09_15>
 
-#### 6
+6.
 
 <PIC:Manual09_16>
 
-#### 7
+7.
 
 <PIC:Manual09_17>
 
-#### 8
+8.
 
 <PIC:Boat_02>
 
-#### 9
+9.
 
 <PIC:Manual09_18>
 
-#### 10
+10.
 
 <PIC:Manual09_19>
 
-#### 11
+11.
 
 <PIC:Boat_03>
 
-#### 12
+12.
 
 <PIC:Manual09_20>
 
 ### Other labels
 
-#### 13
+13.
 
 <PIC:Boat_04>
 
-#### 14
+14.
 
 <PIC:Boat_05>
 
-#### 15
+15.
 
 <PIC:Boat_06>
 
-#### 16
+16.
 
 <PIC:Boat_07>
 
-#### 17
+17.
 
 
 MAXIMUM CAPACITIES  10 PERSONS OR 1860 LBS.  2250 POUNDS, PERSONS, GEAR  THIS BOAT COMPLIES WITH U.S. COAST GUARD SAFETY STANDARDS IN EFFECT ON THE DATE OF CERTIFICATION MEETS U.S. EPA EVAP STANDARDS USING CERTIFIED COMPONENTS MANUFACTURER:  JET BOAT MANUFACTURING U.S.A., INC. MODEL: VONORE, TN
@@ -357,7 +357,7 @@ The waters of the United States are marked for safe navigation by the lateral sy
 
 <PIC:Manual09_32>
 
-#### To get more boating safety
+### To get more boating safety information
 
 information
 
@@ -425,7 +425,7 @@ You share the areas you enjoy when operating your boat with others and with natu
 
 ### Engine shut-off switch
 
-### WARNING
+**WARNING:**
 
 - Always attach the engine shut-off cord (lanyard) to your PFD before starting the engine. Failure to attach the cord could result in a runaway boat if the operator is ejected.  - Do not attach the cord to clothing that could tear loose. Do not route the cord in such a way that it could become entangled, preventing it from functioning.  - Avoid accidentally pulling the cord during normal operation. Once the engine has stopped, you have no steering control of the boat which could result in an accident. Also, without engine power, the boat could slow rapidly from planing speed. This could cause people and objects in the boat to be thrown forward, which could cause injury.  The clip on the end of the engine shut-off cord (lanyard) must be attached to the engine shut-off switch for the engine to run. The cord must be attached to a secure place on the operator's PFD. Should the operator fall overboard or leave the helm, the cord will pull out the clip, stopping the ignition to the engine. This will prevent the boat from running away under power.  1 Engine shut-off switch 2 Clip 3 Engine shut-off cord (lanyard)
 
@@ -452,36 +452,36 @@ There is a main switch for each engine. The main switch controls the ignition an
 
 <PIC:Manual09_45>
 
-### OFF:
+#### OFF:
 
 Ignition circuit is switched off. The engine cannot be started, but other switches will operate. (The main switch key can be removed.)
 
-### ON:
+#### ON:
 
 Ignition circuit is switched on. (The main switch key cannot be removed.)
 
-### START:
+#### START:
 
 The starter motor will turn to start the engine. (When the main switch key is released, it returns automatically to "ON".)
 
-### TIP:
+**TIP:**
 
 - The engine will not start when the clip is removed from the engine shut-off switch. The starter motor will turn over without the cord attached.
 
 - The main switch will not operate (the starter motor will not turn over) if the "START" switch in the battery compartment is turned to the OFF position. (See page 30 for more information.)
 ### Remote control levers
 
-### WARNING
+**WARNING:**
 
 - Before shifting, make sure there are no swimmers or obstacles in the water near you. - When operating in reverse, go slowly. Do not open the throttle more than half. Otherwise, the boat may become unstable, which could result in loss of control and an accident. - Do not shift into reverse while traveling at planing speeds. Loss of control, boat swamping, or damage to the boat could occur.  The remote control lever for each engine controls both throttle and shifting. In normal operation, the levers are moved together. Moving the remote control levers forward from the neutral position shifts into the forward position, and then as the levers are moved farther, accelerates the engines for more thrust. Moving the levers back from the neutral position shifts into the reverse position, and then as the levers are moved farther, accelerates the engines for more thrust. For cruising, adjust the remote control levers so both engines are running at the same engine speed.
 
-### TIP:
+**TIP:**
 
 Because of the mechanical throttle linkage, the remote control levers may not be exactly even with one another when the engines are running at the same engine speed. 1 Neutral position 2 TDE position 3 Forward position 4 Reverse position 5 Shift 6 Fully closed 7 Throttle 8 Fully open
 
 <PIC:Manual09_46>
 
-### TIP:
+**TIP:**
 
 This boat is equipped with a "start-in-gear" protection. The engines will not start unless the levers are in the neutral position.  This boat uses a direct-drive propulsion system. Therefore, jet thrust is always being produced while the engines are running. The direction of the boat is controlled by the shift gates, which direct the flow of the jet thrust as follows:
 
@@ -524,7 +524,7 @@ Your boat can be steered by turning the steering wheel the same direction you wi
 Since the strength of the jet thrust determines the speed and direction of a turn, the throttle must always be opened above idle when attempting a turn, except at trolling speed.  Because boats steer from the stern, the stern of the boat swings out in the opposite direction of your turn. If you turn to starboard, for example, the stern of the boat will swing to the left. Keep this in mind when navigating near a person in the water, such as a down wake boarder or water-skier, or an obstacle, such as a dock.
 ### Tilt lever
 
-### WARNING
+**WARNING:**
 
 - Never touch the tilt lever during operation, otherwise the steering wheel could suddenly change position, which may lead to an accident. - Be sure the steering wheel is locked in position after adjustment. If the steering wheel is not locked in position, it may suddenly change position during operation, which may lead to an accident.  The tilt lever is located under the steering wheel and is used to adjust the tilt of the steering wheel. There are 5 positions.
 
@@ -612,7 +612,7 @@ Tap the time unit that you want to set and scroll up or down.
 
 <PIC:Manual09_74>
 
-### TIP:
+**TIP:**
 
 When "US Unit" is selected, the time is displayed in the 12-hour format. When "Metric Unit" is selected, the time is displayed in the 24-hour format.
 
@@ -624,7 +624,7 @@ The multi-function display has a day mode and a night mode. The brightness can b
 
 <PIC:Manual09_76>
 
-#### To adjust the brightness:
+**To adjust the brightness:**
 
 To make the display darker, drag the slider to the left. To make the display brighter, drag the slider to the right.
 
@@ -662,7 +662,7 @@ After maintenance is performed, reset the number of hours of operation as follow
 1 "Reset" button  (2) When the confirmation message appears, tap the "YES" button to reset the number of hours of operation.
 <PIC:Manual09_84>
 
-### TIP:
+**TIP:**
 
 To return to the maintenance setting screen without resetting the number of hours, tap the "NO" button.
 
@@ -727,11 +727,11 @@ This model is equipped with an over temperature warning system. If the engines s
 
 <PIC:Manual09_95>
 
-### TIP:
+**TIP:**
 
 If the cooling water passages in the engines are dry, it will take about 20 seconds for water to reach the pilot outlets after starting.  If water is not circulating, something may be clogging the intake grates. Refer to "Jet pump clean-out procedure" on page 126.
 
-### NOTICE
+**NOTICE:**
 
 If the cause of overheating cannot be found and corrected, take special precautions to avoid major engine damage while you return to shore.  Single engine overheating - Shut off the overheating engine and use the properly running engine to return to shore. Operate at no-wake speed (8 km/h, 5 mph) to prevent water from flooding the non-operating engine through the water intake. See page 48 for information on the no-wake mode.  Both engines overheating - If getting a tow from another vessel is not possible, operate both engines just slightly above idle while you return to shore. If you can be towed, refer to "Towing the boat" on page 130.  1 Intake grate
 
@@ -753,7 +753,7 @@ The no-wake mode is useful for operating the boat at a steady speed with a minim
 
 <PIC:Manual09_98>
 
-### TIP:
+**TIP:**
 
 The no-wake mode can be set to 3 engine speeds. To adjust the engine speed while the no-wake mode is activated, push the plus side or minus side of the no-wake mode/cruise assist switch.  To deactivate the no-wake mode: Perform one of the following operations.  - Push the minus side of the no-wake mode/cruise assist switch until "No Wake Mode" disappears. - Push the remote control levers forward to open the throttle.
 
@@ -765,11 +765,11 @@ The no-wake mode can be set to 3 engine speeds. To adjust the engine speed while
 
 <PIC:Manual09_99>
 
-### TIP:
+**TIP:**
 
 - Once the cruise assist is activated, the set engine speed can be increased by pushing the plus side of the switch or decreased by pushing the minus side. However, the adjustment is limited to a maximum of 8 increments above or below the initial cruise assist setting. Each time the switch is pushed, the engine speed will increase or decrease approximately 100-200 rpm. - While the cruise assist is activated, the engine speed can also be adjusted by operating the remote control levers.
 
-#### To deactivate the cruise assist:
+**To deactivate the cruise assist:**
 
 Operate the remote control levers to decrease the engine speed to 3000 rpm or less. Once "Cruise" disappears, the cruise assist is deactivated.
 
@@ -777,7 +777,7 @@ Operate the remote control levers to decrease the engine speed to 3000 rpm or le
 
 Engine speed in reverse is limited to approximately 4500 rpm. If more thrust is required when the boat is traveling in reverse, use the reverse RPM control.  WARNING! Be prepared to reduce throttle as soon as the boat moves as desired. Otherwise, the boat may become unstable, which could result in loss of control and an accident. To activate the reverse RPM control:  (1) Move the remote control levers backward so that the throttle is opened in reverse and both engines are operating at the same engine speed. (2) Increase the engine speed to 4500 rpm, and then push the plus side of the no-wake mode/cruise assist switch.
 
-### TIP:
+**TIP:**
 
 Once the reverse RPM control is activated, pushing the plus side of the no-wake mode/cruise assist switch will increase the available engine speed by approximately 500 rpm in 3 stages up to a maximum of 6000 rpm, and pushing the minus side will decrease the available engine speed. However, the adjustment is limited to these 3 increments.  To deactivate the reverse RPM control: Operate the remote control levers to decrease the engine speed to less than 4500 rpm.
 
@@ -835,7 +835,7 @@ The electrical circuit for each switch is protected by a circuit breaker. If the
 
 There is a 12 V DC outlet with a circuit breaker located in the storage pocket.
 
-### NOTICE
+**NOTICE:**
 
 Do not use an automotive cigarette lighter or other accessories that get hot because the outlet can be damaged.
 
@@ -857,7 +857,7 @@ A stereo receiver is standard. The stereo system consists of the receiver, speak
 
 ### Seats
 
-### WARNING
+**WARNING:**
 
 Passengers must always sit in a designated seating area, place feet on the deck, and hold on to the handgrips when the boat is in motion.  This boat is equipped with the following seats.
 
@@ -973,7 +973,7 @@ The lockable storage compartment is located on the bow side of the console.  The
 1 Lockable storage compartment key 2 Keyhole
 <PIC:Manual09_132>
 
-### TIP:
+**TIP:**
 
 Store the lockable storage compartment key so that it is not lost.
 To unlock the lockable storage compartment: Insert the lockable storage compartment key into the keyhole of the lockable storage compartment latch, and then turn the key  90 degrees  counterclockwise.
@@ -1026,7 +1026,7 @@ The glove compartment is located under the steering wheel.  To open the glove co
 1 Keyhole 2 Glove compartment key
 <PIC:Manual09_141>
 
-### TIP:
+**TIP:**
 
 Store the glove compartment key so that it is not lost. To unlock the glove compartment: Insert the glove compartment key into the keyhole of the glove compartment latch, and then turn the key  90 degrees  counterclockwise.
 
@@ -1048,7 +1048,7 @@ The wet storage compartment is located under the swim platform.  To open the wet
 1 Wet storage compartment  To close the wet storage compartment:  (1) Close the rear platform hatch. (2) Turn the lock handle counterclockwise and make sure that the hatch is securely closed. (3) Push the lock handle down.
 <PIC:Manual09_144>
 
-### TIP:
+**TIP:**
 
 The engines will not start if the rear platform hatch is not securely closed.
 
@@ -1106,7 +1106,7 @@ The livewell for holding live bait and fish is located on the starboard side of 
 1 Aerator switch 2 Livewell switch
 <PIC:Manual09_155>
 
-### TIP:
+**TIP:**
 
 Push the courtesy light switch to turn on the livewell light. To drain water from the livewell: (1) Remove the drain plug on the bottom of the livewell to drain the water.
 
@@ -1115,7 +1115,7 @@ Push the courtesy light switch to turn on the livewell light. To drain water fro
 
 ### Battery compartment
 
-### WARNING
+**WARNING:**
 
 Do not carry any flammable substances in the compartment or any heavy or metal items that can damage the battery or cause a short circuit. Sparks or fire could result.  The battery compartment is located on the port side of the boat at the stern. To open the battery compartment: Unhook the latch, and then open the battery compartment lid.
 
@@ -1173,7 +1173,7 @@ The anchor light is located at the top of the T-top. It is also the "all-around"
 
 ### Swim platform
 
-### WARNING
+**WARNING:**
 
 Stay away from the swim platform area while the engine is running. Exhaust gases coming from underneath it contain carbon monoxide, a colorless, odorless gas which may cause brain damage or death when inhaled. Symptoms include nausea, dizziness, and drowsiness.  The swim platform area provides a place to stand or sit while putting on skis or a wakeboard, and includes a ladder to make boarding from the water easier.
 
@@ -1197,18 +1197,18 @@ To stow the ladder:  (1) Raise the ladder until it is horizontal, and then push 
 
 ### Jet wash
 
-### WARNING
+**WARNING:**
 
 The jet wash system must be used only by a passenger who is not operating the boat. While the jet wash system is being used, the boat operator must attach the engine shut-off cord (lanyard) to their PFD and scan constantly for people, objects, and other watercraft.
 
-### NOTICE
+**NOTICE:**
 
 - If the jet wash system will not be used for an extended period, turn the shut-off valve to the closed position. To prevent water from freezing in the jet wash hoses when storing the boat in freezing temperatures, drain the water from the hoses. For more information, contact a Boat Dealer. Before using the jet wash system, make sure that the shut-off valve is in the open position. If water leaks from the hose fitting or coil hose or if you notice any other problem, turn the shut-off valve to the closed position immediately.  - While the jet wash system is being used, scan constantly for people, objects, and other watercraft. Otherwise, the boat could collide with another watercraft, a dock, or other obstacle.  - 210FSH DELUXE: Before using the jet wash system, make sure that the anchor light socket is closed. If the anchor light socket is not closed and water enters the socket, the socket could malfunction.
 
 1 Hose fitting
 <PIC:Manual09_172>
 
-#### To use the jet wash:
+**To use the jet wash:**
 
 (1) Connect the coil hose to the hose fitting.
 
@@ -1219,7 +1219,7 @@ The jet wash system must be used only by a passenger who is not operating the bo
 1 Jet wash switch
 <PIC:Manual09_174>
 
-### TIP:
+**TIP:**
 
 - The water supply will start 5 seconds after the jet wash switch is pushed.  - The water flow can be adjusted to 3 levels. Push the jet wash switch to adjust the water flow level.
 
@@ -1272,7 +1272,9 @@ The T-top is equipped with a bimini top, which can be used as a sunshade or rain
 <PIC:Manual09_184>
 
 To install the bimini top: When installing the bimini top, simply reverse the removal steps.
-### Bimini top (210FSH DELUXE) Setting up the bimini top
+### Bimini top (210FSH DELUXE)
+
+#### Setting up the bimini top
 
 To set up the bimini top: (1) Raise the bimini top.
 
@@ -1291,12 +1293,12 @@ To set up the bimini top: (1) Raise the bimini top.
 1 Center pole 2 Lock pin
 <PIC:Manual09_188>
 
-### NOTICE
+**NOTICE:**
 
 Do not exceed 72 km/h (45 mph) with the bimini top in the up position.
 ### Storing the bimini top in the upright position
 
-### NOTICE
+**NOTICE:**
 
 Do not trailer the boat with the bimini top in the fully extended or upright storage position. Put the bimini top in the fully collapsed position to avoid damage.  To store the bimini top in the upright position:  (1) Remove the lock pins, and then push the center poles down.
 
@@ -1330,7 +1332,7 @@ To remove the bimini top:  (1) Store the bimini top. See "Storing the bimini top
 
 ### Installing the bimini top
 
-#### To install the bimini top:
+**To install the bimini top:**
 
 When installing the bimini top, simply reverse the removal steps, and then make sure that the main pole mounting pins are securely installed.
 
@@ -1340,11 +1342,11 @@ When installing the bimini top, simply reverse the removal steps, and then make 
 
 Fuel
 
-### WARNING
+**WARNING:**
 
 - Gasoline and gasoline vapors are extremely flammable. To avoid fires and explosions and to reduce the risk of injury when refueling, follow these instructions.  - Gasoline is poisonous and can cause injury or death. Handle gasoline with care. Never siphon gasoline by mouth. If you should swallow some gasoline, inhale a lot of gasoline vapor, or get some gasoline in your eyes, see your doctor immediately. If gasoline spills on your skin, wash with soap and water. If gasoline spills on your clothing, change your clothes.
 
-### NOTICE
+**NOTICE:**
 
 - Do not use leaded gasoline. Leaded gasoline can seriously damage the engine.  - Avoid getting water and contaminants in the fuel tank. Contaminated fuel can cause poor performance and engine damage. Use only fresh gasoline that has been stored in clean containers.  Recommended fuel: Regular unleaded gasoline with a  minimum octane rating of 86 (Pump octane number) =(R+M)/2 90 (Research octane number)
 
@@ -1360,11 +1362,13 @@ There are two types of gasohol: gasohol containing ethanol and that containing m
 
 As the fuel mixture burns in your engine's combustion chambers, carbon deposits are left behind. Over time, these deposits can reduce performance and even cause engine damage. Marine engines tend to run at lower operating temperatures than other engines, making them more likely to accumulate these harmful deposits.  Engine Med RX, available from your Boat Dealer, is formulated to remove existing deposits and, when used continuously, prevent new ones from forming, while also helping to keep fuel injectors and other fuel system components clean for proper performance and longer engine life.
 
-### Engine oil requirement Engine oil
+### Engine oil requirement
 
-### NOTICE
+#### Engine oil
 
-### Use
+**NOTICE:**
+
+Use
 
 only 4-stroke engine oil. Usage of 2- stroke engine oil could result in severe engine damage.
 
@@ -1377,19 +1381,19 @@ TIP:  When the engine is operated at high speeds, some engine oil may be consume
 
 YAMALUBE oil is a Genuine Part born of the engineers' passion and belief that engine oil is an important liquid engine component. We form teams of specialists in the fields of mechanical engineering, chemistry, electronics and track testing, and have them develop the engine together with the oil it will use. Yamalube oils take full advantage of the base oil's qualities and blend in the ideal balance of additives to make sure the final oil clears our performance standards. Thus, Yamalube mineral, semi-synthetic and synthetic oils have their own distinct characters and value. Experience gained over many years of research and development into oil since the 1960's helps make Yamalube the best choice for your engine.  Checking the engine oil level
 
-### WARNING
+**WARNING:**
 
 Engine oil is extremely hot immediately after the engines are turned off. Coming in contact with or getting any engine oil on your clothes could result in burns.
 
-### NOTICE
+**NOTICE:**
 
 - Do not run the engine with too much or not enough oil in the oil tank, otherwise the engine could be damaged.  - Make sure that debris and water do not enter the oil tank filler hole. Debris and water in the engine oil can cause serious engine damage.
 
-### TIP:
+**TIP:**
 
 - When checking the engine oil level on land, the engine must be running while water is being supplied to the cooling water passages. (See "Flushing the cooling system" on page 111 for information on supplying water.)  - When checking the engine oil level on water, moor the boat so that it will not drift away.
 
-#### To check the engine oil level:
+**To check the engine oil level:**
 
 (1) With the engine stopped, place the boat in a precisely level position on land or launch the boat. (2) Look in all directions, and then start the engine. (See page 96 for information on starting the engine.) (3) Run the engine at idling speed for 6 minutes or more. Run the engine an additional 5 minutes if the ambient temperature is 20 degrees C (68 degrees F) or less. (4) Stop the engine. (5) Open the engine hood. (See page 56.) (6) Loosen the oil tank filler cap and remove it, and then wipe the attached dipstick clean.
 
@@ -1402,7 +1406,7 @@ Engine oil is extremely hot immediately after the engines are turned off. Coming
 
 ### Draining the bilge water
 
-### NOTICE
+**NOTICE:**
 
 - Do not run the engines at full throttle when bilge water remains in the engine compartment. The bilge water can splash into the engines, which can result in severe damage. - Be sure all drain plugs are tightened before operating your boat. Otherwise, water may flood the boat and cause it to submerge.
 ### Draining the bilge water on land
@@ -1443,7 +1447,7 @@ Your boat is equipped with a drainage system that channels water that enters the
 1 Bilge pump outlet
 <PIC:Manual09_202>
 
-### TIP:
+**TIP:**
 
 - The bilge pump indicator light comes on while the bilge pump is operating.
 
@@ -1454,11 +1458,11 @@ Your boat is equipped with a drainage system that channels water that enters the
 
 ### Engine break-in
 
-### NOTICE
+**NOTICE:**
 
 Failure to perform the engine break-in could result in reduced engine life or even severe engine damage.  The engine break-in period is essential to allow the various components of the engines to wear and polish themselves to the correct operating clearances. This ensures proper performance and promotes longer component life.  (1) Check the engine oil level. (See page 80 for information on checking the engine oil level.) (2) Launch the boat and start the engines. (See page 96 for information on starting the engines.) (3) For the first 5 minutes, operate with the engines at idling speed.  (4) For the next 30 minutes, operate with the engines speed below 5000 r/min. (5) For the next 1 hour, operate with the engines speed below 6500 r/min. After the engine break-in is complete, the boat can be operated normally.
 
-### WARNING
+**WARNING:**
 
 Failure to inspect or maintain the boat properly increases the possibility of an accident or damage to the boat. Do not operate the boat if you find any problem.  If a problem cannot be corrected by the procedures provided in this manual, have the boat inspected by a Boat Dealer.
 
@@ -1473,7 +1477,9 @@ Before operating this boat, perform the checks in the following checklist. Alway
 <PIC:Manual09_205>
 
 The steering and shifting pre-operation checks will require two persons: one person to operate the controls and one person to observe the proper operation at the stern.
-### Pre-operation check points Pre-launch checks
+### Pre-operation check points
+
+#### Pre-launch checks
 
 Perform the pre-launch checks in the pre-operation checklist while the boat is on land.
 
@@ -1497,7 +1503,7 @@ Check that the shift gates are slightly above the shift gate neutral position wh
 Fully open position  Check that the shift gates are in the fully closed position when the remote control levers are in the reverse position.
 <PIC:Manual09_209>
 
-### Fully closed position
+Fully closed position
 
 1 Shift gate
 <PIC:Manual09_210>
@@ -1577,7 +1583,7 @@ Make sure that no bilge water has collected in the engine compartment. If bilge 
 
 ### Blower switch check
 
-### WARNING
+**WARNING:**
 
 Gasoline vapors can explode. Before starting the engine, check the engine compartment for gasoline, gasoline vapors, and loose electrical connections, and then operate the blower for at least 4 minutes. Do not start the engine or operate the blower if you can smell gasoline vapors in the engine compartment or if there are any loose electrical connections. Contact a Boat Dealer if there is a problem you cannot locate or correct.  Make sure that the blower operates properly when the blower switch is pushed.
 
@@ -1634,11 +1640,11 @@ Check that water comes out from the pilot outlets while the engines are running 
 
 <PIC:Manual09_230>
 
-### TIP:
+**TIP:**
 
 It may take up to 20 seconds for water to reach the pilot outlets when first launching the boat. The amount and force of the exiting water will vary with engine speed.
 
-### NOTICE
+**NOTICE:**
 
 A continuous flow of water from the pilot outlets shows that water is flowing through the engine cooling water passages. If water is not flowing out of the pilot outlets during operation, do not continue to run the engines. Overheating and serious damage could occur. (See "Over temperature warning" on page 45 for more information.)
 
@@ -1670,7 +1676,7 @@ Before boating, always perform the pre-operation checks listed on page 85. The s
 Always attach the engine shut-off cord (lanyard) to your PFD before operating. You and all other passengers must always wear a USCG-approved PFD when riding in the boat.  Grip the steering wheel firmly and keep both feet on the deck when driving the boat.
 ### Starting the engine
 
-### WARNING
+**WARNING:**
 
 Severe injury or death may result if you ignore any of the following:  - Before operating your boat, become familiar with all controls. Consult a Boat Dealer about any control or function you do not fully understand. Failure to understand how the controls work could cause an accident or prevent you from avoiding an accident.  - Gasoline vapors can explode. Before starting the engines, check the engine compartment for gasoline, gasoline vapors, and loose electrical connections, and then operate the blowers for at least 4 minutes. Do not start the engines or operate the blowers if you can smell gasoline vapors in the engine compartment or if there are any loose electrical connections. Contact a Boat Dealer if there is a problem you cannot locate or correct.
 
@@ -1678,7 +1684,7 @@ Severe injury or death may result if you ignore any of the following:  - Before 
 
 <PIC:Manual09_233>
 
-### NOTICE
+**NOTICE:**
 
 There is a hull drain plug at the bottom of the stern. Check the O-ring on the hull drain plug and make sure that the plug is tightened securely before launching the boat. Otherwise, water may flood the boat and cause it to submerge.
 
@@ -1694,29 +1700,29 @@ continue to run and cause an accident.
 1 Engine shut-off switch 2 Clip 3 Engine shut-off cord (lanyard)
 <PIC:Manual09_236>
 
-### TIP:
+**TIP:**
 
 The engines will not start when the clip is removed from the engine shut-off switch. The starter motors will turn over without the cord attached.  (5) Put the remote control levers in the neutral position. The starter motors will not operate unless the remote control levers are in neutral. (6) Turn the main switch keys to the start position and release it when the engines start. If the engines do not start after 5 seconds of cranking, release the keys. Wait at least 15 seconds before trying to start the engines again.
 
 <PIC:Manual09_237>
 
-### NOTICE
+**NOTICE:**
 
 - Never turn the main switch keys to the start position while the engines are running. The starter mechanism could be damaged.  - If the starter motors are engaged continuously for more than 5 seconds, the battery will become quickly discharged and it will be impossible to start the engines. The starter motors may also be damaged if they are engaged continuously for more than 5 seconds.  On this boat, the engines are connected directly to the drive units. Starting either engine generates some thrust immediately. Only enough throttle should be applied to keep the engine at a fast enough idle to stay running.
 
 ### Stopping the engines
 
-### WARNING
+**WARNING:**
 
 Once the engines has stopped, you have NO STEERING CONTROL over the boat. You could collide with another boat, a dock, or other obstacle.  Stopping the engines immediately after operating at high engine speeds is not recommended. Let the engines cool off at idle or low speed for a few minutes first.
 
-#### To stop the engines:
+**To stop the engines:**
 
 (1) Return the remote control levers to the neutral position. (2) Turn the main switch key to the off position.
 
 <PIC:Manual09_238>
 
-### TIP:
+**TIP:**
 
 The engines can also be stopped by pulling the engine shut-off cord (lanyard).  (3) Remove the main switch keys and the engine shut-off cord (lanyard) if the boat will be left unattended.
 
@@ -1726,7 +1732,7 @@ Because boats steer from the stern, the stern first moves in the direction oppos
 
 ### Turning the boat
 
-### WARNING
+**WARNING:**
 
 - Do not pull the remote control levers back to idle when trying to steer away from objects - you need throttle to steer.  - Be sure passengers are holding on before making turns. An unprepared passenger could lose balance and fall.  Steering control depends on the combination of steering wheel position and the amount of throttle.  Water sucked in through the intake grate is pressurized by the impeller in the jet pumps. As the pressurized water is expelled from the pumps through the jet thrust nozzles, it creates thrust to move and steer the boat. The higher the engine speed, the more thrust is produced.  The amount of jet thrust, in addition to the position of the steering wheel, determines how sharply you turn.  A. More throttle produces high thrust, so the boat will turn more sharply.
 
@@ -1741,7 +1747,7 @@ C. Pulling the remote control levers back to idle or neutral position produces o
 <PIC:Manual09_241>
 
 D. If the boat is moving and the remote control levers are in neutral position, or if there is no thrust because the engines are stopped, the boat will go straight even though the steering wheel is turned.
-### You need throttle to steer.
+**You need throttle to steer.**
 
 <PIC:Manual09_242>
 
@@ -1755,13 +1761,13 @@ D. If the boat is moving and the remote control levers are in neutral position, 
 
 ### Boating with passengers
 
-### WARNING
+**WARNING:**
 
 When passengers are on board, make sure they are seated and holding onto the handgrips before you start to accelerate. An unprepared passenger could lose balance and fall.  Your boat is designed for one operator and up to 9 passengers only. Never have more than 10 people in the boat. Passengers must sit in one of the seats and hold onto the handgrips. Passengers should sit so the weight in the boat is balanced from side-to-side and bow-to-stern as much as possible. If the passenger seat in front of the helm is used, be sure the operator's view ahead is not obstructed.  Maximum load: Total weight of cargo, operator, and  passengers: 1021 kg (2250 lb) Total weight of operator and passengers: 844 kg (1860 lb)
 
 ### Stopping the boat
 
-### WARNING
+**WARNING:**
 
 - Allow adequate stopping distance. - Take early action to avoid collisions. Remember, boats do not have brakes. - Operate defensively at safe speeds and keep a safe distance away from people, objects, and other boats to give you time to stop. - Do not shut the engine off when slowing down in case you need engine power to steer away from a boat or other obstacle that comes into your path.  - You will lose steering control if you completely pull the throttle back to idle. You need throttle to steer.  - Do not use the reverse function to slow down or stop the boat from planing speed as it could cause you to lose control, be ejected, or impact the steering wheel or other parts of the boat. This could increase the risk of serious injury.  The boat is not equipped with a separate braking system. It is stopped by water resistance after the remote control levers are moved back to idle. From full speed, the boat stops in approximately 115 m (377 ft) after the remote control levers are moved back to idle. The stopping distance varies depending on gross weight, water surface conditions, and wind direction. The stated straight-line stopping distance should be used for a reference. The boat slows down as soon as the remote control levers are returned to idle but will coast for a distance before fully stopping. If you are not sure you can stop in time before hitting an obstacle, apply throttle and turn in another direction.
 
@@ -1769,7 +1775,7 @@ When passengers are on board, make sure they are seated and holding onto the han
 
 ### Boarding from the water
 
-### WARNING
+**WARNING:**
 
 To avoid severe injury or death, do not board from the rear, use swim platform, or swim behind boat if engines are running.  - Severe internal injuries can occur if water is forced into body cavities as a result of being near the jet thrust nozzles. - Exhaust gases coming from underneath the swim platform contain carbon monoxide, a colorless, odorless gas which may cause brain damage or death when inhaled. Symptoms include nausea, dizziness, and drowsiness.  (1) Be sure the engines are off, and then move to the stern of the boat. (2) Pull out the ladder and climb up onto the swim platform. (See page 70 for information on ladder.)
 
@@ -1784,30 +1790,30 @@ To avoid severe injury or death, do not board from the rear, use swim platform, 
 
 (1) Make sure no obstructions, boats, or swimmers are close to the boat. Come to a stop before you reach the dock.  (2) Notice how wind and water currents are affecting boat movement as you attach your mooring lines and fenders.  (3) Approach the dock at idle speed. Use reverse as necessary during slow-speed maneuvering to help control speed and direction. Position the boat according to wind and water conditions.  WARNING! Do not use your hand, arm, or other parts of your body to try to keep the boat from hitting the dock. You could be injured if the boat pushes against the dock.
 
-### Wind or current pushing boat away from dock:
+#### Wind or current pushing boat away from dock:
 
 Slowly approach the dock at about a 45 angle. Secure the bow to the dock, and then use engine thrust or a boat hook to gently move the stern to the dock.
 
 <PIC:Manual09_247>
 
-### Wind or current pushing boat toward dock:
+#### Wind or current pushing boat toward dock:
 
 Slowly maneuver to a shallow angle and allow the boat to move toward the dock.
 
 <PIC:Manual09_248>
 
-### No wind or current:
+#### No wind or current:
 
 Approach the dock at a shallow angle. Secure the bow to the dock, and then use engine thrust or a boat hook to gently move the stern to the dock.
 ### Beaching
 
-### NOTICE
+**NOTICE:**
 
 - Small pebbles, sand, seaweed, and other debris can be sucked into the jet intakes and impair or damage the impellers. Always stop the engines before beaching the boat. Be sure the boat is in water 90 cm (3 ft) deep from the bottom of the boat before starting the engines again. Do not beach the boat on rocky beaches. The hull gelcoat and exposed pump housings can be damaged.  - Pay attention to shifts in tides. Beaching at high tide may make it impossible to re-launch the boat if the tide recedes.  (1) Make sure no obstructions, boats, or swimmers are near the beach. (2) Approach the beach slowly and stop the engines when the water is about 90 cm (3 ft) deep from the bottom of the boat. Remember: turning is impossible with the engines stopped.  (3) Get out of the boat and pull the bow up on the beach. (4) When leaving the beach, push the boat out into water that is at least 90 cm (3 ft) deep from the bottom of the boat before starting the engines.
 
 ### Anchoring
 
-#### WARNING
+**WARNING:**
 
 Always anchor from the bow. Anchoring from the stern will make the boat unsteady. A strong current can pull a stern-anchored boat underwater.  Select an anchor appropriate for your boat and water conditions. A "Danforth" (or fluke) type anchor is suitable for most applications; your Boat Dealer can help you choose an anchor.  (1) Make sure the anchor line is securely tied to the anchor and to the bow eye or a bow cleat. (2) Move the boat to the spot where you want to lower the anchor, heading the boat into the wind or current. Stop the boat, and then lower the anchor until it hits bottom. (3) While keeping tension on the line, slowly back up the boat until you have let out line that is 4-6 times the depth of the water. For example, if you are anchoring in 10 feet of water, let out 40-60 feet of line. Secure the line. (4) Pull on the line to be sure the anchor is holding. Also, periodically check your boat's position against the shoreline to make sure it is not drifting and dragging the anchor. Reset if necessary.
 
@@ -1829,7 +1835,7 @@ These post-operation procedures are developed to help preserve the long-term app
 (9) Reinstall the hull drain plug.  NOTICE: Tighten the hull drain plug securely before launching the boat. Otherwise, water may flood the boat and cause it to submerge. Clean any foreign material, such as dirt or sand, from the threads and the O-ring on the hull drain plug before installing the drain plugs.  (10) Spray a rust inhibitor, such as Silicone Protectant and Lubricant, on metallic parts to minimize corrosion.  (11) Use a boat cover designed for your boat, or store the boat in a building or under a canopy or carport in order to prevent rain from falling onto the boat. Because all of the water will not be drained from the deck automatically, take sufficient measures to prevent rainwater from entering the boat.  NOTICE:  Make sure that the turnbuckles on the boat cover do not contact the boat directly when using the cover. Otherwise, the boat could be damaged.  (12) Turn the battery switch in the battery compartment to the OFF position. (See page 30 for more information.)
 ### Trailering the boat
 
-### WARNING
+**WARNING:**
 
 Avoid accident and injury from improper trailering:  - The trailer must be matched for the boat's weight and hull. - The towing vehicle must have the capacity of pulling the load. Pulling a load that exceeds the towing capacity may cause loss of control. - Be sure the boat is secured to the trailer and the trailer is properly hitched to the towing vehicle before towing. - Read the manuals supplied with the trailer by the manufacturer.  A trailer is provided as standard equipment with your boat. If you need to obtain another trailer, choose one that is manufactured to carry a boat of the size and weight of your boat. Check the certification label on the left forward side of the trailer. This label is required to show the Gross Vehicle Weight Rating (GVWR), which is the load carrying capacity of the trailer plus the trailer's weight. Be sure that the total weight of your boat, any cargo, and the trailer weight itself does not exceed the GVWR.
 
@@ -1854,7 +1860,7 @@ It takes practice to back a trailer successfully. If you are not familiar backin
 
 <PIC:Manual09_253>
 
-### Keep the following points in mind when backing up
+**Keep the following points in mind when backing up**
 
 - Back slowly. Make steering adjustments in small steps. - Turn the towing vehicle's wheels opposite the direction you want the trailer to go. - After the trailer begins moving, turn the towing vehicle to follow it. - Have a second person stand by to help direct you with hand signals.
 
@@ -1902,11 +1908,11 @@ Cooling system flushing is essential to prevent the cooling system from clogging
 
 the boat
 
-### WARNING
+**WARNING:**
 
 Gasoline and its vapors are highly flammable and explosive. If there is fuel or a fuel/water  mixture  in  the  engine compartment or the fuel tank compartment, wipe it up immediately with dry rags. Do not operate the boat until the source of the fuel leak is found and corrected.
 
-### TIP:
+**TIP:**
 
 (1) Remove the hull drain plug. (See page 82 for hull drain plug removal and installation procedures.)
 
@@ -1927,22 +1933,22 @@ Note: May cause permanent staining.
 
 If the boat will not be used for more than a month, remove the battery and store it in a cool, dark place.  The battery is located in the battery compartment.
 
-#### To remove the battery:
+**To remove the battery:**
 
 (1) Turn the battery switch to the OFF position. (See page 30.) (2) Disconnect the ground lead (black) and the negative (-) battery lead (black). (3) Disconnect the positive (+) battery lead (red). (4) Unfasten the battery strap, and then remove the battery from the boat.
 
 1 Positive (+)  battery lead (red) 2 Battery strap 3 Negative  (-)  battery lead (black) 4 Ground lead (black)
 <PIC:Manual09_262>
 
-#### To store the battery:
+**To store the battery:**
 
 (1) Clean the battery casing and terminals using a mixture of baking soda and water (one tablespoon of baking soda to one cup of water). (2) Apply dielectric grease or petroleum jelly to the battery terminals and to all exposed connectors. (3) If the battery will be stored for a longer period, check its state of charge (use a hydrometer or a voltmeter and load tester) at least once a month and recharge the battery if it gets too low.
 
-#### To charge the battery:
+**To charge the battery:**
 
 (1) Remove the caps from the cells. Add distilled water if necessary to top up the electrolyte to the proper level. (2) Follow the battery manufacturer's instructions for charging.  WARNING! When charging a battery, keep it well away from sparks and open flames, as it gives off explosive gases. When using a battery charger, connect the battery to the charger before you turn on the charger. This will prevent sparking at the terminals that could ignite battery gases.
 
-#### To install the battery:
+**To install the battery:**
 
 (1) Place the battery in the battery holder, and then fasten the battery using the battery strap. (2) Connect the positive  (+)  battery lead (red) to the positive (+)  battery terminal. NOTICE:  Reversal of the battery leads will damage the electrical parts. (3) Connect the negative  (-)  battery lead (black) and the ground lead (black) to the negative  (-)  battery terminal. (4) Make sure that the battery is securely held in place.
 
@@ -1954,7 +1960,7 @@ Storing your boat for prolonged periods of time, such as winter storage in freez
 
 Fill the fuel tank with fresh fuel, adding one ounce of Fuel Med RX, available from your Boat Dealer, to each gallon of fuel or use an equivalent according to the manufacturer's instructions. (See page 78 for information on filling the fuel tank.) Do not "top off" the tank, because fuel could spill. A full fuel tank is less likely to allow condensation to collect in the tank, reducing the chance of contaminated fuel. Running the engine with treated fuel during cooling system flushing will also help protect the fuel system.
 
-### TIP:
+**TIP:**
 
 Use of Fuel Med RX eliminates the need to drain the fuel system. Consult a Boat Dealer or other qualified mechanic if the fuel system is to be drained instead.
 
@@ -1994,7 +2000,7 @@ Grease the bearing housing through the grease nipples.  NOTICE:  Fill the grease
 
 ## Maintenance
 
-### WARNING
+**WARNING:**
 
 Be sure to turn off the engines when you perform maintenance unless otherwise specified. If you are not familiar with machine servicing, this work should be done by a Boat Dealer or other qualified mechanic.  Maintenance, replacement, or repair of the emission control devices and system may be performed by any marine SI engine repair establishment or individual. Warranty repair, however, must be performed at an authorized Boat Dealer. A service manual is available for purchase through a Boat Dealer for owners who have the mechanical skills, tools, and other equipment necessary to perform maintenance not covered by this owner's/operator's manual.
 
@@ -2036,14 +2042,14 @@ Note: Engine speed will be limited to 3500 rpm.
 
 #### Jet pump clean-out procedure
 
-### WARNING
+**WARNING:**
 
 Severe injury or death may result if you ignore any of the following:  - Turn off and remove both main switch keys, remove the clip from the engine shut-off switch, and wait for all movement to stop before removing the access port caps. - Never override the interlocks to run the engines with the rear platform hatch open. - The impellers have sharp edges. Be careful when reaching into jet pump areas.  If weeds or debris get caught in the intakes or impellers, cavitation can occur, and though the engine speed rises, forward thrust will decrease. If this condition is allowed to continue, jet pump damage can occur and the engines may overheat and seize. If there is any sign that a jet intake or impeller is clogged with weeds or debris, follow this clean-out procedure.  (1) Turn off and remove the main switch key, remove the clip from the engine shut-off switch, and wait for all movement to stop. (2) Open the rear platform hatch. (See page 63.) (3) Check that the retaining cord is securely attached to the access port cap and strap eye.
 
 1 Retaining cord 2 Strap eye  (4) While holding the handle and pushing down, turn the access port cap counterclockwise until the "SET" mark is aligned with the slot, and then lift the cap by the handle.
 <PIC:Manual09_275>
 
-### NOTICE
+**NOTICE:**
 
 - Do not lift or pull the cap with the retaining cord. - Set the cap where it cannot be accidentally knocked overboard.
 
@@ -2062,21 +2068,21 @@ Severe injury or death may result if you ignore any of the following:  - Turn of
 1 Perpendicular to the centerline of the boat  (9) Close the rear platform hatch.
 <PIC:Manual09_279>
 
-### NOTICE
+**NOTICE:**
 
 Be sure the access port caps are locked securely in place. Otherwise, the caps could be forced out of the access ports by water pressure, causing loss of performance and possible damage.
 
-### TIP:
+**TIP:**
 
 The rear platform hatch has interlocks to shut off the engines should the hatch be accidentally opened during operation. The engines will not restart unless the hatch is closed and latched.
 
 ### Jump-starting
 
-### WARNING
+**WARNING:**
 
 Severe injury or death may result if you ignore any of the following:  - If the blower will not operate, ventilate the engine compartment by opening the engine hood for several minutes before attempting a jump-start. - Do not connect the negative (-) jumper cable to the negative (-) terminal of the dead battery. Sparks could ignite battery or fuel vapors, which could cause an explosion.  If the boat battery runs down, the engine can be started in an emergency using a 12-volt booster battery and jumper cables.
 
-#### To connect the jumper cables:
+**To connect the jumper cables:**
 
 (1) Connect the positive  (+)  terminal of the dead battery to the positive  (+)  terminal of the booster battery with the positive  (+)  jumper cable. (2) Connect one end of the negative  (-)  jumper cable to the negative  (-)  terminal of the booster battery. (3) Connect the other end of the negative  (-)  jumper cable to an engine hanger. NOTICE:  Be sure all connections are secure and correct before attempting to start the engine. Any wrong connection may damage the electrical system.
 
@@ -2085,7 +2091,7 @@ Severe injury or death may result if you ignore any of the following:  - If the 
 
 ### Fuse replacement
 
-### WARNING
+**WARNING:**
 
 Do not use fuses of a higher amperage than recommended. Substitution with a fuse that has an improper rating can cause extensive electrical system damage and possible fire.  If a fuse is blown, replace it with the proper fuse. To replace a fuse: (1) Open the engine hood. (See page 56.) (2) Unfasten the band.
 
@@ -2105,7 +2111,7 @@ Do not use fuses of a higher amperage than recommended. Substitution with a fuse
 <PIC:Manual09_284>
 
 Towing the boat  Fuse amperage: Electronic throttle valve fuse: 10 A Fuel pump fuse: 10 A Main relay drive fuse: 10 A Main fuse: 20 A Battery fuse: 30 A Accessory fuse: 20 A Bilge pump fuse: 3 A  (7) Install the fuse box cover. (8) If the accessory fuse or bilge pump fuse was replaced, install the fuse holder. (9) Install the fuse box to the air filter case. (10) Fasten the band. (11) Close the engine hood.
-### WARNING
+**WARNING:**
 
 - The operator of the towing boat must keep speed to a minimum and avoid traffic or obstacles which could be a hazard to either boat.  - The towing line should be long enough so the towed boat will not collide with the towing boat when slowing down.  The boat should be towed only if it becomes inoperative.  The towing rope should be long enough so that the boat will not collide with the towing boat when slowing down. A good rule of thumb is a tow rope which is three times the combined length of the towing boat and the boat.  Tow the boat using the bow eye only. Tow the boat at a no-wake speed.  NOTICE:  Do not tow the boat at speed fast enough to leave a wake (8 km/h, 5 mph). Severe engine damage could result because water can flood the non-operating engine through the water intake.
 

@@ -67,11 +67,11 @@ Disconnect the power cord from the power supply after use. Ventilation opening m
 
 ## PRECAUTIONS WHEN OPERATING
 
-### Don't use excessively hot water
+**Don't use excessively hot water**
 
 (50 degrees C or more) Plastic parts may be deformed or damaged. Also, clothing may be deformed or discolored
 
-### Before washing, empty all pockets
+**Before washing, empty all pockets**
 
 If nails or pins remain in pockets, they may damage the washer or clothes. Close the water tap a little if the water pressure is too high. Be sure to cover with the inner cover on laundry before spinning. This prevents laundry from being tossed out and damaged. To avoid water splashes, close the wash tub lid. Never splash water on the control panel.
 
@@ -177,19 +177,19 @@ Caption: Optional spin dry timer knob (1-10 minutes, Super/Delicate/Normal).<PIC
 
 ### ENVIRONMENT
 
-### Leave some space
+**Leave some space**
 
 Space at least 15 cm between the washer and the wall.
 
-### Place the washer on a sturdy flat surface
+**Place the washer on a sturdy flat surface**
 
 If the washer is placed on an uneven or weak surface, noise or vibration may occur. (Allowable is 2 degrees)
 
-### Never install the washer near water
+**Never install the washer near water**
 
 Do not place the washer in steamy rooms or where the washer is directly exposed to rain. Moisture may destroy the electrical insulation and cause an electrical shock hazard.
 
-### Avoid direct sunlight or heating devices
+**Avoid direct sunlight or heating devices**
 
 As plastic and electrical components are affected by direct heat, never place the washer near heaters, boilers, etc. Do not place under direct sunlight. Install the drain hose about 70~80 cm above the ground for pump model.<PIC:Manual39_24>
 
@@ -241,11 +241,11 @@ The amount of detergent is average. Follow the instruction detergent printed on 
 
 ## MAINTENANCE
 
-### WHEN YOU LOAD THE LAUNDRY INTO THE SPIN BASKET.
+### Loading the Spin Basket
 
 Press the laundry evenly and put the safety cover into the spin basket drum as shown in the figure.<PIC:Manual39_33>
 
-#### TO PICK OUT THE CLOTHING WHICH HAS FALLEN BETWEEN THE BASKET AND TUB
+### Removing Clothing Between the Basket and Tub
 For safety, pull the power supply plug out of the socket.
 <PIC:Manual39_34>
 

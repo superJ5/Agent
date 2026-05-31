@@ -107,7 +107,7 @@ Earbuds must be disconnected from Bluetooth and removed from case in order to re
 <PIC:Manual12_12>
 
 
-#### Flashing red and blue lights
+**Flashing red and blue lights**
 
 Hardware resets are only necessary in the rare case that the earbuds lock up and are unresponsive.
 

@@ -9,7 +9,7 @@ Congratulations on your new toothbrush! Superior plaque removal, whiter teeth, a
 
 ## IMPORTANT SAFEGUARDS
 
-### READ ALL INSTRUCTIONS BEFORE USE
+**READ ALL INSTRUCTIONS BEFORE USE**
 
 Read this user manual carefully before you use the appliance and save it for future reference.
 
@@ -69,7 +69,7 @@ To reduce the risk of burns, electrocution, fire or physical injury:
 
 - If batteries are damaged or leaking, avoid contact with the skin or eyes. If this occurs, immediately rinse well with water and seek medical care.
 
-### SAVE THESE INSTRUCTIONS
+**SAVE THESE INSTRUCTIONS**
 
 ## Electromagnetic fields (EMF)
 
@@ -341,7 +341,7 @@ You can activate or deactivate the following features of your toothbrush:
 
 Note: Adaptive Intensity will be deactivated when pressure sensor is deactivated.
 
-### From app
+#### From app
 
 The following features can be activated or deactivated from the app.
 - Adaptive Intensity
@@ -349,7 +349,7 @@ The following features can be activated or deactivated from the app.
 
 For instructions on how to connect to the app (see 'App - Getting Started').
 
-### From handle
+#### From handle
 
 Step 1: Place the handle on the charging stand.
 Step 2: Press and hold power button for:
@@ -358,7 +358,7 @@ Step 2: Press and hold power button for:
 <PIC:Manual37_13>
 
 
-### Handle feature feedback
+#### Handle feature feedback
 
 - Adaptive intensity: press and hold the power button for up to 7 seconds; feedback is 1 beep; the SenseIQ indicator and light ring light up purple for 3 seconds.
 - Brush head replacement reminder: press and hold the power button for up to 3 seconds; feedback is 1 beep and then 2 beeps; the brush head replacement reminder indicator lights up for 3 seconds.
@@ -434,7 +434,7 @@ b. While charging the battery indicator blinks in white.
 
 Note: Make sure the travel case is placed on its side for better stability.
 
-### Battery Status (when handle is on a working charger or travel case)
+### Battery Status on Charger or Travel Case
 
 When the handle is placed on the charger or in the travel case, the battery indication will communicate the battery level.
 
@@ -442,7 +442,7 @@ When the handle is placed on the charger or in the travel case, the battery indi
 <PIC:Manual37_22>
 
 
-### Battery Status (when handle is not placed on Charger)
+### Battery Status off Charger
 
 When the toothbrush is awake, the battery light at the bottom of the handle will indicate the status of the battery.
 

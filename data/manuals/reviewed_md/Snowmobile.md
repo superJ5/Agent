@@ -24,16 +24,16 @@ Identification numbers record A. FRAME NUMBER:
 
 Congratulations! Your choice of a snowmobile assures you of the highest quality and dependability. Your snowmobile is manufactured by a company well known for excellence in the field of snowmobiles. The most advanced production equipment and technology have made one of the best machine manufacturers. We are confident that this snowmobile will meet the greatest expectations of our customers. This manual is designed to acquaint you with the operation of this snowmobile and minor maintenance required for satisfactory service.  Should major repairs ever be required, you are advised to consult a nearby dealer who has the techniques, tools and parts to ensure your satisfaction. We hope that the information within this booklet will help you enjoy many hours of pleasure with your snowmobile.
 
-### PLEASE READ AND UNDERSTAND THIS MANUAL COMPLETELY BEFORE OPERATING THE MACHINE
+**PLEASE READ AND UNDERSTAND THIS MANUAL COMPLETELY BEFORE OPERATING THE MACHINE**
 
-### NOTE:
+**NOTE:**
 - we continually seek advancements in product design and quality. Therefore, while this manual contains the most current product information available at the time of printing, there may be minor discrepancies between your machine and this manual. If there is any question concerning this manual, please consult your dealer.  This manual should be considered a permanent part of this machine and should remain with this machine when resold.  Particularly important information is distinguished in this manual by the following notations.  ! The Safety Alert Symbol means ATTENTION! BECOME ALERT! YOUR SAFETY IS INVOLVED!  Failure to follow WARNING instructions could result in severe injury or death to the machine operator, a bystander, or a person inspecting or repairing the machine.
 
-### CAUTION:
+**CAUTION:**
 
 CAUTION indicates special precautions that must be taken to avoid damage to the machine.
 
-### NOTE:
+**NOTE:**
 
 A NOTE provides key information to make procedures easier or clearer.
 
@@ -63,7 +63,7 @@ LOCATION OF THE IMPORTANT LABELS 2-1  SAFETY INFORMATION 3-1  DESCRIPTION 4-1  D
 
   5-12 TRIP ODOMETER RESET KNOB
 
-### PRE-OPERATION CHECKS 6-1
+PRE-OPERATION CHECKS 6-1
 
 FUEL 6-1 FUEL..6-2 ENGINE OIL 6-3 THROTTLE LEVER 6-4 MANUAL STARTER. 6-4 THROTTLE OVERRIDE SYSTEM (T.O.R.S.) CHECK 6-4 BRAKE 6-5 V-BELT 6-5 DRIVE V-BELT GUARD 6-6 DRIVE TRACK 6-6 SLIDE RUNNERS 6-7 SKI/SKI RUNNER 6-7 STEERING SYSTEM 6-7 LIGHTS 6-8 BATTERY 6-8 FITTINGS/FASTENERS 6-8 SERVICE TOOLS AND SPARE PARTS 6-8
 
@@ -71,15 +71,15 @@ FUEL 6-1 FUEL..6-2 ENGINE OIL 6-3 THROTTLE LEVER 6-4 MANUAL STARTER. 6-4 THROTTL
 
 STARTING THE ENGINE 7-1 EMERGENCY ENGINE STARTING (BR250T/ET410TR).........7-3 EMERGENCY ENGINE STARTING (CS340E/VK540E). 7-4 BREAK-IN 7-4 RIDING YOUR SNOWMOBILE 7-5 GETTING TO KNOW YOUR SNOWMOBILE 7-5 LEARNING TO RIDE YOUR SNOWMOBILE 7-5 TO START OUT AND ACCELERATE 7-6 BRAKING 7-6 TURNING 7-6 RIDING UPHILL 7-7 RIDING DOWNHILL 7-8 CROSSING A SLOPE(SIDE HILL)...7-8 ICE OR ICY SURFACE 7-9 HARD-PACKED SNOW 7-9 OPERATION ON SURFACES OTHER THAN SNOW OR ICE. 7-9 DRIVING(BR250T/CS340E) 7-11 DRIVING(ET410TR/VK540E)... 7-11 STOPPING THE ENGINE 7-13 TRANSPORTING 7-13
 
-### PERIODIC MAINTENANCE 8-1
+PERIODIC MAINTENANCE 8-1
 
 MAINTENANCE CHART 8-1 TOOLKIT 8-4 SPARK PLUG INSPECTION 8-5 ENGINE IDLE SPEED ADJUSTMENT..8-6 THROTTLE CABLE ADJUSTMENT..8-7 OIL PUMP CABLE ADJUSTMENT...8-8 CARBURETOR ADJUSTMENT......8-8 HIGH ALTITUDE ADJUSTMENTS.8-11 FAN BELT (VK540E)....... 8-11 DRIVE V-BELT REPLACEMENT (BR250T/CS340E)...8-12 DRIVE V-BELT REPLACEMENT (ET410TR/VK540E).. 8-13 DRIVE CHAIN HOUSING. 8-15 BRAKE/PARKING BRAKE (BR250T)8-17 BRAKE/PARKING BRAKE (CS340E/ET410TR).. 8-18 BRAKE/PARKING BRAKE (VK540E)... 8-19 SUSPENSION(BR250T).. 8-19 SUSPENSION(CS340E/ET410TR)8-20 SUSPENSION(VK540E)... 8-21 FULL RATE ADJUSTER(VK540E).8-22 TRACK ADJUSTMENT.8-23 SKI ALIGNMENT 8-26  HANDLEBAR ADJUSTMENT...8-27 HANDLEBAR ADJUSTMENT  TROUBLESHOOTING 9-1  STORAGE 10-1  SPECIFICATIONS 11-1 DIMENSIONS 11-1 ENGINE 11-1 CHASSIS 11-1 ELECTRIC 11-2 SPECIFICATIONS 11-3 DIMENSIONS 11-3 ENGINE 11-3 CHASSIS 11-4 ELECTRIC 11-4 SPECIFICATIONS 11-5 DIMENSIONS 11-5 ENGINE 11-5 CHASSIS 11-6 ELECTRIC 11-6 SPECIFICATIONS 11-7 DIMENSIONS 11-7 ENGINE 11-7 CHASSIS 11-7 ELECTRIC 11-8
 
-### WIRING DIAGRAM......12-1
+WIRING DIAGRAM......12-1
 
-### WIRING DIAGRAM.......12-2
+WIRING DIAGRAM.......12-2
 
-### WIRING DIAGRAM....12-3
+WIRING DIAGRAM....12-3
 
 WIRING DIAGRAM..... 12-4
 
@@ -91,7 +91,7 @@ Please read the following labels carefully before operating this machine.
 
 NOTE:  Maintain or replace safety and instruction labels, as necessary.
 
-### A WARNING
+**A WARNING**
 
 SEVERE INJURY OR DEATH MAY RESULT IF YOU IGNORE ANY OF THE FOLLOWING:
 - Read the Owner's Manual and all labels before operating this vehicle.
@@ -101,13 +101,13 @@ SEVERE INJURY OR DEATH MAY RESULT IF YOU IGNORE ANY OF THE FOLLOWING:
 
 <PIC:Manual34_7>
 
-### WARNING
+**WARNING:**
 
 ### CS340E
 
-### WARNING
+**WARNING:**
 
-### AVERTISSEMENT
+**AVERTISSEMENT**
 
 SEVERE INJURY OR DEATH MAY RESULT IF YOU IGNORE ANY OF THE FOLLOWING:
 - Read the Owner's Manual and all labels before operating this vehicle.
@@ -124,7 +124,7 @@ SEVERE INJURY OR DEATH MAY RESULT IF YOU IGNORE ANY OF THE FOLLOWING:
 
 <PIC:Manual34_9>
 
-### WARNING
+**WARNING:**
 SEVERE INJURY OR DEATH MAY RESULT IF YOU IGNORE ANY OF THE FOLLOWING: Read the Owner's Manual and all labels before operating this vehicle. Check throttle, brake, and steering for proper operation before starting engine. Set parking brake before attempting to start engine. Never run this vehicle with the parking brake applied. To stop engine in an emergency, push the engine stop switch down. Do not operate engine without drive belt or drive guard. Make sure the fuel tank cap is closed securely after refueling. Do not operate this vehicle on public roads. You could collide with another vehicle. Check lever position (Forward or Reverse) before moving.
  SEVERE INJURY OR DEATH MAY RESULT IF YOU IGNORE ANY OF THE FOLLOWING:
 - Read the Owner's Manual and all labels before operating this vehicle.
@@ -157,7 +157,7 @@ When you ride your snowmobile, you must know and use the following for your safe
 <PIC:Manual34_11>
 
 
-## Operation
+### Operation
 1. Do not run the engine indoors, except when starting the engine to transport the machine in or out of the building. Open the outside doors; exhaust fumes are dangerous.  2. Be careful where you ride. There may be obstacles hidden beneath the snow. Stay on established trails to minimize your exposure to hazards. Ride slowly and cautiously when you ride off of established trails. Hitting a rock or stump, or running into wires could cause an accident and injury.
 3. This machine is not designed for use on surfaces other than snow or ice. Use on dirt, sand, grass, rocks, or bare pavement may cause loss of control and may damage the machine.  4. Avoid operating on glare ice, or on snow which has a lot of dirt or sand mixed in. Operation under such conditions will damage or result in rapid wear of ski runners, drive track, slide runners and drive sprockets  5. Always have other snowmobilers with you when going on a ride. You may need help if you run out of fuel, have an accident, or damage your snowmobile  6. Many surfaces such as ice and hard-packed snow require much longer stopping distances. Be alert, plan ahead and begin decelerating early. The best braking method on most surfaces is to release the throttle and apply the brake gently-not suddenly
 <PIC:Manual34_12>
@@ -221,15 +221,15 @@ The main switch controls the following items.  (1)  OFF: Ignition circuit is swi
 
 <PIC:Manual34_32>
 
-### NOTE:
+**NOTE:**
 
 The lights will come on after the engine starts
 
-### CAUTION:
+**CAUTION:**
 
 Release the switch immediately after the engine starts  STARTER LEVER (CHOKE)  Use this lever when starting and warming up a cold engine  (1)  Starter lever (choke)  When starting a cold engine.  (3)  Warming up (CS340E/ET410TR/VK540E)  (4)  When the engine is warm.
 
-### NOTE:
+**NOTE:**
 
 Refer to STARTING THE ENGINE for proper operation.
 
@@ -240,7 +240,7 @@ Refer to STARTING THE ENGINE for proper operation.
 Pump the knob several times in low temperatures for easier engine starting.
 <PIC:Manual34_36>
 
-### CAUTION:
+**CAUTION:**
 
 Excessive use of the primer knob may flood the engine with fuel.
 
@@ -249,11 +249,11 @@ Excessive use of the primer knob may flood the engine with fuel.
 Once the engine is running cleanly, squeezing  of the throttle lever  (1)  will increase the engine speed and cause engagement of the drive system. Regulate the speed of the machine by varying the throttle position. Because the throttle is spring-loaded, the machine will decelerate, and the engine will return to an idle when the thumb is released  (3)
 <PIC:Manual34_34>
 
-### WARNING
+**WARNING:**
 
 Check throttle, brake, and steering for proper operation before starting engine  THROTTLE OVERRIDE SYSTEM(T.O.R.S.)  If the carburetor or throttle cable should malfunction during operation, release the throttle lever. The T.O.R.S. is designed to interrupt the ignition and stop the engine if the carburetor fails to return to idle when the lever is released
 
-### WARNING
+**WARNING:**
 
 If T.O.R.S. stops the engine, make sure that the cause of the malfunction has been corrected and that the engine can be operated without a problem before restarting the engine.
 
@@ -275,7 +275,7 @@ The machine is stopped by braking the entire drive system Squeeze the brake leve
 
 <PIC:Manual34_39>
 
-### CAUTION:
+**CAUTION:**
 
 Be sure the brake lever end does not project out over the handlebar end. This will help prevent brake lever damage when the machine is placed on its side for service.
 
@@ -284,7 +284,7 @@ Be sure the brake lever end does not project out over the handlebar end. This wi
 When parking the machine or starting the engine, apply the parking brake. Squeeze the brake lever  (1), then push down  (3)  the parking brake button  while releasing the brake lever. To release the parking brake, just squeeze the brake lever.
 <PIC:Manual34_40>
 
-### WARNING
+**WARNING:**
 
 Always set the parking brake before attempting to start the engine. Never run the machine with the parking brake applied. This may overheat the brake disc and reduce braking ability.
 
@@ -300,7 +300,7 @@ The drive select lever is used to shift your machine into forward or reverse. Af
 
 <PIC:Manual34_43>
 
-### CAUTION:
+**CAUTION:**
 
 Do not shift from "Forward" to "Reverse" or "Reverse" to "Forward" while the machine is moving. Otherwise the drive system could be damaged.  ### DRIVE SELECT LEVER(SHIFT LEVER)(VK540E)
 
@@ -312,7 +312,7 @@ The drive select lever is used to shift your machine into drive, low or reverse.
 
 <PIC:Manual34_46>
 
-### CAUTION:
+**CAUTION:**
 
 Do not shift from "Forward" to "Reverse" or "Reverse" to "Forward" while the machine is moving. Otherwise the drive system could be damaged.
 V-BELT GUARD  The V-belt guard is designed to cover the clutch and V-belt in case parts break or come loose.
@@ -321,7 +321,7 @@ V-BELT GUARD  The V-belt guard is designed to cover the clutch and V-belt in cas
 
 <PIC:Manual34_48>
 
-### WARNING
+**WARNING:**
 
 Be sure the V-belt guard is tightened securely before operating the machine. Never run the engine without the V-belt or with the V-belt guard removed.
 
@@ -335,7 +335,7 @@ NOTE: Loosen the bolt  (1)  to remove the V-belt
 
 <PIC:Manual34_51>
 
-### CAUTION:
+**CAUTION:**
 - Be sure to tighten the bolt when installing the V-belt in the holder.
 
 <PIC:Manual34_52>
@@ -353,11 +353,11 @@ SHROUD LATCH  To open the shroud, unhook the latch, then slowly raise the shroud
 
 <PIC:Manual34_57>
 
-### CAUTION:
+**CAUTION:**
 
 Be sure all cables and wires are in place when closing the shroud.
 
-### WARNING
+**WARNING:**
 - Do not drive the machine with the shroud open or unlatched or with the shroud removed. Keep your body and clothing away from rotating parts when servicing with the shroud open. Do not touch the hot muffler and engine during or immediately after operation.
 
 ENGINE ROOM PLATES Open the plates to cool down the engine.
@@ -368,12 +368,12 @@ ENGINE ROOM PLATES Open the plates to cool down the engine.
 
 <PIC:Manual34_62>
 
-### CAUTION:
+**CAUTION:**
 
 Close the baffle plate  (1), install the recoil seal  and side plate  (3)  when operating the machine in deep powder snow. Open the baffle plate, remove the recoil seal and side plate when the ambient temperature is above 5 degrees C (41.5 degrees F)
  ENGINE ROOM PLATES(CS340E) Open the plates to cool down the engine.
 
-### CAUTION:
+**CAUTION:**
 
 Close the baffle plate  when the machine is operated in deep powder snow.
 - Remove the louver plate  when the ambient temperature is 5 degrees C (41.5 degrees F) or higher.
@@ -392,7 +392,7 @@ ENGINE ROOM PLATES Open the plates to cool down the engine
 
 
 
-### CAUTION:
+**CAUTION:**
 
 Close the plates when the machine is operated in deep snow.  Remove the louver plate and belly pan plates  when the ambient temperature is 5 degrees C (41.5 degrees F) or higher.
 ENGINE ROOM PLATES Open the plates to cool down the engine
@@ -401,7 +401,7 @@ ENGINE ROOM PLATES Open the plates to cool down the engine
 
 <PIC:Manual34_69>
 
-### CAUTION:
+**CAUTION:**
 
 Close the plate when the machine is operated in deep snow.  Remove the belly pan plates  (1)  when the ambient temperature is 5 degrees C (41.5 degrees F) or higher.
 
@@ -443,7 +443,7 @@ Use the tow point within the specified weight limits  (1)  Tow point
 
 <PIC:Manual34_79>
 
-### CAUTION:
+**CAUTION:**
 
 Avoid towing for a long time under the low speed to prevent early wear of the drive V-belt.  ### HEADLIGHT BEAM SWITCH
 
@@ -463,7 +463,7 @@ This switch controls the electrically heated handlebar grips and throttle lever.
 
 Pre-operation checks should be made each time the machine is used.
 
-### WARNING
+**WARNING:**
 
 The engine and muffler will be very hot after the engine has been run.  Avoid touching the engine and muffler while they are still hot with any part of your body or clothing during inspection or repair.
 
@@ -475,7 +475,7 @@ Recommended fuel: Unleaded gasoline Pump octane number: 88 or higher Fuel tank c
 <PIC:Manual34_84>
 
 
-### WARNING
+**WARNING:**
 - Fuel is highly flammable and poisonous. Check "SAFETY INFORMATION"(see page 3-2) carefully before refueling.
 - Do not fill the fuel tank all the way to the top. When the machine is tilted, this could cause the fuel to overflow. Make sure that the fuel tank cap is closed securely after refueling. Leaking fuel can catch fire.
 
@@ -483,7 +483,7 @@ Recommended fuel: Unleaded gasoline Pump octane number: 88 or higher Fuel tank c
 
 <PIC:Manual34_86>
 
-### CAUTION:
+**CAUTION:**
 
 Oxygenated fuels ("gasohol") containing max.  5%  of ethanol can be used, although richer jetting may be required to prevent engine damage. Consult a  dealer. Gasohol containing methanol is not recommended.
 
@@ -503,12 +503,12 @@ Oxygenated fuels ("gasohol") containing max.  5%  of ethanol can be used, althou
 <PIC:Manual34_94>
 <PIC:Manual34_95>
 
-### WARNING
+**WARNING:**
 
 Fuel is highly flammable and poisonous. Check "SAFETY INFORMATION"(see page 3-2) carefully before refueling.
 - Do not fill the fuel tank all the way to the top. When the machine is tilted, this could cause the fuel to overflow. Make sure that the fuel tank cap is closed securely after refueling. Leaking fuel can catch fire.
 
-### CAUTION:
+**CAUTION:**
 - Oxygenated fuels ("gasohol") containing max.  5%  of ethanol can be used, although richer jetting may be required to prevent engine damage. Consult a  dealer. Gasohol containing methanol is not recommended. Be sure that snow and/or ice does not enter into the fuel tank when refueling
 Do not use alcohol deicers or water absorbing additives with oxygenated fuel.  The tank should be filled with straight gasoline as specified.
 
@@ -524,7 +524,7 @@ Check the throttle lever operation before starting the engine.  It must open smo
  MANUAL STARTER Check for proper operation. Check the rope for damage  THROTTLE OVERRIDE SYSTEM(T.O.R.S.) CHECK
 <PIC:Manual34_97>
 
-### WARNING
+**WARNING:**
 
 When checking T.O.R.S.:  Be sure the parking brake is applied
 - Be sure the throttle lever moves smoothly.
@@ -534,7 +534,7 @@ When checking T.O.R.S.:  Be sure the parking brake is applied
 
 <PIC:Manual34_100>
 
-### WARNING
+**WARNING:**
 
 If the engine does not stop, stop the engine by turning the main switch to the "OFF" position and consult a  dealer.
 
@@ -542,11 +542,11 @@ If the engine does not stop, stop the engine by turning the main switch to the "
 
 (See page  8-17~8-19  for more details.)  Test the brake at slow speed when starting out to make sure it is working properly. If the brake does not provide proper braking performance, inspect the brake for wear.
 
-### WARNING
+**WARNING:**
 
 Do not operate the machine if you find any problem with the brake. You could lose braking ability, which could lead to an accident.
 
-### CAUTION:
+**CAUTION:**
 
 Be sure the brake lever end should not project out over the handlebar end for preventing brake lever damage when the machine is placed on its side
 
@@ -554,7 +554,7 @@ Be sure the brake lever end should not project out over the handlebar end for pr
 
 Open the shroud and remove the V-belt guard Check the V-belt for wear and damage. Replace if necessary.  Wear limit  (1)  28.0 mm (1.10 in)  32.0 mm (1.26 in)
 
-### WARNING
+**WARNING:**
 
 Be sure the V-belt guard is tightened securely before operating the machine. Never run the engine without the V-belt or with the V-belt guard removed.
 
@@ -569,7 +569,7 @@ DRIVE TRACK  (See page  8-23~8-26  for more details.) Check the drive track for 
 
 <PIC:Manual34_105>
 
-### WARNING
+**WARNING:**
 Do not operate the machine if you find damage to the drive track, or misadjustment. Drive track damage and/or failure could result in loss of braking ability and machine control, which could cause an accident.
 
 ### SLIDE RUNNERS
@@ -577,7 +577,7 @@ Do not operate the machine if you find damage to the drive track, or misadjustme
 Check wear and damage. If the slide runners reach the wear limit, they should be replaced.  (1)  Slide runners  Wear limit Wear limit height: 10 mm (0.39 in)
 <PIC:Manual34_106>
 
-### CAUTION:
+**CAUTION:**
 
 Be sure to ride on the fresh snow frequently to avoid rapid wear of slide runner when operating on ice or hard packed snow.
 
@@ -607,7 +607,7 @@ It is a good practice to carry service tools and spare parts with your machine s
 
 STARTING THE ENGINE
 
-### WARNING
+**WARNING:**
 
 Be sure to check "SAFETY INFORMATION" carefully before starting the engine. Be sure the parking brake is applied  NOTE: Be sure the engine stop switch is in the "ON" position  1. Fully open the starter lever (choke)  (1)  Starter lever (choke)  Fully open (cold engine starting)  (3)  Half-open (warm engine up) (CS340E/ET410TR/VK540E)  (4)  Close (warm engine starting)
 <PIC:Manual34_110>
@@ -615,7 +615,7 @@ Be sure to check "SAFETY INFORMATION" carefully before starting the engine. Be s
 <PIC:Manual34_112>
 <PIC:Manual34_113>
 
-### NOTE:
+**NOTE:**
 
 The starter lever (choke) is not required when the engine is warm. Put the starter lever in the "Close" position
 Manual Starting Model 2. Turn the main switch to the "ON" position  (1)  "ON"
@@ -631,7 +631,7 @@ Pull slowly on the recoil starter until it is engaged, then pull it briskly. Aft
 <PIC:Manual34_117>
 
 
-### CAUTION:
+**CAUTION:**
 
 Release the switch immediately after the engine starts.  If the engine fails to start, release the switch, wait a few seconds, then try again. Each attempt should be as short as possible to preserve the battery. Do not crank the engine more than 10 seconds on any one attempt.
 
@@ -643,7 +643,7 @@ Release the switch immediately after the engine starts.  If the engine fails to 
 <PIC:Manual34_122>
 <PIC:Manual34_123>
 
-### WARNING
+**WARNING:**
 
 Do not wind the emergency starter rope around your hand.
 
@@ -651,7 +651,7 @@ Do not wind the emergency starter rope around your hand.
 
 After the engine starts, warm up the engine until the engine does not stop when the starter lever is returned to "Close" position.  After the engine starts, put the starter lever (choke) in the "Half-Open" position. Warm up the engine until it does not run roughly or begin to stall when the starter lever is returned to the "Close" position.  7. Install the drive guard and shroud
 
-### WARNING
+**WARNING:**
 
 Avoid contact with the moving primary sheave
 
@@ -679,7 +679,7 @@ Set the parking brake and follow the instructions on page 7-1~7-2  to start the 
 
 1. With the engine idling, release the parking brake 2. Apply the throttle slowly and smoothly. The centrifugal clutch will engage and you will start to accelerate.
 
-### WARNING
+**WARNING:**
 
 The operator should always keep both hands on the handlebars. Never put your feet outside the running boards. Avoid higher speeds until you have become thoroughly familiar with your Snowmobile and all of its controls.
 
@@ -687,7 +687,7 @@ The operator should always keep both hands on the handlebars. Never put your fee
 
 When slowing down or stopping, release the throttle and apply the brake gently-not suddenly.
 
-### WARNING
+**WARNING:**
 
 Many surfaces such as ice and hard packed snow require much longer stopping distances. Be alert, plan ahead and begin decelerating early.  Improper use of the brake can cause the drive track to lose traction, reducing control and increasing the possibility of an accident.
 
@@ -698,7 +698,7 @@ Improper riding procedures such as abrupt throttle changes excessive braking, in
 
 
 
-### Remember:
+**Remember:**
 
 Avoid higher speeds until you are thoroughly familiar with the operation of your snowmobile
 
@@ -708,7 +708,7 @@ You should practice first on gentle slopes. Try more difficult climbs only after
 <PIC:Manual34_127>
 
 
-### WARNING
+**WARNING:**
 
 Side hills and steep slopes are not recommended for a beginner or novice snowmobiler.
 
@@ -717,24 +717,24 @@ Side hills and steep slopes are not recommended for a beginner or novice snowmob
 When riding downhill, keep speed to a minimum. It is important to apply just enough throttle to keep the clutch engaged while descending the hill. This will allow you to use engine compression to help slow the machine, and to keep the snowmobile from rolling freely down the hill. Also apply the brake frequently, with light pressure.
 <PIC:Manual34_128>
 
-### WARNING
+**WARNING:**
 
 Use extra caution when applying the brake during descent. Excessive braking will cause the track to lock and will cause a loss of control.
 
 ### CROSSING A SLOPE (SIDE HILL)
 
-### WARNING
+**WARNING:**
 
 Side hills are not recommended for a beginner or novice snowmobiler.  Crossing the face of a slope (sidehill) requires you to properly position your weight to maintain proper balance. As you travel across the slope, lean your body to position your weight towards the uphill side. A recommended riding position is to kneel with the knee of the downhill leg on the seat and the foot of the uphill leg on the running board. This position will make it easier for you to shift your body weight as needed.  Snow and ice are slippery, so be prepared for the possibility that your snow-mobile could begin to slip sideways on the slope. If this happens, steer in the direction of the slide if there are no obstacles in your path. As you regain proper balance, gradually steer again in the direction you wish to travel.  If your snowmobile starts to tip, steer down the hill to regain balance.
 
 <PIC:Manual34_129>
 
-### WARNING
+**WARNING:**
 
 If you are unable to maintain correct balance, and your snowmobile is going to tip over, dismount your snow mobile immediately on the up hillside.
 Operating on ice or icy surfaces can be very dangerous Traction for turning, stopping or starting is much less than that on snow.
 
-### WARNING
+**WARNING:**
 
 When you have to operate on ice or icy surfaces, drive slowly and cautiously. Avoid rapid acceleration, turning or braking. Steering is minimal and uncontrolled spins are an ever-present danger.
 
@@ -747,11 +747,11 @@ It can be more difficult to negotiate on hard-packed snow as both skis and track
 Operation of your snowmobile on surfaces other than ice or snow should be avoided. Operation under such conditions will damage or result in rapid wear of ski runners, drive track, slide runners and drive sprockets. Operation of the machine under the following conditions should be avoided at all costs:  1. Dirt 2. Sand 3. Rocks 4. Grass 5. Bare pavement  Other conditions that should be avoided for the sake of drive track and slide runner life are:  1. Glare ice surfaces 2. Snow mixed with a lot of dirt and sand. All the above conditions have one thing in common in regard to drive track and slide runners; little or no lubricating ability. Drive track and all slide rail systems require lubrication (snow or water) between the plastic runners and the metal track inserts. In the absence of lubrication, the plastic runners will rapidly wear and in severe cases, literally melt away, and the drive track will be subjected to damage and/or failure.  Also, traction aids such as studs, cleats etc., may cause further track damage and/or failure.
 Drive track damage and/or failure could result in loss of braking ability and machine control, which could cause an accident.  Always check the drive track for damage or misadjustment before operating the machine.  Do not operate the machine if you find damage to the drive track.
 
-### CAUTION:
+**CAUTION:**
 
 Be sure to ride on the fresh snow frequently to avoid rapid wear and damage of the drive track and slide runners when operating under ice or hard packed snow conditions.
 
-### WARNING
+**WARNING:**
 
 Be sure to read "SAFETY INFORMATION" and "RIDING YOUR SNOWMOBILE" carefully before operating the machine.  NOTE:  Be sure the engine is warmed up enough before riding  1. Release the parking brake by squeezing the brake lever. 2. Press the throttle lever slowly to move the machine. 3. Turn the handlebar in the desired direction. 4. Squeeze the brake lever to stop the machine. 5. Apply parking brake-squeeze the brake lever and push down the button, then pinch it in place by releasing the brake lever.
 
@@ -766,23 +766,25 @@ Be sure to read "SAFETY INFORMATION" and "RIDING YOUR SNOWMOBILE" carefully befo
 
 <PIC:Manual34_132>
 
-### NOTE:
+**NOTE:**
 
 The back buzzer beeps while the shift lever is in reverse 2. Release the parking brake by squeezing the brake lever. 3. Press the throttle lever slowly to move the machine 4. Turn the handlebar in the desired direction 5. Squeeze the brake lever to stop the machine. 6. Apply parking brake-squeeze the brake lever and push down the button, then pinch it in place by releasing the brake lever.
 
 ### STOPPING THE ENGINE
 
 1. Turn the main switch to the "OFF" position to stop the engine.
-### (1) "OFF"
+**(1) "OFF"**
 <PIC:Manual34_133>
 
-### WARNING
+**WARNING:**
 
 Push down the engine stop switch to stop the engine in an emergency. Be sure the key is removed from the switch whenever the operator leaves the machine, to prevent accidental starting.
 
 ### TRANSPORTING
 
 When transporting your machine on a trailer or in a truck. observe the following recommendations to help protect your machine from damage:  Make sure the fuel level in the fuel tank is lower than the carburetors. Otherwise, the vibration and bumps from the road surface could make it possible for fuel to flow through the carburetor into the crankcase. This can result in "hydrostatic lock," a condition where the engine cannot rotate because of fuel accumulated in the engine. Severe engine damage can result from hydrostatic lock. When possible, the fuel tank should be  empty during transportation, especially if the trip will be 30 minutes or longer. If transporting the machine in an open trailer or truck put a tight fitting cover on the machine. A cover specifically designed for your snowmobile is best. This will help keep foreign objects out of the cooling vents in the shroud, and also help protect the machine against damage from debris on the road. If transporting the machine in an open trailer or truck in areas where road salt is used, coat metal suspension surface slightly with oil or other protectant. This will help protect against corrosion. Be sure to clean the machine when you get to your destination to remove any corrosive salts
+
+## PERIODIC MAINTENANCE
 
 ### TOOL KIT
 
@@ -791,7 +793,7 @@ The owner's toolkit has the tools which are sufficient for most periodic mainten
 <PIC:Manual34_135>
 <PIC:Manual34_136>
 
-### NOTE:
+**NOTE:**
 
 If you do not have a torque wrench available during a service operation requiring one, take your machine to a  dealer to check the torque settings and adjust them if necessary.  BR250T CS340E ET410TR VK540E
 
@@ -818,13 +820,13 @@ Spark plugs are produced in several different thread lengths. The thread length 
 
 <PIC:Manual34_143>
 
-### CAUTION:
+**CAUTION:**
 
 Be sure this adjustment is serviced by a  dealer.  Be sure the throttle lever moves smoothly  1. Start the engine.  NOTE:  Refer to STARTING THE ENGINE  2. Turn the throttle stop screw  (1)  in or out to adjust the engine idle speed.
 
 ### THROTTLE CABLE ADJUSTMENT
 
-### CAUTION:
+**CAUTION:**
 
 Be sure the engine idle speed is adjusted first  1. Loosen the adjuster lock nut. 2. Turn the adjuster in or out until proper throttle lever free play is achieved.
 Locknut  (3)  Adjuster
@@ -845,11 +847,11 @@ Locknut  (3)  Adjuster
 <PIC:Manual34_152>
 
 
-### CAUTION:
+**CAUTION:**
 - Be sure this adjustment is serviced by a  dealer.
 - Be sure the carburetor silencer is installed during running to prevent engine damage.  Under some operating conditions the carburetor setting may have to be changed due to air temperature changes, elevation changes, use of alcohol oxygenated fuels, etc. and should be done by an authorized  dealer.
 
-### CAUTION:
+**CAUTION:**
 
 The drive chain gears and V-belt clutch should be adjusted when operating over 900 m (3000 ft) high altitude. Consult a dealer.
 
@@ -867,7 +869,7 @@ The drive chain gears and V-belt clutch should be adjusted when operating over 9
 
 Main Jet Replacement  Replace the main jet according to the setting chart which is available at an authorized  dealer.
 
-### WARNING
+**WARNING:**
 
 Never remove the drain plug or the float chamber while the engine is hot. Fuel will flow out from the float chamber which could ignite and cause injury.
 
@@ -885,7 +887,7 @@ Place a rag under the carburetor before removing the drain plug or float chamber
 <PIC:Manual34_162>
 
 
-### WARNING
+**WARNING:**
 
 Be sure the throttle outer cable is firmly seated in the holder and the throttle operates smoothly after assembling the carburetor.
 
@@ -893,7 +895,7 @@ Be sure the throttle outer cable is firmly seated in the holder and the throttle
 
 Operating at high altitude reduces the performance of a gasoline engine, about  3%  for every  305 m  (1000 ft) of elevation. This is because there is less air as altitude increases. Less air means less oxygen available for combustion.  Your snowmobile can be adjusted to overcome most of the problems found in high altitude riding. Carburetor adjustments are the most important. Less air at high altitude makes the fuel/air ratio too rich, which can cause poor performance. Common problems are hard starting, bogging, and plug fouling. Follow the Main Jet Setting chart which is available at an authorized  dealer carefully. Proper carburetion adjustments will correct the fuel/air ratio.  Remember: less air at higher altitude means there is less horsepower available, even with proper carburetion. Expect acceleration and top speed to be reduced at higher altitudes.  To overcome operating with less power at high altitudes, your snowmobile may also require different clutch and drive line settings to avoid poor performance and rapid wear. If you plan to operate your snowmobile at an altitude different from the area where you bought your machine, be sure to consult your  dealer. He can tell you if there are any changes necessary for the altitude where you plan to ride.
 
-### CAUTION:
+**CAUTION:**
 
 The drive chain gears and V-belt clutch should be adjusted when operating over 900 m (3000 ft) high altitude. Consult a dealer.  FAN BELT (VK540E) Deflection check 1. Remove the fan cover.
 
@@ -903,7 +905,7 @@ The drive chain gears and V-belt clutch should be adjusted when operating over 9
 
 ### DRIVE V-BELT REPLACEMENT (BR250T/CS340E)
 
-#### NOTE:
+**NOTE:**
 
 Apply the parking brake before replacement  1. Remove the drive V-belt guard. 2. Rotate the secondary sliding sheave clockwise  (1)  and push  it so that it separates from the fixed sheave. 3. Pull  (3)  the belt up over the secondary fixed sheave. 4. Remove the belt from the secondary sheave and primary sheave.  5. Install the new belt over the primary sheave.  6. Rotate the secondary sliding sheave clockwise  (4)  and push  it so that it separates from the fixed sheave.  7. Install the belt  between the secondary sliding and fixed sheaves.  8. Install the drive V-belt guard
 <PIC:Manual34_164>
@@ -911,17 +913,17 @@ Apply the parking brake before replacement  1. Remove the drive V-belt guard. 2.
 <PIC:Manual34_166>
 <PIC:Manual34_167>
 
-### WARNING
+**WARNING:**
 
 Never run the engine without the drive V-belt or with the drive V-belt guard removed.
 
 ### DRIVE V-BELT REPLACEMENT(ET410TR/VK540E)
 
-### WARNING
+**WARNING:**
 
 Be sure there are 2 spacers  (1)  between secondary fixed and sliding sheaves when installing the NEW belt. If there is no gap, the clutch engagement speed will be reduced. The machine may move unexpectedly when the engine is started. The spacer adjustment of the secondary sheave should be serviced by a  dealer. Serious injury can occur from sudden release of spring tension during sheave disassembly.
 
-### CAUTION:
+**CAUTION:**
 
 To ensure proper clutch performance, the spacers in the secondary clutch must be repositioned as the V-belt wears.  For this adjustment, consult a  dealer.
 <PIC:Manual34_168>
@@ -930,7 +932,7 @@ To ensure proper clutch performance, the spacers in the secondary clutch must be
 
 <PIC:Manual34_170>
 
-### NOTE:
+**NOTE:**
 
 Apply the parking brake before replacement  1. Remove the drive V-belt guard 2. Rotate the secondary sliding sheave clockwise  (1)  and push  it so that it separates from the fixed sheave. 3. Pull  (3)  the belt up over the secondary fixed sheave. 4. Remove the belt from the secondary sheave and primary sheave.  5. Install the new belt over the primary sheave  6. Rotate the secondary sliding sheave clockwise  (4)  and push  it so that it separates from the fixed sheave.  7. Install the belt  between the secondary sliding and fixed sheaves.  8. Install the drive V-belt guard
 <PIC:Manual34_171>
@@ -938,13 +940,13 @@ Apply the parking brake before replacement  1. Remove the drive V-belt guard 2. 
 <PIC:Manual34_173>
 <PIC:Manual34_174>
 
-### WARNING
+**WARNING:**
 
 Never run the engine without the drive V-belt or with the drive V-belt guard removed.
 
 ### DRIVE CHAIN HOUSING
 
-### Oil Replenishing
+#### Oil Replenishing
 
 1. Check the oil level by removing the level bolt and filler cap.
 (1)  Level bolt  Filler cap
@@ -961,18 +963,18 @@ Never run the engine without the drive V-belt or with the drive V-belt guard rem
 
 <PIC:Manual34_180>
 
-### CAUTION:
+**CAUTION:**
 
 Be sure no foreign material enters the gearcase.  3. BR250T/CS340E: Check the level hole bolt gasket If damaged, replace it. ET410TR/VK540E: Check the level hole bolt gasket and filler cap O-ring If damaged, replace it. 4. Install the level hole bolt and filler cap
 
-### Chain Adjustment (BR250T/CS340E/ET410TR)
+#### Chain Adjustment (BR250T/CS340E/ET410TR)
 
 1. Loosen the adjuster locknut 2. Turn the adjuster in finger-tight  (1)  Locknut  Adjuster
 NOTE:  Be sure the oil seal  (3)  is separated from the chain case  (4)  surface.  3. Tighten the locknut
 <PIC:Manual34_181>
 <PIC:Manual34_182>
 
-### Chain Tension Adjustment (VK540E)
+#### Chain Tension Adjustment (VK540E)
 
 1. Remove the cap and measure the chain deflection by pushing the chain by finger.  (1) Cap  Standard chain deflection  8~15 mm  (0.3 ~ 0.6 in)  If the deflection exceeds specification, adjust the chain tension. 2. Loosen the lock nut. 3. Turn the adjuster bolt in or out until proper chain deflection is achieved.  (3)  Locknut  (4)  Adjuster bolt  4. Tighten the locknut 5. Install the cap.
 <PIC:Manual34_183>
@@ -992,11 +994,11 @@ Check pad wear by measuring the thickness of the brake pad.  If the pad reaches 
 
 <PIC:Manual34_188>
 
-### Adjustment
+#### Adjustment
 
 Brake adjustment is necessary when the brake lever exceeds the proper free play.
 
-### WARNING
+**WARNING:**
 
 Be sure this adjustment is serviced by a dealer.  1. Loosen the locknut  (1)  2. Turn the pad adjuster  in or out to adjust the clearance between the pad  (3)  and disc  (4)  Clearance : 0.2 ~ 1.0 mm (0.008 ~ 0.040 in)  3. Turn the cable adjuster  in or out to adjust the clearance between the pad  (2)  and disc  (4)  Clearance : 0.2 ~ 1.0 mm (0.008 ~ 0.040 in) 4. Check the brake lever free play. Brake lever free play : 6~7 mm (0.24~0.28 in)  Repeat steps 2, 3, and 4 until the specified clearances and free play are achieved.  5. Tighten the locknut
 
@@ -1007,11 +1009,11 @@ Be sure this adjustment is serviced by a dealer.  1. Loosen the locknut  (1)  2.
 Check pad wear by measuring the thickness of the brake pad. If the pad reaches the wear limit, consult a  dealer for replacement.  Wear limit (1) 9.5 mm (0.37 in)
 <PIC:Manual34_189>
 
-### Adjustment
+#### Adjustment
 
 Brake adjustment is necessary when the brake lever exceeds the proper free play.
 
-### WARNING
+**WARNING:**
 
 Be sure this adjustment is serviced by a  dealer.  1. Loosen the locknut  (1)  2. Turn the cable adjuster  in or out to adjust the distance  (1)  Distance  (1): 57 mm (2.24 in)  3. Turn the pad adjuster  (3)  in or out to adjust the clearance between the pad  (4)  and disc  Clearance: 0.15 ~ 0.30 mm (0.006 ~ 0.012 in)
 
@@ -1021,7 +1023,7 @@ Be sure this adjustment is serviced by a  dealer.  1. Loosen the locknut  (1)  2
 
 <PIC:Manual34_192>
 
-### CAUTION:
+**CAUTION:**
 
 Insert the proper feeler gauge between pad and disc to measure the clearance.  4. Check the brake lever free play.  Brake lever free play  (2)  6 ~ 7 mm (0.24 ~ 0.28 in)  Repeat steps 2,3 and 4 until the specified clearances and free play are achieved.  5. Tighten the locknut
 
@@ -1032,21 +1034,21 @@ Insert the proper feeler gauge between pad and disc to measure the clearance.  4
 Check pad wear by measuring the thickness of the brake pad. If the pad reaches the wear limit, consult a  dealer for replacement.  Wear limit (1) 9.5 mm (0.37 in)
 <PIC:Manual34_193>
 
-### Adjustment
+#### Adjustment
 
 This machine has a self-adjusting brake caliper. No adjustment is necessary under normal conditions. If free play at the brake lever is incorrect, consult a dealer.
 
-### WARNING
+**WARNING:**
 
 Be sure this adjustment is serviced by a  dealer.
 
 SUSPENSION The suspension can be adjusted to suit rider preference. A softer setting, for example, may provide greater rider comfort, while a stiffer setting may allow more precise handling and control over certain types of terrain or riding conditions.
 
-### WARNING
+**WARNING:**
 
 Be sure this adjustment is serviced by a  dealer.
 
-### WARNING
+**WARNING:**
 
 This shock absorber contains highly pressurized nitrogen gas.  It could explode by improper handling, causing injury or property damage.  Do not tamper with or attempt to open the shock absorber assembly.
 - Do not subject the shock absorber assembly to open flame or other high heat, which could cause it to explode.
@@ -1054,11 +1056,11 @@ This shock absorber contains highly pressurized nitrogen gas.  It could explode 
 
 SUSPENSION The suspension can be adjusted to suit rider preference. A softer setting, for example, may provide greater rider comfort, while a stiffer setting may allow more precise handling and control over certain types of terrain or riding conditions.
 
-### WARNING
+**WARNING:**
 
 Be sure this adjustment is serviced by a dealer.
 
-### Spring Preload
+#### Spring Preload
 
 Adjust the spring preload by turning the spring seat
 
@@ -1068,7 +1070,7 @@ Adjust the spring preload by turning the spring seat
 
 <PIC:Manual34_196>
 
-### CAUTION:
+**CAUTION:**
 
 Be sure the left and right spring preload is same.
 
@@ -1076,11 +1078,11 @@ Be sure the left and right spring preload is same.
 
 The suspension can be adjusted to suit rider preference. A softer setting, for example, may provide greater rider comfort, while a stiffer setting may allow more precise handling and control over certain types of terrain or riding conditions.
 
-### WARNING
+**WARNING:**
 
 Be sure this adjustment is serviced by a  dealer.
 
-### Spring Preload
+#### Spring Preload
 
 The spring preload can be adjusted by turning the adjuster  (1)
 
@@ -1094,13 +1096,13 @@ The spring preload can be adjusted by turning the adjuster  (1)
 
 <PIC:Manual34_201>
 
-### Extension Spring Preload
+#### Extension Spring Preload
 
 Adjust the spring preload by turning the adjuster  (1)
 
 <PIC:Manual34_202>
 
-### CAUTION
+**CAUTION:**
 
 Be sure the left and right spring preload is same.
 
@@ -1108,7 +1110,7 @@ Be sure the left and right spring preload is same.
 
 The total suspension spring rate and damping characteristics can be adjusted by changing the installed position of the shock-absorber assembly.
 
-### WARNING
+**WARNING:**
 
 Be sure this adjustment is made by a  dealer
 
@@ -1122,19 +1124,19 @@ Be sure this adjustment is made by a  dealer
 
   Be sure to make this adjustment when there is no load (rider or cargo) on the snowmobile  1. Loosen the nut  (1)  1/2 or  3/4  turns, while holding the adjusting bolt  securely with a wrench so it does not move.
 
-### CAUTION:
+**CAUTION:**
 
 Never allow the adjusting bolt  to move while loosening the nut.  2. Turn the adjusting bolt  to the desired position
 
-### CAUTION:
+**CAUTION:**
 
 Be sure the adjusting bolt ends are set at the same position on each side.  3. While holding the adjusting bolt securely, tighten the nut (1)  Nut tightening torque: 49 Nm (4.9 m-kg, 35.4 ft-lb)
 
-### CAUTION:
+**CAUTION:**
 
 Never allow the adjusting bolt to move while tightening the nut.
 
-### WARNING
+**WARNING:**
 
 A broken track, track fittings, or debris thrown by the track could be dangerous to an operator or bystanders. Observe the following precautions:  Do not allow anyone to stand behind the machine when the engine is running.  When the rear of the machine is raised to allow the track to spin, a suitable stand must be used to support the rear of the machine. Never allow anyone to hold the rear of the machine off the ground to allow the track to spin. Never allow anyone near a rotating track.  Inspect track condition frequently. Replace damaged track guide clips. Replace the track if it is damaged to the depth where fabric reinforcement material is visible or support rods are broken. Otherwise, track damage and/or failure could result in loss of braking ability and machine control, which could cause an accident.  Never install studs (cleats) closer than three inches from the edge of the track.
 
@@ -1142,7 +1144,7 @@ A broken track, track fittings, or debris thrown by the track could be dangerous
 
 1. Lay the machine on its side 2. Measure the track deflection with a spring scale. Pull at the center of the track with a force of 100 N {10 kg (22 lb)}
 
-### NOTE:
+**NOTE:**
 
 Measure the gap between the slide runner and the edge of the track window. Measure both sides.
 
@@ -1153,7 +1155,7 @@ Measure the gap between the slide runner and the edge of the track window. Measu
 
 ### Track Adjustment (BR250T)
 
-### WARNING
+**WARNING:**
 
 Be sure this adjustment is made by a  dealer. Support the machine securely on a suitable stand before working underneath the machine. Operate the engine in a well-ventilated area.
 
@@ -1178,7 +1180,7 @@ NOTE:  Install the box  (3)  and wrench  (4)  of the toolkit on the adjuster loc
 
 <PIC:Manual34_215>
 
-### CAUTION:
+**CAUTION:**
 
 The adjusters should be turned an equal amount
 
@@ -1187,7 +1189,7 @@ The adjusters should be turned an equal amount
 
 ### Track Adjustment (CS340E/ET410TR/VK540E)
 
-### WARNING
+**WARNING:**
 - Be sure this adjustment is made by a  dealer. Support the machine securely on a suitable stand before working underneath the machine. Operate the engine in a well-ventilated area.
 
 1. Lift the rear of the machine onto a suitable stand to raise the track off the ground.
@@ -1197,7 +1199,7 @@ The adjusters should be turned an equal amount
 
 <PIC:Manual34_217>
 
-### NOTE:
+**NOTE:**
 
 It is not necessary to remove the cotter pin
 
@@ -1218,7 +1220,7 @@ It is not necessary to remove the cotter pin
 
 <PIC:Manual34_222>
 
-### CAUTION:
+**CAUTION:**
 
 The adjusters should be turned an equal amount
 
@@ -1248,7 +1250,7 @@ The adjusters should be turned an equal amount
 Handlebar bolt tightening torque 14 Nm (1.4 m-kg, 1.0 ft-lb)
 <PIC:Manual34_226>
 
-### CAUTION:
+**CAUTION:**
 
 Be sure the small gap  (1)  side of the holder faces forward
 <PIC:Manual34_227>
@@ -1265,7 +1267,7 @@ Be sure the small gap  (1)  side of the holder faces forward
 Handlebar bolt tightening torque: 15 Nm (1.5 m-kg, 11 ft-lb)
 <PIC:Manual34_230>
 
-### CAUTION:
+**CAUTION:**
 
 Be sure the small gap  (1)  side of the holder faces forward  CS340E ET410TR VK540E
 
@@ -1282,7 +1284,7 @@ Lubricate the following points  Lubricant: Low-temperature grease  (1)  Brake/Th
 <PIC:Manual34_235>
 <PIC:Manual34_236>
 
-### WARNING
+**WARNING:**
 
 Apply a dab of grease to the cable end only. Do not grease the brake/throttle cables themselves because they could become frozen, which could cause loss of control.
 
@@ -1307,17 +1309,17 @@ Apply a dab of grease to the cable end only. Do not grease the brake/throttle ca
 
 <PIC:Manual34_240>
 
-### WARNING
+**WARNING:**
 
 Keep flammable products or your hands away from the hot bulb until it cools down.
 
 6. Install the new bulb
 
-### CAUTION:
+**CAUTION:**
 
 Keep oil or your hands away from the glass part of bulb or its life and illumination will be affected. If the glass is oil stained, thoroughly clean it with a cloth moistened with alcohol or lacquer thinner.
 
-### Beam Adjustment
+#### Beam Adjustment
 
 1. Turn the adjuster  (1)  in or out to adjust the headlight beam.
 <PIC:Manual34_241>
@@ -1331,13 +1333,13 @@ Keep oil or your hands away from the glass part of bulb or its life and illumina
 
 <PIC:Manual34_242>
 
-### WARNING
+**WARNING:**
 
 Keep flammable products or your hands away from the hot bulb until it cools down.
 
 5. Install the new bulb.  Bulb type: 12 V, 60/55 W
 
-### CAUTION:
+**CAUTION:**
 
 Keep oil or your hands away from the glass part of bulb or its life and illumination will be affected. If the glass is oil stained, thoroughly clean it with a cloth moistened with alcohol or lacquer thinner.
 
@@ -1345,7 +1347,7 @@ Keep oil or your hands away from the glass part of bulb or its life and illumina
 
 <PIC:Manual34_243>
 
-### Beam Adjustment
+#### Beam Adjustment
 
 1. Turn the adjuster  (1)  in or out to adjust the headlight beam.
 
@@ -1353,15 +1355,15 @@ Keep oil or your hands away from the glass part of bulb or its life and illumina
 
 <PIC:Manual34_244>
 
-### CAUTION:
+**CAUTION:**
 
 Normal tap water contains minerals which are harmful to a battery; therefore refill only with distilled water.
 
-### WARNING
+**WARNING:**
 
 Battery electrolyte is poisonous and dangerous, causing severe burns, etc. It contains sulfuric (sulphuric) acid. Avoid contact with skin, eyes or clothing  Antidote: INTERNAL-Drink large quantities of water or milk. Follow with milk of magnesia, beaten egg or vegetable oil. Call physician immediately. Eyes: Flush with water for 15 minutes and get prompt medical attention. Batteries produce explosive gases. Keep sparks, flame cigarettes, etc. away. Ventilate when charging or using in closed space. Always cover eyes when working near batteries. KEEP OUT OF REACH OF CHILDREN Be sure to use specified fuse. A wrong fuse will cause electrical system damage and A FIRE HAZARD
 
-### CAUTION:
+**CAUTION:**
 
   Be sure the main switch is turned off to prevent accidental short circuiting.
 
@@ -1371,9 +1373,9 @@ Battery electrolyte is poisonous and dangerous, causing severe burns, etc. It co
 If the fuse immediately blows again, consult  dealer.  Fuse type: 10 A
 <PIC:Manual34_245>
 
-### TROUBLESHOOTING
+## TROUBLESHOOTING
 
-#### A. Engine turns over but doesn't start
+### A. Engine turns over but doesn't start
 
 1. Fuel system
 
@@ -1389,84 +1391,84 @@ Poor or no spark  Spark plug dirty with carbon/wet... Remove carbon/wipe spark p
 
 <PIC:Manual34_248>
 
-### WARNING
+**WARNING:**
 
 Before bypassing the T.O.R.S., be sure the throttle returns properly to the fully-closed position. The T.O.R.S. is an important safety device; in the case of a malfunction, take the machine to a  dealer immediately for repair.
 
 3. Compression Insufficient
 - Loose cylinder head nuts... Tighten nuts properly. Damaged gasket.. Replace gasket. Worn out piston and cylinder... Consult dealer.
 
-#### B. Engine does not turn over with manual starter
+### B. Engine does not turn over with manual starter
 
 1. Seized engine... Seizure is caused by poor lubrication, inadequate fuel, or an air leak - Consult dealer.
 2. "Hydrolock"(fuel has filled crankcase when vehicle was transported).. Remove spark plug(s), turn engine over several times with ignition off to expel excess fuel. Consult dealer.
 
-#### C. Electric starter does not operate or operates slowly (CS340E/VK540E)
+### C. Electric starter does not operate or operates slowly (CS340E/VK540E)
 
 1. Faulty wire connections.. Check connections or consult dealer. 2. Battery discharged... Check battery fluid and charge battery. 3. Engine trouble... Check B above.
 
-#### D. Engine power is low
+### D. Engine power is low
 
 1. Faulty spark plug(s)... Clean or replace spark plug(s). 2. Jetting incorrect for altitude or temperature. Adjust the carburetor. Consult dealer. 3. Improper fuel flow... See A.1. above. 4. Clutch settings not correct for altitude and/or conditions... Consult dealer.
 
-#### E. Engine constantly backfires or misfires
+### E. Engine constantly backfires or misfires
 
 1. Faulty spark plug(s).. Replace spark plug(s). 2. Fuel system clogged... See A.1. above. 3. T.O.R.S. malfunction... See T.O.R.S. in A.2. above.
 
-#### I. Engine does not up shift or down shift properly/engages harshly
+### I. Engine does not up shift or down shift properly/engages harshly
 
 1. Drive belt worn... replace belt or consult dealer. 2. Clutch settings incorrect for altitude/conditions... Consult dealer. 3. Primary clutch worn or sticking... Consult dealer. 4. Secondary clutch worn or sticking.. Consult dealer.
 
-#### J. Noise or excessive vibration in drive line
+### J. Noise or excessive vibration in drive line
 
 1. Broken clutch components.. Consult dealer. 2. Worn or damaged bearings.. Consult dealer. 3. Drive belt damaged or worn with flat spots... Replace. 4. Idler wheel/shaft damage.. Consult dealer. 5. Track damaged... Consult dealer.
 
-#### F. Machine does not move
+### F. Machine does not move
 
 1. Clutch malfunction... Consult dealer. 2. Drive track does not move..foreign object is caught in track, or slide runner has melted to track metal due to lack of lubrication. 3. Drive chain too tight, too loose, or broken... Consult dealer.
 
-#### G. Drive belt twists
+### G. Drive belt twists
 
 1. Improper belt... Replace with correct belt. 2. Clutch offset incorrect... Consult dealer 3. Engine mount loose or broken... Consult dealer.
 
-#### H. Drive belt slips or burns
+### H. Drive belt slips or burns
 
 1. Belt or sheave surface oily or dirty... clean. 2. Problem with driveline... See F above.
 
-### STORAGE
+## STORAGE
 
 Long term storage, requires some preventive procedures to guard against deterioration.
 
-#### 1. Cleaning
+**1. Cleaning**
 
 Thoroughly clean the machine, inside and out, to remove the corrosive salts and acids that can accumulate. Use Mud and Grease Release, or an equivalent, to loosen mud, grease and grime. Wash with mild soap, then rinse and dry completely.
 
-#### 2. Lubrication
+**2. Lubrication**
 
 Lubricate moving parts, suspension linkage and pivot points. Use the grease or lubricant specified in the MAINTENANCE section, or  Lube-Z all general purpose lubricant. Proper lubrication fights corrosion while it reduces friction.
 
-#### 3. Fuel system preparation
+### 3. Fuel system preparation
 
 Add  Fuel Conditioner/Stabilizer, or an equivalent, to the fuel tank to help prevent fuel oxidation, gum and varnish deposits, and to inhibit corrosion in the fuel system and carburetor. In areas where oxygenated fuel ("gasohol") is used, completely drain the fuel system. Consult your dealer.
 
-#### 4. Engine
+### 4. Engine
 
 Proper storage of the engine is essential to prevent costly rust and corrosion damage to internal engine components. This is more important than ever in those areas where oxygenated fuel ("gasohol") is used, because the alcohol content in the fuel increases the chance for water to enter the engine. Use  Stor-Rite Fogging Oil, or an equivalent, to protect both combustion chamber and crankshaft from corrosion. An alternate method is to remove the airbox and squirt oil into the carburetor throats while the engine is running.
 
-### CAUTION:
+**CAUTION:**
 
 Do not attempt to store the machine by simply starting the engine occasionally during the storage period. This can cause more harm than good! Moisture and acids form during combustion which can actually increase the chance for corrosion damage during the storage period.
 
-#### 5. Protection
+### 5. Protection
 
 Apply a coat of wax, such as  Silicone Wax, to painted surfaces. Spray  Silicone Spray, or an equivalent protectant, on the exterior of the engine on the track, and on other metal, plastic and rubber parts.  6. Battery  Remove the battery from the machine and check the fluid level. Charge the battery. Store it in a cool, dry place that is above  0 degrees C  (32 degrees F), but less than  30 degrees C  (90 degrees F). Check battery condition with a hydrometer monthly, and charge as necessary.
 
-### WARNING
+**WARNING:**
 - Never smoke or make and break connections at the battery while charging. Sparks may ignite the battery gas. Be sure the battery terminals are tight and that the battery vent tube is properly routed and is securely attached to the battery.
 
 Do not charge battery quickly. Charge for 10 hours at 1.4 amperes. Do not charge battery quickly. Charge for 10 hours at 1.6 amperes.
 
-#### 7. Track
+### 7. Track
 
 Loosen the track, and block up the chassis so that the track is suspended above the ground.  8. Drive belt  Remove the drive belt and store separately.  9. Storage  Store the machine in a dry, well-ventilated place out of direct sunlight. Put a fabric (breathable) cover over it, preferably one designed for your machine. Do not use a plastic or vinyl cover - condensation could be trapped underneath which could increase the chance of rusting.
 
@@ -1474,25 +1476,27 @@ Loosen the track, and block up the chassis so that the track is suspended above 
 
 When returning your machine to service, reinstall the drive belt and adjust the track. Reinstall the battery, and make sure the battery vent tube is properly reinstalled and is not kinked.  Remove the spark plugs and clean them or replace them. Perform all other pre-operation and seasonal maintenance listed in the Periodic Maintenance chart.  For peak performance, it is recommended that you have your machine checked and tuned by your dealer. He has the experience and training to help you get the maximum performance and use from your machine.  (1)  Speedometer light  Carburetor switch  (3)  Tail/brake light  (4)  Spark plug  Ignition coil  CDI unit  (2)  CDI magneto  Voltage regulator  Brake light switch  Headlight beam switch  Main switch  Accel switch  (3)  Engine stop switch  (4)  Engine stop switch  (5)  Frame ground  Headlight  Thumb warmer (option)  Grip warmer (option)  Grip warmer switch (option)
 
-### COLOR CODE
+## WIRING DIAGRAM
+
+**COLOR CODE**
 
 B Black Blue G Green Yellow R Red Orange Br.. Brown B/Y Black/Yellow B/W Black/White G/Y Green/Yellow Y/B Yellow/Black Y/R Yellow/Red W/R. White/Red  (1)  Speedometer light  Tachometer (option)  (3)  Thumb warmer  (4)  Grip warmer  Grip warmer switch  Main switch  (2)  Fuse  Battery  Starter relay  Starter motor  Tail/brake light  Spark plug  (3)  Ignition coil  (4)  CDI unit  (5)  CDI magneto  Rectifier/regulator  Frame ground  Brake light switch  Headlight beam switch  Carburetor switch  Throttle switch  Engine stop switch  Headlight
 
 <PIC:Manual34_249>
 
-### COLOR CODE
+**COLOR CODE**
 
 B Black Br Brown G Green L Blue Orange R. Red W White Y Yellow B/W Black/White B/Y Black/Yellow G/Y Green/Yellow L/W Blue/White R/W Red/White W/R White/Red Y/B Yellow/Black Y/L Yellow/Blue Y/R Yellow/Red  (1)  Speedometer light  Tachometer light (option)  (3)  Thumb warmer  (4)  Grip warmer  Grip warmer switch  Main switch  (2)  Fuse (option)  Battery (option)  Starter relay (option)  Tail/brake light  Spark plug  Ignition coil  (3)  Starter motor (option)  (4)  CDI unit  (5)  CDI magneto  Rectifier/regulator  Frame ground  Back buzzer  Gear position switch  Brake light switch  Headlight beam switch  Carburetor switch  Accel switch  Engine stop switch  Headlight
 
 <PIC:Manual34_250>
 
-### COLOR CODE
+**COLOR CODE**
 
 B Black Br. Brown Ch. Chocolate G Green L Blue Orange P Pink R Red W White Y Yellow B/W Black/White B/Y Black/Yellow G/Y Green/Yellow R/W Red/White W/R White/Red Y/B Yellow/Black Y/R Yellow/Red  (1)  Back buzzer  Speedometer light  (3) Tachometer light (option) (4)  Tachometer (option)  Gear position switch  Thumb warmer  (2)  Grip warmer  Grip warmer switch  Main switch  Fuse  Rectifier  Starter relay  (3)  Battery  (4)  Tail/brake light  (5)  Spark plug  Ignition coil  Starter motor  CDI unit  CDI magneto  Voltage regulator  Frame ground  Brake light switch  Headlight beam switch  Carburetor switch  Accel switch  Engine stop switch  Engine stop switch  Headlight
 
 <PIC:Manual34_251>
 
-### COLOR CODE
+**COLOR CODE**
 
 B Black Br. Brown Ch. Chocolate G Green L Blue Orange P Pink R Red W White Y Yellow B/W Black/White B/Y Black/Yellow G/Y Green/Yellow L/W Blue/White R/W Red/White W/R White/Red Y/B Yellow/Black Y/L Yellow/Blue Y/R Yellow/Red
 

@@ -24,7 +24,7 @@ When using electrical appliances, basic safety precautions should always be foll
 - Close supervision is necessary when the appliance is used by or near children.
 - The manufacturer accepts no responsibility and the warranty will not apply for any commercial use, inappropriate handling or use of the appliance, any damage resulting from use for other purposes, faulty operation, non-professional repair or failure to comply with the instructions.
 
-### Avoid risk of fatal electric shock and fire.
+**Avoid risk of fatal electric shock and fire.**
 - In case of an emergency: immediately remove the plug from the power socket.
 - Only plug the appliance into suitable, easily accessible, earthed mains connections.
 - The appliance must only be connected after installation.
@@ -49,13 +49,13 @@ When using electrical appliances, basic safety precautions should always be foll
 - Never immerse the appliance or part of it in water or any other liquid.
 - Never put the appliance or part of it in a dishwasher.
 
-## IMPORTANT SAFEGUARDS
+**IMPORTANT SAFEGUARDS**
 - Electricity and water together are dangerous and can lead to fatal electric shocks.
 - Do not open the appliance; dangerous voltage inside.
 - Do not dismantle the appliance.
 - Do not put anything into any openings; doing so may cause fire or electric shock!
 
-### Avoid possible harm when operating the appliance
+**Avoid possible harm when operating the appliance**
 - Never leave the appliance unattended during operation.
 - Do not use the appliance if it is damaged or not operating perfectly.
 - Immediately remove the plug from the power socket.
@@ -93,10 +93,10 @@ a) A short power-supply cord or detachable power-supply cord is to be provided t
 - If it still does not fit, contact a qualified electrician.
 - Do not attempt to modify the plug in any way.
 
-## Descaling
+### Descaling
 - Descaling agent, when used correctly, helps to ensure the proper functioning of your machine over its lifetime and that your coffee experience is as perfect as on the first day. For the correct amount and procedure to follow, consult the user manual included in the descaling kit. Descaling agent, when used correctly, helps to ensure the proper functioning of your machine over its lifetime and that your coffee experience is as perfect as on the first day.
 
-### SAVE THESE INSTRUCTIONS
+**SAVE THESE INSTRUCTIONS**
 
 Pass them on to any subsequent user.
 
@@ -123,7 +123,7 @@ To turn the machine off before automatic Power Off mode, press both the Espresso
 
 <PIC:Manual07_5>
 
-### To change this setting
+**To change this setting**
 
 1. With machine turned off, press and hold the Espresso button for 3 seconds.
 

@@ -9,7 +9,7 @@ Gross or Net Torque:
 The gross or net torque of this engine was laboratory rated by the engine manufacturer in accordance with the Society of Automotive Engineers (SAE) J1940 or J2723. As configured to meet safety, emission, and operating requirements, the actual engine torque on this class of mower will be significantly lower. Please refer to the engine manufacturer's information included with the machine.
 
 
-### WARNING
+**WARNING:**
 
 CALIFORNIA Proposition
 65 Warning The engine exhaust from this product contains chemicals known to the State of California to cause cancer, birth defects, or other reproductive harm. Battery posts, terminals, and related accessories contain lead and lead compounds, chemicals known to the State of California to cause cancer and reproductive harm. Wash hands after handling. Use of this product may cause exposure to chemicals known to the State of California to cause cancer, birth defects, or other reproductive harm.
@@ -472,7 +472,7 @@ Note:  Determine the left and right sides of the machine from the normal operati
 #### Before Operation Safety
 
 
-### General Safety
+##### General Safety
 - Do not allow children or untrained people to operate or service the machine. Local regulations may restrict the age of the operator. The owner is responsible for training all operators and mechanics.
 - Inspect the area where you will use the machine, and remove all objects that could interfere with the operation of the machine or that the machine could throw.
 - Become familiar with the safe operation of the equipment, operator controls, and safety signs.
@@ -486,7 +486,7 @@ Note:  Determine the left and right sides of the machine from the normal operati
 - Do not operate the machine unless all guards and safety devices, such as the deflectors and the entire grass catcher, are in place and functioning properly. Replace worn or deteriorated parts when necessary.
 
 
-### Fuel Safety
+##### Fuel Safety
 - Fuel is extremely flammable and highly explosive. A fire or explosion from fuel can burn you and others and can damage property. - To prevent a static charge from igniting the fuel, place the container and/or machine directly on the ground before filling, not in a vehicle or on an object. - Fill the fuel tank outdoors on level ground, in an open area, and when the engine is cold. Wipe up any fuel that spills. - Do not handle fuel when smoking or around an open flame or sparks. - Do not remove the fuel cap or add fuel to the tank while the engine is running or hot. - If you spill fuel, do not attempt to start the engine. Avoid creating a source of ignition until the fuel vapors have dissipated. - Store fuel in an approved container and keep it out of the reach of children.
 - Fuel is harmful or fatal if swallowed. Long-term exposure to vapors can cause serious injury and illness.  - Avoid prolonged breathing of vapors. - Keep your hands and face away from the nozzle and the fuel-tank opening. - Keep fuel away from your eyes and skin.
 - Do not store the machine or fuel container where there is an open flame, spark, or pilot light, such as on a water heater or on other appliances.
@@ -502,7 +502,7 @@ Note:  Determine the left and right sides of the machine from the normal operati
 ### Adding Fuel
 
 
-### Recommended Fuel
+#### Recommended Fuel
 - For best results, use only clean, fresh (less than 30 days old), unleaded gasoline with an octane rating of 87 or higher  ((R+M)/2  rating method).
 - Ethanol: Gasoline with up to  10%  ethanol (gasohol) or  15%  MTBE (methyl tertiary butyl ether) by volume is acceptable. Ethanol and MTBE are not the same. Gasoline with  15%  ethanol (E15) by volume is not approved for use. Never use gasoline that contains more than  10%  ethanol by volume, such as E15 (contains  15%  ethanol), E20 (contains  20%  ethanol), or E85 (contains up to  85%  ethanol). Using unapproved gasoline may cause performance problems and/or engine damage which may not be covered under warranty.
 - Do not  use gasoline containing methanol.
@@ -510,7 +510,7 @@ Note:  Determine the left and right sides of the machine from the normal operati
 - Do not  add oil to gasoline.
 
 
-#### Using Stabilizer/Conditioner
+##### Using Stabilizer/Conditioner
 
 
 Use a fuel stabilizer/conditioner in the machine to provide the following benefits:
@@ -553,13 +553,13 @@ Figure 7. Filling the fuel tank.
 
 New engines take time to develop full power. Mower decks and drive systems have higher friction when new, placing additional load on the engine. Allow 40 to 50 hours of break-in time for new machines to develop full power and best performance.
 
-#### Using the Rollover-Protection System (ROPS)
+### Using the Rollover-Protection System (ROPS)
 
 
-### WARNING
+**WARNING:**
 To avoid injury or death from rollover, keep the roll bar in the fully raised, locked position and use the seat belt.  Ensure that the seat is secured to the machine.
 
-### WARNING
+**WARNING:**
 There is no rollover protection when the roll bar is in the down position.
 - Lower the roll bar only when absolutely necessary.
 - Do not wear the seat belt when the roll bar is in the down position.
@@ -568,7 +568,7 @@ There is no rollover protection when the roll bar is in the down position.
 - Check carefully for overhead clearances (i.e., branches, doorways, electrical wires) before driving under any objects and do not contact them.
 
 
-### Lowering the Roll Bar
+#### Lowering the Roll Bar
 Figure 8
 <PIC:Manual23_32>
 
@@ -578,7 +578,7 @@ Important:  Lower the roll bar only when absolutely necessary.
 3. Install the 2 pins and secure them with the hairpin cotters ( Figure 9 ).
 
 
-### Raising the Roll Bar
+#### Raising the Roll Bar
 Figure 9
 1. Roll bar
 2. Raised position
@@ -591,10 +591,10 @@ Important:  Always use the seat belt with the roll bar in the raised position.
 2. Raise the roll bar to the upright position, install the 2 pins, and secure them with the hairpin cotters ( Figure 9 ).
 
 
-#### Using the Safety-Interlock System
+### Using the Safety-Interlock System
 
 
-### WARNING
+**WARNING:**
 
 
 If the safety-interlock switches are  disconnected or damaged, the machine could operate unexpectedly, causing personal injury.
@@ -602,7 +602,7 @@ If the safety-interlock switches are  disconnected or damaged, the machine could
 - Check the operation of the interlock switches daily and replace any damaged switches before operating the machine.
 
 
-### Understanding the Safety-Interlock System
+#### Understanding the Safety-Interlock System
 
 
 The safety-interlock system is designed to prevent the engine from starting unless the following occurs:
@@ -615,7 +615,7 @@ Figure 10. Safety-interlock indicators.
 <PIC:Manual23_34>
 
 
-### Testing the Safety-Interlock System
+#### Testing the Safety-Interlock System
 
 Service Interval:  Before each use or daily
 
@@ -848,7 +848,7 @@ Figure 25. Shutting off the engine.
 The drive wheels turn independently, powered by hydraulic motors on each axle. You can turn 1 side in reverse while you turn the other forward, causing the machine to spin rather than turn. This greatly improves the machine maneuverability but may require some time for you to adapt to how it moves.  The throttle control regulates the engine speed as measured in rpm (revolutions per minute). Place the throttle control in the FAST  position for best performance. Always operate in the full throttle position when mowing.
 
 
-##### WARNING
+**WARNING:**
 
 
 The machine can spin very rapidly. You may lose control of the machine and cause personal injury or damage to the machine.
@@ -877,7 +877,7 @@ Note:  The engine shuts off when you move the traction-control with the parking 
 The mower has a hinged grass deflector that disperses clippings to the side and down toward the turf.
 
 
-##### DANGER
+**DANGER:**
 
 
 Without a grass deflector, discharge cover, or a complete grass-catcher assembly mounted in place, you and others are exposed to blade contact and thrown debris. Contact with rotating mower blade(s) and thrown debris will cause injury or death.
@@ -893,7 +893,7 @@ Without a grass deflector, discharge cover, or a complete grass-catcher assembly
 For Machines with a Deck-Lift Pedal
 
 
-#### Using the Transport Lock
+##### Using the Transport Lock
 
 
 1. Push the deck-lift pedal fully forward to lock the mower deck in the TRANSPORT position ( Figure 29 ).
@@ -907,7 +907,7 @@ Figure 29. Using the transport lock.
 <PIC:Manual23_53>
 
 
-#### Adjusting the Height-of-Cut Pin
+##### Adjusting the Height-of-Cut Pin
 
 You can adjust the height of cut from 38 to 140 mm (1-1/2 to 5-1/2 inches) in 6 mm (1/4 inch) increments by relocating the clevis pin into different hole locations.
 
@@ -989,62 +989,62 @@ Figure 35. Anti-scalp roller adjustment.
 #### Operating Tips
 
 
-#### Using the Fast Throttle Setting
+##### Using the Fast Throttle Setting
 
 
 For best mowing and maximum air circulation, operate the engine at the FAST  position. Air is required to thoroughly cut grass clippings, so do not set the height-of-cut so low as to totally surround the mower deck in uncut grass. Always try to have 1 side of the mower deck free from uncut grass, which allows air to be drawn into the mower deck.
 
 
-#### Cutting a Lawn for the First Time
+##### Cutting a Lawn for the First Time
 
 
 Cut grass slightly longer than normal to ensure that the cutting height of the mower deck does not scalp any uneven ground. However, the cutting height used in the past is generally the best one to use. When cutting grass longer than 15 cm (6 inches) tall, you may want to cut the lawn twice to ensure an acceptable quality of cut.
 
 
-#### Cutting a Third of the Grass Blade
+##### Cutting a Third of the Grass Blade
 
 
 It is best to cut only about a third of the grass blade. Cutting more than that is not recommended unless grass is sparse, or it is late fall when grass grows more slowly.
 
 
-#### Alternating the Mowing Direction
+##### Alternating the Mowing Direction
 
 
 Alternate the mowing direction to keep the grass standing straight. This also helps disperse clippings, which enhances decomposition and fertilization.
 
 
-#### Mowing at Correct Intervals
+##### Mowing at Correct Intervals
 
 
 Grass grows at different rates at different times of the year. To maintain the same cutting height, mow more often in early spring. As the grass growth rate slows in mid summer, mow less frequently. If you cannot mow for an extended period, first mow at a high cutting height, then mow again 2 days later at a lower height setting.
 
 
-#### Using a Slower Cutting Speed
+##### Using a Slower Cutting Speed
 
 
 To improve cut quality, use a slower ground speed in certain conditions.
 
 
-#### Avoiding Cutting Too Low
+##### Avoiding Cutting Too Low
 
 
 When mowing uneven turf, raise the cutting height to avoid scalping the turf.
 
 
-#### Stopping the Machine
+##### Stopping the Machine
 
 
 If you must stop the forward motion of the machine while mowing, a clump of grass clippings may
 drop onto your lawn. To avoid this, move onto a previously cut area with the blades engaged or you can disengage the mower deck while moving forward.
 
 
-#### Keeping the Underside of the Mower Deck Clean
+##### Keeping the Underside of the Mower Deck Clean
 
 
 Clean clippings and dirt from the underside of the mower deck after each use. If grass and dirt build up inside the mower deck, cutting quality will eventually become unsatisfactory.
 
 
-#### Maintaining the Blade(s)
+##### Maintaining the Blade(s)
 
 
 Maintain a sharp blade throughout the cutting season because a sharp blade cuts cleanly without tearing or shredding the grass blades. Tearing and shredding turns grass brown at the edges, which slows growth and increases the chance of disease. Check the mower blades after each use for sharpness, and for any wear or damage. File down any nicks and sharpen the blades as necessary. If a blade is damaged or worn, replace it immediately with a genuine replacement blade.
@@ -1116,15 +1116,15 @@ Figure 38.
 Use a heavy-duty trailer or truck to transport the machine. Use a full-width ramp. Ensure that the trailer or truck has all the necessary brakes, lighting, and marking as required by law. Please carefully read all the safety instructions. Knowing this information could help you or bystanders avoid injury. Refer to your local ordinances for trailer and tie-down requirements.
 
 
-### WARNING
+**WARNING:**
 
 Driving on the street or roadway without turn signals, lights, reflective markings, or a slow-moving-vehicle emblem is dangerous and can lead to accidents, causing personal injury.  Do not drive the machine on a public street or roadway.
 
 
-### Selecting a Trailer
+#### Selecting a Trailer
 
 
-### WARNING
+**WARNING:**
 Loading a machine onto a trailer or truck increases the possibility of tip-over and could cause serious injury or death ( Figure 39 ).
 
 
@@ -1143,7 +1143,7 @@ Figure 39. Selecting a trailer ramp.
 - Ensure that the length of the ramp is at least 4 times as long as the height of the trailer or truck bed to the ground. This ensures that the ramp angle does not exceed 15 degrees on flat ground.
 
 
-### Loading the Machine
+#### Loading the Machine
 
 
 **WARNING:** Loading a machine onto a trailer or truck increases the possibility of tip-over and could cause serious injury or death.
@@ -1177,7 +1177,7 @@ Figure 41. Tie-down loops.
 <PIC:Manual23_65>
 
 
-### Unloading the Machine
+#### Unloading the Machine
 
 
 1. Lower the ramp, ensuring that the angle between the ramp and the ground does not exceed 15 degrees ( Figure 39 ).
@@ -1397,7 +1397,7 @@ Figure 48. Checking the engine-oil level.
 Oil Type:  Detergent oil (API service SF, SG, SH, SJ, or SL)
 
 
-###### Crankcase Capacity:
+**Crankcase Capacity:**
 - Kawasaki FX751 and FX801 engines- 2.3 L (78 fl oz) with a filter change; 2.1 L (71 fl oz) without a filter change
 - Kawasaki FX921 engines- 1.9 L (64 fl oz) with a filter change; 1.7 L (57 fl oz) without a filter change  Viscosity:  See the table below.
 <PIC:Manual23_74>
@@ -1455,7 +1455,7 @@ Service Interval:  Every 100 hours
 Ensure that the air gap between the center and side electrodes is correct before installing the spark plug. Use a spark plug wrench for removing and installing the spark plug and a gapping tool or feeler gauge to check and adjust the air gap. Install a new spark plug if necessary.
 
 
-###### Type of Spark Plug:
+**Type of Spark Plug:**
 - Kawasaki FX751 and FX801 engines- NGK (R) BPR4ES or equivalent
 - Kawasaki FX921 engines- NGK (R)  BPR5ES or equivalent  Air Gap:  0.75 mm  (0.030 inch)
 
@@ -2329,7 +2329,7 @@ Figure 95.
 Check to ensure that the mower deck is level any time you install the mower or when you see an uneven cut on your lawn.  Check the mower deck for bent blades prior to leveling, and remove and replace any bent blades; refer to  Servicing the Cutting Blades  before continuing.  Level the mower deck side-to-side first; then you can adjust the front-to-rear slope.
 
 
-##### Requirements:
+**Requirements:**
 - The machine must be on a level surface.
 - All tires must be properly inflated; refer to Checking the Tire Pressure.
 
@@ -2502,7 +2502,7 @@ E. Dispose of fuel properly. Recycle the fuel according to local codes.  Importa
 17. Store the machine in a clean, dry garage or storage area. Remove the key from the switch and keep it out of reach of children or other unauthorized users. Cover the machine to protect it and keep it clean.
 
 
-### Troubleshooting
+## Troubleshooting
 
 <PIC:Manual23_131>
 
@@ -2510,7 +2510,7 @@ E. Dispose of fuel properly. Recycle the fuel according to local codes.  Importa
 
 <PIC:Manual23_133>
 
-### Schematics
+## Schematics
 
 <PIC:Manual23_134>
 
@@ -2527,12 +2527,12 @@ Kawasaki Engines Electrical Schematic-Page 2 (Rev. A)
 Kohler Engines Electrical Schematic (Rev. A)
 
 
-### California Proposition 65 Warning Information
+## California Proposition 65 Warning Information
 
 
 ### What is this warning?
 
-### WARNING:
+**WARNING:**
 
 
 Cancer and Reproductive Harm.

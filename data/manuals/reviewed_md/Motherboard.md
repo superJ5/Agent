@@ -14,7 +14,7 @@ About this guide................................................................
 Package contents........................................................................................ vi
 Specifications summary.............................................................................. vi
 
-### Chapter 1: Product introduction
+Chapter 1: Product introduction
 
 1.1  Before you proceed...................................................................... 1-1
 1.2  Motherboard overview.................................................................. 1-1
@@ -26,7 +26,7 @@ Specifications summary..........................................................
 1.8  Onboard LED............................................................................... 1-28
 1.9  Software support......................................................................... 1-30
 
-### Chapter 2: BIOS information
+Chapter 2: BIOS information
 
 2.1  Managing and updating your BIOS............................................. 2-1
 2.2  BIOS setup program..................................................................... 2-6
@@ -40,7 +40,7 @@ Specifications summary..........................................................
 2.10  Exit menu................................................................................... 2-47
 2.11  Installing an operating system.................................................. 2-48
 
-### Appendices
+## Appendices
 
 Notices........................................................................................................ A-1
 Contact information.................................................................................... A-4
@@ -77,11 +77,11 @@ This guide contains the following parts:
 
 Refer to the following sources for additional information and for product and software  updates.
 
-#### 1.  Websites
+1.  Websites
 
 The website provides updated information on hardware and software  products. Refer to the contact information.
 
-#### 2.  Optional documentation
+2.  Optional documentation
 
 Your product package may include optional documentation, such as warranty flyers,  that may have been added by your dealer. These documents are not part of the  standard package.
 
@@ -93,7 +93,7 @@ DANGER/WARNING:  Information to prevent injury to yourself when  completing a ta
 ### Typography
 
 
-### Bold text
+Bold text
 
 
 Italics <Key>  <Key1> + <Key2> + <Key3> Indicates a menu or an item to select.  Used to emphasize a word or a phrase. Keys enclosed in the less-than and greater-than sign  means that you must press the enclosed key. Example: <Enter> means that you must press the Enter or  Return key. If you must press two or more keys simultaneously, the key  names are linked with a plus sign  (+).
@@ -115,7 +115,7 @@ Specifications summary table (continued)
 
 <PIC:Manual25_3>
 
-### ASUS gaming features (continued)
+ASUS gaming features (continued)
 
 
 Performance Optimization  -  5-Way Optimization tuning key perfectly consolidates TPU, EPU,  DIGI+  VRM, Fan Xpert 3, and Turbo App DIGI+ VRM -  DIGI+  VRM utility EPU -  EPU  TPU -  Auto Tuning, TurboV, GPU Boost Fan Xpert 3  featuring Fan Auto Tuning function and multiple thermistors  selection for optimized system cooling control
@@ -252,13 +252,13 @@ Unplug all power cables before installing the CPU.
 Apply the Thermal Interface Material  to the CPU heatsink and CPU  before you install the heatsink and  fan if necessary.<PIC:Manual25_13>,<PIC:Manual25_14>
 
 
-##### To install the CPU heatsink and fan assembly
+**To install the CPU heatsink and fan assembly**
 
 <PIC:Manual25_15>
 
 <PIC:Manual25_16>
 
-##### To uninstall the CPU heatsink and fan assembly
+**To uninstall the CPU heatsink and fan assembly**
 
 <PIC:Manual25_17>
 
@@ -340,7 +340,7 @@ In the future, you may need to install expansion cards. The following sub-sectio
 
 #### 1.5.1 Installing an expansion card
 
-##### To install an expansion card:
+**To install an expansion card:**
 
 1.  Before installing the expansion card, read the documentation that came with it and  make the necessary hardware settings for the card.
 2.  Remove the system unit cover (if your motherboard is already installed in a chassis).
@@ -443,14 +443,14 @@ Audio 2, 4.1, 5.1, or 7.1-channel configuration<PIC:Manual25_38>
 
 #### 1.7.2 Internal connectors
 
-#### 1.  Serial port connector (10-1 pin COM)
+##### 1.  Serial port connector (10-1 pin COM)
 
 This connector is for a serial (COM) port. Connect the serial port module cable to this  connector, then install the module to a slot opening at the back of the system chassis.
 
 Serial port (COM) connector The COM module is purchased separately.
 <PIC:Manual25_39>
 
-#### 2.  TPM connector (14-1 pin TPM)
+##### 2.  TPM connector (14-1 pin TPM)
 
 This connector supports a Trusted Platform Module (TPM) system, which securely  store keys, digital certificates, passwords and data. A TPM system also helps enhance  the network security, protects digital identities, and ensures platform integrity.
 
@@ -483,12 +483,12 @@ ATX power connectors
 - We recommend that you use a PSU with higher power output when configuring a  system with more power-consuming devices or when you intend to install additional  devices. The system may become unstable or may not boot up if the power is  inadequate.
 - If you are uncertain about the minimum power supply requirement for your system,  refer to the Recommended Power Supply Wattage Calculator for details.
 
-#### 5.  Thermal sensor connector (2-pin T_SENSOR)
+##### 5.  Thermal sensor connector (2-pin T_SENSOR)
 
 
 This connector is for the thermistor cable that allows you to monitor the temperature of  your motherboard's critical components and connected devices.<PIC:Manual25_43>
 
-#### 6. Front panel audio connector
+##### 6. Front panel audio connector
 
 
 This connector is for a chassis-mounted front panel audio I/O module that supports  either HD Audio or legacy AC'97 audio standard. Connect one end of the front panel  audio  I/O  module cable to this connector.
@@ -503,7 +503,7 @@ Front panel audio connector
 
 #### 7.  ROG Extension - ROG_EXT connector (18-1 pin ROG_EXT)
 
-##### ROG_EXT connectors
+**ROG_EXT connectors**
 
 This connector is for the Front Base.
 <PIC:Manual25_45>
@@ -542,7 +542,7 @@ Intel  SATA 6.0Gb/s connectors
 - These connectors are set to  [AHCI]  by default. If you intend to create a Serial ATA  RAID set using these connectors, set the SATA Mode item in the BIOS to  [RAID].  Refer to section  2.6.5 SATA Configuration  for details.
 - Before creating a RAID set, refer to the manual bundled in the motherboard support  DVD.  The SATA EXPRESS connector can support one SATA Express device or two SATA  devices.
 
-#### 10. System panel connector (20-5 pin PANEL)
+##### 10. System panel connector (20-5 pin PANEL)
 This connector supports several chassis-mounted functions.
 System panel connector
 <PIC:Manual25_50>
@@ -571,7 +571,7 @@ M.2(SOCKET3)
 
 #### 12. USB 2.0 connectors (10-1 pin USB78, USB910, USB1112)
 
-##### USB 2.0 connectors
+**USB 2.0 connectors**
 
 USB 2.0 connectors are for USB 2.0 ports. Connect the USB module cable to any of  these connectors, then install the module to a slot opening at the back of the system  chassis. These USB connectors comply with USB 2.0 specifications and supports up to  480 Mbps connection speed.
 <PIC:Manual25_52>
@@ -636,7 +636,7 @@ Motherboard settings and hardware options vary. Refer to your OS documentation f
 The Support DVD that comes with the motherboard package contains the drivers, software  applications, and utilities that you can install to avail all motherboard features.  The contents of the Support DVD are subject to change at any time without notice.
 
 
-##### To run the Support DVD
+**To run the Support DVD**
 
 
 Place the Support DVD into the optical drive. If Autorun is enabled in your computer, the DVD  automatically displays the lists of the unique features of your motherboard. Click the  Driver,  Utilities,  Manual, or  Special  tabs to display their respective menus.  The following screen is for reference only.
@@ -678,7 +678,7 @@ The EZ Flash 3 feature allows you to update the BIOS without using an OS-based  
 
 - Check your Internet connection before updating the BIOS via the Internet.<PIC:Manual25_61>
 
-##### To update the BIOS using EZ Flash 3:
+**To update the BIOS using EZ Flash 3:**
 
 1.  Enter the  Advanced Mode  of the BIOS setup program. Go to the  Tool  menu to select EZ Flash 3 Utility  and press <Enter> to enable it.
 2.  Follow the steps below to update the BIOS via USB or Internet.
@@ -708,7 +708,7 @@ The CrashFree BIOS 3 is an auto recovery tool that allows you to restore the BIO
 
 ##### Recovering the BIOS
 
-##### To recover the BIOS:
+**To recover the BIOS:**
 
 1.  Turn on the system.
 2.  Insert the support DVD to the optical drive or the USB flash drive that contains the  BIOS file to the USB port.
@@ -947,7 +947,7 @@ My Favorites comes with several performance, power saving, and fast boot related
 
 #### Adding items to My Favorites
 
-##### To add BIOS items:
+**To add BIOS items:**
 
 1.  Press <F3> on your keyboard or click  (F3) MyFavorite  from the BIOS screen to open  Setup Tree Map screen.
 2.  On the Setup Tree Map screen, select the BIOS items that you want to save in MyFavorites  screen.
@@ -980,20 +980,20 @@ The Security menu items allow you to change the system security settings.
 
 If you have set an administrator password, we recommend that you enter the administrator  password for accessing the system.
 
-##### To set an administrator password:
+**To set an administrator password:**
 
 1.  Select the  Administrator Password  item and press <Enter>.
 2.  From the  Create New Password  box, key in a password, then press <Enter>.
 3.  From the  Confirm New Password  box, key in your password again to confirm the  password, then click  OK.
 
-##### To change an administrator password:
+**To change an administrator password:**
 
 1.  Select the  Administrator Password  item and press <Enter>.
 2.  From the  Enter Current Password  box, key in the current password, then press  <Enter>.
 3.  From the  Create New Password  box, key in a new password, then press <Enter>.
 4.  From the  Confirm New Password  box, key in your password again to confirm the  password, then click  OK.
 
-##### To clear the administrator password:
+**To clear the administrator password:**
 
 Follow the same steps as in changing an administrator  password, but click  OK  when prompted to create/confirm the password. After you clear the  password, the Administrator Password item on top of the screen shows Not Installed.
 
@@ -1001,20 +1001,20 @@ Follow the same steps as in changing an administrator  password, but click  OK  
 
 If you have set a user password, you must enter the user password for accessing the system.  The  User Password  item on top of the screen shows the default  Not Installed. After you set  a password, this item shows  Installed.
 
-##### To set a user password:
+**To set a user password:**
 
 1.  Select the  User Password  item and press <Enter>.
 2.  From the  Create New Password  box, key in a password, then press <Enter>.
 3.  From the  Confirm New Password  box, key in your password again to confirm the  password, then click  OK.
 
-##### To change a user password:
+**To change a user password:**
 
 1.  Select the  User Password  item and press <Enter>.
 2.  From the  Enter Current Password  box, key in the current password, then press  <Enter>.
 3.  From the  Create New Password  box, key in a new password, then press <Enter>.
 4.  From the  Confirm New Password  box, key in your password again to confirm the  password, then click  OK.
 
-##### To clear the user password:
+**To clear the user password:**
 
 Follow the same steps as in changing a user password, but click  OK  when prompted to create/confirm the password. After you clear the password, the  User  Password item on top of the screen shows Not Installed.
 
@@ -2007,7 +2007,7 @@ Based on the chipset specification, the 100 series requires USB 3.0 drivers to b
 
 Load USB 3.0 drivers using the  support DVD and install  Windows 7 using a USB  device.
 
-##### Requirement:
+**Requirement:**
 - 1 x  support DVD
 - 1 x  Windows 7 installation source
 - 1 x SATA ODD
@@ -2032,7 +2032,7 @@ The "Setup is starting..." screen will show up if the USB 3.0 driver is loaded c
 
 Load USB 3.0 drivers and install  Windows 7 using a modified  Windows 7 installation DVD.
 
-##### Requirement:
+**Requirement:**
 - 1 x support DVD
 - 1 x  Windows 7 installation source
 - 1 x Working system (PC or notebook)
@@ -2056,7 +2056,7 @@ The "Setup is starting..." screen will show up if the USB 3.0 driver is loaded c
 
 Use the EZ Installer to create a modified  Windows 7 installation source.
 
-##### Requirement:
+**Requirement:**
 - 1 x support DVD
 - 1 x  Windows 7 installation DVD
 - 1 x Working system (PC or notebook)
@@ -2098,11 +2098,11 @@ Click the refresh icon  if the USB storage device is not displayed.
 The "Setup is starting..." screen will show up if the USB 3.0 driver is loaded correctly.
 8.  Follow the onscreen instructions to complete the Windows 7 installation.
 
-## Appendices
+Appendices
 
 ### Notices
 
-### Federal Communications Commission Statement
+#### Federal Communications Commission Statement
 
 This device complies with Part 15 of the FCC Rules. Operation is subject to the following two  conditions:
 - This device may not cause harmful interference.
@@ -2119,27 +2119,27 @@ warning:
 
 The use of shielded cables for connection of the monitor to the graphics card is required  to assure compliance with FCC regulations. Changes or modifications to this unit not  expressly approved by the party responsible for compliance could void the user's authority  to operate this equipment.
 
-### IC: Canadian Compliance Statement
+#### IC: Canadian Compliance Statement
 
 Complies with the Canadian ICES-003 Class B specifications. This device complies with RSS  210 of Industry Canada. This Class B device meets all the requirements of the Canadian  interference-causing equipment regulations.  This device complies with Industry Canada license exempt RSS standard (s). Operation is  subject to the following two conditions: (1) this device may not cause interference, and (2)  this device must accept any interference, including interference that may cause undesired  operation of the device.
 
-### Canadian Department of Communications Statement
+#### Canadian Department of Communications Statement
 
 This digital apparatus does not exceed the Class B limits for radio noise emissions from  digital apparatus set out in the Radio Interference Regulations of the Canadian Department  of Communications.  This class B digital apparatus complies with Canadian ICES-003.
 
-### VCCI: Japan Compliance Statement
+#### VCCI: Japan Compliance Statement
 
-### VCCI Class B Statement
+#### VCCI Class B Statement
 
 This is a Class B product based on the standard of the VCCI Council. If this is used near a  radio or television receiver in a domestic environment, it may cause radio interference. Install  and use the equipment according to the instruction manual.
 
-### KC: Korea Warning Statement
+#### KC: Korea Warning Statement
 
-### REACH
+#### REACH
 
 Complying with the REACH (Registration, Evaluation, Authorisation, and Restriction of  Chemicals) regulatory framework, we published the chemical substances in our products at  REACH website.  DO NOT throw the motherboard in municipal waste. This product has been designed to  enable proper reuse of parts and recycling. This symbol of the crossed out wheeled bin  indicates that the product (electrical and electronic equipment) should not be placed in  municipal waste. Check local regulations for disposal of electronic products.  DO NOT throw the mercury-containing button cell battery in municipal waste. This symbol  of the crossed out wheeled bin indicates that the battery should not be placed in municipal  waste.
 
-### Recycling/Takeback Services
+#### Recycling/Takeback Services
 
 Recycling and takeback programs come from our commitment to the highest standards  for protecting our environment. We believe in providing solutions for you to be able to  responsibly recycle our products, batteries, other components as well as the packaging  materials.
 It declares that this device is in compliance with  the essential requirements and other relevant provisions of CE Directives.  Please see the CE Declaration of Conformity for more details.
