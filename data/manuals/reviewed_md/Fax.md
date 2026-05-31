@@ -1,4 +1,4 @@
-﻿# Product Safety Guide
+# Product Safety Guide
 
 Read this guide before attempting to operate the product, or before attempting any maintenance, and ensure that you follow all warnings and instructions marked on the product. If you have concerns about how to use your product safely after reading this guide, contact Brother customer service or your local Brother dealer. Failure to follow these instructions may result in an increased risk of personal injury or damage to property, including through fire, electrical shock, burns or suffocation. Brother shall not be liable for the damage caused where the product owner has failed to follow the instructions set out in this guide or on the product. For more advanced instructions, information, and product specifications, see the Online User's Guide.
 
@@ -32,19 +32,19 @@ This icon alerts you to the areas that contain moving parts.
 
 <PIC:fax_07>
 
-### WARNING
+**WARNING:**
 
 WARNING indicates a potentially hazardous situation which, if not avoided, could result in death or serious injuries.
 
-### CAUTION
+**CAUTION:**
 
 CAUTION indicates a potentially hazardous situation which, if not avoided, may result in minor or moderate injuries.
 
-### IMPORTANT
+**IMPORTANT:**
 
 IMPORTANT indicates a potentially hazardous situation which, if not avoided, may result in damage to property or loss of product functionality.
 
-### NOTE
+**NOTE:**
 
 NOTE specifies the operating environment, conditions for installation, or special conditions of use.
 
@@ -58,7 +58,7 @@ The definitions of font style are as follows:
 
 ## Choose a Safe Location for Your Product
 
-### WARNING
+**WARNING:**
 
 <PIC:Manual15_1>
 
@@ -70,11 +70,11 @@ DO NOT expose the product to direct sunlight, excessive heat, open flames, corro
 
 DO NOT place the product near chemicals or in a place where chemicals could be spilled on it. Should chemicals come into contact with the product, there may be a risk of fire or electrical shock. In particular, organic solvents or liquids such as benzene, paint thinner, polish remover, or deodorizer may melt or dissolve the plastic cover and/or cables, resulting in a risk of fire or electrical shock. These or other chemicals may cause the product to malfunction or become discolored.
 
-### CAUTION
+**CAUTION:**
 
 Put your product on a flat, level, stable surface (such as a desk), that is free from vibration and shocks. Put the product near a telephone wall jack (models with the fax function only) and a standard AC power outlet or a standard grounded AC power outlet (for some countries).  DO NOT place this product on an unstable cart, stand, or table, particularly if children are expected to be near the product. The product is heavy and may fall, causing injury to you or others and serious damage to the product. For the products with scanning functionality, there is an added risk of injury if the scanner glass should break.  Avoid placing your product in a busy area. If you must place it in a busy area, ensure that the product is in a safe location where it cannot be accidentally knocked over, which could cause injury to you or others and serious damage to the product.  Ensure that cables and cords leading to the product are secured so as not to pose a tripping hazard.  DO NOT place heavy objects on the product.  DO NOT place any objects around the product. Such objects block the access to the power outlet in case of emergency. It is important that the product can be unplugged whenever needed.
 
-### IMPORTANT
+**IMPORTANT:**
 
 - DO NOT place your product next to devices that contain magnets or generate magnetic fields. Doing so may interfere with the operation of the product, causing print quality problems.
 - DO NOT place the product on any tilted/slanted surface. DO NOT tip the product after ink cartridges are installed. Doing so may cause ink spillage and internal damage to the product.
@@ -83,7 +83,7 @@ Put your product on a flat, level, stable surface (such as a desk), that is free
 
 ## Connect the Product Safely
 
-### WARNING
+**WARNING:**
 
 ELECTRICAL HAZARDS
 
@@ -110,7 +110,7 @@ If water, other liquids, or metal objects get inside the product, immediately un
 ## Use the Product Safely
 
 
-### WARNING
+**WARNING:**
 
 ELECTRICAL HAZARDS  Failure to follow the warnings in this section may create the risk of an electrical shock. In addition, you could cause an electrical short, which may lead to a fire.  If the product has been dropped or the casing has been damaged, there may be the possibility of an electrical shock. Unplug the product from the AC power outlet and contact Brother Authorized Service Personnel.  DO NOT use this product during a thunderstorm. There may be a remote risk of an electrical shock from lightning.
 
@@ -130,7 +130,7 @@ If the product becomes unusually hot, releases smoke, generates any strong smell
 
 - This product is equipped with a grounded plug. This plug will only fit into a grounded power outlet. This is a safety feature. If you are unable to insert the plug into the outlet, call your electrician to replace your obsolete outlet. DO NOT attempt to defeat the purpose of the grounded plug.  - DO NOT allow anything to rest on the power cord.  - DO NOT place this product where others might step on the cord.  - DO NOT place this product in a position where the cord is stretched or strained, as it may become worn or frayed.  - DO NOT use the product if the power cord is frayed or damaged. Doing so may cause an electrical shock or fire.  - DO NOT pull on the middle of the AC power cord; pulling on the middle may cause the cord to separate from the plug. Doing this might cause an electrical shock.  - DO NOT use any undesignated cables (or optional devices). Doing so may cause a fire or injuries. Installation must be performed correctly according to the Quick Setup Guide.  - Brother strongly recommends that you DO NOT use any type of extension cord.  - This product should be positioned so that nothing pinches or constricts the power cord.  - DO NOT use cables that do not meet the cable specifications described in the Online User's Guide: Specifications. Doing so may cause a fire or injuries.  - If the power cord is provided with this product, use ONLY the provided cord. Installation must be performed correctly as described in the Quick Setup Guide.
 
-### CAUTION
+**CAUTION:**
 
 Wait until pages have exited the product before picking them up. Failure to do this may cause injury to your fingers by trapping them inside the machine.  DO NOT put your hand or any foreign objects into the ink insertion slot. Doing this may cause injury.  If the tray has been extended to hold large paper, position the product so that the tray does not protrude past the edge of the table or desk. If someone hits the tray, the product could fall and cause injury.
 
@@ -147,9 +147,9 @@ Wait until pages have exited the product before picking them up. Failure to do t
   
 (MFC-J6540DW/MFC-J6555DW/MFC-J6740DW/MFC-J6940DW/MFC-J6955DW)  Be careful not to put your fingers in the areas shown in the illustrations. It may cause injury to you.  
 
+  (MFC-J5955DW/MFC-J6540DW/MFC-J6555DW/MFC-J6740DW/MFC-J6940DW/MFC-J6955DW)  
 <PIC:Manual15_9>
 
-  (MFC-J5955DW/MFC-J6540DW/MFC-J6555DW/MFC-J6740DW/MFC-J6940DW/MFC-J6955DW)  
 To prevent possible injuries, at least two people should lift the product. One person should hold the front of the product, and one person should hold the back, as shown in the illustration below. Carry the product by sliding your hands into the handhold indentations located on each side of the product. Be careful not to trap your fingers when you put the product down.  
 
 <PIC:fax_08>
@@ -182,7 +182,7 @@ DO NOT remove or damage any of the caution or warning labels inside the product.
 
 <PIC:Manual15_15>
 
-### IMPORTANT
+**IMPORTANT:**
 
 - A distinct change in the product's performance may indicate a need for service.  - DO NOT connect your product to an AC power outlet controlled by wall switches or automatic timers, or to the same circuit as a large appliance or other equipment that requires a significant amount of electricity. It could disrupt the power supply. Disruption of the power supply may also delete information from the product's memory, and repeated cycling of the power supply can damage the product.  - DO NOT put any objects on top of the product. Doing so may cause the product to malfunction.
 
@@ -193,11 +193,11 @@ DO NOT attempt to service this product yourself because opening or removing cove
 
 ## Regulations
 
-### WARNING
+**WARNING:**
 
 (Models with the fax function only)  When using your telephone equipment, basic safety precautions should always be followed to reduce the risk of fire, electrical shock, and injury to people. These important safety precautions include the following:  1. DO NOT use this product near water or locations that may become wet, for example, near a bathtub, wash bowl, kitchen sink or washing machine, in a wet basement, or near a swimming pool.  2. Avoid using this product during a thunderstorm. There may be a remote risk of an electrical shock from lightning.  3. DO NOT use this product to report a gas leak in the vicinity of the leak. 4. Use only the power cord provided with the product (if included in the box). Read all of the instructions. Save them for later reference.
 
-### (Models with the fax function only)
+(Models with the fax function only)
 
 To reduce the risk of fire, electrical shock, and injury to people: - Use only a No. 26 AWG or larger telecommunication line cord.
 
@@ -205,7 +205,7 @@ To reduce the risk of fire, electrical shock, and injury to people: - Use only a
 
 This product must be installed near an AC power outlet that is easily accessible. In case of an emergency, you must unplug the power cord from the AC power outlet to shut off the power completely.  For protection against the risk of electrical shock, always disconnect all cables from the wall outlet before the equipment is installed, serviced, or modified.
 
-### IMPORTANT
+**IMPORTANT:**
 
 - This product has been certified to comply with FCC standards, which are applied to the USA only.  - This equipment may not be used on coin service lines provided by the telephone company or connected to party lines.  - Brother cannot accept any financial or other responsibilities that may be the result of your use of this information, including direct, special, or consequential damages. There are no warranties extended or granted by this document.  - A grounded plug should be plugged into a grounded AC power outlet after checking the rating of the local power supply for the product to operate properly and safely.
 
@@ -221,7 +221,7 @@ For earlier products, the REN is separately shown on the label.  If this equipme
 Responsible Party: Brother International Corporation, 200 Crossing Boulevard, Bridgewater, NJ 08807-0911 USA, TEL: (908) 704-1700, declares that the products Product Name: MFC-J5340DW/MFC-J5855DW/MFC-J5955DW/MFC-J6540DW/MFC-J6555DW/MFC-J6740DW/MFC-J6940DW/MFC-J6955DW
 comply with Part 15 of the FCC Rules. Operation is subject to the following two conditions:  (1) This device may not cause harmful interference, and (2) this device must accept any interference received, including interference that may cause undesired operation.  This equipment has been tested and found to comply with the limits for a Class B digital device, pursuant to Part 15 of the FCC Rules. These limits are designed to provide reasonable protection against harmful interference in a residential installation. This equipment generates, uses, and can radiate radio frequency energy and, if not installed and used in accordance with the instructions, may cause harmful interference to radio communications. However, there is no guarantee that interference will not occur in a particular installation. If this equipment does cause harmful interference to radio or television reception, which can be determined by turning the equipment off and on, the user is encouraged to try to correct the interference by one or more of the following measures:  - Reorient or relocate the receiving antenna.  - Increase the separation between the equipment and receiver.  - Connect the equipment to an outlet on a circuit different from that to which the receiver is connected.  - Consult with an experienced radio/TV technician for help.  - (Wireless network models only) This transmitter must not be co-located or operated in conjunction with any other antenna or transmitter.
 
-### IMPORTANT
+**IMPORTANT:**
 
 - Changes or modifications not expressly approved by Brother Industries, Ltd. could void the user's authority to operate the equipment.  - A shielded interface cable should be used to ensure compliance with the limits for a Class B digital device.
 
@@ -245,7 +245,7 @@ This device complies with Industry Canada's license-exempt RSSs. Operation is su
 
 NOTICE  This product meets the applicable Innovation, Science and Economic Development Canada technical specifications.
 
-### NOTICE
+**NOTICE:**
 
 The Ringer Equivalence Number (REN) indicates the maximum number of devices allowed to be connected to a telephone interface. The termination of an interface may consist of any combination of devices subject only to the requirement that the sum of the RENs of all the devices not exceed five.
 

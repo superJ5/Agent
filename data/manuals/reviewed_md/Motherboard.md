@@ -14,7 +14,7 @@ About this guide................................................................
 Package contents........................................................................................ vi
 Specifications summary.............................................................................. vi
 
-### Chapter 1: Product introduction
+Chapter 1: Product introduction
 
 1.1  Before you proceed...................................................................... 1-1
 1.2  Motherboard overview.................................................................. 1-1
@@ -26,7 +26,7 @@ Specifications summary..........................................................
 1.8  Onboard LED............................................................................... 1-28
 1.9  Software support......................................................................... 1-30
 
-### Chapter 2: BIOS information
+Chapter 2: BIOS information
 
 2.1  Managing and updating your BIOS............................................. 2-1
 2.2  BIOS setup program..................................................................... 2-6
@@ -40,7 +40,7 @@ Specifications summary..........................................................
 2.10  Exit menu................................................................................... 2-47
 2.11  Installing an operating system.................................................. 2-48
 
-### Appendices
+## Appendices
 
 Notices........................................................................................................ A-1
 Contact information.................................................................................... A-4
@@ -77,11 +77,11 @@ This guide contains the following parts:
 
 Refer to the following sources for additional information and for product and software  updates.
 
-#### 1.  Websites
+1.  Websites
 
 The website provides updated information on hardware and software  products. Refer to the contact information.
 
-#### 2.  Optional documentation
+2.  Optional documentation
 
 Your product package may include optional documentation, such as warranty flyers,  that may have been added by your dealer. These documents are not part of the  standard package.
 
@@ -93,7 +93,7 @@ DANGER/WARNING:  Information to prevent injury to yourself when  completing a ta
 ### Typography
 
 
-### Bold text
+Bold text
 
 
 Italics <Key>  <Key1> + <Key2> + <Key3> Indicates a menu or an item to select.  Used to emphasize a word or a phrase. Keys enclosed in the less-than and greater-than sign  means that you must press the enclosed key. Example: <Enter> means that you must press the Enter or  Return key. If you must press two or more keys simultaneously, the key  names are linked with a plus sign  (+).
@@ -115,7 +115,7 @@ Specifications summary table (continued)
 
 <PIC:Manual25_3>
 
-### ASUS gaming features (continued)
+ASUS gaming features (continued)
 
 
 Performance Optimization  -  5-Way Optimization tuning key perfectly consolidates TPU, EPU,  DIGI+  VRM, Fan Xpert 3, and Turbo App DIGI+ VRM -  DIGI+  VRM utility EPU -  EPU  TPU -  Auto Tuning, TurboV, GPU Boost Fan Xpert 3  featuring Fan Auto Tuning function and multiple thermistors  selection for optimized system cooling control
@@ -181,9 +181,8 @@ When installing the motherboard, place it into the chassis in the correct orient
 
 Place nine screws into the holes indicated by circles to secure the motherboard to the chassis. Do not over tighten the screws! Doing so can damage the motherboard.
 
-<PIC:Manual25_6>
-
 Place this side towards the rear of the chassis
+<PIC:Manual25_6>
 
 #### 1.2.3 Motherboard layout
 <PIC:Manual25_7>
@@ -223,9 +222,9 @@ Place this side towards the rear of the chassis
 
 This motherboard comes with a surface mount LGA1151 socket designed for 6th Generation processors.
 
+CPU socket LGA1151
 <PIC:Manual25_9>
 
-CPU socket LGA1151
 Unplug all power cables before installing the CPU.
 - Ensure that you install the correct CPU designed for the LGA1151 socket only. DO  NOT install a CPU designed for LGA1150, LGA1155 and LGA1156 sockets on the  LGA1151 socket.
 - Upon purchase of the motherboard, ensure that the PnP cap is on the socket and  the socket contacts are not bent. Contact your retailer immediately if the PnP cap  is missing, or if you see any damage to the PnP cap/socket contacts/motherboard  components.
@@ -253,13 +252,13 @@ Unplug all power cables before installing the CPU.
 Apply the Thermal Interface Material  to the CPU heatsink and CPU  before you install the heatsink and  fan if necessary.<PIC:Manual25_13>,<PIC:Manual25_14>
 
 
-##### To install the CPU heatsink and fan assembly
+**To install the CPU heatsink and fan assembly**
 
 <PIC:Manual25_15>
 
 <PIC:Manual25_16>
 
-##### To uninstall the CPU heatsink and fan assembly
+**To uninstall the CPU heatsink and fan assembly**
 
 <PIC:Manual25_17>
 
@@ -270,9 +269,9 @@ Apply the Thermal Interface Material  to the CPU heatsink and CPU  before you in
 
 This motherboard comes with four Double Data Rate 4 (DDR4) Dual Inline Memory Module  (DIMM) sockets. A DDR4 module is notched differently from a DDR, DDR2, or DDR3 module.  DO NOT install a DDR, DDR2, or DDR3 memory module to the DDR4 slot.  DIMM voltage below 1.65 V is recommended to protect the  CPU.
 
+288-pin DDR4 DIMM sockets
 <PIC:Manual25_18>
 
-288-pin DDR4 DIMM sockets
 
 
 #### 1.4.2 Memory configurations
@@ -341,7 +340,7 @@ In the future, you may need to install expansion cards. The following sub-sectio
 
 #### 1.5.1 Installing an expansion card
 
-##### To install an expansion card:
+**To install an expansion card:**
 
 1.  Before installing the expansion card, read the documentation that came with it and  make the necessary hardware settings for the card.
 2.  Remove the system unit cover (if your motherboard is already installed in a chassis).
@@ -397,31 +396,30 @@ To erase the RTC RAM:
 
 
 The CPU Over Voltage jumper allows you to set a higher CPU voltage for a flexible  overclocking system, depending on the type of the installed CPU. To gain more CPU  voltage setting, insert the jumper to pins 2-3. To go back to its default CPU voltage  setting, insert the jumper to pins 1-2.
-<PIC:Manual25_34>
-
 CPU_OV setting
+<PIC:Manual25_34>
 
 
 ### 1.7 Connectors
 
 
 #### 1.7.1 Rear panel connectors
-<PIC:Manual25_35>
-
 1.  PS/2 Mouse/Keyboard combo port. This port connects to a PS/2 mouse or PS/2  keyboard.
 2.  Display Port. This port is for a Display Port-compatible devices.
 3.  Video Graphics Adapter (VGA) port. This 15-pin port is for a VGA monitor or other  VGA-compatible devices.
 4.  LAN (RJ-45) port.  This port allows Gigabit connection to a Local Area Network (LAN)  through a network hub.
-<PIC:Manual25_36>
+<PIC:Manual25_35>
 
 LAN port LED indications
-<PIC:Manual25_37>
+<PIC:Manual25_36>
 
 5.  Center / Subwoofer port (orange). This port connects the center/subwoofer speakers.
 6.  Rear Speaker Out port (black). This port connects the rear speakers in a 4.1 channel,  5.1 channel, or 7.1 channel audio configuration.
 7.  Line In port (light blue). This port connects to the tape, CD, DVD player, or other  audio sources.
 8.  Line Out port (lime). This port connects to a headphone or a speaker. In the 4.1, 5.1,  and 7.1 channel configurations, the function of this port becomes Front Speaker Out.
 9.  Microphone port (pink). This port connects to a microphone.
+<PIC:Manual25_37>
+
 
 Audio 2, 4.1, 5.1, or 7.1-channel configuration<PIC:Manual25_38>
 
@@ -445,24 +443,24 @@ Audio 2, 4.1, 5.1, or 7.1-channel configuration<PIC:Manual25_38>
 
 #### 1.7.2 Internal connectors
 
-#### 1.  Serial port connector (10-1 pin COM)
+##### 1.  Serial port connector (10-1 pin COM)
 
-This connector is for a serial (COM) port. Connect the serial port module cable to this  connector, then install the module to a slot opening at the back of the system chassis.<PIC:Manual25_39>
+This connector is for a serial (COM) port. Connect the serial port module cable to this  connector, then install the module to a slot opening at the back of the system chassis.
 
 Serial port (COM) connector The COM module is purchased separately.
+<PIC:Manual25_39>
 
-#### 2.  TPM connector (14-1 pin TPM)
+##### 2.  TPM connector (14-1 pin TPM)
 
-This connector supports a Trusted Platform Module (TPM) system, which securely  store keys, digital certificates, passwords and data. A TPM system also helps enhance  the network security, protects digital identities, and ensures platform integrity.<PIC:Manual25_40>
+This connector supports a Trusted Platform Module (TPM) system, which securely  store keys, digital certificates, passwords and data. A TPM system also helps enhance  the network security, protects digital identities, and ensures platform integrity.
 
 TPM connector
+<PIC:Manual25_40>
 
 3.  CPU, CPU optional, extension, and chassis fan connectors (4-pin CPU_FAN; 4-pin CPU_OPT; 5-pin EXT_FAN, 4-pin CHA_FAN1\~3)
+Fan connectors
 <PIC:Manual25_41>
 Connect the fan cables to the fan connectors on the motherboard, ensuring that the  black wire of each cable matches the ground pin of the connector.
-
-
-Fan connectors
 - Do not forget to connect the fan cables to the fan connectors. Insufficient air flow  inside the system may damage the motherboard components. These are not jumpers!  Do not place jumper caps on the fan connectors!
 - Ensure that the CPU fan cable is securely installed to the CPU fan connector.
 - The CPU_FAN connector supports a CPU fan of maximum 1 A (12 W) fan power.
@@ -476,9 +474,8 @@ Fan connectors
 
 These connectors are for ATX power supply plugs. The power supply plugs are  designed to fit these connectors in only one orientation. Find the proper orientation and  push down firmly until the connectors completely fit.
 
-<PIC:Manual25_42>
-
 ATX power connectors
+<PIC:Manual25_42>
 
 - For a fully configured system, we recommend that you use a power supply unit  (PSU) that complies with ATX
 12 V Specification 2.0 (or later version) and provides a  minimum power of 350 W.
@@ -486,17 +483,18 @@ ATX power connectors
 - We recommend that you use a PSU with higher power output when configuring a  system with more power-consuming devices or when you intend to install additional  devices. The system may become unstable or may not boot up if the power is  inadequate.
 - If you are uncertain about the minimum power supply requirement for your system,  refer to the Recommended Power Supply Wattage Calculator for details.
 
-#### 5.  Thermal sensor connector (2-pin T_SENSOR)
+##### 5.  Thermal sensor connector (2-pin T_SENSOR)
 
 
 This connector is for the thermistor cable that allows you to monitor the temperature of  your motherboard's critical components and connected devices.<PIC:Manual25_43>
 
-#### 6. Front panel audio connector
+##### 6. Front panel audio connector
 
 
-This connector is for a chassis-mounted front panel audio I/O module that supports  either HD Audio or legacy AC'97 audio standard. Connect one end of the front panel  audio  I/O  module cable to this connector.<PIC:Manual25_44>
+This connector is for a chassis-mounted front panel audio I/O module that supports  either HD Audio or legacy AC'97 audio standard. Connect one end of the front panel  audio  I/O  module cable to this connector.
 
 Front panel audio connector
+<PIC:Manual25_44>
 
 - We recommend that you connect a high-definition front panel audio module to this  connector to avail of the motherboard's high-definition audio capability.
 
@@ -505,20 +503,22 @@ Front panel audio connector
 
 #### 7.  ROG Extension - ROG_EXT connector (18-1 pin ROG_EXT)
 
-This connector is for the Front Base.<PIC:Manual25_45>
+**ROG_EXT connectors**
 
-##### ROG_EXT connectors
+This connector is for the Front Base.
+<PIC:Manual25_45>
 - The Front Base is purchased separately.
 
 #### 8. USB 3.0 connector
 
 
 This connector allows you to connect a USB 3.0 module for additional USB 3.0 front  or rear panel ports. With an installed USB 3.0 module, you can enjoy all the benefits of  USB 3.0 including faster data transfer speeds of up to 5 Gbps, faster charging time for  USB-chargeable devices, optimized power efficiency, and backward compatibility with  USB 2.0.
-<PIC:Manual25_46>
 USB3.0 Front panel connector
+<PIC:Manual25_46>
 
 
-<PIC:Manual25_47>Note:
+Note:
+<PIC:Manual25_47>
 
 The USB 3.0 module is purchased separately.
 - These connectors are based on xHCI specification. We recommend you to install the  related driver to fully use the USB 3.0 ports.
@@ -531,9 +531,9 @@ The USB 3.0 module is purchased separately.
 connects to Serial ATA  6.0 Gb/s  hard disk drives via Serial ATA 6.0  Gb/s signal cables.  If you installed Serial ATA hard disk drives, you can create a RAID 0, 1, 5, and 10  configuration through the onboard Intel  chipset.
 
 
+Intel  SATA 6.0Gb/s connectors
 <PIC:Manual25_48>
 
-Intel  SATA 6.0Gb/s connectors
 
 
 <PIC:Manual25_49>
@@ -542,14 +542,10 @@ Intel  SATA 6.0Gb/s connectors
 - These connectors are set to  [AHCI]  by default. If you intend to create a Serial ATA  RAID set using these connectors, set the SATA Mode item in the BIOS to  [RAID].  Refer to section  2.6.5 SATA Configuration  for details.
 - Before creating a RAID set, refer to the manual bundled in the motherboard support  DVD.  The SATA EXPRESS connector can support one SATA Express device or two SATA  devices.
 
-#### 10. System panel connector (20-5 pin PANEL)
-<PIC:Manual25_50>
-
+##### 10. System panel connector (20-5 pin PANEL)
 This connector supports several chassis-mounted functions.
-
-
-
-System panel connector  #
+System panel connector
+<PIC:Manual25_50>
 
 - System power LED (4-pin +PWR_LED-)  This 2-pin connector is for the system power LED. Connect the chassis power LED  cable to this connector. The system power LED lights up when you turn on the system  power, and blinks when the system is in sleep mode.
 
@@ -566,26 +562,23 @@ System panel connector  #
 
 This socket allows you to install an M.2 (NGFF) SSD module.
 
+M.2(SOCKET3)
 <PIC:Manual25_51>
 
-M.2(SOCKET3)
 - This socket supports M Key and type 2242/2260/2280/22110 storage devices.
 - The M.2 (NGFF) SSD module is purchased separately.
 - When the M.2 Socket 3 is operating in SATA mode, SATA port 1 will be disabled.
 
 #### 12. USB 2.0 connectors (10-1 pin USB78, USB910, USB1112)
+
+**USB 2.0 connectors**
+
+USB 2.0 connectors are for USB 2.0 ports. Connect the USB module cable to any of  these connectors, then install the module to a slot opening at the back of the system  chassis. These USB connectors comply with USB 2.0 specifications and supports up to  480 Mbps connection speed.
 <PIC:Manual25_52>
 
-are for USB 2.0 ports. Connect the USB module cable to any of  these connectors, then install the module to a slot opening at the back of the system  chassis. These USB connectors comply with USB 2.0 specifications and supports up to  480 Mbps connection speed.
-
-
-
-
-##### USB 2.0 connectors
-
+CAUTION:
 <PIC:Manual25_53>
 
-CAUTION:
 
 Never connect a 1394 cable to the USB connectors. Doing so will damage the  motherboard!  The USB 2.0 module is purchased separately.
 
@@ -597,27 +590,28 @@ Never connect a 1394 cable to the USB connectors. Doing so will damage the  moth
 
 The motherboard comes with a standby power LED that lights up to indicate that the  system is ON, in sleep mode, or in soft-off mode. This is a reminder that you should  shut down the system and unplug the power cable before removing or plugging in any  motherboard component. The illustration below shows the location of the onboard LED.
 
+Figure: Onboard LED
 <PIC:Manual25_54>
 
-Figure: Onboard LED
 
 
 #### 2.  Model name LEDs
 
 The model name LEDs are a group of five small LEDs, located right below the printed  model name. The LEDs light up in the following two modes to highlight the model  name.
 
+Figure: Model name LED
 <PIC:Manual25_55>
 
-Figure: Model name LED
-
-<PIC:Manual25_56>
 
 Model name LED Lighting
+<PIC:Manual25_56>
+
 
 You can turn off the model name LEDs or change the lit modes from the BIOS or the LED  Control app in Ai Suite 3. To change the setting in BIOS, go to  Advanced > Onboard  Devices Configuration > Model Name LED Lighting  item. See section  2.6.7 Onboard  Devices Configuration  for details.
 
 #### 3.  SupremeFX LED
-<PIC:Manual25_57>Figure: SupremeFX LED 
+Figure: SupremeFX LED
+<PIC:Manual25_57>
 
 
 
@@ -626,8 +620,8 @@ The SupremeFX LED lights up in the following three ways to bring you an ultimate
 
 You can turn off the SupremeFX LED or change the lit modes from the BIOS or the LED  Control app in Ai Suite 3. To change the setting in BIOS, go to  Advanced > Onboard  Devices Configuration > SupremeFX LED Lighting  item. See section  2.6.7 Onboard  Devices Configuration  for details.
 
-<PIC:Manual25_58>
 Table: SupremeFX LED lighting modes
+<PIC:Manual25_58>
 
 ### 1.9 Software support
 
@@ -642,7 +636,7 @@ Motherboard settings and hardware options vary. Refer to your OS documentation f
 The Support DVD that comes with the motherboard package contains the drivers, software  applications, and utilities that you can install to avail all motherboard features.  The contents of the Support DVD are subject to change at any time without notice.
 
 
-##### To run the Support DVD
+**To run the Support DVD**
 
 
 Place the Support DVD into the optical drive. If Autorun is enabled in your computer, the DVD  automatically displays the lists of the unique features of your motherboard. Click the  Driver,  Utilities,  Manual, or  Special  tabs to display their respective menus.  The following screen is for reference only.
@@ -650,7 +644,6 @@ Place the Support DVD into the optical drive. If Autorun is enabled in your comp
 
 <PIC:Manual25_59>
 
-Figure callouts: Click an icon to display a tab; Click to install.
 
 If Autorun is NOT enabled in your computer, browse the contents of the Support DVD to  locate the file Setup.exe in the root folder. Double-click the Setup.exe to run the DVD.
 
@@ -685,7 +678,7 @@ The EZ Flash 3 feature allows you to update the BIOS without using an OS-based  
 
 - Check your Internet connection before updating the BIOS via the Internet.<PIC:Manual25_61>
 
-##### To update the BIOS using EZ Flash 3:
+**To update the BIOS using EZ Flash 3:**
 
 1.  Enter the  Advanced Mode  of the BIOS setup program. Go to the  Tool  menu to select EZ Flash 3 Utility  and press <Enter> to enable it.
 2.  Follow the steps below to update the BIOS via USB or Internet.
@@ -715,7 +708,7 @@ The CrashFree BIOS 3 is an auto recovery tool that allows you to restore the BIO
 
 ##### Recovering the BIOS
 
-##### To recover the BIOS:
+**To recover the BIOS:**
 
 1.  Turn on the system.
 2.  Insert the support DVD to the optical drive or the USB flash drive that contains the  BIOS file to the USB port.
@@ -759,9 +752,9 @@ D:\> bupdater /pc /g
 
 2.  On the BIOS Updater screen, press <Tab> to switch from Files panel to Drives panel  then select  D:.
 
+Figure: BIOS Updater screen showing the Drives panel and Files panel.
 <PIC:Manual25_63>
 
-Figure: BIOS Updater screen showing the Drives panel and Files panel.
 
 3.  Press <Tab> to switch from Drives panel to Files panel then press <Up/Down or Home/ End> keys to select the BIOS file and press <Enter>.
 
@@ -801,8 +794,8 @@ The BIOS setup program can be used under two modes:  EZ Mode  and  Advanced Mode
 #### 2.2.1 EZ Mode
 
 By default, the EZ Mode screen appears when you enter the BIOS setup program. The EZ  Mode provides you an overview of the basic system information, and allows you to select the  display language, system performance mode, fan profile and boot device priority. To access  the Advanced Mode, click  Advanced Mode (F7)  or press  <F7>.  The default screen for entering the BIOS setup program can be changed. Refer to the  Setup Mode  item in section  2.8 Boot menu  for details.
-<PIC:Manual25_65>
 Figure: UEFI BIOS Utility - EZ Mode screen.
+<PIC:Manual25_65>
 
 The boot device options vary depending on the devices you installed to the system.
 
@@ -887,18 +880,18 @@ This button shows the items that you last modified and saved in BIOS Setup.
 
 The QFan Control allows you to set a fan profile or manually configure the operating speed of  your CPU and chassis fans.
 
+Figure: Q-Fan Control screen.
 <PIC:Manual25_69>
 
-Figure: Q-Fan Control screen.
 
 ##### Configuring fans manually
 
 
 Select  Manual  from the list of profiles to manually configure your fans' operating speed.
 
+Figure: Manual fan configuration screen.
 <PIC:Manual25_70>
 
-Figure: Manual fan configuration screen.
 
 To configure your fans:
 1.  Select the fan that you want to configure and to view its current status.
@@ -909,11 +902,8 @@ To configure your fans:
 
 EZ Tuning Wizard allows you to overclock your CPU and DRAM, computer usage, and CPU fan to their best settings. You can also easily set RAID in your system using this feature.
 
-<PIC:Manual25_71>
-
 Figure: EZ Tuning Wizard screen.
-
-Figure callouts: System OC setup; RAID setup.
+<PIC:Manual25_71>
 
 
 ##### Tuning your system settings
@@ -957,14 +947,14 @@ My Favorites comes with several performance, power saving, and fast boot related
 
 #### Adding items to My Favorites
 
-##### To add BIOS items:
+**To add BIOS items:**
 
 1.  Press <F3> on your keyboard or click  (F3) MyFavorite  from the BIOS screen to open  Setup Tree Map screen.
 2.  On the Setup Tree Map screen, select the BIOS items that you want to save in MyFavorites  screen.
 
+3.  Select an item from main menu panel, then click the submenu that you want to save as  favorite from the submenu panel and click.
 <PIC:Manual25_77>
 
-3.  Select an item from main menu panel, then click the submenu that you want to save as  favorite from the submenu panel and click.
 
 
 You cannot add the following items to My Favorite items:
@@ -990,20 +980,20 @@ The Security menu items allow you to change the system security settings.
 
 If you have set an administrator password, we recommend that you enter the administrator  password for accessing the system.
 
-##### To set an administrator password:
+**To set an administrator password:**
 
 1.  Select the  Administrator Password  item and press <Enter>.
 2.  From the  Create New Password  box, key in a password, then press <Enter>.
 3.  From the  Confirm New Password  box, key in your password again to confirm the  password, then click  OK.
 
-##### To change an administrator password:
+**To change an administrator password:**
 
 1.  Select the  Administrator Password  item and press <Enter>.
 2.  From the  Enter Current Password  box, key in the current password, then press  <Enter>.
 3.  From the  Create New Password  box, key in a new password, then press <Enter>.
 4.  From the  Confirm New Password  box, key in your password again to confirm the  password, then click  OK.
 
-##### To clear the administrator password:
+**To clear the administrator password:**
 
 Follow the same steps as in changing an administrator  password, but click  OK  when prompted to create/confirm the password. After you clear the  password, the Administrator Password item on top of the screen shows Not Installed.
 
@@ -1011,20 +1001,20 @@ Follow the same steps as in changing an administrator  password, but click  OK  
 
 If you have set a user password, you must enter the user password for accessing the system.  The  User Password  item on top of the screen shows the default  Not Installed. After you set  a password, this item shows  Installed.
 
-##### To set a user password:
+**To set a user password:**
 
 1.  Select the  User Password  item and press <Enter>.
 2.  From the  Create New Password  box, key in a password, then press <Enter>.
 3.  From the  Confirm New Password  box, key in your password again to confirm the  password, then click  OK.
 
-##### To change a user password:
+**To change a user password:**
 
 1.  Select the  User Password  item and press <Enter>.
 2.  From the  Enter Current Password  box, key in the current password, then press  <Enter>.
 3.  From the  Create New Password  box, key in a new password, then press <Enter>.
 4.  From the  Confirm New Password  box, key in your password again to confirm the  password, then click  OK.
 
-##### To clear the user password:
+**To clear the user password:**
 
 Follow the same steps as in changing a user password, but click  OK  when prompted to create/confirm the password. After you clear the password, the  User  Password item on top of the screen shows Not Installed.
 
@@ -2017,7 +2007,7 @@ Based on the chipset specification, the 100 series requires USB 3.0 drivers to b
 
 Load USB 3.0 drivers using the  support DVD and install  Windows 7 using a USB  device.
 
-##### Requirement:
+**Requirement:**
 - 1 x  support DVD
 - 1 x  Windows 7 installation source
 - 1 x SATA ODD
@@ -2042,7 +2032,7 @@ The "Setup is starting..." screen will show up if the USB 3.0 driver is loaded c
 
 Load USB 3.0 drivers and install  Windows 7 using a modified  Windows 7 installation DVD.
 
-##### Requirement:
+**Requirement:**
 - 1 x support DVD
 - 1 x  Windows 7 installation source
 - 1 x Working system (PC or notebook)
@@ -2057,7 +2047,8 @@ Load USB 3.0 drivers and install  Windows 7 using a modified  Windows 7 installa
 7.  Select the ODD as the boot device.
 8.  The USB 3.0 driver will be loaded automatically during installation startup.
 
-<PIC:Manual25_89> notice:
+notice:
+<PIC:Manual25_89>
 
 The "Setup is starting..." screen will show up if the USB 3.0 driver is loaded correctly.
 9.  Follow the onscreen instructions to complete the  Windows 7 installation.
@@ -2065,7 +2056,7 @@ The "Setup is starting..." screen will show up if the USB 3.0 driver is loaded c
 
 Use the EZ Installer to create a modified  Windows 7 installation source.
 
-##### Requirement:
+**Requirement:**
 - 1 x support DVD
 - 1 x  Windows 7 installation DVD
 - 1 x Working system (PC or notebook)
@@ -2107,11 +2098,11 @@ Click the refresh icon  if the USB storage device is not displayed.
 The "Setup is starting..." screen will show up if the USB 3.0 driver is loaded correctly.
 8.  Follow the onscreen instructions to complete the Windows 7 installation.
 
-## Appendices
+Appendices
 
 ### Notices
 
-### Federal Communications Commission Statement
+#### Federal Communications Commission Statement
 
 This device complies with Part 15 of the FCC Rules. Operation is subject to the following two  conditions:
 - This device may not cause harmful interference.
@@ -2123,31 +2114,32 @@ This equipment has been tested and found to comply with the limits for a Class B
 - Connect the equipment to an outlet on a circuit different from that to which the receiver  is connected.
 - Consult the dealer or an experienced radio/TV technician for help.
 
-<PIC:Manual25_98> warning:
+warning:
+<PIC:Manual25_98>
 
 The use of shielded cables for connection of the monitor to the graphics card is required  to assure compliance with FCC regulations. Changes or modifications to this unit not  expressly approved by the party responsible for compliance could void the user's authority  to operate this equipment.
 
-### IC: Canadian Compliance Statement
+#### IC: Canadian Compliance Statement
 
 Complies with the Canadian ICES-003 Class B specifications. This device complies with RSS  210 of Industry Canada. This Class B device meets all the requirements of the Canadian  interference-causing equipment regulations.  This device complies with Industry Canada license exempt RSS standard (s). Operation is  subject to the following two conditions: (1) this device may not cause interference, and (2)  this device must accept any interference, including interference that may cause undesired  operation of the device.
 
-### Canadian Department of Communications Statement
+#### Canadian Department of Communications Statement
 
 This digital apparatus does not exceed the Class B limits for radio noise emissions from  digital apparatus set out in the Radio Interference Regulations of the Canadian Department  of Communications.  This class B digital apparatus complies with Canadian ICES-003.
 
-### VCCI: Japan Compliance Statement
+#### VCCI: Japan Compliance Statement
 
-### VCCI Class B Statement
+#### VCCI Class B Statement
 
 This is a Class B product based on the standard of the VCCI Council. If this is used near a  radio or television receiver in a domestic environment, it may cause radio interference. Install  and use the equipment according to the instruction manual.
 
-### KC: Korea Warning Statement
+#### KC: Korea Warning Statement
 
-### REACH
+#### REACH
 
 Complying with the REACH (Registration, Evaluation, Authorisation, and Restriction of  Chemicals) regulatory framework, we published the chemical substances in our products at  REACH website.  DO NOT throw the motherboard in municipal waste. This product has been designed to  enable proper reuse of parts and recycling. This symbol of the crossed out wheeled bin  indicates that the product (electrical and electronic equipment) should not be placed in  municipal waste. Check local regulations for disposal of electronic products.  DO NOT throw the mercury-containing button cell battery in municipal waste. This symbol  of the crossed out wheeled bin indicates that the battery should not be placed in municipal  waste.
 
-### Recycling/Takeback Services
+#### Recycling/Takeback Services
 
 Recycling and takeback programs come from our commitment to the highest standards  for protecting our environment. We believe in providing solutions for you to be able to  responsibly recycle our products, batteries, other components as well as the packaging  materials.
 It declares that this device is in compliance with  the essential requirements and other relevant provisions of CE Directives.  Please see the CE Declaration of Conformity for more details.

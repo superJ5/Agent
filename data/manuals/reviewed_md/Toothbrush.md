@@ -9,7 +9,7 @@ Congratulations on your new toothbrush! Superior plaque removal, whiter teeth, a
 
 ## IMPORTANT SAFEGUARDS
 
-### READ ALL INSTRUCTIONS BEFORE USE
+**READ ALL INSTRUCTIONS BEFORE USE**
 
 Read this user manual carefully before you use the appliance and save it for future reference.
 
@@ -69,7 +69,7 @@ To reduce the risk of burns, electrocution, fire or physical injury:
 
 - If batteries are damaged or leaking, avoid contact with the skin or eyes. If this occurs, immediately rinse well with water and seek medical care.
 
-### SAVE THESE INSTRUCTIONS
+**SAVE THESE INSTRUCTIONS**
 
 ## Electromagnetic fields (EMF)
 
@@ -178,28 +178,28 @@ Premium All-in-One brush heads come with BrushSync Technology (see description b
 Note: It is normal to see a slight gap between the brush head and the handle. This allows the brush head to vibrate properly.
 
 
+2. Wet the bristles and apply a small amount of toothpaste.
 <PIC:Manual37_4>
 
 
-2. Wet the bristles and apply a small amount of toothpaste.
-
-
-<PIC:Manual37_5>
 
 
 3. Place the toothbrush bristles against the teeth at a slight angle (45 degrees). Apply light pressure to make the bristles reach the gumline or slightly beneath the gumline. Note: Keep the center of the brush head in contact with the teeth at all times.
+<PIC:Manual37_5>
 
 
-<PIC:Manual37_6>
 
 
 4. Press the power on/off button to turn on the Philips Sonicare.
+<PIC:Manual37_6>
 
 
-<PIC:toothbrush0_01>
 
 
 5. Apply light pressure to maximize Philips Sonicare's effectiveness and let the Philips Sonicare toothbrush do the brushing for you.
+<PIC:toothbrush0_01>
+
+
 
 
 <PIC:toothbrush0_02>
@@ -208,16 +208,16 @@ Note: It is normal to see a slight gap between the brush head and the handle. Th
 Note: The bristles should slightly flare. Do not scrub. A change in vibration from the handle and the brushing feedback light flashes purple to alert you when you apply too much pressure. Gently move the brush head slowly across the teeth in a small back and forth motion so the longer bristles reach between your teeth. Continue this motion throughout the brushing cycle.
 
 
+6. To clean the inside surfaces of the front teeth, tilt the brush handle semi-upright and make several vertical overlapping brushing strokes on each tooth.
 <PIC:toothbrush0_03>
 
 
-6. To clean the inside surfaces of the front teeth, tilt the brush handle semi-upright and make several vertical overlapping brushing strokes on each tooth.
-
-
-<PIC:toothbrush0_04>
 
 
 7. The BrushPacer divides the brushing time into six equal segments and indicates when you should move to the next area. Segments are indicated with a brief pause in vibration. The toothbrush automatically stops at the end of the brushing session.
+<PIC:toothbrush0_04>
+
+
 
 
 <PIC:toothbrush0_05>
@@ -341,7 +341,7 @@ You can activate or deactivate the following features of your toothbrush:
 
 Note: Adaptive Intensity will be deactivated when pressure sensor is deactivated.
 
-### From app
+#### From app
 
 The following features can be activated or deactivated from the app.
 - Adaptive Intensity
@@ -349,7 +349,7 @@ The following features can be activated or deactivated from the app.
 
 For instructions on how to connect to the app (see 'App - Getting Started').
 
-### From handle
+#### From handle
 
 Step 1: Place the handle on the charging stand.
 Step 2: Press and hold power button for:
@@ -358,17 +358,17 @@ Step 2: Press and hold power button for:
 <PIC:Manual37_13>
 
 
-### Handle feature feedback
+#### Handle feature feedback
 
 - Adaptive intensity: press and hold the power button for up to 7 seconds; feedback is 1 beep; the SenseIQ indicator and light ring light up purple for 3 seconds.
 - Brush head replacement reminder: press and hold the power button for up to 3 seconds; feedback is 1 beep and then 2 beeps; the brush head replacement reminder indicator lights up for 3 seconds.
 - Pressure Sensor Feedback: press and hold the power button for up to 5 seconds; feedback is 1 beep, 2 beeps, and then 3 beeps; the SenseIQ indicator lights up for 3 seconds.
 
 
+Together with: If you see the battery indication blink white 3 times and hear 3 tones from low to high, then the feature has been activated.
 <PIC:toothbrush0_11>
 
 
-Together with: If you see the battery indication blink white 3 times and hear 3 tones from low to high, then the feature has been activated.
 
 Or, if you see battery indication blink amber 3 times and hear 3 tones high to low, then the feature has been deactivated.
 
@@ -379,16 +379,16 @@ Or, if you see battery indication blink amber 3 times and hear 3 tones high to l
 1. Plug the USB cord of the charging base into the USB wall adapter and plug the wall adapter into an electrical outlet.
 
 
+2. Place the charging stand (clear cover) on the charging base.
 <PIC:Manual37_14>
 
 
-2. Place the charging stand (clear cover) on the charging base.
-
-
-<PIC:Manual37_15>
 
 
 3. Place the toothbrush handle on the charger.
+<PIC:Manual37_15>
+
+
 
 
 <PIC:Manual37_16>
@@ -409,11 +409,11 @@ Note: It may take up to 16 hours to fully charge your toothbrush.
 1. Plug the USB cord into the travel case and into the USB wall adapter.
 
 
+2. Plug the wall adapter into an electrical outlet.
+3. Place toothbrush into travel case.
 <PIC:Manual37_18>
 
 
-2. Plug the wall adapter into an electrical outlet.
-3. Place toothbrush into travel case.
 
 
 <PIC:Manual37_19>
@@ -423,10 +423,10 @@ a. To indicate charging has started successfully, the toothbrush will beep twice
 b. While charging the battery indicator blinks in white.
 
 
+4. Leave travel case plugged in until toothbrush is fully charged. The battery light will turn off (stop blinking) when the handle has finished charging.
 <PIC:Manual37_20>
 
 
-4. Leave travel case plugged in until toothbrush is fully charged. The battery light will turn off (stop blinking) when the handle has finished charging.
 
 
 <PIC:Manual37_21>
@@ -434,7 +434,7 @@ b. While charging the battery indicator blinks in white.
 
 Note: Make sure the travel case is placed on its side for better stability.
 
-### Battery Status (when handle is on a working charger or travel case)
+### Battery Status on Charger or Travel Case
 
 When the handle is placed on the charger or in the travel case, the battery indication will communicate the battery level.
 
@@ -442,7 +442,7 @@ When the handle is placed on the charger or in the travel case, the battery indi
 <PIC:Manual37_22>
 
 
-### Battery Status (when handle is not placed on Charger)
+### Battery Status off Charger
 
 When the toothbrush is awake, the battery light at the bottom of the handle will indicate the status of the battery.
 
@@ -459,10 +459,10 @@ The brush heads and handle can be cleaned by rinsing it with warm water.
 1. Remove the brush head from the handle and rinse it thoroughly.
 
 
+2. Rinse the entire handle, especially the brush head connection. Gently clean around the rubber seal. At least once a week.
 <PIC:toothbrush0_08>
 
 
-2. Rinse the entire handle, especially the brush head connection. Gently clean around the rubber seal. At least once a week.
 
 
 <PIC:toothbrush0_09>

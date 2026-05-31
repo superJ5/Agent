@@ -44,58 +44,58 @@ Instructions Note: Each camera comes with an instruction pamphlet within the box
 For most mounting scenarios, the wall mount provides a quick, simple, and flexible means of mounting your device. The installation should be done in a few simple steps: 1. Leave protective plastic sticker on camera bubble
 
 
+2. Use template to determine mounting hole locations before screwing in the mount plate. Peel backing from mount template to stick on wall. Slide the camera onto the wall mount.
 <PIC:Manual33_0>
 
 
-2. Use template to determine mounting hole locations before screwing in the mount plate. Peel backing from mount template to stick on wall. Slide the camera onto the wall mount.
-
-
-<PIC:Manual33_1>
 
 
 3. Screw the mounting plate onto the wall in pre-determined locations. Use template holes marked with the letter "A" for standard wall mounting.
+<PIC:Manual33_1>
 
 
-<PIC:Manual33_2>
 
 
 4. Connect PoE cable to camera. For cords that will exit the top of the camera, loop the cable inside the camera as shown.
+<PIC:Manual33_2>
 
 
-<PIC:Manual33_3>
 
 
 5. Slide camera over top of mount plate and slide down into mount plate hooks. Secure with safety screw.
+<PIC:Manual33_3>
 
 
-<PIC:Manual33_4>
 
 
 6. Turn bubble counter clockwise to unlock. Hinge bubble off of body to remove.
+<PIC:Manual33_4>
 
 
-<PIC:Manual33_5>
 
 
 7. Pinch near thumb screws and pull straight away from the camera to remove lens guard.
+<PIC:Manual33_5>
 
 
-<PIC:Manual33_6>
 
 
 8. Aim the lens. Look through the camera on the Dashboard to fine-tune the picture. The camera sensor and lens unit can be physically tilted through a range of 65 degrees, rotated through a range of 350 degrees, and panned through a range of 350 degrees. The image can only be rotated by 180 degrees in software and no other adjustments can be made. Zoom and focus can be adjusted remotely and cannot be adjusted physically on the camera.
+<PIC:Manual33_6>
 
 
-<PIC:Manual33_7>
 
 
 9. Replace lens guard and bubble. Turn bubble clockwise to lock.
+<PIC:Manual33_7>
 
 
-<PIC:Manual33_8>
 
 
 10. Remove protective plastic sticker. Check LED function. Use the Dashboard to adjust camera focus and configure other settings.
+<PIC:Manual33_8>
+
+
 
 
 <PIC:Manual33_9>
@@ -108,22 +108,22 @@ To mount your camera on a drop ceiling T-rail, use the included hardware. The ha
 1. Using the dashed lines on the mount plate template as a guide, set the proper spacing of the clips.
 
 
+2. Tighten the set screws on the T-rail clips and secure them using a 5/64" (2 mm) hex key.
 <PIC:Manual33_11>
 
 
-2. Tighten the set screws on the T-rail clips and secure them using a 5/64" (2 mm) hex key.
-
-
-<PIC:Manual33_12>
 
 
 3. Attach the mount plate to the T-rail clips using the mount plate holes (marked with a "G").
+<PIC:Manual33_12>
 
 
-<PIC:Manual33_13>
 
 
 4. Attach the T-rail clips to the T-rail by rotating them and snapping them into place as shown. The black foam pads should be compressed slightly after installation.
+<PIC:Manual33_13>
+
+
 
 
 <PIC:Manual33_10>

@@ -42,16 +42,16 @@ Charge using a standard outlet only. vacuum may not be used with any type of pow
 ## TOP VIEW
 
 
+BUTTONS & INDICATORS
 <PIC:Manual32_1>
 
 
-BUTTONS & INDICATORS
-
-
-<PIC:Manual32_2>
 
 
 BOTTOM VIEW
+<PIC:Manual32_2>
+
+
 
 
 <PIC:Manual32_3>
@@ -71,7 +71,7 @@ Always keep the vacuum plugged in and make sure it is in an area with consistent
 
 Turn vacuum over and remove the yellow bin insert and battery pull tab. Then, place vacuum on the Home Base to activate the battery.
 
-### Vacuum is ready to clean
+**Vacuum is ready to clean**
 
 Vacuum has a partial battery charge, so it's ready to start cleaning.
 
@@ -130,15 +130,15 @@ To keep Roomba running at peak performance, perform the following care procedure
 ## EMPTYING THE BIN
 
 1. Press bin release button to remove bin. (See Figure 4)
-
-
 <PIC:Manual32_8>
 
 
 2. Open bin door to empty bin. (See Figure 5)
-
-
 <PIC:Manual32_9>
+
+
+
+
 
 
 NOTE: If the full bin indicator comes on at any time during a cleaning job, you can always pause the cleaning job to empty the bin and then continue cleaning. If the full bin indicator is illuminated, but the bin does not appear to be full, refer to Cleaning the Full Bin Sensors.
@@ -146,15 +146,15 @@ NOTE: If the full bin indicator comes on at any time during a cleaning job, you 
 ## CLEANING THE FILTER
 
 3. Remove filter by grasping the yellow tab. (See Figure 6)
-
-
 <PIC:Manual32_10>
 
 
 4. Shake off debris by tapping the filter against your trash container. (See Figure 7)
-
-
 <PIC:Manual32_11>
+
+
+
+
 
 
 IMPORTANT! The filter door won't close unless a filter is reinserted. Insert the filter with the yellow tab facing up.
@@ -162,28 +162,26 @@ IMPORTANT! The filter door won't close unless a filter is reinserted. Insert the
 ## CLEANING THE FULL BIN SENSORS
 
 1. Remove and empty the bin. (See Figure 8)
-
-
 <PIC:Manual32_12>
 
 
 2. Wipe the sensors with a clean, dry cloth. (See Figure 9)
-
-
 <PIC:Manual32_13>
 
 
+
+
 3. Wipe the inner and outer sensor ports on the bin with a clean, dry cloth. (See Figure 10)
-
-
 <PIC:Manual32_14>
+
+
+
+
 
 
 ## CLEANING THE FRONT CASTER WHEEL
 
 1. Pull firmly on the front wheel to remove it. (See Figure 11)
-
-
 <PIC:Manual32_15>
 
 
@@ -191,57 +189,59 @@ IMPORTANT! The filter door won't close unless a filter is reinserted. Insert the
 3. Spin the wheel by hand. If rotation is restricted, remove the wheel from its housing and push firmly to remove the axle and clear any debris or hair wrapped around it.
 4. Reinstall all parts when finished. Make sure the wheel clicks back into place.
 
+
+
 ## CLEANING THE SIDE BRUSH
 
 1. Use a coin or small screwdriver to remove the screw. (See Figure 12)
-
-
 <PIC:Manual32_16>
 
 
 2. Remove the brush, clean the brush and the brush post, and reinstall the brush.
 
+
+
 ## CLEANING THE SENSOR AND CHARGING CONTACTS
 
 1. Wipe the sensor with a clean, dry cloth. Do not spray cleaning solution directly onto the sensors or sensor openings. (See Figure 13)
-
-
 <PIC:Manual32_17>
 
 
 2. Wipe the charging contacts on Roomba and the Home Base with a clean, dry cloth. (See Figure 14)
-
-
 <PIC:Manual32_18>
+
+
+
+
 
 
 ## CLEANING THE EXTRACTORS
 
 1. Pinch the yellow extractor frame release tabs, lift up the extractor frame and remove any obstructions. (See Figure 15)
-
-
 <PIC:Manual32_19>
 
 
 2. Remove the extractors and remove the yellow extractor caps. Remove any hair or debris that has collected underneath the caps and around the metal axles. Reinstall the extractor caps. (See Figure 16)
-
-
 <PIC:Manual32_20>
 
 
+
+
 3. Remove hair and debris from the square and hexagonal plastic pegs on the other side of the extractors. (See Figure 17)
-
-
 <PIC:Manual32_21>
 
 
+
+
 4. Clear the vacuum path. (See Figure 18)
-
-
 <PIC:Manual32_22>
 
 
+
+
 5. Reinstall the extractors. Match the color and shape of the extractor pegs with the color and shape of the extractor icons on the cleaning head module.
+
+
 
 ## TROUBLESHOOTING
 

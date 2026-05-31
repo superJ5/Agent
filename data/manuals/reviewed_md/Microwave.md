@@ -1,7 +1,7 @@
 
 # Over-the-Range Microwave
-<PIC:Manual24_0>
 Use and Care Manual
+<PIC:Manual24_0>
 For Models: HMV9302, HMV9305, HMV9306, HMV9307
 
 PLEASE READ ENTIRE INSTRUCTIONS BEFORE PROCEEDING
@@ -82,7 +82,7 @@ OWNER: Please retain these instructions for future reference.
 
 ## FEDERAL COMMUNICATIONS COMMISSION RADIO FREQUENCY INTERFERENCE STATEMENT (U.S.A. ONLY)
 
-### WARNING:
+**WARNING:**
 
 This equipment generates and uses ISM frequency energy and if not installed and used properly, that is in strict accordance with the manufacturer's instructions, may cause interference to radio and television reception. It has been type tested and found to comply with limits for ISM Equipment pursuant to part 18 of FCC Rules, which are designed to provide reasonable protection against such interference in a residential installation.  However, there is no guarantee that interference will not occur in a particular installation. If this equipment does cause interference to radio or television reception, which can be determined by turning the equipment off and on, the user is encouraged to try to correct the interference by one or more of the following
 - Clean door and sealing surface of the oven.
@@ -149,15 +149,15 @@ To reduce the risk of injury to persons:
 - Do not use straight-sided containers with narrow necks.
 - After heating, allow the container to stand in the microwave oven for a short time before removing the container.
 
-### SAVE THESE INSTRUCTIONS
+**SAVE THESE INSTRUCTIONS**
 
 ## Electrical requirements
 
-### WARNING
+**WARNING:**
 
 Observe all governing codes and ordinances. A 120 Volt,  60 Hz  AC only 15 or 20 amp fused electrical supply is required. (A time-delay fuse is recommended.) It is recommended that a separate circuit serving only this appliance be provided.
 
-### ELECTRICAL SHOCK HAZARD
+**ELECTRICAL SHOCK HAZARD**
 
 Plug in to a grounded 3 prong outlet. Do not remove ground prong. Do not use an adapter. Do not use an extension cord. Failure to follow these instructions can result in death, fire, or electrical shock.
 
@@ -166,18 +166,17 @@ Plug in to a grounded 3 prong outlet. Do not remove ground prong. Do not use an 
 ### GROUNDING INSTRUCTIONS
 - For all cord connected appliances:  The microwave oven must be grounded. In the event of an electrical short circuit, grounding reduces the risk of electric shock by providing an escape wire for the electric current. The microwave oven is equipped with a cord having a grounding wire with a grounding plug. The plug must be plugged into an outlet that is properly installed and grounded.
 
+Ensure proper ground exists before use
 <PIC:Manual24_2>
 
-Ensure proper ground exists before use
-
-### WARNING
+**WARNING:**
 
 Improper use of the grounding can result in a risk of electric shock.
 
 Consult a qualified electrician or serviceman if the grounding instructions are not completely understood, or if doubt exists as to whether the microwave oven is properly grounded. Do not use an extension cord. If the power supply cord is too short, have a qualified electrician or serviceman install an outlet near the microwave oven.
 - For a permanently connected appliance: The microwave oven must be connected to a grounded metallic, permanent wiring system, or an equipment grounding conductor should be run with the circuit conductors and connected to the equipment grounding terminal or lead on the microwave oven.
 
-### SAVE THESE INSTRUCTIONS
+**SAVE THESE INSTRUCTIONS**
 ## COOKWARE GUIDE
 
 Most heat-resistant, non-metallic cookware is safe for use in your microwave oven. However, to test cookware before using, follow these steps: 
@@ -341,7 +340,7 @@ Note: Styling and features vary by model
 
 This section discusses the concepts behind microwave cooking and introduces you to the basics you need to know to operate your microwave oven. Please read this information before use.
 
-### CAUTION
+**CAUTION:**
 - To avoid risk of personal injury or property damage, do not run oven empty.
 - To avoid risk of personal injury or property damage, do not use stoneware, aluminum foil, metal utensils, or metal trimmed utensils in the oven. See page 6 for details.
 
@@ -545,10 +544,10 @@ Example: To pop popcorn.<PIC:Manual24_23>
 
 - When the cook time is over, you will hear four beeps and END will display.
 
-### CAUTION
+**CAUTION:**
 - DO NOT leave microwave oven unattended while popping corn.
 
-## USING YOUR MICROWAVE OVEN
+**USING YOUR MICROWAVE OVEN**
 
 ### PIZZA (SENSOR)
 
@@ -565,7 +564,7 @@ Example: To cook 2 potatoes.<PIC:Manual24_25>
 - When the cook time is over, you will hear four beeps and END will display.
 - Recommended amounts: 1-4 potatoes (about 8-10 ozs. each)
 
-### NOTE:
+**NOTE:**
 - Before baking, pierce potato with fork several times.
 - After baking, let stand for 5 minutes.
 
@@ -671,7 +670,7 @@ The Quick Defrost feature provides rapid defrosting for 1 lb. of frozen food. Th
 Example: To defrost 1 lb. ground beef.
 <PIC:Manual24_39>
 
-### NOTE:
+**NOTE:**
 - The microwave will beep and defrosting will pause so the door can be opened and the meat can be turned. If the door is not opened at this time, the countdown will resume.
 - Any ground meat can be used with Quick Defrost, but this feature works best with ground beef
 
@@ -687,7 +686,7 @@ To use rack:
   - Amount of food must be approximately the same in both containers to balance out cooking energy.
 <PIC:Manual24_40>
 
-### CAUTION
+**CAUTION:**
 
 To avoid risk of property damage:
 - Do not use rack to pop popcorn.
@@ -719,7 +718,7 @@ To get the best results from your microwave oven, read and follow the guidelines
 
 ### FISH AND SHELLFISH
 
-### Cooking Fish and Shellfish: General Directions
+#### Cooking Fish and Shellfish: General Directions
 - Prepare the fish for cooking:
   - Completely defrost the fish or shellfish.
   - Arrange unevenly shaped pieces with thicker parts toward the outside of the dish. Arrange shellfish in a single layer for even cooking.
@@ -727,23 +726,23 @@ To get the best results from your microwave oven, read and follow the guidelines
 - Always set the shortest cooking time. Fish is done when it turns opaque and the thickest part begins to flake. Shellfish is done when the shell turns from pink to red and the flesh is opaque and firm.
 - The Fish and Shellfish Cooking Table below provides specific directions with Power Level and Cooking Time settings for most types of fish and shellfish
 
-### FISH AND SHELLFISH COOKING TABLE
+#### FISH AND SHELLFISH COOKING TABLE
 
 <PIC:Manual24_42>
 
 ### APPETIZERS/SAUCES/SOUPS
 
-### Cooking Appetizers: Tips and Techniques
+#### Cooking Appetizers: Tips and Techniques
 - Crisp crackers, such as melba toast, shredded wheat, and crisp rye crackers are best for microwave use. Wait until party time to add the spreads. Place a paper towel under the crackers while they cook in the microwave oven to absorb extra moisture.
 - Arrange individual appetizers in a circle for even cooking.
 - Stir dips to distribute heat and shorten cooking time.
 
-### Not Recommended
+#### Not Recommended
 
 - Appetizers with a crisp coating or puff pastry are best done in a conventional oven with dry heat.
 - Breaded products can be warmed in the microwave oven but will not come out crisp.
 
-### Cooking Sauces: Tips and Techniques
+#### Cooking Sauces: Tips and Techniques
 - Use a microwavable casserole or glass measuring cup that is at least 2 or 3 times the volume of the sauce.
 - Sauces made with cornstarch thicken more rapidly than those made with flour.
 
@@ -751,7 +750,7 @@ To get the best results from your microwave oven, read and follow the guidelines
 - To adapt a conventional sauce or gravy recipe, reduce the amount of liquid slightly.
 - Stirring occasionally will help blend flavors, distribute heat evenly, and may even shorten the cooking time.
 
-### Cooking Soups: Tips and Techniques
+#### Cooking Soups: Tips and Techniques
 - When converting a conventional soup recipe to cook in the microwave, reduce the liquid, salt, and strong seasonings.
 - Cook soups in a microwavable dish which holds double the volume of the recipe ingredients to prevent boil-over, especially if you use cream or milk in the soup.
 - Generally, cover microwaved soups with VENTED plastic wrap or a microwavable lid.
@@ -760,7 +759,7 @@ To get the best results from your microwave oven, read and follow the guidelines
 
 ### MEAT
 
-### Cooking Meat: General Directions
+#### Cooking Meat: General Directions
 - Prepare the meat for cooking:
   - Defrost completely.
   - Trim off excess fat to avoid splattering.
@@ -772,18 +771,18 @@ To get the best results from your microwave oven, read and follow the guidelines
   - Drain juices as they accumulate to reduce splattering and keep from overcooking the bottom of the meat.
   - Shield thin or bony portions with strips of foil to prevent overcooking.
 
-### NOTE:
+**NOTE:**
 
 Keep the foil at least 1 inch from the oven walls, and do not cover more than one-third of the meat with foil at any one time.
 - Let the meat stand covered with foil 10-15 minutes after you remove it from the oven. The internal temperature of the meat may rise from  5-10 degrees F  during standing time. The Meat Cooking Table on page 25 provides detailed directions, Power Level, and Cooking Time settings for most cuts of meat.
 
-### MEAT COOKING TABLE
+#### MEAT COOKING TABLE
 
 <PIC:Manual24_43>
 
 ### POULTRY
 
-### Cooking Poultry: General Directions
+#### Cooking Poultry: General Directions
 - Prepare the poultry for cooking:
   - Defrost completely.
   - Arrange poultry pieces with thicker pieces at the outside edge of the baking dish. When cooking legs, arrange them like the spokes of a wheel.
@@ -795,7 +794,7 @@ Keep the foil at least 1 inch from the oven walls, and do not cover more than on
 - Poultry is done when it is no longer pink and the juices run clear. When done, the temperature in the thigh meat should be  180-185 degrees F.
 - Let the poultry stand after cooking covered with foil for 10 minutes. The Poultry Cooking Table below provides detailed directions, Power Level, and Cooking Time settings for most cuts and types of poultry.
 
-### POULTRY COOKING TABLE
+#### POULTRY COOKING TABLE
 
 <PIC:Manual24_44>
 
@@ -803,20 +802,20 @@ Keep the foil at least 1 inch from the oven walls, and do not cover more than on
 
 Microwave cooking and conventional cooking of pasta, rice, and cereal require about the same amount of time, but the microwave is a more convenient method because you can cook and serve in the same dish. There is no stirring needed and leftover pasta tastes just like fresh cooked when reheated in the microwave oven.
 
-### Cooking Pasta and Rice: Tips and Techniques
+#### Cooking Pasta and Rice: Tips and Techniques
 - If you are planning to use rice or pasta in a casserole, undercook it so it is still firm.
 - Allow for standing time with rice, but not for pasta
 - The Pasta and Rice Cooking Tables below provide specific directions, with Power Level and cooking time settings for most common types of pasta and rice.
 
-### PASTA COOKING TABLE
+#### PASTA COOKING TABLE
 
 <PIC:Manual24_45>
 
-### RICE COOKING TABLE
+#### RICE COOKING TABLE
 
 <PIC:Manual24_46>
 
-### CARE AND CLEANING
+## CARE AND CLEANING
 
 For best performance and safety, keep the oven clean inside and outside. Take special care to keep the inner door panel and the oven front frame free of food or grease build-up. Never use rough powder or pads. Wipe the microwave oven inside and out, including the hood bottom cover, with a soft cloth and a warm (not hot) mild detergent solution. Then rinse and wipe dry. Use a chrome cleaner and polish on chrome, metal and aluminum surfaces. Wipe spatters immediately with a wet paper towel, especially after cooking chicken or bacon. Clean your oven weekly or more often, if needed.
 
@@ -830,17 +829,17 @@ The grease filter should be removed and cleaned often, at least once a month.
 
 1. To remove grease filter, slide filter to the side. Pull filter downward and push to the other side. The filter will drop out.
 
+2. Wash in dishwasher or soak grease filter in hot water and a mild detergent. Rinse well and shake to dry. Do not use ammonia or place in a dishwasher. The aluminum filter will darken.
 <PIC:Manual24_47>
 
-2. Wash in dishwasher or soak grease filter in hot water and a mild detergent. Rinse well and shake to dry. Do not use ammonia or place in a dishwasher. The aluminum filter will darken.
-
-<PIC:Manual24_48>
 
 3. To reinstall the filter, slide it into the side slot, then push up and toward oven center to lock
+<PIC:Manual24_48>
+
 
 <PIC:Manual24_49>
 
-### CAUTION
+**CAUTION:**
 
 To avoid risk of personal injury or property damage, do not operate oven hood without filter in place.
 
@@ -851,31 +850,31 @@ If your oven is vented inside, the charcoal filter should be replaced every 6 to
 1. Unplug the oven or turn off power at the main power supply.
 2. Remove the two vent grill mounting screws. (2 middle screws)
 
-<PIC:Manual24_50>
-
 3. Tip the grill forward, then lift it out.
 4. Remove old filter.
+<PIC:Manual24_50>
 
-<PIC:Manual24_51>
 
 5. Slide a new charcoal filter into place. The filter should rest at the angle shown.
+<PIC:Manual24_51>
 
-<PIC:Manual24_52>
 
 6. Slide the bottom of the grill into place. Push the top until it snaps into place. Replace the mounting screws. Turn the power back on at the main power supply and set the clock.
+<PIC:Manual24_52>
+
 
 ### COOKTOP/NIGHT LIGHT REPLACEMENT
 
 1. Unplug the oven or turn off power at the main power supply.
 
-<PIC:Manual24_53>
-
 2. Remove the bulb cover and mounting screws.
 3. Replace bulb(s) with 30 or 40 watt appliance bulb(s)
 4. Replace bulb cover and mounting screws.
 5. Turn the power back on at the main power supply or plug in the oven.
+<PIC:Manual24_53>
 
-### CAUTION
+
+**CAUTION:**
 
 To avoid personal injury or property damage, wear gloves when replacing light bulb
 
@@ -884,17 +883,17 @@ To avoid personal injury or property damage, wear gloves when replacing light bu
 1. Unplug oven or turn off power at the main power supply.
 2. Remove the vent cover mounting screws. (2 middle screws)
 3. Tip the cover forward, then lift out to remove.
+4. Remove bulb holder
 <PIC:Manual24_54>
 
-4. Remove bulb holder
-<PIC:Manual24_55>
-
 5. Lift up the bulb holder
-<PIC:Manual24_56>
+<PIC:Manual24_55>
 
 6. Replace bulb with a 30 or 40 watt appliance bulb.
 7. Replace the bulb holder.
 8. Slide the bottom of the vent cover into place. Push the top until it snaps into place. Replace the mounting screws. Turn the power back on at the main power supply or plug in the oven.
+<PIC:Manual24_56>
+
 
 ## TROUBLESHOOTING
 
@@ -936,7 +935,7 @@ The warranty coverage described herein excludes all defects or damage that are n
 - Use of the Product in anything other than its normal, customary and intended manner (including without limitation, any form of commercial use, use or storage of an indoor product outdoors, use of the Product in conjunction with air or water-going vessels)  Any party's willful misconduct, negligence misuse, abuse, accidents, neglect, improper operation, failure to maintain, improper or negligent installation, tampering, failure to follow operating instructions, mishandling, unauthorized service (including self-performed fixing or exploration of the appliance's internal workings).  Adjustment, alteration or modification of any kind. A failure to comply with any applicable state, local, city, or county electrical, plumbing and/or building codes, regulations, or laws, including failure to install the product in strict conformity with local fire and building codes and regulations. Ordinary wear and tear, spills of food, liquid, grease accumulations, or other substances that accumulate on, in, or around the Product. Any external, elemental and/or environmental forces and factors, including without limitation, rain, wind, sand, floods, fires, mud slides, freezing temperatures, excessive moisture or extended exposure to humidity, lightning, power surges, structural failures surrounding the appliance, and acts of God.  In no event shall it have any liability or responsibility whatsoever for damage to surrounding property, including cabinetry, floors, ceilings, and other structures or objects around the Product. Also excluded from this warranty are scratches, nicks, minor dents, and cosmetic damages on external surfaces and exposed parts. Products on which the serial numbers have been altered, defaced, or removed; service visits to teach you how to use the Product, or visits where there is nothing wrong with the Product; correction of installation problems (you are solely responsible for any structure and setting for the Product, including all electrical, plumbing or other connecting facilities for proper foundation/flooring, and for any alterations including without limitation cabinetry, walls, floors, shelving, etc.); and resetting of breakers or fuses.  TO THE EXTENT ALLOWED BY LAW, THIS WARRANTY SETS OUT YOUR EXCLUSIVE REMEDIES WITH RESPECT TO PRODUCT, WHETHER THE CLAIM ARISES IN CONTRACT OR TORT (INCLUDING STRICT LIABILITY, OR NEGLIGENCE) OR OTHERWISE THIS WARRANTY IS IN LIEU OF ALL OTHER WARRANTIES, WHETHER EXPRESS OR IMPLIED. ANY WARRANTY IMPLIED BY LAW  WHETHER FOR MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, OR OTHERWISE, SHALL BE EFFECTIVE ONLY FOR THE PERIOD THAT THIS EXPRESS LIMITED WARRANTY IS EFFECTIVE. IN NO EVENT WILL THE MANUFACTURER BE LIABLE FOR CONSEQUENTIAL, SPECIAL, INCIDENTAL, INDIRECT, "BUSINESS LOSS", AND/OR PUNITIVE DAMAGES, LOSSES, OR EXPENSES INCLUDING WITHOUT LIMITATION TIME AWAY FROM WORK, HOTELS AND/OR RESTAURANT MEALS, REMODELLING EXPENSES IN EXCESS OF DIRECT DAMAGES WHICH ARE DEFINITIVELY CAUSED EXCLUSIVELY.
 SOME STATES DO NOT ALLOW THE EXCLUSION OR LIMITATION OF INCIDENTAL OR CONSEQUENTIAL DAMAGES, AND SOME STATES DO NOT ALLOW LIMITATIONS ON HOW LONG AN IMPLIED WARRANTY LASTS, SO THE ABOVE LIMITATIONS MAY NOT APPLY TO YOU. THIS WARRANTY GIVES YOU SPECIFIC LEGAL RIGHTS, AND YOU MAY ALSO HAVE OTHER RIGHTS WHICH VARY FROM STATE TO STATE
 
-### Notes
+**Notes**
 
 ## 2. 图片锚点顺序
 

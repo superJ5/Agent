@@ -1,9 +1,9 @@
 # Landline Manual
 
 Always there to help you
+XL490 XL495
 <PIC:landline_01>
 
-XL490 XL495
 1 Important safety instructions  3
 2 Your phone  5
 What is in the box  5
@@ -139,7 +139,7 @@ Warning:
 - Battery life may be shorter in low  temperature conditions.
 - The Electrical network is classified as hazardous. The  only way to power down the charger is to unplug the  power supply from the electrical outlet. Ensure that the  electrical outlet is always easily accessible.
 
-#### To avoid damage or malfunction
+**To avoid damage or malfunction**
 
 Caution:
 
@@ -181,18 +181,17 @@ Tip:
 
 ### Overview of the phone
 
+Figure: Handset overview, front side.
 <PIC:Manual22_7>
 
-Figure: Handset overview, front side.
-
-<PIC:Manual22_8>
-
 Figure: Handset overview, rear side.
+<PIC:Manual22_8>
 
 Earpiece:
 - Scroll up on the menu.
 - Increase the earpiece/speaker volume.
 - Access the phonebook in standby  mode.
+
 c:
 - Delete text or digits.
 - Cancel operation.
@@ -200,24 +199,17 @@ c:
 - Change the sound profile during a call.
 
 d:
-
 - End the call.
-
 - Exit the menu/operation.
-
 - Press and hold this key to switch the handset on or off.
-
 <PIC:Manual22_9>
 
 m1/m2/m3:
 
-
 Store the emergency phone numbers or  numbers you call frequently.
 <PIC:Manual22_10>
 
-
 - Press to enter a space during text  editing.
-
 - Press and hold this key to lock/unlock the keypad in standby mode.
 - Press and hold this key to enter a pause when making a call.
 - Switch to upper/lower case during  editing.
@@ -227,85 +219,67 @@ Store the emergency phone numbers or  numbers you call frequently.
 
 Microphone.
 
-
 Activate/deactivate audio boost in earpiece or handsfree mode.
 - Turn the speaker phone on/off.
 - Make and receive calls through the  speaker.
-
 <PIC:Manual22_11>
 
-Callout 12:
 - Press and hold this key to make an intercom call (for multi-handset version only).
 - Change the dial mode (from pulse mode to temporary tone mode).
+<PIC:Manual22_12>
 
-Callout 13:
 - Scroll down on the menu.
 - Decrease the earpiece/speaker volume.
 - Access the call log in standby mode.
 
-<PIC:Manual22_12>
-
-Callout 14:
 - Make and receive calls.
 - Recall key (This function is network dependent.)
 
-Callout 15:
 - Access the main menu in standby mode.
 - Confirm selection.
 - Enter the options menu.
 - Select the function displayed on the handset screen directly above the key.
 
-Callout 16: LED indicator.
+LED indicator.
 
 View events or charging status.
 
+Loudspeaker.
+
+Battery door.
 <PIC:Manual22_13>
-
-Callout 17: Loudspeaker.
-
-Callout 18: Battery door.
 
 ### Overview of the base station
 
 #### Base station (XL490)
 
-<PIC:Manual22_18>
-
-Callout 1:
 - Press to find handsets.
 - Press and hold this key to enter the registration mode.
+<PIC:Manual22_18>
 
 #### Base station (XL495)
 
-<PIC:Manual22_19>
-
-Callout 1:
 - Press to find handsets.
 - Press and hold this key to enter the registration mode.
+<PIC:Manual22_19>
 
-Callout 2: Speaker.
+Speaker.
 
-Callout 3: Turn the answering machine on or off.
+Turn the answering machine on or off.
 
-<PIC:Manual22_14>
-
-Callout 4:
 - Delete the current playback message.
 - Press and hold this key to delete all old messages.
+<PIC:Manual22_14>
 
+Decrease/increase the speaker volume.
 <PIC:Manual22_15>
 
-Callout 5: Decrease/increase the speaker volume.
-
+Skip backward/forward during playback.
 <PIC:Manual22_16>
 
-Callout 6: Skip backward/forward during playback.
-
-<PIC:Manual22_17>
-
-Callout 7:
 - Play messages.
 - Stop messages playback.
+<PIC:Manual22_17>
 
 ## 3  Get started
 
@@ -336,7 +310,7 @@ Note:
 - the telephone socket on the wall.
 - the power socket on the wall.
 
-#### Install the handset
+### Install the handset
 
 The batteries are pre-installed in the handset.  Pull the battery tape off from the battery door  before charging.<PIC:Manual22_23>
 
@@ -508,7 +482,7 @@ Note:
 
 - The caller ID service is available if you have registered  to the caller ID service with your service provider.
 
-### Make a second call
+Make a second call
 - When there is a missed call, a notification message is  displayed.
 - Select  [Silent]  to turn off the ringer of the current  incoming call.
 
@@ -527,9 +501,9 @@ Press the volume up/down keys to adjust the volume during a call.
 
 1  Press the Mute key during a call.  ->  [Mute on] is displayed on the handset.  ->  The caller cannot hear you, but you can still hear his voice.  2  Press the Mute key again to unmute the microphone.  ->  You can now communicate with the caller.
 
-#### Turn the speaker on or off
+### Turn the speaker on or off
 
-### Make a second call
+Make a second call
 
 Note:
 - This service is network dependent.
@@ -1003,11 +977,11 @@ Note:
 
 Your phone includes a telephone answering  machine that records unanswered calls when  it is on. You can access the answering machine  remotely and change the settings through the  answering machine menu on the handset.  The  button on the base station lights up  when the answering machine is on.
 
-#### Turn the answering machine on or off
+### Turn the answering machine on or off
 
 You can turn the answering machine through the base station or the handset.
 
-### Through the handset
+#### Through the handset
 
 1  Select  [Menu] > [Answ. Machine]  >[On/off]  >[On]/[Off], then press  [OK]  to  confirm. 2  When the answering machine is on, select  [Answer only] / [Record also], then press  [OK]  to confirm.  ->  The setting is saved.
 
@@ -1017,7 +991,7 @@ You can turn the answering machine through the base station or the handset.
 - [Answer only]  means calls are only answered, messages  are not recorded.
 - [Record also]  means calls are answered and messages  are recorded.
 
-### Through the base
+#### Through the base
 
 Press the answering machine key to turn the answering machine on or  off in standby mode.
 
@@ -1028,7 +1002,7 @@ Note:
 
 You can leave your family an audio note in the  answering machine.  1  Select  [Menu] > [Answ. Machine] > [Family note], then press  [OK]  to confirm. 2  Start recording close to the microphone  after the beep. 3  Press  [OK]  to stop recording. 4  Press  [OK]  to listen to the audio note. 5  Press  [OK]  to save the family note or  [Delete]  to remove it.
 
-#### Set the answering machine language
+### Set the answering machine language
 
 Note:
 - This feature only applies to models with multiple-language support.
@@ -1039,7 +1013,7 @@ The answering machine language is the language  for the announcements.
 2  Select a language, then press  [OK]  to  confirm.
 ->  The setting is saved.
 
-#### Set the answer mode
+### Set the answer mode
 
 You can set the answering machine and select if  the callers can leave messages. Select  [Record  also] if you allow the callers to leave messages.  Select  [Answer only]  if you forbid the callers to  leave messages.  1  Select  [Menu] > [Answ. Machine] > [Voice answer], then press  [OK]  to  confirm. 2  Select an answer mode, then press  [OK] to confirm.  ->  The setting is saved.
 - If the memory is full, the answering machine switches to  [Answer only]  mode automatically.
@@ -1048,21 +1022,21 @@ You can set the answering machine and select if  the callers can leave messages.
 
 The announcement is the message your caller  hears when the answering machine picks up the  call. The answering machine has 2 pre-recorded  announcements:  [Record also]  and  [Answer  only].
 
-### Record an announcement
+#### Record an announcement
 
 The maximum length of the announcement you  can record is 3 minutes. The newly recorded  announcement automatically replaces the old  one.  1  Select  [Menu] > [Answ. Machine] > [Announcement], then press  [OK]  to  confirm. 2  Select [Answer only] or [Record also], then press  [OK]  to confirm. 3  Select  [Record], then press  [OK]  to  confirm. 4  Start recording close to the microphone  after the beep.  5  Press  [OK]  to stop recording or the  recording stops after 3 minutes.  ->  You can listen to the newly recorded  announcement on the handset.
 
 Note:
 - Make sure that you speak close to the microphone  when you record an announcement.
 
-### Listen to the announcement
+#### Listen to the announcement
 
 1  Select  [Menu] > [Answ. Machine] > [Announcement], then press  [OK]  to  confirm. 2  Select [Answer only] or [Record also], then press  [OK]  to confirm. 3  Select  [Play], then press  [OK]  to confirm.  ->  You can listen to the current  announcement.
 
 Note:
 - You can no longer listen to the announcement when  you pick up an incoming call.
 
-### Restore the default announcement
+#### Restore the default announcement
 
 1  Select  [Menu] > [Answ. Machine] > [Announcement], then press  [OK]  to  confirm. 2  Select  [Record also] or  [Answer only],  then press  [OK]  to confirm. 3  Select  [Use default], then press  [OK]  to  confirm.  ->  The default announcement is restored.
 
@@ -1079,7 +1053,7 @@ Note:
 
 You can listen to the incoming messages in the  sequence they are recorded.
 
-### From the base
+#### From the base
 - To start/stop listening, press the Play/Stop key.
 - To adjust the volume, press the volume up/down keys.
 - To play the previous message/replay the current message, press the Previous key.
@@ -1087,7 +1061,7 @@ You can listen to the incoming messages in the  sequence they are recorded.
 - To delete the current message, press the Delete key.
 - No deleted messages can be recovered.
 
-### From the handset
+#### From the handset
 
 You can listen to the incoming messages in the  sequence they are recorded.
 - If there are new messages, press the Play key to listen. If there is no new message, select [Menu] > [Answ. Machine] > [Play], then press [OK] to listen to old messages.
@@ -1100,7 +1074,7 @@ You can listen to the incoming messages in the  sequence they are recorded.
 
 From the base, press the Delete key when you listen to the message.  ->  The current message is deleted.
 
-### From the handset
+#### From the handset
 
 1  When you listen to the message, press  [Option]  to enter the options menu. 2  Select  [Delete], then press  [OK]  to  confirm.  ->  The current message is deleted.
 
@@ -1108,7 +1082,7 @@ From the base, press the Delete key when you listen to the message.  ->  The cur
 
 Press and hold the Delete key on the base station in standby mode.  ->  All old messages are permanently deleted.
 
-### From the handset
+#### From the handset
 
 1  Select  [Menu] > [Answ. Machine] > [Delete all], then press  [OK]  to confirm.  ->  A confirmation request is displayed on  the handset. 2  Press  [OK]  to confirm.  ->  All old messages are permanently  deleted.
 
@@ -1123,7 +1097,7 @@ Note:
 
 - If you turn the speaker to the lowest volume level, the  call screening function is off.
 
-#### Set the ring delay
+### Set the ring delay
 
 You can set the number of times the phone  rings before the answering machine picks up  the call.  1  Select  [Menu] > [Answ. Machine] > [Ring  delay], then press  [OK]  to confirm. 2  Select a new setting, then press  [OK]  to  confirm.  ->  The setting is saved.
 - Make sure that the answering machine is switched on  before this feature can be applied.
@@ -1328,11 +1302,11 @@ It synchronizes the date and time on your  phone with the public switched teleph
 
 You can register additional handsets to the base  station. The base station can register up to 4  handsets.
 
-### Auto registration
+#### Auto registration
 
 Extra handsets of the same model can be autoregistered. Place the unregistered handset on  the base station.  ->  The handset detects the base station  and registers automatically.  ->  Registration is complete in less  than two minutes. The base station  automatically assigns a handset number  to the handset.
 
-### Manual registration
+#### Manual registration
 
 If auto registration fails, register your handset manually to the base station.  1  Select [Menu] > [Services] > [Register], then press [OK] to confirm. 2  Press and hold the Paging/Registration key on the base station for 5 seconds. 3  Enter the system PIN. Press [Clear] to make corrections. Then press [OK] to confirm the PIN.  ->  Registration is complete in less than 2 minutes. The base automatically assigns a handset number to the handset.
 
@@ -1417,7 +1391,7 @@ To remove the disposable batteries, see the  chapter "Frequently asked questions
 
 Environmental information: All unnecessary packaging has been omitted.  We have tried to make the packaging easy to  separate into three materials: cardboard  (box),  polystyrene foam (buffer) and polyethylene  (bags, protective foam sheet.)  Your system consists of materials which can  be recycled and reused if disassembled by  a specialized company. Please observe the  local regulations regarding the disposal of  packaging materials, exhausted batteries and old  equipment.
 
-## 16 Appendix
+## 15 Notice
 
 ### Text and number input tables
 
@@ -1489,11 +1463,11 @@ The voice mail service is managed by your  service provider but not the phone it
 - The charging contacts are dirty. Disconnect  the power supply first and clean the  contacts with a damp cloth.
 - Check the LED indicator of your handset  for the charging status if  [Menu] > [Phone  setup] > [Charge status ]  is selected.
 - Batteries are defective. Purchase new ones  with the same specifications. To remove the  battery door, refer to the instruction in the  following picture.
+<PIC:Manual22_60>
 
 Note:
 - If the above solutions do not help, disconnect the  power supply from both the handset and base station.  Try again after 1 minute.
 
-<PIC:Manual22_60>
 
 ### No display.
 - Make sure the batteries are charged.
@@ -1511,7 +1485,7 @@ Make sure the handset ringtone is turned on.
 ### The caller ID does not display.
 - The service is not activated. Check with  your service provider.
 - The caller's information is withheld or  unavailable.
-### Index
+## 18 Index
 
 additional handsets  37 alarm  28 announcements  30 answer a call  12 answering machine  29 answering machine language  29 auto answer  26 auto clock  37 auto conference  34  base station  installation  8 overview  7 battery  8, 10, 39 blacklist  35  call barring  34 call blocking  35 call list type  21 call log  21 caller ID  12, 21 calling  12 charging  10 conference call  14, 15, 34 contacts  18  date setting  9, 37 default settings  38 delete messages  31 dial mode  36 display icons  10 disposal
 40 E ECO mode

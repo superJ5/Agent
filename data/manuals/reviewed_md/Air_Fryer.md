@@ -12,15 +12,15 @@ Storage 21 Recycling 22 Declaration of Conformity 22 Guarantee and support 22 So
 
 Read this important information carefully before you use the appliance and save it for future reference.
 
-### Danger
+**DANGER:**
 
 Always put the ingredients to be fried in the basket, to prevent them from coming into contact with the heating elements. Do not cover the air inlet and the air outlet openings while the appliance is operating. Do not fill the pan with oil as this may cause a fire hazard. Never immerse the appliance in water or any other liquid, nor rinse it under the tap. Do not let any water or other liquid enter the appliance. Never put any amount of food that exceeds the maximum level indicated in the basket. Never touch the inside of the appliance while it is operating. Always make sure the heater is free and no food is stuck in the heater.
 
-### Warning
+**WARNING:**
 
 Check if the voltage indicated on the appliance corresponds to the local mains voltage before you connect the appliance.  Do not use the appliance if the plug, the mains cord or the appliance itself is damaged.  If the mains cord is damaged, you must have it replaced by Philips, a service centre authorised by Philips or similarly qualified persons in order to avoid a hazard.  This appliance can be used by children aged from 8 years and above and persons with reduced physical, sensory or mental capabilities or lack of experience and knowledge if they have been given supervision or instruction concerning use of the appliance in a safe way and understand the hazards involved. Children shall not play with the appliance. Cleaning and user maintenance shall not be made by children unless they are older than 8 years and supervised.  Keep the appliance and its cord out of reach of children less than 8 years.  Keep the mains cord away from hot surfaces.  Only connect the appliance to an earthed wall socket. Always make sure that the plug is inserted into the wall socket properly.  Do not place the appliance against a wall or against other appliances. Leave at least 10 cm free space on the back and sides and 10 cm free space above the appliance. Do not place anything on top of the appliance.  Do not use the appliance for any other purpose than described in the user manual.  During hot air frying, hot steam is released through the air outlet openings. Keep your hands and face at a safe distance from the steam and from the air outlet openings. Also be careful of hot steam and air when you remove the pan from the appliance.  The accessible surfaces may become hot during use.  The pan, the basket and accessories inside the Airfryer become hot during use. Be careful when you handle them.  Do not place the appliance on or near a hot gas stove or all kinds of electric stove and electric cooking plates, or in a heated oven.  Never use light ingredients or baking paper in the appliance.  Do not place the appliance on or near combustible materials such as a tablecloth or curtain.  Do not let the appliance operate unattended.  Immediately unplug the appliance if you see dark smoke coming out of the appliance. Wait for the smoke emission to stop before you pull the pan out of the appliance.  Storage of potatoes: The temperature shall be appropriate to the potato variety stored and it shall be above 6 degrees C to minimize the risk of acrylamide exposure in the prepared foodstuff.  Do not plug in the appliance or operate the control panel with wet hands.  This appliance is designed to be used at ambient temperatures between 5 degrees C and 40 degrees C.
 
-### Caution
+**CAUTION:**
 
 This appliance is intended for normal household use only. It is not intended for use in environments such as staff kitchens of shops, offices, farms or other work environments. Nor is it intended to be used by clients in hotels, motels, bed and breakfasts and other residential environments.  Always return the appliance to a service centre authorised by Philips for examination or repair. Do not attempt to repair the appliance yourself, otherwise the guarantee becomes invalid.  If the appliance is used improperly or for professional or semi-professional purposes or if it is not used according to the instructions in the user manual, the guarantee becomes invalid and Philips refuses any liability for damage caused.  Always place and use the appliance on a dry, stable, level and horizontal surface.  Always unplug the appliance after use.  Let the appliance cool down for approx. 30 minutes before you handle or clean it.  Make sure the ingredients prepared in this appliance come out golden-yellow instead of dark or brown. Remove burnt remnants. Do not fry fresh potatoes at a temperature above 180 degrees C (to minimise the production of acrylamide).  Be careful when cleaning the upper area of the cooking chamber: Hot heating element, edge of metal parts. Always make sure that the food is fully cooked in the Airfryer. Always make sure that you have the control over your Air fryer, also when using the remote function or delayed start. When cooking fatty food, the Airfryer could emit smoke. Pay special attention when using the remote control function or delayed start. Make sure that only one person at a time is using the remote control function. Be cautious when cooking easily perishable food with the delayed start function (bacteria may breed).
 
@@ -50,9 +50,13 @@ Congratulations on your purchase and welcome to Philips! To fully benefit from t
 
 ## The App
 
-Your Philips Airfryer is Wi-Fi enabled and allows you to connect with the NutriU app to gain the full Airfryer experience. Within the app you can select your favorite recipes, send it to the Airfryer and start it from your smart device. You can start, monitor and adjust the cooking process on your smart device from wherever you are, even if you are not at home.  Connecting your Airfryer to the app  Put the plug of the Airfryer in the wall outlet. 2 Make sure that your smart device is within reach of your home Wi-Fi network before you start the easy Wi-Fi setup process. 3 Download the Philips NutriU app on your smart device from your app store or from www.philips.com/NutriU, follow the registration process and select the connected Airfryer in your profile under "My Appliances" 4 Follow the instructions in the app to connect your Airfryer to your Wi-Fi and to pair your Airfryer. 5 When the Wi-Fi LED on the user interface of the Airfryer is solid on, the Airfryer is connected.
+Your Philips Airfryer is Wi-Fi enabled and allows you to connect with the NutriU app to gain the full Airfryer experience. Within the app you can select your favorite recipes, send it to the Airfryer and start it from your smart device. You can start, monitor and adjust the cooking process on your smart device from wherever you are, even if you are not at home.
 
-### Note
+### Connecting your Airfryer to the app
+
+Put the plug of the Airfryer in the wall outlet. 2 Make sure that your smart device is within reach of your home Wi-Fi network before you start the easy Wi-Fi setup process. 3 Download the Philips NutriU app on your smart device from your app store or from www.philips.com/NutriU, follow the registration process and select the connected Airfryer in your profile under "My Appliances" 4 Follow the instructions in the app to connect your Airfryer to your Wi-Fi and to pair your Airfryer. 5 When the Wi-Fi LED on the user interface of the Airfryer is solid on, the Airfryer is connected.
+
+**NOTE:**
 - Make sure to connect your Airfryer to a 2.4 GHz 802.11 b/g/n home Wi-Fi. The easy Wi-Fi setup is needed to connect the Air fryer to your home Wi-Fi. The pairing process is to connect the NutriU App with your smart Airfryer. The Wi-Fi setup process can be cancelled via the App or by unplugging the Airfryer. You can pair only one smart device at the same time to your Air fryer. If a second user starts the pairing process, the first user is kicked out and has to pair again the next time when cooking with the Air fryer. To start the pairing process, long press the temperature down button and follow the instructions in the App, or start it from the settings in the NutriU App.
 
 <PIC:Manual08_1>
@@ -61,7 +65,7 @@ Your Philips Airfryer is Wi-Fi enabled and allows you to connect with the NutriU
 
 1. Download the NutriU App  2. Connect the NutriU App with your Air fryer  3. Give consent to "remote cooking"  4. Connect the NutriU App with your voice assistant App. This connection can be done directly while onboarding or later in the settings of the NutriU App. In case you do not see the option to activate voice control in NutriU, activate the Kitchen+ skill through your voice assistant App.
 
-### Note
+**NOTE:**
 
 If you do not have a voice control App, download it first to send commands to the Air fryer. Detailed voice commands are available in the App for voice control.
 
@@ -69,7 +73,7 @@ If you do not have a voice control App, download it first to send commands to th
 
 Place the appliance on a stable, horizontal, level and heat-resistant surface.
 
-### Note
+**NOTE:**
 
 Do not put anything on top or on the sides of the appliance. This could disrupt the airflow and affect the frying result. Do not place the operating appliance near or underneath objects that could be damaged by steam, such as walls and cupboards. Leave the rubber plug in the pan. Do not remove it before cooking.
 
@@ -89,89 +93,89 @@ When preparing larger amount of food (e.g. fries, prawns, drumsticks, frozen sna
 
 ### Airfrying
 
-### Caution:
+**CAUTION:**
 
 This is an Air fryer that works on hot air. Do not fill the pan with oil, frying fat or any other liquid.
 
 Do not touch hot surfaces. Use handles or knobs. Handle the hot pan with oven-safe gloves. This appliance is for household use only. This appliance may produce some smoke when you use it for the first time. This is normal. Preheating of the appliance is not necessary.
 
+1 Put the plug in the wall outlet
 <PIC:Manual08_5>
 
-1 Put the plug in the wall outlet
-
-<PIC:Manual08_6>
 
 2 Remove the pan with the basket from the appliance by pulling the handle.
+<PIC:Manual08_6>
 
-<PIC:air_fryer_01>
 
 3 Put the ingredients in the basket.
+<PIC:air_fryer_01>
+
 Note
 The Airfryer can prepare a large range of ingredients. Consult the 'Food table' for the right quantities and approximate cooking times.
 Do not exceed the amount indicated in the 'Food table' section or overfill the basket beyond the 'MAX' indication as this could affect the quality of the end result. If you want to prepare different ingredients at the same time, make sure you check the suggested cooking time required for the different ingredients before you start to cook them simultaneously.
 
+4 Put the pan with the basket back into the Air fryer
 <PIC:air_fryer_02>
 
-4 Put the pan with the basket back into the Air fryer
 
 <PIC:air_fryer_03>
 
-### Caution
+**CAUTION:**
 
 Never use the pan without the basket in it.
 Do not touch the pan or the basket during and for some time after use, as they get very hot. 5 Press the power On/off button to switch on the appliance
 
+6 Press the temperature up or down button to choose the needed temperature.
 <PIC:Manual08_7>
 
-6 Press the temperature up or down button to choose the needed temperature.
-
-<PIC:Manual08_8>
 
 7 Press the time up button to choose the needed time
+<PIC:Manual08_8>
 
-<PIC:Manual08_9>
 
 8 Press the On/Off button to start the cooking process
+<PIC:Manual08_9>
+
 
 <PIC:air_fryer_04>
 
-### Note
+**NOTE:**
 
 During cooking the temperature and time are shown alternately. The last cooking minute counts down in seconds.
 - Refer to the food table with basic cooking settings for different types of food. When the cooking process is started and your Airfryer is paired with your smart device, you can see, control and change the cooking parameters also in the NutriU App.  To change the temperature unit from Celsius to Fahrenheit or the other way around on your Air fryer, press the temperature up and down button at the same time for about 10 seconds.
 
-### Tip
+**TIP:**
 
 During cooking, if you want to change the cooking time or temperature, press the corresponding up or down button at any time to do so. To pause the cooking process, press the On/Off button. To resume the cooking process, press the On/Off button again to continue the cooking process. The device is automatically in pause mode when you pull out the pan and the basket. The cooking process continues when the pan and the basket are put in the appliance again.  If you do not set the required cooking time within 30 minutes, the appliance automatically shuts off for safety reasons. Some ingredients require shaking or turning halfway through the cooking time (see 'Food table'). To shake the ingredients, pull out the pan with the basket, place it on a heat-resistant worktop, slide the lid and press the basket release button to remove the basket and shake the basket over the sink. Then put the basket into the pan, and slide them back into the appliance. If you set the timer to the half of the cooking time and you hear the timer bell, it is time to shake or turn the ingredients. Be sure to reset the timer to the remaining cooking time.
 
+9 When you hear the timer bell, the cooking time has elapsed
 <PIC:Manual08_10>
 
-9 When you hear the timer bell, the cooking time has elapsed
 You can stop the cooking process manually. To do this, press the On/Off button.
 
+10 Pull out the pan and check if the ingredients are ready
 <PIC:air_fryer_05>
 
-10 Pull out the pan and check if the ingredients are ready
-
-<PIC:air_fryer_12>
 
 Caution
+<PIC:air_fryer_12>
+
 The Air fryer pan is hot after the cooking process. Always place it on a heat-resistant worktop (e.g. trivet, etc.) when you remove the pan from the device.
 Note
 If the ingredients are not ready yet, simply slide the pan back into the Airfryer by the handle and add a few extra minutes to the set time.  11 To remove small ingredients (e.g. fries), lift the basket out of the pan by sliding the lid first, and then pressing the basket release button
 
+Caution
 <PIC:air_fryer_13>
 
-Caution
 After the cooking process, the pan, the basket, the interior housing and the ingredients are hot. Depending on the type of ingredients in the Air fryer, steam may escape from the pan.  12 Empty the basket contents into a bowl or onto a plate. Always remove the basket from the pan to empty contents, as a small amount of oil may be in the bottom of the pan.
 
 <PIC:air_fryer_14>
 
-### Note
+**NOTE:**
 
 To remove large or fragile ingredients, use a pair of tongs to lift out the ingredients. Excess oil or rendered fat from the ingredients is collected on the bottom of the pan. Depending on the type of ingredients cooking, you may want to carefully pour off any excess oil or rendered fat from the pan after each batch or before shaking or replacing the basket in the pan. Place the basket on a heat-resistant surface. Wear oven-safe gloves to pour off excess oil or rendered fat. Return the basket into the pan.  When a batch of ingredients is ready, the Airfryer is instantly ready for preparing another batch.
 
-### Note
+**NOTE:**
 
 Repeat steps 3 to 12 if you want to prepare another batch.
 
@@ -179,23 +183,23 @@ Repeat steps 3 to 12 if you want to prepare another batch.
 
 1. Press the menu button as often as the keep warm icon is blinking
 
+2 Press the On/off button to start the keep warm mode
 <PIC:air_fryer_06>
 
-2 Press the On/off button to start the keep warm mode
 
 <PIC:Manual08_11>
 
-### Note
+**NOTE:**
 
 The keep warm timer is set to 30 minutes. To change the keep warm time (1-30 minutes), press the time down button. The time will be confirmed automatically.
 - The temperature cannot be changed in keep warm mode
 
 3 To pause the keep warm mode, press the On/off button. To resume the keep warm mode, press the On/off button again.  4 To exit the keep warm mode, long press the On/off button
-### Tip
+**TIP:**
 
 If food like French fries loses too much crispness during the keep warm mode either shorten the keep warm time by switching off the appliance earlier or crisp them up for 2-3 minutes at the temperature of 180 degrees C/350 degrees F.
 
-### Note
+**NOTE:**
 
 During the keep warm mode, the fan and heater inside of the appliance turn on from time to time. The keep warm mode is designed to keep your food warm immediately after it is cooked in the Airfryer. It is not meant for reheating.
 
@@ -203,9 +207,9 @@ During the keep warm mode, the fan and heater inside of the appliance turn on fr
 
 1 Follow steps 1 to 5 in chapter "Airfrying".  2 Press the Menu button. The frozen snacks icon is blinking. Press the Menu button as often as your needed preset is blinking.
 
+3 Start the cooking process by pressing the On/off button.  Note In the following table you can find more information about the presets.
 <PIC:air_fryer_16>
 
-3 Start the cooking process by pressing the On/off button.  Note In the following table you can find more information about the presets.
 
 <PIC:air_fryer_07>
 
@@ -215,17 +219,17 @@ During the keep warm mode, the fan and heater inside of the appliance turn on fr
 
 1 During the cooking process long press the power On/off button to stop the cooking process. The device is then in stand-by mode.
 
+2 Press the On/off button again to turn on the device.
 <PIC:air_fryer_08>
 
-2 Press the On/off button again to turn on the device.
-
-<PIC:Manual08_13>
 
 3 Press the menu button as often as your needed preset is blinking.
+<PIC:Manual08_13>
 
-<PIC:Manual08_14>
 
 4 Press the On/off button to start the cooking process.
+<PIC:Manual08_14>
+
 
 <PIC:Manual08_15>
 
@@ -233,7 +237,7 @@ During the keep warm mode, the fan and heater inside of the appliance turn on fr
 
 1 Press the On/Off button to turn on the Airfryer.  2 Open the NutriU App on your smart device and look for your preferred recipe.  3 Open the recipe and start the cooking process in the App.
 
-### Note
+**NOTE:**
 
 Make sure that when cooking recipes that are developed for your Air fryer, use the same amount of food mentioned in the recipes. When using different ingredients or a different amount of food items, adjust the cooking time. When cooking recipes that are not developed for your Air fryer, be aware that the time and temperature might be adjusted.  Via the filter in the recipe search you can filter your smart Air fryer to get the recipes that are developed for your device. When the cooking process is started from the App, you can see the cooking settings also on the screen of the Air fryer. You can pause the cooking process or change the settings on the Airfryer or in the App. When the cooking process is over you can start the keep warm mode in the App or start it from the "keep warm" preset on the Airfryer. If the food is not done yet, you can also prolong the cooking process within the App or on the Air fryer. To exit the cooking process before the cooking time is over, long press the On/Off button on the Air fryer or press the pause and then the stop icon in the App. You can also start your individual time and temperature in the NutriU App. On the bottom of the Home Screen there is the button to go to the home screen, the recipes, manual mode, articles or your profile. Press the manual mode button and send your individual time and temperature to the Air fryer.
 
@@ -241,33 +245,33 @@ Make sure that when cooking recipes that are developed for your Air fryer, use t
 
 To make great home-made fries in the Airfryer:  Choose a potato variety suitable for making fries, e.g. fresh, (slightly) floury potatoes.  It is best to air fry the fries in portions of up to 800 g/28 oz for an even result. Larger fries tend to be less crispy than smaller fries.  1 Peel the potatoes and cut into sticks 10 x 10 mm/0.4 x 0.4 in thick.  2 Soak the potato sticks in a bowl of water for at least 30 minutes.  3 Empty the bowl and dry the potato sticks with a dish towel or paper towel.  4 Pour one tablespoon of cooking oil into the bowl, put the sticks in the bowl and mix until the sticks are coated with oil.  5 Remove the sticks from the bowl with your fingers or a slotted kitchen utensil so excess oil remains in the bowl.
 
-### Note
+**NOTE:**
 
 Do not tilt the bowl to pour all the sticks in the basket at once to prevent excess oil from going into the pan.  6 Put the sticks into the basket.  7 Fry the potato sticks and shake the basket 2-3 times during cooking.
 
 ## Cleaning
 
-### Warning
+**WARNING:**
 
 Let the basket, the pan, and the inside of the appliance cool down completely before you start cleaning. The pan, the basket, and the inside of the appliance have a non-stick coating. Do not use metal kitchen utensils or abrasive cleaning materials as this may damage the non-stick coating.  Clean the appliance after every use. Remove oil and fat from the bottom of the pan after every use.  1 Press the power On/off button to switch off the appliance, remove the plug from the wall outlet and let the appliance cool down.  Remove the pan and the basket to let the Air fryer cool down more quickly. 2 Dispose of rendered fat or oil from the bottom of the pan.  3 Clean the pan and the basket in a dishwasher. You can also clean them with hot water, dishwashing liquid and a non-abrasive sponge (see 'Cleaning table').
 
-### Note
+**NOTE:**
 
 Put the pan with the rubber plug in the dishwasher. Do not remove the rubber plug before cleaning.
 
 <PIC:Manual08_16>
 
-### Tip
+**TIP:**
 
 If food residues stuck to the pan or the basket, you can soak them in hot water and dishwashing liquid for 10-15 minutes. Soaking loosens the food residues and makes it easier to remove. Make sure you use a dishwashing liquid that can dissolve oil and grease. If there are grease stains on the pan or the basket and you have not been able to remove them with hot water and dishwashing liquid, use a liquid degreaser.  If necessary, food residues stuck to the heating element can be removed with a soft to medium-bristle brush. Do not use a steel wire brush or a hard bristle brush, as this might damage the coating on the heating element.  4 Wipe the outside of the appliance with a moist cloth.  Note Make sure no moisture remains on the control panel. Dry the control panel with a cloth after you have cleaned it.
 
+5 Clean the heating element with a cleaning brush to remove any food residues.
 <PIC:air_fryer_09>
 
-5 Clean the heating element with a cleaning brush to remove any food residues.
-
-<PIC:air_fryer_10>
 
 6 Clean the inside of the appliance with hot water and a non-abrasive sponge.
+<PIC:air_fryer_10>
+
 
 <PIC:air_fryer_11>
 
@@ -280,20 +284,20 @@ If food residues stuck to the pan or the basket, you can soak them in hot water 
 
 1 Unplug the appliance and let it cool down.  2  Make sure all parts are clean and dry before storing.
 
-### Note
+**NOTE:**
 
 Always hold the Air fryer horizontally when you carry it. Make sure that you also hold the pan on the front part of the appliance as the pan with the basket can slide out of the appliance if accidentally tilted downwards. This can lead to damaging of these parts. Always make sure that the removable parts of the Air fryer are fixed before you carry and/or store it.
 
 ## Recycling
 
-<PIC:air_fryer_15>
 
 This symbol means that this product shall not be disposed of with normal household waste (2012/19/EU). Follow your country's rules for the separate collection of electrical and electronic products. Correct disposal helps prevent negative consequences for the environment and human health.
+<PIC:air_fryer_15>
 ## Software updates
 
 Updating is essential to safeguard your privacy and the proper functioning of your Airfryer and the App.  From time to time, the App is updating automatically to the latest software. Also the Air fryer is updating the firmware automatically.
 
-### Note
+**NOTE:**
 
 When an update is being installed, make sure that your Air fryer is connected to the home Wi-Fi. The smart device can be connected to any network. Always use the latest App and firmware. Updates are made available when there are software improvements or to prevent a security issue. A firmware update is started automatically when the Air fryer is in stand-by mode. This update takes up to 1 minute and the screen on the Air fryer shows blinking "---". During this time the Airfryer cannot be used.
 

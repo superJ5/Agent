@@ -35,7 +35,7 @@ When using electrical appliances, basic safety precautions should always be foll
 07 Do not use the appliance for anything other than its intended use. Failure to follow this instruction may result in injury or property damage
 08 For household use only. Do not use outdoors. Not for commercial use.
 
-## IMPORTANT SAFEGUARDS
+**IMPORTANT SAFEGUARDS**
 09 CAUTION Do not place the appliance on or in close proximity to a hot gas or electric burner, or a heated oven. Heat from an external source will damage the appliance. Failure to follow these instructions may result in injury or property damage.
 10 CAUTION Do not use the appliance near water or flame. Keep out of direct sunlight. Failure to follow these instructions may result in injury or property damage.
 11 CAUTION Do not touch hot surfaces. Only use side handles for carrying or moving. Extreme caution must be used when moving the appliance containing hot liquids. Do not move the appliance when it is under pressure.
@@ -46,11 +46,11 @@ When using electrical appliances, basic safety precautions should always be foll
 16 CAUTION When pressure cooking food with a doughy or thick texture, or a high fat/oil content, contents may splatter when opening the lid. Please follow recipe instructions for pressure release method. Refer to Releasing pressure: Venting methods.
 17 CAUTION Before using the pressure cooking lid, check the steam release valve, steam release pipe, anti-block shield and float valve for clogging. Failure to do so may result in injury or property damage.
 
-### WARNING
+**WARNING:**
 
 Read this manual carefully and completely and retain for future reference. Failure to adhere to safety instructions may result in serious injury or damage.
 
-## IMPORTANT SAFEGUARDS
+**IMPORTANT SAFEGUARDS**
 18 Do not use this appliance for deep frying or pressure frying with oil
 19 Do not lean over or place your hands or face over the steam release valve or float valve when the appliance is in operation or has residual pressure. Do not touch the metal portion of the lid when the appliance is in operation as this could result in injury.
 20 Do not cover or obstruct the steam release valve and/or the float valve with cloth or any other objects. Covering or obstructing the steam release valve and/or float valve can create a safety issue and may cause injury.
@@ -60,14 +60,14 @@ Read this manual carefully and completely and retain for future reference. Failu
 24 Unplug from the outlet when not in use, as well as before adding or removing parts or accessories, and before cleaning. To unplug, grasp the plug and pull from the outlet. Never pull from the power cord.
 25 Regularly inspect the appliance and power cord. Do not operate the appliance if the power cord or plug is damaged, or after the appliance malfunctions or is dropped or damaged in any manner. For assistance, contact Customer Care.
 
-### CAUTION
+**CAUTION:**
 
 Spilled food can cause serious burns. A short power supply cord is provided to reduce the hazards resulting from grabbing, entanglement and tripping.
 - Keep the appliance and cord away from children.
 - Never drape the power cord over edges of tables or counters.
 - Never use below-counter power outlets, and never use with an extension cord.
 
-## IMPORTANT SAFEGUARDS
+**IMPORTANT SAFEGUARDS**
 
 27 CAUTION Do not let the power cord hang over edges of tables or counters, or touch hot surfaces or open flame, including the stovetop
 28 Intended for countertop use only. Keep the appliance on a stable, heat-resistant platform. Do not place on anything that may block the vents on the bottom of the cooker base or on the air fryer lid. Leave at least 13 cm of space around the air fryer lid when in use. Do not place the appliance on a hot stove. Do not operate the appliance on or near combustible materials such as tablecloths and curtains.
@@ -81,11 +81,11 @@ Spilled food can cause serious burns. A short power supply cord is provided to r
 36 This appliance is NOT to be used by children or by persons with reduced physical, sensory or mental capabilities. Close supervision is necessary when any appliance is used near children and these individuals. Children should not play with this appliance.
 37 To prevent personal injury and damage to the appliance, only replace the sealing ring with an authorized Multi-use pressure cooker and air fryer sealing ring. Visit our online store for purchasing details.
 
-### WARNING
+**WARNING:**
 
 Read this manual carefully and completely and retain for future reference. Failure to adhere to safety instructions may result in serious injury or damage.
 
-## IMPORTANT SAFEGUARDS
+**IMPORTANT SAFEGUARDS**
 
 38 The use of accessory attachments not recommended by the appliance manufacturer may cause injuries.
 39 Proper maintenance is recommended before and after each use:
@@ -96,7 +96,7 @@ Read this manual carefully and completely and retain for future reference. Failu
 42 CAUTION DO NOT touch accessories during or immediately after cooking. To avoid personal injury, always use heat-resistant hand protection when removing accessories, and to handle the inner pot. Always place hot accessories on a heat-resistant surface or cooking plate. Only place the air fryer lid on the protective pad provided; do not place on countertop. Use extreme caution when disposing of hot grease. Failure to do so may result in serious injury or property damage.
 43 While cooking, the internal temperature of the appliance reaches several hundred degrees. To avoid personal injury, never place unprotected hands inside the appliance until it has cooled to room temperature.
 
-## IMPORTANT SAFEGUARDS
+**IMPORTANT SAFEGUARDS**
 44 CAUTION When the air fryer lid is in operation, hot air is released through the air vents. Keep your hands and face at a safe distance from the air vents and take extreme caution when removing hot accessories from the appliance. Failure to do so may result in injury or property damage.
 45 Should the unit emit black smoke when using the air fryer lid, press Cancel and unplug the appliance immediately. Wait for smoking to stop before removing the lid, then clean thoroughly. For further information refer to Troubleshooting online.
 46 Do not leave the appliance unattended while in use.
@@ -108,29 +108,29 @@ Read this manual carefully and completely and retain for future reference. Failu
 52 The removable inner pot can be extremely heavy when full of ingredients. Care should be taken when lifting the inner pot from the cooker base to avoid burn injury.
 53 Use caution when removing the lid. Heat and steam escape as soon as the lid is removed. Never place your face, hands or exposed skin over the appliance opening where heat and steam escape when removing the lid.
 
-## SAVE THESE INSTRUCTIONS
+**SAVE THESE INSTRUCTIONS**
 
 ## Find your model name and serial number
 
 Model Name: Find it on the rating label on the back of the cooker base, near the power cord.
 Serial Number: You can find the serial number on a white sticker near the rating label.
 
-### WARNING
+**WARNING:**
 
 Read this manual carefully and completely and retain for future reference. Failure to adhere to safety instructions may result in serious injury or damage.
 
-## IMPORTANT SAFEGUARDS
+**IMPORTANT SAFEGUARDS**
 
 WARNING  To avoid injury, read and understand the instructions in this user manual before attempting to use this appliance.
 
-### WARNING
+**WARNING:**
 
 Electrical shock hazard. Use grounded outlet only
 - DO NOT remove ground
 - DO NOT use an adapter.
 - DO NOT use an extension cord.  Failure to follow these instructions may result in electric shock and/or serious injury.
 
-### WARNING
+**WARNING:**
 
 THE FAILURE TO FOLLOW ANY OF THE IMPORTANT SAFEGUARDS AND/OR THE INSTRUCTIONS FOR SAFE USE IS A MISUSE OF YOUR APPLIANCE THAT CAN VOID YOUR WARRANTY AND CREATE THE RISK OF SERIOUS INJURY
 
@@ -143,9 +143,9 @@ This appliance comes with one power lead. To reduce the risk of electric shock, 
 
 <PIC:Manual30_1>
 
+WARNING  Read this manual carefully and completely and retain for future reference. Failure to adhere to safety instructions may result in serious injury or damage.
 <PIC:Manual30_2>
 
-WARNING  Read this manual carefully and completely and retain for future reference. Failure to adhere to safety instructions may result in serious injury or damage.
 
 ## Welcome to the world of Cooking
 
@@ -160,6 +160,7 @@ See Care, cleaning and storage: Removing and installing parts to find out how ev
 <PIC:Manual30_3>
 
 ### Bottom of pressure cooking lid, inner pot, cooker base and air fryer lid
+<PIC:Manual30_37>
 
 <PIC:Manual30_4>
 
@@ -174,11 +175,11 @@ See Care, cleaning and storage: Removing and installing parts to find out how ev
 (It won't bite!) You, yes you, can do this!  Pull that appliance out of the box!  Always use a stainless-steel inner pot, not the non-stick ceramic coated variety, with the air fryer lid  Remove the packaging material and accessories from in and around the cooker and make sure all the parts are accounted for. See Product, parts and accessories for a full parts breakdown.  Make sure to check under the inner pot!  Wash the inner pot in a dishwasher or with hot water and dish soap. Rinse it well with warm, clear water and use a soft cloth to thoroughly dry the outside of the inner pot.  Wipe the heating element with a soft, dry cloth to make sure there are no stray packaging particles left in the cooker base.
 - Don't remove the safety warning stickers from the lid or the rating label from the back of the cooker base.  You may be tempted to put the cooker base on your stovetop - but don't do it! Place the cooker base on a stable, level surface, away from combustible material and external heat sources.  Is something missing or damaged?  Get in touch with a Customer Care Advisor by email.
 
-### WARNING
+**WARNING:**
 
 Read the Important safeguards before using the appliance. Failure to read and follow those instructions for safe use may result in damage to the appliance, property damage or personal injury.  Do not place the appliance on a stovetop or upon another appliance. Heat from an external source will damage the appliance.  Do not place anything on top of the appliance. Do not cover or block the steam release valve or anti-block shield, located on the appliance lid.
 
-## Get started
+**Get started**
 
 ### Initial test run (water test)
 
@@ -211,19 +212,19 @@ Depressurization
 
 <PIC:Manual30_8>
 
-### DANGER
+**DANGER:**
 
 DO NOT attempt to remove the lid while the float valve is up and NEVER attempt to force the lid open. Contents are under extreme pressure. Float valve must be down before attempting to remove the lid. Failure to follow these instructions may result in serious personal injury and/or property damage.
 
-### WARNING
+**WARNING:**
 
 Steam ejected from the steam release valve is hot. DO NOT cover the steam release valve. DO NOT place hands, face, or any exposed skin over the steam release valve when releasing pressure.
 
-### NOTICE
+**NOTICE:**
 
 Do not use QR when cooking fatty, oily, thick or high-starch foods (e.g., stews, chilis, pasta and congee) or when cooking foods that expand when cooked (e.g. beans and grains).
 
-### Releasing pressure
+## Releasing pressure
 
 You must release pressure after pressure cooking before attempting to open the lid. Follow your recipe's instructions to choose a venting method.
 
@@ -233,7 +234,7 @@ Natural Release (NR or NPR)  Cooking stops gradually. As the temperature within 
 
 <PIC:Manual30_9>
 
-### NOTICE
+**NOTICE:**
 Use NR to depressurize the cooker after cooking high-starch foods (e.g., soups, stews, chilis, pasta, oatmeal and congee) or after cooking foods that expand when cooked (e.g., beans and grains).
 
 ### Quick Release (QR or QPR)
@@ -254,17 +255,17 @@ This is normal!
 
 When pressure has been fully released, the float valve drops into the lid.
 
-### Control Panel
-
-<PIC:Manual30_10>
+## Control Panel
 
 View the full user manual online.
+<PIC:Manual30_10>
 
-### Pressure control features (Your little bag of tricks!)
+
+## Pressure control features (Your little bag of tricks!)
 
 See Care, cleaning and storage for installation and removal of parts
 
-### Pressure cooking lid
+**Pressure cooking lid**
 
 <PIC:Manual30_11>
 
@@ -280,17 +281,17 @@ See Care, cleaning and storage for installation and removal of parts
 
 <PIC:Manual30_13>
 
-## Pressure control features
+**Pressure control features**
 
 ### Quick release button
 The quick release button controls the steam release valve - the part controls whether pressure is released or not.
 
 <PIC:Manual30_14>
 
-### What we love about it
+#### What we love about it
 It's really easy to use, and keeps our hands far away from the steam!
 
-### What you should know about it
+#### What you should know about it
 The lid says Turn to Seal, but it's more like a flicking motion. Don't turn the quick release button more than 1/4" (or 45 degrees), and let it spring back to its original position.
 See Releasing pressure: Venting methods for safe depressurization techniques
 
@@ -299,12 +300,12 @@ See Releasing pressure: Venting methods for safe depressurization techniques
 The steam release valve sits loosely on the steam release pipe. When the cooker releases pressure, steam ejects from the top of the steam release valve.
 The steam release valve is integral to product safety and necessary for pressure cooking.
 
+WARNING
 <PIC:Manual30_15>
 
-WARNING
 Do not cover or block the steam release valve in any way.
 
-## Pressure control features
+**Pressure control features**
 
 ### Sealing ring
 
@@ -315,30 +316,30 @@ The sealing ring must be installed before using the cooker. Only one sealing rin
 
 Tip: Silicone is porous, so it absorbs strong aromas and certain flavors. Keep extra sealing rings on hand to limit the transfer of aromas and flavors between dishes.
 
-### CAUTION
+**CAUTION:**
 
 Only use authorized Multi-use pressure cooker and air fryer sealing rings. DO NOT use a stretched or damaged sealing ring.
 - Always check for cuts, deformation and correct installation of the sealing ring before cooking.
 - Sealing rings stretch over time with normal use. The sealing ring should be replaced every 12-18 months or sooner if you notice stretching, deformation or damage.  Failure to follow these instructions may cause food to discharge, which may lead to personal injury or property damage.
 
-## Pressure control features
+**Pressure control features**
 
 ### Float Valve
 The float valve is a visual indication of whether there is pressure in the cooker (pressurized) or not (depressurized). It appears in 2 positions:
 
-### Pressurized
+#### Pressurized
 The float valve has visibly popped up above the surface of the lid.
 
 <PIC:Manual30_17>
 
-### Depressurized
+#### Depressurized
 The float valve has descended, and the top is flush with the lid.
 
 <PIC:Manual30_18>
 
 The float valve and silicone cap work together to seal in pressurized steam. These parts must be installed before use. Do not attempt to operate the Multi-use pressure cooker and air fryer without the float valve properly installed. Do not touch the float valve during use.
 
-### DANGER
+**DANGER:**
 DO NOT attempt to remove the lid while the float valve is up and NEVER attempt to force the lid open. Contents are under extreme pressure. Float valve must be down before attempting to remove the lid. Failure to follow these instructions may result in serious personal injury and/or property damage
 
 ### Anti-block shield
@@ -351,7 +352,7 @@ The anti-block shield is integral to product safety and necessary for pressure c
 
 The pot is super versatile in the kitchen - whether you want to pressure cook first and use the air fryer lid to crisp up your dish, or if you'd prefer to cook your meal just using the air fryer lid - you can!
 
-### Pressure cooking lid
+**Pressure cooking lid**
 Pressure Cook
 
 - Saute
@@ -362,9 +363,9 @@ Pressure Cook
 
 - Sous Vide
 
+Air fryer lid
 <PIC:multi-use_pressure_cooker_and_air_fryer_03>
 
-Air fryer lid
 Air Fry
 
 - Roast
@@ -379,11 +380,11 @@ Air Fry
 
 Tip: A jingle sounds when the lids are in the correct position, and the display indicates OFF.
 
-### WARNING
+**WARNING:**
 
 Do not fill inner pot higher than the PC MAX - 2/3 line as indicated on the inner pot. When cooking foods that expand (e.g., rice, beans, pasta) do not fill the inner pot higher than the - 1/2 line as indicated on the inner pot. Always cook with the inner pot in place. Do not pour food or liquid into the cooker base. To avoid risk of personal injury and/or property damage, place food and liquid ingredients in the inner pot, then insert the inner pot into the cooker base.
 
-### CAUTION
+**CAUTION:**
 
 Always inspect the lid and inner pot carefully to make sure they are clean and in good working condition before use.
 - To avoid personal injury or damage to the appliance, replace the inner pot if it is dented, deformed or damaged.
@@ -399,15 +400,15 @@ The Pressure Cook and Steam Smart Programs are pressure cooking programs. Using 
 
 Note: Unless otherwise specified by your recipe  Liquids for pressure cooking should be water-based, such as broth, stock, soup or juice. If using canned, condensed or cream-based soup, add water as directed below.
 
-### CAUTION
+**CAUTION:**
 
 To avoid scorching or scalding injury, be cautious when pressure cooking with more than 60 mL oil, oil-based sauces, condensed cream-based soups, and thick sauces. Add suitable liquid to thin sauces. Avoid recipes that call for more than 1/4 cup (60 mL) of oil or fat content.
 
-## Cooking
+**Cooking**
 
 To get pressure cooking, follow the same basic steps as you did in the Initial test run (water test) - but add food this time!  Tip: Using the multi-functional rack will ensure your food items are steamed and not boiled. It helps heat food evenly, prevents nutrients from leeching into the cooking liquid, and stops food items from scorching on the bottom of the inner pot.  When the Smart Program finishes, follow your recipe's directions to select the appropriate venting method. See Releasing pressure: Venting methods for safe venting techniques  Find full instructions for use and pressure cooking timetables online.
 
-### DANGER
+**DANGER:**
 
 DO NOT attempt to remove the lid while the float valve is up and NEVER attempt to force the lid open. Contents are under extreme pressure. Float valve must be down before attempting to remove the lid. Failure to follow these instructions may result in serious personal injury and/or property damage.
 
@@ -419,7 +420,7 @@ The Slow Cook Smart Program is comparable to the cooking process of traditional 
 
 Find full instructions for use online
 
-## Cooking
+**Cooking**
 
 ### Saute
 
@@ -429,7 +430,7 @@ Saute can be used in place of a frying pan, griddle or flat-top grill. Sauteing 
 
 When pressure cooking after using Saute, deglaze the inner pot to make sure food items do not scorch.  To deglaze: remove food items from the inner pot and add a thin liquid (e.g., water, broth, wine) to the hot surface. Use a wooden or silicone scraper to loosen anything that may be stuck to the bottom of the inner pot.  Find full instructions for use online
 
-### WARNING
+**WARNING:**
 
 The Saute Smart Program reaches high temperatures. If unmonitored, food may burn on this setting. Do not use the lid and do not leave your cooker unattended while using Saute.
 
@@ -441,17 +442,17 @@ Sous Vide cooking involves cooking food underwater, in an air-tight, food-safe b
 
 Find full instructions for use and sous vide cooking tips and timetables online.
 
-## Cooking
+**Cooking**
 
 ### Air Fry, Roast, Bake, Grill and Dehydrate
 
 Using the air fryer lid is an amazing way to ramp up your meal's flavor and texture.
 
-### NOTICE
+**NOTICE:**
 
 If the Food burn error appears while using the air fryer lid, deglaze the bottom of the inner pot as necessary, according to Cooking: Saute instructions.
 
-### CAUTION
+**CAUTION:**
 
 Always ensure the stainless-steel inner pot is present in the cooker base when using the air fryer lid. DO NOT use a non-stick ceramic coated inner pot
 
@@ -459,14 +460,12 @@ Always ensure the stainless-steel inner pot is present in the cooker base when u
 
 Note: You can place food in the air fryer basket, in any oven-safe dish, or directly in the stainless-steel inner pot, but the air fryer basket allows for the best airflow and an even crisp all over.
 
-## Cooking
+**Cooking**
 
-### Air Fry, Roast, Bake, Grill and Dehydrate
+**Air Fry, Roast, Bake, Grill and Dehydrate**
 01 Insert food into the multi-level air fryer basket, oven-safe cookware, or directly into the inner pot, according to your recipe.  If using an accessory, insert the accessory into the inner pot.
 02 Insert the stainless-steel inner pot into the cooker base.
 03 Place the air fryer lid on the cooker base by lining up the lid fins and inserting them into the base handles.  Press the lid down to ensure the power and sensor connectors are in full contact with each other.
-
-<PIC:Manual30_26>
 
 CAUTION If the power and sensor parts are not fully connected, you may get a Lid message or C9 error. Failure to ensure a proper connection could result in damage to the cooker.
 04 Select a Smart Program: Air Fry, Grill, Bake, Roast or Dehydrate.
@@ -475,6 +474,8 @@ CAUTION If the power and sensor parts are not fully connected, you may get a Lid
 07 If you need to remove the lid, carefully lift the air fryer lid off the cooker base and place it on the protective pad provided. Lifting the lid automatically pauses cooking.
 08 Carefully turn, flip, or rotate your food, then place the air fryer lid back on the cooker base to resume cooking.  CAUTION The inner pot and accessories will be hot during and after cooking. To avoid injury, use hand protection and do not touch the inner pot accessories with bare skin.  Some food doesn't need to be flipped. If you don't remove the lid after the turn food indicator appears, cooking continues after 10 seconds.
 09 When one minute remains, the display counts down by seconds. When the Smart Program completes, the cooker beeps and the display shows End
+<PIC:Manual30_26>
+
 
 ## Settings
 
@@ -492,9 +493,9 @@ Clean your appliance and its parts after each use. Failure to follow these clean
 
 Some discoloration may occur after machine washing, but this will not affect the cooker's safety or performance.
 
-## Care, cleaning and storage
+**Care, cleaning and storage**
 
-### WARNING
+**WARNING:**
 
 The Multi-use pressure cooker and air fryer cooker base contains electrical components. To avoid fire, electric leakage or personal injury, make sure the cooker base stays dry.
 - DO NOT immerse the cooker base in water or other liquid, or attempt to cycle it through the dishwasher. DO NOT rinse the heating element
@@ -502,15 +503,15 @@ The Multi-use pressure cooker and air fryer cooker base contains electrical comp
 
 ### Removing and installing parts
 
-Silicone sealing ring
+### Silicone sealing ring
 
-#### Remove the sealing ring
+**Remove the sealing ring**
 
 Grip the edge of the silicone and pull the sealing ring out from behind the circular stainless-steel sealing ring rack.  With the sealing ring removed, inspect the steel rack to make sure it is secured centered, and an even height all the way around the lid. Do not attempt to repair a deformed sealing ring rack.  The sealing ring is easiest to remove and install when it is wet and soapy.
 
 <PIC:Manual30_30>
 
-#### Install the sealing ring
+**Install the sealing ring**
 
 Place the sealing ring over the sealing ring rack and press it into place. Press down firmly to prevent puckering.
 
@@ -518,17 +519,17 @@ When installed properly, the sealing ring is snug behind sealing ring rack and s
 
 <PIC:Manual30_31>
 
-## Care, cleaning and storage
+**Care, cleaning and storage**
 
 ### Steam release valve
 
-#### Remove the steam release valve
+**Remove the steam release valve**
 
 Pull the steam release valve up and off the steam release pipe.The steam release valve must be installed before using the cooker.
 
 <PIC:Manual30_32>
 
-#### Install the steam release valve
+**Install the steam release valve**
 
 Place the steam release valve on the steam release pipe and press down firmly.  The steam release valve sits loosely on the steam release pipe when installed properly but should remain in place when the lid is turned over.
 
@@ -536,13 +537,13 @@ Place the steam release valve on the steam release pipe and press down firmly.  
 
 ### Anti-block shield
 
-#### Remove the anti-block shield
+**Remove the anti-block shield**
 
 Grip the lid like a steering wheel and use your thumbs to press firmly against the side of the anti-block shield (pressing towards the side of the lid and up) until it pops off the prongs underneath.
 
 <PIC:Manual30_34>
 
-#### Install the anti-block shield
+**Install the anti-block shield**
 
 Place the anti-block shield over the prongs and press down until it snaps into position
 
@@ -550,21 +551,20 @@ Do not attempt to operate the pressure cooker without the anti-block shield inst
 
 <PIC:Manual30_35>
 
-## Care, cleaning and Storage
+**Care, cleaning and storage**
 
 ### Float valve and silicone cap
 
-#### Remove the float valve from the lid
+**Remove the float valve from the lid**
 
 Place one finger on the flat top of float valve, then turn the lid over. Detach the silicone cap from the bottom side of the float valve.  Remove the float valve from the top of the lid. Do not discard the float valve or silicone cap.
 
 <PIC:Manual30_36>
 
-#### Install the float valve
+**Install the float valve**
 
 Drop the narrow end of the float valve into the float valve hole on the top of the lid. Place one finger on the flat top of the float valve, then turn the lid over. Firmly attach the silicone cap to the bottom of the float valve.  Do not attempt to operate the pressure cooker without the float valve and/or silicone cap properly installed in the pressure cooking lid
 
-<PIC:Manual30_37>
 
 Bottom
 
@@ -572,11 +572,11 @@ Bottom
 
 The condensation collector sits at the back of the cooker base and catches any overflow from the condensation rim.  It should be installed before cooking, then emptied and rinsed out after each use.
 
-#### Remove the condensation collector
+**Remove the condensation collector**
 
 Pull the condensation collector away from the cooker base; do not pull down. Note the tabs on the cooker base and the grooves on the condensation collector.
 
-#### Install the condensation collector
+**Install the condensation collector**
 
 Align the grooves on the condensation collector over the tabs on the back of the cooker base and slide the condensation collector into place.
 
@@ -604,7 +604,7 @@ It warrants this appliance to be free from defects in workmanship and material, 
 
 Any modification or attempted modification to your appliance may interfere with the safe operation of the appliance and may result in serious injury and damage. Any modification or attempted modification to your appliance or any part thereof will void the warranty, unless such modification(s) or alteration(s) were expressly authorised by the Company  This warranty does not cover (1) normal wear and tear; (2) damage resulting from negligent, unreasonable or misuse of the appliance, improper assembly or disassembly, use contrary to the operating instructions, failure to provide reasonable and necessary maintenance, Acts of God (such as fire, flood, hurricanes and tornadoes), or repair or alteration by anyone, unless expressly directed and authorised by the Company; and (3) repairs where your appliance is used for other than normal household use and in a manner contrary to published user or operator instructions.  To the extent permitted by applicable law, the liability of the Company, if any, for any allegedly defective appliance or part shall be limited to repair or replacement of the appliance or part thereof, and shall not exceed the purchase price of a comparable replacement appliance. Except as expressly provided herein and to the extent permitted by law, (1) the Company makes no warranties conditions or representations, express or implied, usage, custom of trade or otherwise with respect to the appliance or parts covered by this warranty and (2) the Company shall not be responsible or liable for indirect, incidental or consequential damages arising out of or in connection with the use or performance of the appliance or damages with respect to any economic loss, loss of property, loss of revenues or profits, loss of enjoyment or use, costs of removal, installation or other consequential damages of any nature or kind.  You may have rights and remedies under applicable laws, which are in addition to any right or remedy which may be available under this limited warranty.
 
-## Warranty
+**Warranty**
 
 ### Warranty Registration
 
@@ -615,7 +615,7 @@ Please register your appliance. You will be asked to provide your name, your ema
 - A copy of the original purchase receipt with order number, model and serial number
 - A description of the product defect, including any photographs or video if possible
 
-### Warranty Registration
+### Warranty Version and Registration
 
 This warranty was last updated on 1 September 2019 for all products sold from [1 November 2019]. If your product comes with our older warranty version, your warranty will continue to be honoured.
 
@@ -631,6 +631,7 @@ This appliance complies with the WEEE Directive 2012/19/EU on the disposal of el
 - `<PIC:Manual30_1>`
 - `<PIC:Manual30_2>`
 - `<PIC:Manual30_3>`
+- `<PIC:Manual30_37>`
 - `<PIC:Manual30_4>`
 - `<PIC:Manual30_5>`
 - `<PIC:Manual30_6>`
@@ -668,7 +669,6 @@ This appliance complies with the WEEE Directive 2012/19/EU on the disposal of el
 - `<PIC:Manual30_34>`
 - `<PIC:Manual30_35>`
 - `<PIC:Manual30_36>`
-- `<PIC:Manual30_37>`
 - `<PIC:Manual30_38>`
 - `<PIC:Manual30_39>`
 - `<PIC:Manual30_40>`
@@ -699,6 +699,12 @@ This appliance complies with the WEEE Directive 2012/19/EU on the disposal of el
 - image_id：`Manual30_3`
 - 相对路径：`data\manuals\raw\16_多功能压力锅空气炸锅_Pressure_Cooker_Air_Fryer\images\Manual30_3.jpg`
 - 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\16_多功能压力锅空气炸锅_Pressure_Cooker_Air_Fryer\images\Manual30_3.jpg`
+
+### <PIC:Manual30_37>
+
+- image_id：`Manual30_37`
+- 相对路径：`data\manuals\raw\16_多功能压力锅空气炸锅_Pressure_Cooker_Air_Fryer\images\Manual30_37.jpg`
+- 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\16_多功能压力锅空气炸锅_Pressure_Cooker_Air_Fryer\images\Manual30_37.jpg`
 
 ### <PIC:Manual30_4>
 
@@ -921,12 +927,6 @@ This appliance complies with the WEEE Directive 2012/19/EU on the disposal of el
 - image_id：`Manual30_36`
 - 相对路径：`data\manuals\raw\16_多功能压力锅空气炸锅_Pressure_Cooker_Air_Fryer\images\Manual30_36.jpg`
 - 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\16_多功能压力锅空气炸锅_Pressure_Cooker_Air_Fryer\images\Manual30_36.jpg`
-
-### <PIC:Manual30_37>
-
-- image_id：`Manual30_37`
-- 相对路径：`data\manuals\raw\16_多功能压力锅空气炸锅_Pressure_Cooker_Air_Fryer\images\Manual30_37.jpg`
-- 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\16_多功能压力锅空气炸锅_Pressure_Cooker_Air_Fryer\images\Manual30_37.jpg`
 
 ### <PIC:Manual30_38>
 

@@ -1,13 +1,13 @@
 # Camera Manual
 
-## Introduction
+Introduction
 
 Item Check List. 3
 
 Handling Precautions.8
 Nomenclature....10
 Conventions Used in this Manual..16
-## Getting Started 17
+Getting Started 17
 
 Recharging the Battery....18
 
@@ -24,13 +24,13 @@ Replacing the Date/Time Battery....35
 Cleaning the CMOS sensor......36
 Dioptric Adjustment.38
 Holding the Camera....38
-## Fully Automatic Shooting 39
+Fully Automatic Shooting 39
 
 Using Full Auto. 40
 
 Basic Zone Modes. 42
 Self-timer Operation.44
-## 3 Image Settings 45
+3 Image Settings 45
 
 Setting the Image-recording Quality.46
 
@@ -45,7 +45,7 @@ Selecting the Processing Parameters....57
 Setting the Processing Parameters....58
 File Numbering Methods.61
 Checking Camera Settings...62
-## Setting the AF, Metering, and Drive Modes 63
+Setting the AF, Metering, and Drive Modes 63
 
 Selecting the AF Mode 64
 
@@ -54,7 +54,7 @@ Focusing an Off-Center Subject..69
 When Autofocus Fails (Manual Focusing)...70
 Selecting the Metering Mode..71
 Selecting the Drive Mode..72
-## Advanced Operations 73
+Advanced Operations 73
 
 Program AE...74
 
@@ -72,11 +72,11 @@ LCD Panel Illumination......89
 Using the Eyepiece Cover....89
 You can also silence the beeper...90
 CF Card Reminder...90
-## Flash Photography 91
+Flash Photography 91
 
 Using the Built-in Flash.92  Using Flash Units..98
 
-## Image Playback 99
+Image Playback 99
 
 Setting the Image Review Time.100
 
@@ -178,7 +178,7 @@ After detaching the lens from the camera, attach the lens caps or put down the l
 
 <PIC:Manual10_0>
 
-#### For detailed information, reference page numbers are provided in parentheses
+**For detailed information, reference page numbers are provided in parentheses**
 
 <PIC:Manual10_1>
 
@@ -186,14 +186,14 @@ After detaching the lens from the camera, attach the lens caps or put down the l
 
 ### LCD Panel
 
+The actual display will show only the applicable items.
 <PIC:Manual10_3>
 
-The actual display will show only the applicable items.
 ### Viewfinder Information
 
+The actual display will show only the applicable items.
 <PIC:Manual10_4>
 
-The actual display will show only the applicable items.
 ### Mode Dial
 
 The Mode Dial is divided into two function zones.
@@ -282,12 +282,12 @@ Pass the end of the strap through the camera's strap mount from the bottom. Then
 
 For details on the battery, refer to the instructions for Battery Pack BP-511A.
 
-#### Remove the cover.
+Remove the cover.
 - When you remove the battery from the camera, be sure to reattach the cover to protect against short circuit.
 
 <PIC:Manual10_10>
 
-#### Attach the battery.
+Attach the battery.
 
 Align the battery front edge with the mark on the battery charger. While pressing down the battery, slide it in the direction of the arrow. To detach the battery, follow the above procedure in reverse.
 
@@ -295,7 +295,7 @@ Align the battery front edge with the mark on the battery charger. While pressin
 
 #### For CG-580
 
-### Flip out the prongs and recharge the battery.
+Flip out the prongs and recharge the battery.
 
 As shown by the arrow, flip out the battery charger's prongs. Insert the prongs into a power outlet.  CG-580
 
@@ -334,34 +334,34 @@ The recharging time for a completely exhausted battery is as follows: BP-511A an
 
 Load a fully charged BP-511A battery pack into the camera.
 
-#### Open the battery compartment cover.
+Open the battery compartment cover.
 - Slide the lever as shown by the arrow and open the cover.
 
 <PIC:Manual10_16>
 
-#### Insert the battery.
+Insert the battery.
 - Point the battery contacts downward.
 - Insert the battery until it locks into place.
 
 <PIC:Camera_09>
 
-#### Close the cover.
+Close the cover.
 - Press the cover until it snaps shut.
 
+Battery Pack BP-511A, BP-514, BP-511, or BP-512 can also be used.
 <PIC:Camera_10>
 
-Battery Pack BP-511A, BP-514, BP-511, or BP-512 can also be used.
 ### Checking the Battery Level
 
 When the power switch is set to <ON>, the battery level will be indicated at one of three levels.
 
 <PIC:Manual10_17>
 
-<PIC:Camera_11>
-
 Battery level OK.
+
 Battery level is low.
 Battery must be recharged.
+<PIC:Camera_11>
 ### Battery Life
 - The figures above are based on a fully-charged BP-511A and CIPA (Camera & Imaging Products Association) testing criteria. The actual number of shots may be fewer than indicated above depending on the shooting conditions.
 
@@ -378,12 +378,12 @@ Battery must be recharged.
 
 ### Removing the Battery
 
-#### Open the battery compartment cover.
+Open the battery compartment cover.
 - Slide the lever as shown by the arrow and open the cover.
 
 <PIC:Camera_12>
 
-#### Remove the battery.
+Remove the battery.
 - Slide the battery lock lever as shown by the arrow and remove the battery.
 
 <PIC:Camera_13>
@@ -392,24 +392,24 @@ Battery must be recharged.
 
 With AC Adapter Kit ACK-E2 (optional), you can connect the camera to a household power outlet and not worry about the battery level.
 
-### Connect the DC Coupler.
+Connect the DC Coupler.
 - Connect the DC Coupler's plug to the AC adapter's socket.
 
 <PIC:Camera_14>
 
-### Connect the power cord.
+Connect the power cord.
 - Connect the power cord to the AC adapter.
 - Insert the plug into a power outlet.
 - When you are finished, disconnect the plug from the power outlet.
 
 <PIC:Camera_15>
 
-### Place the cord in the groove.
+Place the cord in the groove.
 - Carefully insert the cord into the groove without damaging it.
 
 <PIC:Manual10_19>
 
-#### Insert the DC Coupler.
+Insert the DC Coupler.
 
 Open the battery compartment cover and open the DC Coupler cord notch cover.
 
@@ -424,12 +424,12 @@ Open the battery compartment cover and open the DC Coupler cord notch cover.
 
 ### Mounting a Lens
 
-#### Remove the caps.
+Remove the caps.
 - Remove the rear lens cap and the body cap by turning them as shown by the arrow.
 
 <PIC:Manual10_21>
 
-#### Attach the lens.
+Attach the lens.
 
 Align the EF-S lens with the camera's white EF-S lens mount index and turn the lens as shown by the arrow until it clicks in place.
 
@@ -438,14 +438,14 @@ EF-S Lens mount index  EF lens mount index
 
 <PIC:Manual10_22>
 
-### On the lens, set the focus mode switch to <AF>.
+On the lens, set the focus mode switch to <AF>.
 - If it is set to <MF>, autofocus will not be possible. Remove the front lens cap.
 
 <PIC:Manual10_23>
 
 ### Detaching the Lens
 
-#### While pressing the lens release button, turn the lens as shown by the arrow.
+While pressing the lens release button, turn the lens as shown by the arrow.
 - Turn the lens until it stops, then detach it.  When attaching or detaching the lens, take care to prevent dust from entering the camera through the lens mount.
 
 <PIC:Manual10_24>
@@ -456,13 +456,13 @@ The captured image will be recorded onto the CF card (optional). Although the th
 
 ### Installing the Card
 
-#### Open the cover.
+Open the cover.
 
 Slide the cover as shown by the arrow to open it.
 
 <PIC:Manual10_25>
 
-#### Insert the CF card.
+Insert the CF card.
 
 Using CF cards is
 
@@ -471,10 +471,10 @@ If the CF card is inserted in the wrong way, it may damage the camera. As shown 
 The CF card eject button pops out.
 Top
 
+CF card eject button
 <PIC:Manual10_26>
 
-CF card eject button
-#### Close the cover.
+Close the cover.
 
 Close the cover and slide it in the direction shown by the arrow until it snaps shut. When the shots remaining is displayed on the LCD panel.
 
@@ -486,14 +486,14 @@ Shots remaining
 
 ### Removing the CF Card
 
-#### Open the cover.
+Open the cover.
 - Turn the power switch to <OFF>
 - Check that the "buSY" message is not displayed on the LCD panel.
 - Make sure the access lamp is off, then open the cover.
 
 <PIC:Camera_16>
 
-#### Remove the CF card.
+Remove the CF card.
 - Press the Eject button.
 
 The CF card will be ejected.
@@ -549,7 +549,7 @@ If you press the shutter button halfway and the metering timer elapses, you must
 
 The Main Dial is mainly used for shooting-related settings.
 
-### (1) After pressing a button, turn the dial.
+(1) After pressing a button, turn the dial.
 
 When you press a button, its function
 
@@ -563,7 +563,7 @@ halfway, the camera will be ready to shoot.
 
 <PIC:Manual10_32>
 
-### (2) Turn the Main Dial only.
+(2) Turn the Main Dial only.
 
 While looking at the LCD panel or viewfinder, turn the dial to set the desired setting.
 - In this way, you can set the shutter speed, aperture, etc.
@@ -574,7 +574,7 @@ While looking at the LCD panel or viewfinder, turn the dial to set the desired s
 
 The Quick Control Dial is mainly used for shooting-related settings and selecting LCD monitor items. When you want to use the Quick Control Dial to prepare for shooting, set the switch to <ON> first.
 
-### (1) After pressing a button, turn the dial.
+(1) After pressing a button, turn the dial.
 
 When you press a button, its function remains active for 6 seconds (6). During this time, you can turn the Quick Control Dial to set the desired setting. When the timer ends or if you press the shutter button down halfway, the camera will be ready to shoot.
 - You can select the AF point or set the white balance, ISO speed, and flash exposure compensation.
@@ -583,7 +583,7 @@ When using the LCD monitor, you can select menu operations and select images dur
 
 <PIC:Manual10_34>
 
-### (2) Turn the Quick Control Dial only.
+(2) Turn the Quick Control Dial only.
 
 While looking at the LCD panel or viewfinder, turn the Quick Control Dial to set the desired setting.
 - You can set the exposure compensation or the aperture in Manual mode.
@@ -602,9 +602,9 @@ The Multi-controller consists of eight direction keys and a button at the center
 
 By setting various optional settings with the menus, you can set the image recording quality, processing parameters, the date/time, Custom Functions, etc. While looking at the LCD monitor, you use the <MENU> button, <JUMP> button, <SET> button, and dial on the camera back to proceed to the next step.
 
+The menu screen is color coded for the three menu categories.
 <PIC:Manual10_37>
 
-The menu screen is color coded for the three menu categories.
 
 <PIC:Manual10_38>
 
@@ -614,23 +614,23 @@ The menu screen is color coded for the three menu categories.
 - Even while the menu is displayed, you can instantly go back to shooting by pressing the shutter button halfway.
 ### Menu Setting Procedure
 
-#### Display the menu.
+Display the menu.
 
 Press the <MENU> button to display the menu. To turn off the menu, press the <MENU> button again.
 
-#### Select a menu item.
+Select a menu item.
 
 Turn the Quick Control Dial to select the menu item, then press <SET>. Press the <JUMP> button to jump to the first item of each menu category.
 
-#### Select the menu setting.
+Select the menu setting.
 
 Turn the Quick Control Dial to select the desired setting.
 
-#### Set the desired setting.
+Set the desired setting.
 
 Press <SET> to set it.
 
-#### Exit the menu.
+Exit the menu.
 
 Press the <MENU> button to exit the menu display.
 
@@ -659,18 +659,18 @@ The LCD monitor cannot be used as a viewfinder for shooting.
 You can adjust the brightness of the LCD monitor to one of five levels. (p.102)
 ### Restoring the Camera's Default Settings
 
-#### Select [Clear settings].
+Select [Clear settings].
 
 Press the <MENU> button.
 
 Turn the Quick Control Dial to select [Clear settings], then press <SET>.
 
-#### Select [Clear all camera settings].
+Select [Clear all camera settings].
 - Turn the Quick Control Dial to select [Clear all camera settings], then press <SET>.
 
 <PIC:Manual10_41>
 
-#### Select [OK].
+Select [OK].
 
 Turn the Quick Control Dial to select [OK], then press <SET>. The default settings will be restored.
 
@@ -687,7 +687,7 @@ The camera's default settings will be as shown below.
 ### Setting the Language
 
 The LCD monitor's interface language can be set to one of twelve languages.
-#### Select [Language].
+Select [Language].
 
 Turn the Quick Control Dial to select [Language], then press <SET>.
 
@@ -695,7 +695,7 @@ The Language screen will appear.
 
 <PIC:Camera_18>
 
-#### Set the desired language.
+Set the desired language.
 
 Turn the Quick Control Dial to select the language, then press <SET>. The language will change.
 
@@ -703,15 +703,15 @@ Turn the Quick Control Dial to select the language, then press <SET>. The langua
 
 <PIC:Manual10_44>
 
-### MENU Set the power-off time/Auto power off
+### Setting the Power-Off Time / Auto Power Off
 
 You can set the auto power-off time for the camera to turn off automatically after a set time of idle operation. If you do not want the camera to turn off automatically, set this to [Off]. If the camera turns off automatically, just press the shutter button halfway to turn it on again
 
-#### Select [Auto power off]
+Select [Auto power off]
 
 Turn the Quick Control Dial to select [Auto power off], then press <SET>.
 
-#### Set the desired time.
+Set the desired time.
 
 Turn the Quick Control Dial to select the desired time, then press <SET>.
 
@@ -720,12 +720,12 @@ Turn the Quick Control Dial to select the desired time, then press <SET>.
 ### Setting the Date and Time
 
 Set the date and time as shown below.
-#### Select [Date/Time].
+Select [Date/Time].
 - Turn the dial to select [Date/Time], then press <SET>. The date/time screen will appear.
 
 <PIC:Camera_01>
 
-#### Set the date and time.
+Set the date and time.
 - Turn the dial to select the digit, then press <SET>
 
 
@@ -733,13 +733,13 @@ Set the date and time as shown below.
 
 <PIC:Camera_02>
 
-#### Set the date display format.
+Set the date display format.
 
 Turn the dial to set the date format to [mm/dd/yy], [dd/mm/yy], or [yy/mm/dd].
 
 <PIC:Camera_03>
 
-#### Press <SET>.
+Press <SET>.
 
 The date and time will be set and the menu will reappear.
 
@@ -747,39 +747,39 @@ Each captured image is recorded with the date and time it was taken. If the date
 ### Replacing the Date/Time Battery
 
 The date/time (back-up) battery maintains the camera's date and time. The battery's service life is about 5 years. If the date/time is reset when the battery is replaced, replace the back-up battery with a new CR2016 lithium battery as described below.  The date/time setting will also be reset, so you must set the correct date/time.
-#### Turn the power switch to <OFF>.
+Turn the power switch to <OFF>.
 
 Open the cover and remove the battery.
 
+Take out the battery holder.
 <PIC:Manual10_46>
 
-Take out the battery holder.
 
 <PIC:Manual10_47>
 
-### Replace the battery in the battery holder.
+Replace the battery in the battery holder.
 - Make sure the battery is in the proper + - orientation.
 
 <PIC:Manual10_48>
 
 Close the cover.
 
+For the date/time battery, be sure to use a CR2016 lithium battery.
 <PIC:Manual10_49>
 
-For the date/time battery, be sure to use a CR2016 lithium battery.
-### MENU Cleaning the CMOS sensor
+### Cleaning the CMOS Sensor
 
 The image sensor is like the film in a film camera. If any dust or other foreign matter adheres to the image sensor, it may show up as a dark speck in the images. To avoid this, follow the procedure below to clean the image sensor. Note that the image sensor is a very delicate component. If possible, you should have it cleaned by a Canon Service Center.  While you clean the image sensor, the camera must be turned on. Using the AC Adapter Kit ACK-E2 (optional, see page 154) is recommended. If you use a battery, make sure the battery level is sufficient. Before cleaning the sensor, detach the lens from the camera.
 
-#### Install the DC Coupler (p.22) or a battery and turn the power switch to <ON>.
+Install the DC Coupler (p.22) or a battery and turn the power switch to <ON>.
 
-#### Select [Sensor clean.].
+Select [Sensor clean.].
 
 Turn the Quick Control Dial to select [Sensor clean.], then press <SET>. If you are using a battery with sufficient power, the screen shown in step 3 will appear. If the battery is exhausted, a warning message will appear and you will not be able to proceed further. Either recharge the battery or use a DC coupler and start from step 1 again.
 
 <PIC:Manual10_50>
 
-#### Select [OK].
+Select [OK].
 
 Turn the Quick Control Dial to select [OK],
 
@@ -789,12 +789,12 @@ The mirror will lock up and the shutter will open.
 
 <PIC:Manual10_51>
 
-#### Clean the image sensor.
+Clean the image sensor.
 - Use a rubber blower to carefully blow away any dust, etc., on the surface of the image sensor.
 
 <PIC:Manual10_52>
 
-### Stop the cleaning.
+Stop the cleaning.
 - Turn the power switch to <OFF>. The camera will turn off, the shutter will close, and the mirror will go back down. Set the power switch to <ON>. The camera will then be ready to shoot.
 - During the sensor cleaning, never do any of the following that would turn off the power. If the power is cut off, the shutter will close and it may damage the shutter curtains and image sensor.
 - Turn the power switch to <OFF>
@@ -814,7 +814,7 @@ The mirror will lock up and the shutter will open.
 
 By adjusting the diopter to suit your eyesight, you can see a sharp viewfinder image even without eyeglasses. The camera's adjustable dioptric range is -3 to +1 dpt.
 
-#### Turn the dioptric adjustment knob.
+Turn the dioptric adjustment knob.
 - Turn the knob left or right so that the AF points in the viewfinder look sharp.
 - The illustration shows the knob at the standard setting (-1 dpt).
 
@@ -841,26 +841,26 @@ This chapter explains how to use the Basic Zone modes on the Mode Dial for quick
 
 <PIC:Manual10_55>
 
-### Set the Mode Dial to the desired Basic Zone mode.
+Set the Mode Dial to the desired Basic Zone mode.
 - The shooting procedure is the same as for "Using Full Auto" (p.40).
 
 
 - To see what is set automatically in the Basic Zone modes, see "Function Availability Table" (p.148).
-#### Using Full Auto
+### Using Full Auto
 
 All you do is point the camera and press the shutter button. Everything is automatic so it is easy to photograph any subject. With nine AF points to focus the subject, anyone can easily take nice pictures.
 
-#### Set the Mode Dial
+Set the Mode Dial
 
 Automatically, the AF mode, drive mode, and metering mode will be set for full-auto shooting.
 
 <PIC:Manual10_56>
 
-### Aim any AF point on the subject.
+Aim any AF point on the subject.
 
 Out of the nine AF points, the one covering the closest subject is selected automatically to achieve focus.  
 
-### Focus the subject.
+Focus the subject.
 - Press the shutter button halfway to focus.
 
 The AF point which achieves focus flashes in red briefly. If focus cannot be achieved, the beeper will sound and the focus confirmation light in the viewfinder will blink.
@@ -868,7 +868,7 @@ If necessary, the built-in flash will popup automatically.
 
 <PIC:Camera_21>
 
-#### Check the display.
+Check the display.
 
 The shutter speed and aperture value will be set automatically and displayed in the viewfinder and on the LCD panel. (4)
 
@@ -876,7 +876,7 @@ Focus confirmation light Shutter speed Aperture
 
 <PIC:Manual10_57>
 
-### Take the picture.
+Take the picture.
 - Compose the shot and press the shutter button completely.
 
 The captured image will be displayed for about 2 sec. on the LCD monitor.
@@ -906,7 +906,9 @@ Automatically, the AF mode will be set to <ONE SHOT>, the drive mode and meterin
 
 <PIC:Manual10_60>
 
-### Close-up Use this mode to take close-up shots of flowers, insects, etc.
+### Close-up
+
+Use this mode to take close-up shots of flowers, insects, etc.
 - As much as possible, focus the subject at the lens' closest focusing distance.
 
 
@@ -953,17 +955,17 @@ In Night Portrait mode, use a tripod to prevent camera shake. In low-light modes
 ### Self-timer Operation
 
 Use the self-timer when you want to be in the picture. You can use self-timer in any Basic Zone mode or Creative Zone mode.
-#### Press the <DRIVE-ISO> button. (6)
+Press the <DRIVE-ISO> button. (6)
 
-#### Select the self-timer.
+Select the self-timer.
 - Look at the LCD panel and turn the dial to select the self-timer icon.
 
-### Focus the subject.
+Focus the subject.
 - Look in the viewfinder and press the shutter button halfway to check that the focus confirmation light is on and the exposure setting is displayed.
 
 <PIC:Manual10_65>
 
-### Take the picture.
+Take the picture.
 - Look through the viewfinder and press the shutter button completely. The beeper will sound, the self-timer lamp will blink, and the shot will be taken about 10 sec. later. During the first 8 sec., the beeper beeps slowly and the lamp blinks slowly. Then during the final 2 sec., the beeper beeps faster and the lamp stays lit. During the self-timer operation, the LCD panel counts down the seconds until the picture is taken.
 
 <PIC:Manual10_66>
@@ -978,16 +980,16 @@ This chapter explains the digital image settings for the image-recording quality
 - For Basic Zone modes, only the image-recording quality (except RAW and RAW + JPEG), file numbering, and camera setting check will apply in this chapter.
 - The asterisk on the right of the page title indicates that the respective feature is available only in Creative Zone modes (P, Tv, Av, M, A-DEP).
 
-### MENU Setting the Image-recording Quality
+### Setting the Image-recording Quality
 
 The L/L/M/M/S/S modes record the image in the widely-used JPEG format. In the RAW mode, the captured image will require post-processing with the software provided. The JPEG) modes simultaneously record the image in both RAW and JPEG formats. Note that in the Basic Zone modes, the RAW and RAW JPEG formats cannot be selected.
 
-#### Select [Quality].
+Select [Quality].
 - Turn the Quick Control Dial to select [Quality], then press <SET>.
 
 The recording quality screen will appear.
 
-#### Set the desired recording quality.
+Set the desired recording quality.
 
 Turn the Quick Control Dial to select the desired recording quality, then press <SET>.
 
@@ -1031,7 +1033,7 @@ The number of shots remaining during the maximum burst is displayed on the lower
 
 
 - While you are shooting and the number of shots remaining in the maximum burst is fewer than 9, the viewfinder will display "8", "7", etc. If you stop the continuous shooting, the maximum burst will increase.
-### The following applies to the L/L/M/M/S/S (JPEG) recording quality modes:
+**The following applies to the L/L/M/M/S/S (JPEG) recording quality modes:**
 - The maximum burst may greatly decrease (6 or less) in the following cases:
 - In the Flash Off mode, the built-in flash automatically switches between firing and non-firing.
 - During continuous shooting, the external flash cannot recycle fast enough.
@@ -1060,11 +1062,11 @@ You can set the ISO speed to "100", "200", "400", "800", or "1600". With C. Fn-0
 
 <PIC:Manual10_71>
 
-### WB Setting the White Balance
+### Setting the White Balance
 
 Normally, the [AWB] setting will set the optimum white balance automatically. If natural-looking colors cannot be obtained with [AWB], you can set the white balance manually to suit the respective light source. In the Basic Zone modes, [AWB] will be set automatically.
 
-#### Press the <AF-WB> button. (6)
+Press the <AF-WB> button. (6)
 
 Select the white balance setting.
 - While looking at the top LCD panel, turn the dial.
@@ -1078,18 +1080,18 @@ Select the white balance setting.
 
 The three RGB (red, green, and blue) primary colors exist in the light source in varying proportions depending on the color temperature. When the color temperature is high, there is more blue. And when the color temperature is low, there is more red. To the human eye, a white object looks white regardless of the type of lighting. With a digital camera, the color temperature can be adjusted with software so that the colors in the image look more natural. The subject's white color is used as the criteria for adjusting the other colors. The camera's [AWB] setting uses the CMOS sensor for auto white balance.
 
-### MENU Custom White Balance
+### Custom White Balance
 
 With custom white balance, you shoot a white object that will serve as the basis for the white balance setting. By selecting this image, you import its white balance data for the white balance setting.
 
-#### Press the <AF-WB> button. (6)
+Press the <AF-WB> button. (6)
 
-#### Select the custom white balance.
+Select the custom white balance.
 - Look at the LCD panel and turn the dial to select the custom white balance icon.
 
 <PIC:Camera_22>
 
-### Photograph a white object
+Photograph a white object
 - The plain, white object should fill the partial metering circle.
 - Set the lens focus mode switch to <MF>, then focus manually. (p.70)
 - Set any white balance setting. (p.50)
@@ -1097,12 +1099,12 @@ With custom white balance, you shoot a white object that will serve as the basis
 
 <PIC:Camera_23>
 
-#### Select [Custom WB].
+Select [Custom WB].
 - Turn the dial to select [Custom WB], then press <SET>. The custom white balance screen will appear.
 
 <PIC:Camera_24>
 
-#### Select the image.
+Select the image.
 
 Turn the dial to select the image captured in step 3, then press <SET>
 
@@ -1115,19 +1117,19 @@ The image's white balance data will be imported and the menu will reappear.
 
 - If an image was captured while the processing parameter was set to [B/ W] (p.59), it cannot be selected in step 5.
 - Instead of a white object, an 18% gray card (commercially available) can produce a more accurate white balance.
-### MENU Setting the Color Temperature
+### Setting the Color Temperature
 
 You can numerically set the white balance's color temperature.
 
-#### Press the <AF-WB> button.(6)
+Press the <AF-WB> button.(6)
 
-#### Select the color temperature.
+Select the color temperature.
 - Look at the LCD panel and turn the dial to select [Color temp.].
 - Turn the dial to select [Color temp.], then press <SET>
 
 <PIC:Manual10_74>
 
-#### Set the color temperature.
+Set the color temperature.
 - Turn the dial to select the desired color temperature, then press <SET>
 
 
@@ -1138,11 +1140,11 @@ You can numerically set the white balance's color temperature.
 
 - When setting the color temperature for an artificial light source, set white balance correction (magenta or green bias) as necessary.
 - If you want to set <Color temp.> to the reading taken with a color temperature meter, take test shots and adjust the setting to compensate for the difference between the color temperature meter's reading and the camera's color temperature reading.
-### MENU White Balance Correction
+### White Balance Correction
 
 You can correct the standard color temperature for the white balance setting. This adjustment will have the same effect as using a color temperature conversion or color compensating filter. Each color can be corrected to one of nine levels. Users familiar with using color temperature conversion or color compensating filters will find this feature handy.
 
-#### Select [WB SHIFT/BKT].
+Select [WB SHIFT/BKT].
 - Turn the dial to select [WB SHIFT/BKT], then press <SET>. The WB correction/WB bracketing screen will appear.
 
 <PIC:Camera_26>
@@ -1170,19 +1172,19 @@ You can correct the standard color temperature for the white balance setting. Th
 - One level of the blue/amber correction is equivalent to 5 mireds of a color temperature conversion filter. (Mired: A measurement unit indicating the density of a color temperature conversion filter.)
 You can also set white balance bracketing and AEB shooting in combination with white balance correction.
 If you turn the Quick Control Dial in step 2, WB bracketing will be set. (p.54)
-### MENU White Balance Auto Bracketing
+### White Balance Auto Bracketing
 
 With just one shot, three images having a different color tone can be recorded simultaneously. Based on the white balance mode's standard color temperature, the image will be bracketed with a blue/amber bias or magenta/green bias. This is called white balance bracketing. It can be set up to 3 levels in single-level increments.
 
-#### Set the image-recording quality to any setting except RAW and RAW+JPEG. (p.46)
+Set the image-recording quality to any setting except RAW and RAW+JPEG. (p.46)
 
-#### Select [WB SHIFT/BKT].
+Select [WB SHIFT/BKT].
 
 Turn the dial to select [WB SHIFT/BKT], then press <SET>. The WB correction/WB bracketing screen will appear.
 
 <PIC:Camera_28>
 
-#### Set the bracketing amount.
+Set the bracketing amount.
 - Turn the dial to set the bracketing direction and bracketing level.
 
 
@@ -1202,7 +1204,7 @@ M/G bias 3 levels
 
 <PIC:Manual10_78>
 
-### Take the picture.
+Take the picture.
 
 When B/A bracketing has been set, the three images will be recorded onto the CF card in the following sequence: Standard WB, B (blue) bias, and A (amber) bias. If M/G bracketing has been set, the sequence will be Standard WB, M (magenta) bias, and G (green) bias.  The current drive mode (p.72) will be used for the shooting.
 
@@ -1218,10 +1220,10 @@ When B/A bracketing has been set, the three images will be recorded onto the CF 
 - You can also set white balance correction and AEB shooting in combination with white balance bracketing. if you set AEB in combination with white balance bracketing, a total of nine images will be recorded for a single shot.
 - "BKT" stands for bracketing.
 
-### MENU Setting the Color Space
+### Setting the Color Space
 
   The color space refers to the range of reproducible colors. With this camera, you can set the color space for captured images to sRGB or Adobe RGB. For normal images, sRGB is recommended. In the Basic Zone modes, sRGB will be set automatically.
-#### Select [Color space].
+Select [Color space].
 
 
 - Turn the dial to select [Color space], then press <SET>.
@@ -1235,15 +1237,15 @@ Set the desired color space.
 This is mainly used for commercial printing and other industrial uses. This setting is not recommended if you do not know about image processing, Adobe RGB, and Design rule for Camera File System 2.0 (Exif 2.21).  Since the image will look very subdued with sRGB personal computers and printers not compatible with Design rule for Camera File System 2.0 (Exif 2.21), post-processing of the image with software will be required.  If the image is captured with the color space set to Adobe RGB, the file name will start with "_MG_" (first character is an underscore).
 - The ICC profile is not appended. The ICC profile is described in the
 
-### MENU Selecting the Processing Parameters
+### Selecting the Processing Parameters
 
 The image you capture can be processed to look more vivid and sharp or more subdued. The processing parameters can be set according to the preset Parameter 1 or Parameter 2 or to Set 1, 2, or 3 that you can set yourself. Monochrome can also be set. In the Basic Zone modes, Parameter 1 will be set automatically.
 
-#### Select [Parameters].
+Select [Parameters].
 
 Turn the dial to select [Parameters], then press <SET>. Processing parameter setting screen will appear.  Press <SET>.
 
-#### Select the desired Parameter.
+Select the desired Parameter.
 
 Turn the dial to select the desired setting, then press <SET>. Press the <MENU> button to return to the menu.
 
@@ -1256,23 +1258,23 @@ Turn the dial to select the desired setting, then press <SET>. Press the <MENU> 
 
 - [Parameter 1] sets the contrast, sharpness, and color saturation by +1 level. [Parameter 2] sets all the parameters to "0."
 - In Creative Zone modes, [Parameter 2] is set by default.
-### MENU Setting the Processing Parameters
+### Setting the Processing Parameters
 
 The image you capture can be processed automatically by the camera in accordance with the parameter settings you set (five settings each for [Contrast], [Sharpness], [Saturation], and [Color tone]). You can register and save up to three sets of processing parameters.
 
-#### Select [Parameters].
+Select [Parameters].
 
 Turn the dial to select [Parameters], then press <SET>. The processing parameter setting screen will appear. Press <SET>.
 
 <PIC:Manual10_83>
 
-#### Select the set number.
+Select the set number.
 
 Turn the dial to select [Set 1], [Set 2], or [Set 3], then press <SET>. The default parameter settings for [Set 1], [Set 2], and [Set 3] are all [0] (Standard).
 
 <PIC:Manual10_84>
 
-#### Select the item to be set.
+Select the item to be set.
 
 Turn the dial to select the menu item, then press <SET>
 
@@ -1280,7 +1282,7 @@ Turn the dial to select the menu item, then press <SET>
 
 <PIC:Manual10_86>
 
-#### Set the desired setting.
+Set the desired setting.
 
 Turn the dial to select the desired effect, then press <SET>. Press the <MENU> button to return to the menu.
 
@@ -1290,11 +1292,11 @@ Turn the dial to select the desired effect, then press <SET>. Press the <MENU> b
 
 When you capture images with the processing parameter set to Monochrome, the camera will process and record the images as black-and-white images onto the CF card.
 
-#### Select [B/W].
+Select [B/W].
 
 In step 3 on page 58, select [B/W] then press <SET>
 
-#### Select the item to be set.
+Select the item to be set.
 
 Turn the dial to select the menu item, then press <SET>
 
@@ -1304,7 +1306,7 @@ For details on [Filter effects] and
 
 <PIC:Manual10_88>
 
-#### Set the desired setting.
+Set the desired setting.
 - Turn the dial to select the desired effect, then press <SET>
 - Press the <MENU> button to return to the menu.
 - When the camera returns to being ready for shooting, the icon appears on the top LCD panel.
@@ -1318,9 +1320,9 @@ For details on [Filter effects] and
 
 The same effect as using filters with black-and-white film can be obtained with digital images. A color can be brightened by using a filter having a similar or same color. At the same time, the complementary colors will be darkened.
 
+Setting the Contrast to the plus side will make the filter effect more pronounced.
 <PIC:Manual10_90>
 
-Setting the Contrast to the plus side will make the filter effect more pronounced.
 ### Toning Effect
 
 When color toning is set, color toning will be applied to the captured black-and-white image before being recorded to the CF card. It can make the image look more impressive.
@@ -1329,7 +1331,7 @@ The following can be selected: [N: None] [S: Sepia] [B: Blue] [P: Purple] [G: Gr
 
 <PIC:Manual10_91>
 
-#### Select [File numbering].
+Select [File numbering].
 - Turn the dial to select [File numbering], then press <SET>. Select the file numbering method.
 - Turn the dial to select [Continuous] or [Auto reset], then press <SET>. The file number is like the frame number on film. There are two file numbering methods: [Continuous] and [Auto reset]. The images you take are automatically assigned a file number from 0001 to 9999 and saved in a folder (created automatically) that can hold up to 100 images.
 
@@ -1348,11 +1350,11 @@ Each time you replace the CF card, the file numbering will be reset to the first
 <PIC:Manual10_94>
 
 If folder No. 999 is created, "Folder number full" will appear on the LCD monitor. Then if file No. 9999 is created, "Err CF" will be displayed on the LCD panel and in the viewfinder. Replace the CF card with a new one.  For both JPEG and RAW images, the file name will start with "IMG_". The file name extension will be ".JPG" for JPEG images and ".CR2" for RAW images.
-### INFO. Checking Camera Settings
+### Checking Camera Settings
 
 When the camera is ready to shoot, press the <INFO> button to view the current camera settings on the LCD monitor.
 
-#### Display the camera settings.
+Display the camera settings.
 - Press the <INFO> button.
 
 The current camera settings appear on the LCD monitor.
@@ -1379,17 +1381,17 @@ subject or your photographic
 intention.
 - The asterisk * on the right of the page title indicates that the respective feature is available only in Creative Zone modes (P, Tv, Av, M, A-DEP).
 - In the Basic Zone modes, the AF mode, AF point, metering mode, and drive mode are set automatically.  The AF mode is the autofocusing operation method. Three AF modes are provided. One-Shot AF is suited for still subjects, while AI Servo AF is for moving subjects. And AI Focus AF switches from One-Shot AF to AI Servo AF automatically if the still subject starts moving. In the Basic Zone modes, the optimum AF mode is set automatically.
-### On the lens, set the focus mode switch to <AF>.
+On the lens, set the focus mode switch to <AF>.
 
 <PIC:Manual10_99>
 
-#### Set the Mode Dial to a Creative Zone mode.
+Set the Mode Dial to a Creative Zone mode.
 
-#### Press the <AF-WB> button. (6)
+Press the <AF-WB> button. (6)
 
 <PIC:Camera_30>
 
-#### Select the AF mode.
+Select the AF mode.
 
 - While looking at the LCD panel, turn the dial.
 - ONE SHOT: One-Shot AF
@@ -1407,16 +1409,16 @@ The AF point which achieves focus flashes briefly. At the same time, the focus c
 
 With evaluative metering, the exposure setting (shutter speed and aperture) will be set when focus is achieved. The exposure setting and focus will be locked as long as the shutter button is pressed halfway. (p.69) You can then recompose the shot while retaining the exposure setting and point of focus.
 
-<PIC:Manual10_100>
 
 AF point Focus confirmation light
+<PIC:Manual10_100>
 
 <PIC:Manual10_101>
 
 If focus cannot be achieved, the focus confirmation light in the viewfinder will blink, a picture cannot be taken even if the shutter button is pressed fully. Recompose the picture and try and focus again. Or see "When Autofocus Fails (Manual Focusing)" (p.70).
 ### AI Servo AF for Moving Subjects
 
-#### While you press the shutter button halfway, the camera focuses continuously.
+While you press the shutter button halfway, the camera focuses continuously.
 - This AF mode is for moving subjects when the focusing distance keeps changing. With predictive AF, the camera can also focus track a subject which steadily approaches or retreats from the camera. The exposure is set at the moment the picture is taken.
 
 <PIC:Manual10_102>
@@ -1449,11 +1451,11 @@ You can select any of the nine AF points manually. This is best when you want to
 
 ### Selecting with the Multi-controller
 
-#### Press the AF point selection button. (6)
+Press the AF point selection button. (6)
 
 The selected AF point will be displayed in the viewfinder and on the LCD panel.
 
-#### Select the AF point.
+Select the AF point.
 - While looking at the viewfinder or LCD panel, use the Multi-controller.
 
 The AF point in the direction where you press the Multi-controller will be selected. If you press the Multi-controller straight down, the center AF point will be selected.
@@ -1479,7 +1481,7 @@ Under low-light conditions, the built-in flash fires a brief burst of flashes wh
 
 With lenses whose maximum aperture is f/2.8 or larger With the center AF point, high-precision, cross-type AF sensitive to both vertical and horizontal lines is possible. With cross-type AF, vertical-line detection is twice as sensitive as horizontal-line detection. The other eight AF points are horizontal-line sensitive or vertical-line sensitive.
 
-### With lenses whose maximum aperture is larger than f/5.6
+**With lenses whose maximum aperture is larger than f/5.6**
 
 The center AF point is a cross-type AF sensor. The other eight AF points are horizontal-line sensitive or vertical-line sensitive.
 
@@ -1487,7 +1489,7 @@ The center AF point is a cross-type AF sensor. The other eight AF points are hor
 
 After achieving focus, you can lock the focus on a subject and recompose the shot. This is called "focus lock." Focus lock works only in the One-Shot AF mode.
 
-#### Set the Mode Dial to a Creative Zone mode.
+Set the Mode Dial to a Creative Zone mode.
 
 Select the desired AF point.
 
@@ -1495,7 +1497,7 @@ Focus the subject.  Move the AF point over the subject and press the shutter but
 
 <PIC:Manual10_106>
 
-### Keep pressing the shutter button halfway and recompose the picture as desired.
+Keep pressing the shutter button halfway and recompose the picture as desired.
 
 If the AF mode is AI Servo AF (or AI Focus AF set to Servo mode), focus lock will not work.  Focus lock is also possible in Basic Zone modes (except Sports mode. In this case, start from step 3.  Take the picture.
 
@@ -1515,9 +1517,9 @@ Autofocus can fail to achieve focus (the focus confirmation light blinks) with c
 (e) Repetitive patterns Example: Skyscraper windows, computer keyboards, etc.  In such cases, do one of the following:  (1) Focus an object at the same distance as the subject and lock the focus before recomposing. (2) Set the lens focus mode switch to <MF> and focus manually.
 ### Manual Focusing
 
-### On the lens, set the focus mode switch to <MF>.
+On the lens, set the focus mode switch to <MF>.
 
-### Focus the subject.
+Focus the subject.
 
 Focus by turning the lens focusing ring until the subject is in focus in the viewfinder.
 
@@ -1527,9 +1529,9 @@ Focus by turning the lens focusing ring until the subject is in focus in the vie
 
 The camera has three metering modes: Evaluative, partial, and centerweighted average metering. In the Basic Zone modes, evaluative metering will be set automatically.
 
-#### Press the metering mode selection button. (6)
+Press the metering mode selection button. (6)
 
-#### Select the metering mode.
+Select the metering mode.
 - While looking at the LCD panel, turn the Main Dial.
 - Evaluative Metering
 - Partial Metering
@@ -1560,9 +1562,9 @@ The metering is weighted at the center and then averaged for the entire scene.
 <PIC:Manual10_111>
 
 Single and continuous drive modes are provided. In the Basic Zone modes, the optimum drive mode is set automatically.
-#### Press the <DRIVE-ISO> button. (6)
+Press the <DRIVE-ISO> button. (6)
 
-#### Select the drive mode.
+Select the drive mode.
 - While looking at the LCD panel, turn the Main Dial.
 
 Single shooting When you press the shutter button completely, one shot will be taken.
@@ -1593,25 +1595,25 @@ Like <Full Auto> (Full Auto) mode, this is a general-purpose shooting mode. The 
 
 <PIC:Manual10_115>
 
-#### Set the Mode Dial to <P>.
+Set the Mode Dial to <P>.
 
 <PIC:Manual10_116>
 
-### Focus the subject.
+Focus the subject.
 - Look through the viewfinder and aim any AF point over the subject. Then press the shutter button halfway.
 
 AF point
 
 <PIC:Manual10_117>
 
-#### Check the display.
+Check the display.
 
 The shutter speed and aperture value will be set automatically and displayed in the viewfinder and on the LCD panel.
 - A correct exposure will be obtained as long as the shutter speed and aperture value display do not blink.
 
 <PIC:Manual10_118>
 
-### Take the picture.
+Take the picture.
 - Compose the shot and press the shutter button completely.
 
 <PIC:Manual10_119>
@@ -1680,16 +1682,16 @@ FE lock
 
 In this mode, you set the shutter speed and the camera automatically sets the aperture value to suit the brightness of the subject. This is called Shutter-Priority AE. A fast shutter speed can freeze the motion of a fast-moving subject and a slow shutter speed can blur the subject to give the impression of motion. <Tv> stands for Time value.
 
-<PIC:Manual10_121>
 
 Fast shutter speed
+<PIC:Manual10_121>
 
-<PIC:Manual10_122>
 
 Slow shutter speed
-#### Set the Mode Dial to <Tv>.
+<PIC:Manual10_122>
+Set the Mode Dial to <Tv>.
 
-#### Set the desired shutter speed.
+Set the desired shutter speed.
 
 While looking at the LCD panel, turn the Main Dial. It can be set in 1/3-stop increments.
 
@@ -1697,12 +1699,12 @@ While looking at the LCD panel, turn the Main Dial. It can be set in 1/3-stop in
 
 <PIC:Manual10_124>
 
-### Focus the subject.
+Focus the subject.
 
 Press the shutter button halfway.
 
 The aperture value is set automatically.
-#### Check the viewfinder display and shoot.
+Check the viewfinder display and shoot.
 
 As long as the aperture value is not blinking, the exposure will be correct.
 
@@ -1718,30 +1720,30 @@ The shutter speeds from "8000" to "4" indicate the denominator of the fractional
 
 In this mode, you set the desired aperture and the camera sets the shutter speed automatically to suit the subject brightness. This is called aperture-priority AE. The smaller the aperture (larger f/number), the wider the depth of field (range of acceptable focus). The larger the aperture (smaller f/number), the narrower the depth of field. <Av> stands for Aperture value.
 
-<PIC:Manual10_126>
 
 With a large aperture
+<PIC:Manual10_126>
 
-<PIC:Manual10_127>
 
 With a small aperture
-#### Set the Mode Dial to <Av>.
+<PIC:Manual10_127>
+Set the Mode Dial to <Av>.
 
 <PIC:Camera_34>
 
-#### Set the desired aperture value.
+Set the desired aperture value.
 
 While looking at the LCD panel, turn the Main Dial. It can be set in 1/3-stop increments.
 
 <PIC:Manual10_128>
 
-### Focus the subject.
+Focus the subject.
 
 Press the shutter button halfway. The shutter speed is set automatically.
 
 <PIC:Manual10_129>
 
-#### Check the viewfinder display and shoot.
+Check the viewfinder display and shoot.
 
 As long as the shutter speed is not blinking, the exposure will be correct.
 
@@ -1778,30 +1780,31 @@ In this mode, you set both the shutter speed and aperture value as desired. To d
 
 <PIC:Manual10_135>
 
-#### Set the Mode Dial to <M>.
+Set the Mode Dial to <M>.
 
 <PIC:Camera_35>
 
-#### Set the desired shutter speed.
+Set the desired shutter speed.
 - While looking at the LCD panel, turn the Main Dial.
 
 <PIC:Camera_36>
 
-#### Set the desired aperture value.
+Set the desired aperture value.
 - Set the Quick Control Dial switch to enabled and, while looking at the LCD panel, turn the Quick Control Dial.
 
 <PIC:Camera_37>
 
-### Focus the subject.
+Focus the subject.
 - Press the shutter button halfway.
 
 The exposure setting will be displayed in the viewfinder and on the LCD panel.
 The exposure level icon  lets you see how far you are from the standard exposure level.
 Standard exposure index Exposure level mark
+<PIC:Manual10_143>
 
 <PIC:Manual10_136>
 
-#### Set the exposure.
+Set the exposure.
 
 Check the exposure level and set the desired shutter speed and aperture value.
 
@@ -1813,7 +1816,7 @@ Exposure level scale: -2 ... 1 ... 0 ... 1 ... +2
 
 <PIC:Manual10_137>
 
-### Take the picture.
+Take the picture.
 
 ### A-DEP Automatic Depth-of-Field AE
 
@@ -1821,16 +1824,16 @@ This mode is for obtaining a wide depth of field automatically between a near su
 
 landscapes. The camera uses the nine AF points to detect the nearest and farthest subjects to be in focus.
 stands for Auto-depth of field.
-#### Set the Mode Dial to <A-DEP>.
+Set the Mode Dial to <A-DEP>.
 
 <PIC:Camera_38>
 
-### Focus the subject.
+Focus the subject.
 - Move the AF point over the subject and press the shutter button halfway. (4) All the subjects covered by the AF points which flashed in red will be in focus. Hold down the shutter button halfway and press the depth-of-field preview button (p.79) to see the depth of field (range of acceptable focus).
 
 <PIC:Camera_39>
 
-### Take the picture.
+Take the picture.
 
 As long as the exposure setting is not blinking, the exposure will be correct.
 - The A-DEP mode cannot be used if the lens' focus mode switch is set to <MF>. The result will be the same as using the <P> mode.
@@ -1839,9 +1842,9 @@ As long as the exposure setting is not blinking, the exposure will be correct.
 - In this shooting mode, you cannot freely change the shutter speed and aperture value. If the camera sets a slow shutter speed, hold the camera steady or use a tripod.
 - If you use flash, the result will be the same as using <P> with flash.  Exposure compensation is used to alter the standard exposure setting set by the camera. You can make the image look lighter (increased exposure) or darker (decreased exposure). You can set the exposure compensation up to +/- 2 stops in 1/3-stop increments.
 
-#### Turn the Mode Dial to any Creative Zone mode except <M>.
+Turn the Mode Dial to any Creative Zone mode except <M>.
 
-#### Check the exposure level indicator.
+Check the exposure level indicator.
 - Press the shutter button halfway and check the exposure level indicator.
 
 <PIC:Camera_40>
@@ -1851,10 +1854,12 @@ Set the Quick Control Dial switch to enabled and, while looking at the viewfinde
 <PIC:Manual10_138>
 
 Increased exposure
+<PIC:Manual10_145>
 
 <PIC:Manual10_139>
 
 Decreased exposure
+<PIC:Manual10_144>
 
 <PIC:Manual10_140>
 
@@ -1862,7 +1867,7 @@ Set the exposure compensation amount.  To cancel the exposure compensation, set 
 
 <PIC:Manual10_141>
 
-### Take the picture.
+Take the picture.
 - The exposure compensation amount will remain in effect even after the
 - If the standard exposure setting is 1/125 sec., setting the exposure compensation amount to plus or minus one stop will be the same as setting the shutter speed or aperture value as follows:
 
@@ -1870,27 +1875,24 @@ Set the exposure compensation amount.  To cancel the exposure compensation, set 
 
 
 - Take care not to turn the dial and change the exposure compensation inadvertently. To prevent this, disable the Quick Control Dial switch.
-### MENU Auto Exposure Bracketing (AEB)
+### Auto Exposure Bracketing (AEB)
 
 By changing the shutter speed or aperture automatically, the camera brackets the exposure up to 2 stops in 1/3-stop increments for three successive shots. This is called Auto Exposure Bracketing (AEB).
 
-<PIC:Manual10_143>
 
 Standard exposure
 
-<PIC:Manual10_144>
 
 Decreased exposure
 
-<PIC:Manual10_145>
 
 Increased exposure
-#### Select [AEB].
+Select [AEB].
 
 Turn the Quick Control Dial to select [AEB], then press <SET>.
 
 AEB amount
-#### Set the AEB amount.
+Set the AEB amount.
 
 Turn the Main Dial to set the AEB amount, then press <SET>.
 
@@ -1898,7 +1900,7 @@ The AEB icon and AEB amount will appear on the LCD panel.
 
 <PIC:Manual10_146>
 
-### Take the picture.
+Take the picture.
 
 The three bracketed shots will be exposed in the following sequence: standard exposure, decreased exposure, and increased exposure. As shown on the left, the respective bracketing amount will be displayed as each bracketed shot is taken. The current drive mode (p.72) will be used for the shooting.  Standard exposure
 
@@ -1924,21 +1926,21 @@ Neither flash nor bulb exposures can be used with AEB.
 
 AE lock enables you to lock the exposure at a different place from the point of focus. After locking the exposure, you can recompose the shot while maintaining the desired exposure setting. This is called AE lock. It is effective for backlit subjects.
 
-### Focus the subject.
+Focus the subject.
 
 Press the shutter button halfway.
 
 The exposure setting will be displayed.
-#### Press the AE lock button. (4)
+Press the AE lock button. (4)
 
 The AE lock indicator lights in the viewfinder to indicate that the exposure setting is locked. Each time you press the AE lock button, it locks the current exposure setting.
 
 <PIC:Manual10_149>
 
+AE lock indicator
 <PIC:Manual10_150>
 
-AE lock indicator
-### Recompose and take the picture.
+Recompose and take the picture.
 
 If you want to maintain the AE lock while taking more shots, hold down the AE lock button and press the shutter button to take another shot.
 - If One-Shot AF or AI Focus AF (when not AI Servo AF) is set, pressing the shutter button halfway to focus will automatically set AE lock at the same time.
@@ -1947,20 +1949,20 @@ If you want to maintain the AE lock while taking more shots, hold down the AE lo
 
 
 - The AE lock effect will differ depending on the AF point and metering mode. For details, see "AE lock" (p.149).  When bulb is set, the shutter stays open while you hold down the shutter button fully, and closes when you let go of the shutter button. This is called bulb exposure. Use bulb exposures for night scenes, fireworks, the heavens, and other subjects requiring long exposures.
-#### Set the Mode Dial to <M>.
+Set the Mode Dial to <M>.
 
-#### Set the shutter speed to "buLb."
+Set the shutter speed to "buLb."
 - Look at the LCD panel and turn the dial to select "buLb."
 - The next setting after "30 sec." is "buLb".
 
 <PIC:Camera_41>
 
-#### Set the desired aperture value.
+Set the desired aperture value.
 - Set the Quick Control Dial switch to enabled and, while looking at the LCD panel, turn the Quick Control Dial.  Elapsed exposure time
 
 <PIC:Camera_42>
 
-### Take the picture.
+Take the picture.
 - Press the shutter button completely
 
 The elapsed exposure time will be displayed on the LCD panel. (Displays 1 sec. to 999 sec.)
@@ -1975,13 +1977,13 @@ Since bulb exposures will have more noise than usual, the image will look rough 
 ### Mirror Lockup
 
 Mirror lockup is enabled with C. Fn-12 [Mirror lockup] set to [1: Enable] (p.144). The mirror can be swung up separately from when the exposure is made. This prevents mirror vibrations which may blur the image during close-ups or when a super telephoto lens is used. Set Custom Functions with [Custom Functions (C. Fn)].
-#### Press the shutter button completely.
+Press the shutter button completely.
 
 The mirror will swing up.
 
 <PIC:Manual10_152>
 
-### Again press the shutter button completely.
+Again press the shutter button completely.
 
 The picture is taken and the mirror goes back down.
 - In very bright light such as at the beach or ski ground on a sunny day, take the picture promptly after mirror lockup.
@@ -1996,25 +1998,25 @@ The picture is taken and the mirror goes back down.
 
 <PIC:Manual10_153>
 
-#### Using the Eyepiece Cover
+### Using the Eyepiece Cover
 
 During self-timer or remote switch (optional) operation when your eye does not cover the viewfinder eyepiece, stray light may enter the eyepiece and affect the exposure when the image is captured. In such a case, use the eyepiece cover (p.17).
 
-#### Remove the eyecup.
+Remove the eyecup.
 - From the bottom of the eyecup, push it upward.
 
 <PIC:Manual10_154>
 
-### Attaching the Eyepiece Cover.
+Attaching the Eyepiece Cover.
 - Slide the eyepiece cover down into the eyepiece groove to attach it.
 
 <PIC:Manual10_155>
 
-### MENU You can also silence the beeper
+### Silencing the Beeper
 
 You can silence the beeper so it does not sound in any shooting mode.
 
-#### Select [Beep].
+Select [Beep].
 - Turn the Quick Control Dial to select [Beep], then press <SET>.
 
 Select [Off].
@@ -2024,13 +2026,13 @@ Select [Off].
 <PIC:Manual10_156>
 
 MENU CF Card Reminder This prevents shooting if there is no CF card in the camera. This can be set in all shooting modes.
-#### Select [Shoot w/o card].
+Select [Shoot w/o card].
 
 Turn the Quick Control Dial to select [Shoot w/o card], then press <SET>.
 
 <PIC:Manual10_157>
 
-#### Select [Off].
+Select [Off].
 
 Turn the dial to select [Off], then press <SET>.
 
@@ -2050,7 +2052,7 @@ E-TTL II autoflash obtains high-precision and consistent flash shots.
 
 If necessary, the built-in flash will pop up automatically in low-light or backlit conditions, except in modes where flash is disabled.
 
-#### Using the Built-in Flash in the Creative Zone
+### Using the Built-in Flash in the Creative Zone
 
 Regardless of the light level, you can press the Flash button to pop up and fire the built-in flash whenever desired.  P: For fully automatic flash photography. The shutter speed (1/60 sec. - 1/250 sec.) and aperture value are set automatically, just as in <Full Auto> (Full Auto) mode.
 
@@ -2074,33 +2076,33 @@ With EF-S18-55mm f/3.5-5.6
 - The built-in flash's coverage is effective with lens focal lengths as short as 17 mm. If the lens is shorter than 17 mm, the periphery of the flash photo will look dark. To retract the flash, push it back down.
 - In Creative Zone modes, even if you set the shutter speed to one faster than 1/250 sec., it will be set automatically to 1/250 sec.
 - If autofocus cannot be achieved, the AF-assist beam will be emitted automatically, except in modes where flash is disabled. (p.68)
-#### Using Red-eye Reduction
+### Using Red-eye Reduction
 
 When flash is used in a low-light environment, the subject's eyes may look red in the image. "Red eye" happens when the light from the flash reflects off the retina of the eyes. The camera's red-eye reduction feature turns on the red-eye reduction lamp to shine a gentle light into the subject's eyes to narrow the pupil diameter or iris. A smaller pupil reduces the chances of red eye from occurring. Red-eye reduction can be set in any shooting mode except modes where flash is disabled.
 
-#### Select [Red-eye On/Off]
+Select [Red-eye On/Off]
 - Turn the Quick Control Dial to select [Red-eye On/Off], then press <SET>.
 
-#### Select [On].
+Select [On].
 
 Turn the Quick Control Dial to select [On], then press <SET>.
 
+When you press the shutter button down halfway, the red-eye reduction lamp-on indicator appears in the viewfinder.
 <PIC:Manual10_161>
 
-When you press the shutter button down halfway, the red-eye reduction lamp-on indicator appears in the viewfinder.
 - Red-eye reduction will not work unless the subject looks at the red-eye reduction lamp. Tell the subject to look at the lamp.
 - To increase the effectiveness of red-eye reduction, press the shutter button down fully after the red-eye reduction lamp (which lights for approximately 1.5 seconds) indicator goes off.  You can shoot anytime by pressing the shutter button down fully, even if the red-eye reduction lamp is still on.
 - The effectiveness of red-eye reduction varies from subject to subject.
 - Red-eye reduction is more effective in brighter rooms or when the camera is closer to the subject.
 
+Red-eye reduction lamp On indicator
 <PIC:Manual10_162>
 
-Red-eye reduction lamp On indicator
 ### FE lock
 
 FE (flash exposure) lock obtains and locks the correct flash exposure reading for any part of a subject.
 
-#### Check that the flash-ready icon is lit.
+Check that the flash-ready icon is lit.
 - Press the Flash button to pop up the built-in flash.
 
 
@@ -2108,10 +2110,10 @@ FE (flash exposure) lock obtains and locks the correct flash exposure reading fo
 
 <PIC:Manual10_163>
 
-### Focus the subject.
+Focus the subject.
 - Press the shutter button halfway. Keep pressing the shutter button halfway until step 4.
 
-#### Press the AE lock/FE lock button.
+Press the AE lock/FE lock button.
 
 The Speedlite will fire a preflash and the required flash output is retained in memory. (16)
 
@@ -2121,7 +2123,7 @@ Partial metering
 
 <PIC:Manual10_164>
 
-### Take the picture.
+Take the picture.
 - Compose the shot and press the shutter button fully. The flash is fired to take the picture.
 
 <PIC:Manual10_165>
@@ -2131,11 +2133,11 @@ If the subject is too far away and beyond the effective range of the flash, the 
 
 In the same way as normal exposure compensation, you can set exposure compensation for flash. You can set flash exposure compensation up to +/- 2 stops in 1/3-stop increments.
 
-#### Press the flash exposure compensation button. (6)
+Press the flash exposure compensation button. (6)
 
 <PIC:Camera_44>
 
-#### Set the exposure compensation amount.
+Set the exposure compensation amount.
 - Set the power switch to <ON>, and while looking at the LCD panel or viewfinder, turn the Quick Control Dial. The exposure level mark indicates decreased or increased exposure.
 - To cancel the flash exposure compensation, set the exposure compensation amount back to the standard exposure index.
 
@@ -2149,7 +2151,7 @@ Decreased exposure
 
 <PIC:Manual10_167>
 
-### Take the picture.
+Take the picture.
 - The exposure compensation amount will remain in effect even after the power switch is set to <OFF>.
 - The procedure is the same with EX-series Speedlites. The flash exposure compensation amount can be set with the camera.
 
@@ -2193,11 +2195,11 @@ When using an external Speedlite, retract the built-in flash before mounting the
 
 This chapter explains image playback operations such as how to view and erase captured images and how to connect the camera to a TV monitor.  For images taken with another camera:  The camera might not be able to properly display images captured with a different camera or edited with a personal computer or whose file name was changed.
 
-### MENU Setting the Image Review Time
+### Setting the Image Review Time
 
 You can set how long the image is to be displayed on the LCD monitor right after it is captured. To keep the image displayed, set [Hold]. To not have the image displayed, set [Off].
 
-#### Select [Review time].
+Select [Review time].
 
 Auto power off 4sec. Auto rotate 8sec. LCD Brightness Hold Date/Time Off File numbering Language  Turn the dial to select [Review time], then press <SET>
 
@@ -2208,20 +2210,20 @@ Set the desired review time.
 - The [Hold] setting keeps displaying the image until you press the shutter button halfway. However, if auto power off has been set, the camera will turn off automatically after the auto power off time elapses.
 - During the image review for single-shooting, you can delete the displayed image by pressing the <SET> button and selecting [OK].
 - To view images captured so far, see "Image Playback" (p.103).  Vertical shots can be rotated automatically so that they are displayed upright during playback.
-#### Select [Auto rotate].
+Select [Auto rotate].
 
 Turn the Quick Control Dial to select [Auto rotate], then press <SET>.
 
-#### Select [On].
+Select [On].
 
 Turn the Quick Control Dial to select [On], then press <SET>.
 
 <PIC:Manual10_168>
 
-### Take a vertical shot.
+Take a vertical shot.
 - For the image review right after image capture, the image will not be displayed vertically on the LCD monitor.
 
-### Playback the image.
+Playback the image.
 - Press the  button. The vertical shot will be displayed vertically as shown on the left.
 
 <PIC:Manual10_169>
@@ -2231,45 +2233,47 @@ Turn the Quick Control Dial to select [On], then press <SET>.
 
 - If the vertical image is taken while the camera is pointed up or down, the image might not rotate automatically for playback.  When you change the camera's orientation between horizontal and vertical, the camera orientation sensor will make a small sound. This is normal and not a defect. You can adjust the brightness of the LCD monitor to one of five levels.
 
-#### Select [LCD Brightness].
+Select [LCD Brightness].
 - Turn the dial to select [LCD Brightness], then press <SET>. The brightness adjustment screen will appear.
 
 <PIC:Camera_46>
 
-### Adjust the brightness.
+Adjust the brightness.
 - While looking at the gray chart on the left, turn the dial to adjust.
 - Press <SET> to exit the setting and return to the menu.
 
+You can select any captured image to view. You can view a single image, the shooting information, an index display, or a magnified view.
 <PIC:Camera_47>
 
-You can select any captured image to view. You can view a single image, the shooting information, an index display, or a magnified view.
 ### Single image display
 
-### Playback the image.
+Playback the image.
 - Press the Playback button.
 
 The last captured image will appear on the LCD monitor.
 
 <PIC:Camera_48>
 
-#### Select the image.
+Select the image.
 - To playback images starting with the last image, turn the Quick Control Dial counterclockwise. To playback images starting with the first captured image, turn the Quick Control Dial clockwise.
 
 Press the <INFO> button to switch the display format.
 
 <PIC:Camera_49>
 
+Single image display (with basic info)
 <PIC:Manual10_170>
 
-Single image display (with basic info)
 
-<PIC:Manual10_171>
 
 Shooting information
+<PIC:Manual10_171>
 
+Single image display (no shooting info)
 <PIC:Manual10_172>
 
-Single image display (no shooting info)  To quit the playback, press the Playback button. The LCD monitor will turn off.
+To quit the playback, press the Playback button. The LCD monitor will turn off.
+
 - Even in display formats other than single image (index display, magnified view, etc.), you can press the <INFO> button to display or hide the basic info.
 - While data is being written to the CF card (access lamp blinking) after continuous shooting, press the Playback button to display the last image which has been written to the CF card. Turn the Quick Control Dial to select the image. After all the images have been written to the CF card, they can be displayed in sequence.
 ### Shooting Information Display
@@ -2282,13 +2286,13 @@ A histogram is a graph indicating the image's brightness. The horizontal axis in
 
 ### Sample Histograms
 
-<PIC:Manual10_174>
 
 Dark image
+<PIC:Manual10_174>
 
-<PIC:Manual10_175>
 
 Normal image
+<PIC:Manual10_175>
 
 <PIC:Manual10_176>
 
@@ -2300,16 +2304,16 @@ When the shooting information is displayed, any overexposed areas of the image w
 
 Nine thumbnail images are displayed on one screen.
 
-#### Set the camera for playback
+Set the camera for playback
 - Press the Playback button.
 
 The last captured image will appear on the LCD monitor.
-#### Display the index images.
+Display the index images.
 - Press the Multi-controller button. The selected thumbnail will be highlighted with a green frame.
 
 <PIC:Camera_50>
 
-#### Select the image.
+Select the image.
 
 Turn the Quick Control Dial to move the green frame.
 
@@ -2323,10 +2327,10 @@ Turn the Quick Control Dial to move the green frame.
 
 You can magnify the image by 1.5x to 10x on the LCD monitor.
 
-#### Display the image.
+Display the image.
 - Display the image in the single-image or image info display mode.
 
-### Magnify the image.
+Magnify the image.
 - Press the enlarge button.
 
 First, the center of the image will be magnified.
@@ -2335,10 +2339,10 @@ First, the center of the image will be magnified.
 
 - Press the reduce button to reduce the magnification. Hold down the reduce button to continue reducing the magnification until it reaches the size in step 1.
 
-<PIC:Manual10_177>
 
 Magnified area
-### Scroll around the image.
+<PIC:Manual10_177>
+Scroll around the image.
 - Use the Multi-controller to scroll around the image in any direction.
 
 
@@ -2352,16 +2356,16 @@ Magnified area
 
 During the single image, image with shooting information, index, or magnified image display, you can jump forward or back to images stored on the CF card.
 
-#### Display the image.
+Display the image.
 
 Display a single image, image with shooting information, index, or magnified image.
 
-### Go to the jump display.
+Go to the jump display.
 - Press the <JUMP> button. The jump bar will appear at the bottom of the screen.
 
 <PIC:Manual10_179>
 
-### Jump forward or back.
+Jump forward or back.
 - Turn the dial. During magnified view, turn the Main Dial.
 
 To quit the image jump, press the <JUMP> button. The jump bar will disappear.
@@ -2376,17 +2380,17 @@ Turn the dial counterclockwise to jump ten images backward, or turn it clockwise
 
 Turn the dial counterclockwise to jump nine images backward, or turn it clockwise to jump nine images forward.  Image jump is also possible during [Protect] and [Rotate].
 
-### MENU Automated Playback of Images (Auto playback)
+### Automated Playback of Images (Auto playback)
 
 You can playback the CF card's images in an automatic slide show.
 
 Each image will be displayed for about 3 sec.
-#### Select [Auto Play].
+Select [Auto Play].
 - Turn the dial to select [Auto Play], then press <SET>. The auto play screen will appear.
 
 <PIC:Camera_52>
 
-### Start the auto play.
+Start the auto play.
 
 After [Loading image...] is displayed for a few seconds, auto play will start. To pause the auto play, press <SET>. During pause, the pause icon will be displayed on the upper left of the image. Press <SET> again to resume the auto play.
 
@@ -2394,7 +2398,7 @@ After [Loading image...] is displayed for a few seconds, auto play will start. T
 
 <PIC:Manual10_181>
 
-### Stop the auto play.
+Stop the auto play.
 
 To stop the auto play and return to the menu, press the <MENU> button.
 - During auto play, auto power off will not work.
@@ -2402,16 +2406,16 @@ To stop the auto play and return to the menu, press the <MENU> button.
 - During auto play, you can press the <INFO> button to change the display format.
 - During pause, you can turn the Quick Control Dial to view another image.
 
-### MENU Rotating an Image
+### Rotating an Image
 
 You can rotate an image by 90 degrees  or 270 degrees  clockwise. Images will then be displayed in the correct orientation during playback.
 
-#### Select [Rotate].
+Select [Rotate].
 - Turn the Quick Control Dial to select [Rotate], then press <SET>. The Rotate screen will appear.
 
 <PIC:Camera_54>
 
-### Rotate the image.
+Rotate the image.
 - Turn the dial to select the image to be rotated, then press <SET>
 
 Each time you press <SET> the image will rotate clockwise.
@@ -2422,30 +2426,30 @@ To stop rotating the image, press the MENU button. The menu will reappear.
 <PIC:Camera_55>
 
 If you have set [Auto rotate] to [On] (p.101) before taking the vertical shots, you need not rotate the image as described above. You can rotate the image even after you change the display format to shooting info display, magnified view, or index display after step 1.  By connecting the camera to a TV set with the video cable (provided), you can view the captured images on a TV set. Always turn off the camera and the television before connecting or disconnecting them.
-### Connect the camera to the TV.
+Connect the camera to the TV.
 - Open the camera's terminal cover.
 - Use the video cable (provided) to connect the camera's  terminal to the TV monitor's VIDEO IN terminal.
 - Insert the cable plug all the way in.  Turn on the TV and switch the TV's line input to Video IN.
 
 <PIC:Manual10_182>
 
-#### Set the power switch to <ON>.
+Set the power switch to <ON>.
 
-#### Press the Playback button.
+Press the Playback button.
 
 The image will appear on the TV screen. (Nothing will be displayed on the camera's LCD monitor.) After you finish, set the power switch to <OFF>, turn the TV off, then disconnect the video cable.
 
 <PIC:Manual10_183>
 
 If the proper video system format is not set, the image will not be displayed properly. Set the proper video system format with [Video system]. Depending on your TV, the image periphery may be cut off.  This prevents the image from being erased accidentally.
-#### Select [Protect].
+Select [Protect].
 - Turn the Quick Control Dial to select [Protect], then press <SET>.
 
 The protect setting screen will appear.
 
 <PIC:Camera_56>
 
-### Protect the image.
+Protect the image.
 - Turn the Quick Control Dial to select the image to be protected, then press <SET>.
 
 When an image is protected, the protect icon will appear below the image.
@@ -2454,9 +2458,9 @@ To protect another image, repeat step 2.
 
 - To exit the image protection, press the MENU button. The menu will reappear.
 
-<PIC:Camera_57>
 
 Image protect icon
+<PIC:Camera_57>
 
 - Once an image is protected, it cannot be erased by the camera's Erase function. To erase a protected image, you must first cancel the protection.
 
@@ -2476,17 +2480,17 @@ Display the image.
 
 <PIC:Manual10_184>
 
-#### Select the image to be erased.
+Select the image to be erased.
 - Turn the dial to select the image to be erased.
 
-#### Display the erase menu.
+Display the erase menu.
 - Press the Erase button.
 
 The Erase menu will appear at the bottom of the screen.
 
 <PIC:Manual10_185>
 
-### Erase the image.
+Erase the image.
 
 Turn the Quick Control Dial to select [Erase], then press <SET>.
 
@@ -2497,25 +2501,25 @@ If there are other images you want to select, repeat steps 2 to 4.
 
 ### Erasing All Images
 
-#### Display the image.
+Display the image.
 
 Press the Playback button.
 
-#### Display the erase menu.
+Display the erase menu.
 - Press the Erase button.
 
 The Erase menu will appear at the bottom of the screen.
 
 <PIC:Camera_58>
 
-#### Select [All].
+Select [All].
 - Turn the Quick Control Dial to select [All], then press <SET>.
 
 The confirmation dialog will appear.
 
 <PIC:Camera_59>
 
-### Erase the images.
+Erase the images.
 
 Turn the Quick Control Dial to select [OK], then press <SET>.
 
@@ -2525,12 +2529,12 @@ While the images are being erased, you can cancel the erasure by pressing <SET>.
 <PIC:Manual10_187>
 
 While data is being written to the CF card (access lamp blinking) after continuous shooting, press the Playback button and then press the Erase button to erase the displayed image or all images. If you select [All] and press <SET>, the images captured during continuous shooting (including those not yet processed) and all the images on the CF card will be erased.  Format the CF card before using it in the camera. Formatting a CF card will erase everything in the card. Even protected images will be erased, so make sure there is nothing you need to keep. If necessary, transfer images to a personal computer before formatting the card.
-#### Select [Format].
+Select [Format].
 - Turn the dial to select [Format], then press <SET>. The confirmation dialog will appear.
 
 <PIC:Camera_60>
 
-### Format the CF card.
+Format the CF card.
 - Turn the dial to select [OK], then press <SET>
 
 The CF card will be formatted (initialized). When the formatting is completed, the menu will reappear.
@@ -2544,14 +2548,14 @@ The CF card will be formatted (initialized). When the formatting is completed, t
 
 If "Err CF" (CF error) is displayed on the LCD panel, it indicates that a problem with the CF card is preventing the image data from being recorded or read. Use another CF card instead.  Or, if you have a commercially-available CF card reader that can read the CF card, use it to transfer all the images in the card to a personal computer. After transferring all the image data to a personal computer, format the CF card. It may then return to normal.
 
-### Direct Printing from the Camera
+## Direct Printing from the Camera
 
 You can connect the camera directly to a printer and print out the images in the CF card. This chapter explains how to print your digital camera photos with a printer capable of direct printing via Bubble Jet Direct standard.
 
 <PIC:Manual10_188>
 
 You do the direct printing procedure entirely through your camera's LCD monitor.  Setting the Camera  On the menu, set [Communication] to [PTP].
-#### Select [Communication].
+Select [Communication].
 
 Turn the dial to select [Communication], then press <SET>.
 
@@ -2561,18 +2565,18 @@ Turn the dial to select [Communication], then press <SET>.
 <PIC:Manual10_189>
 
 H When connecting the camera to the personal computer, set [Communication] to [Normal]. Transmissions between the camera and personal computer will not work with the [PTP] setting.
-### Connect the camera to the printer
+Connect the camera to the printer
 
 Turn the camera's power switch to <OFF>.
 
 <PIC:Manual10_190>
 
-#### Set up the printer.
+Set up the printer.
 
 For details, refer to the printer's manual.  RAW images are not compatible with direct printing.
 - Do not disconnect the cable during direct printing.
 
-### Connect the camera to the printer.
+Connect the camera to the printer.
 
 Refer to the table (Printers and Cables) below to select the proper cable to connect the camera to printer.
 
@@ -2584,13 +2588,13 @@ When connecting the cable plug to the camera's <DIGITAL> terminal, the cable plu
 
 <PIC:Manual10_192>
 
-#### Turn on the printer.
+Turn on the printer.
 
-#### Turn the camera's power switch to <ON>.
+Turn the camera's power switch to <ON>.
 
 Some printers may have a beeping sound.
 
-### Playback the image.
+Playback the image.
 - Press the Playback button.
 
 The image will appear and one of three printer connection icons will appear on the upper left to indicate that the camera is connected to the printer. The procedure will be different depending on the icon displayed. See the applicable pages below.
@@ -2613,15 +2617,15 @@ The image will appear and one of three printer connection icons will appear on t
 
 The setting options will differ depending on the printer. Some settings might be disabled. For details, refer to your printer's instruction manual.
 
-#### Select the image to be printed.
+Select the image to be printed.
 
 Check that the printer connected icon is displayed on the upper left of the LCD monitor.
 
 Turn the dial to select the image to be printed. Press <SET>. The print setting screen will appear.
 
-<PIC:Manual10_196>
 
 Printer connected icon
+<PIC:Manual10_196>
 ### Print setting screen
 
 - Set the date imprinting to on or off.
@@ -2635,7 +2639,7 @@ Printer connected icon
 
 <PIC:Manual10_197>
 
-#### Select [Paper Settings].
+Select [Paper Settings].
 - Turn the dial to select [Paper Settings], then press <SET>. The Paper Settings screen will appear.
 
 <PIC:Manual10_198>
@@ -2661,14 +2665,14 @@ If you are using a Canon printer, refer to the printer's instruction manual for 
 
 - Turn the dial to select the desired layout, then press <SET>. The Print setting screen will reappear.
 
-<PIC:Manual10_202>
 
 Setting the Layout
+<PIC:Manual10_202>
 ### About Layout
 
 <PIC:Manual10_203>
 
-#### Set the other options.
+Set the other options.
 
 If desired, also set the date imprinting, printing effects, and number of copies.  Printing effects Number of copies
 
@@ -2680,7 +2684,7 @@ Depending on the BJ printer, the
 Printing effects setting may enable you to select the [VIVID] (for vivid greens and blue sky), [NR]
 (noise reduction), [VIVID+NR], or [On] setting.
 For details on trimming, see page 129.
-### Start printing.
+Start printing.
 - Turn the dial to select [Print], then press <SET>.
 
 The printing will start.
@@ -2717,7 +2721,7 @@ Check for any printer problems other than paper and ink problems.
 
 You attempted to print an image that cannot be printed with PictBridge. Images taken with a different camera or images edited with a computer might not be printable.
 
-#### Select the image to be printed.
+Select the image to be printed.
 - Check that the printer connected icon is displayed on the upper left of the LCD monitor.
 - Turn the dial to select the image to be printed.  Press <SET>.  The print setting screen will appear.  Printer connected icon
 
@@ -2738,12 +2742,12 @@ Trimming frame: Appears when you want to trim the image.  The printing style set
 
 <PIC:Manual10_207>
 
-#### Select [Style].
+Select [Style].
 - Turn the Quick Control Dial to select [Style], then press <SET>. The Style screen will appear.
 
 <PIC:Manual10_208>
 
-#### Set the options as desired.
+Set the options as desired.
 - Set the [Image], [Borders], and [Date] as desired.
 - Turn the Quick Control Dial to select the desired setting, then press <SET>.
 
@@ -2754,7 +2758,7 @@ Check the [Borders] and [Date] settings and set them if necessary.
 
 <PIC:Manual10_209>
 
-#### Set the number of copies.
+Set the number of copies.
 
 Set as necessary.
 
@@ -2764,11 +2768,11 @@ Set a number from 1 to 99.
 
 <PIC:Manual10_210>
 
-#### Set the trimming.
+Set the trimming.
 - Set as necessary.
 
 For details on trimming, see page 129.
-### Start printing.
+Start printing.
 
 Turn the dial to select [Print], then press <SET>.
 
@@ -2788,7 +2792,7 @@ To stop the printing, press <SET> while [Stop] is displayed, then turn the dial 
 - If a problem occurs during printing, an error message will appear on the camera's LCD monitor. Select [Stop] or [Resume] (after resolving the problem). If [Resume] is not displayed, select [Stop].
 ### Printing with Bubble Jet Direct
 
-#### Select the image to be printed.
+Select the image to be printed.
 
 Check that the printer connected icon is displayed on the upper left of the LCD monitor. Turn the dial to select the image to be printed. Press <SET>. The print setting screen will appear. Printer connected icon
 
@@ -2805,14 +2809,14 @@ Check that the printer connected icon is displayed on the upper left of the LCD 
 
 <PIC:Manual10_213>
 
-#### Select [Style].
+Select [Style].
 
 Turn the dial to select [Style], then press <SET>
 - The Style screen will appear.
 
 <PIC:Manual10_214>
 
-#### Set the options as desired.
+Set the options as desired.
 
 ### [Paper]
 
@@ -2833,7 +2837,7 @@ When you are done, press the <MENU> button to return to the print setting screen
 
 <PIC:Manual10_217>
 
-#### Set the number of copies.
+Set the number of copies.
 
 Set as necessary.
 
@@ -2844,11 +2848,11 @@ Turn the Quick Control Dial to set the number of copies, then press <SET>.
 
 <PIC:Manual10_218>
 
-#### Set the trimming.
+Set the trimming.
 - Set as necessary.
 
 - For details on trimming, see page 129.
-### Start printing.
+Start printing.
 
 Turn the dial to select [Print], then press <SET>
 
@@ -2869,12 +2873,12 @@ If you are using a BJ printer equipped with an operation display panel, the erro
 
 You can trim the image and print only the trimmed portion as if the image was recomposed.  Do the trimming right before printing. If you set the trimming and then set the print settings, you may have to set the trimming again.
 
-#### Select [Trimming].
+Select [Trimming].
 - Turn the dial to select [Trimming], then press <SET>. The trimming screen will appear.
 
 <PIC:Camera_62>
 
-### Trim the image.
+Trim the image.
 - The image area within the trimming frame will be printed.
 
 The operation guide disappears while you trim the image. It will reappear after 5 sec. of idle time.
@@ -2897,7 +2901,7 @@ The <INFO> button toggles between the vertical and horizontal orientation of the
 
 ### Image area to be printed
 
-#### Exit the menu.
+Exit the menu.
 - Press <MENU>.
 
 The Print setting screen will reappear.
@@ -2910,7 +2914,7 @@ Depending on the printer, the trimmed image area might not be printed as you spe
 - The smaller you make the trimming frame, the grainier the picture will look. If the picture will be too grainy, the trimming frame will turn red.
 
 - While trimming the image, look at the camera's LCD monitor. If you look at the image on a TV screen, the trimming frame might not be displayed accurately.  The trimming frame will be different depending on the Paper, Size/Image, and Borders settings.
-### DPOF: Digital Print Order Format
+## DPOF: Digital Print Order Format
 
 With DPOF (Digital Print Order Format), you can use the camera to specify which images in the CF card are to be printed and the quantity. This feature is very convenient when you make prints with a DPOF-compatible printer or photo lab.
 
@@ -2933,7 +2937,7 @@ Set the print type, date imprinting, and file No. imprinting. The print settings
 
 <PIC:Manual10_223>
 
-#### Select [Print Order].
+Select [Print Order].
 
 Turn the dial to select [Print Order], then press <SET>. The Print Order screen will appear. Turn the dial to select [Set up], then press <SET>. The print setting screen will appear. Set the [Print Type], [Date], and [File No.].
 
@@ -2944,7 +2948,7 @@ Turn the dial to select the desired setting, then press <SET>.
 
 <PIC:Manual10_224>
 
-#### Exit the menu.
+Exit the menu.
 
 Press the <MENU> button. The Print Order screen will reappear. Next, select [Order] or [All] to select the images to be printed.
 - RAW images cannot be selected for printing.
@@ -2961,24 +2965,24 @@ Press the <MENU> button. The Print Order screen will reappear. Next, select [Ord
 - Do not insert into the camera a CF card containing images captured by a different camera and then try to order prints. The print order icon will appear and the images specified for the print order might all be overwritten unintentionally. Also, depending on the image file format, the print order may not be possible.
 ### Selecting Individual Images for Printing
 
-#### Select [Order].
+Select [Order].
 - Turn the dial to select [Order], then press <SET>. The order screen will appear.
 
 <PIC:Camera_69>
 
-#### Select the image to be printed.
+Select the image to be printed.
 
 Turn the dial to select the image to be printed.
 
 Press the Multi-controller button to see a three-image view. To return to the single-image view, press the Playback button.
 
+Three-image view
 <PIC:Camera_70>
 
-Three-image view
 
 <PIC:Manual10_225>
 
-### Order the print.
+Order the print.
 - The print order will vary depending on the [Print Type] (p.132) setting.  For [Standard] and [Both]: You can set the quantity for each image for standard-type prints. Press <SET> then turn the dial to select the print quantity. Then press <SET>
 
 <PIC:Manual10_226>
@@ -2989,7 +2993,7 @@ If you want to include the image in the index print, checkmark the box. Otherwis
 - If there are other images you want to select, repeat steps 2 and 3.
 - You can select up to 998 images.
 
-#### Exit the menu.
+Exit the menu.
 - Press the <MENU> button.
 
 The Print Order screen will reappear.
@@ -2999,7 +3003,7 @@ The Print Order screen will reappear.
 
 The print order can also be set or canceled for all the images in the CF card. For standard-type prints, a quantity of one will be ordered for all the images.  Note that after following the "Selecting Individual Images" procedure, if you do the "Selecting All Images" procedure, the print order will change to "All images."
 
-#### Select [All].
+Select [All].
 
 Turn the Quick Control Dial to select [All], then press <SET>.
 
@@ -3007,7 +3011,7 @@ The All screen will appear.
 
 <PIC:Camera_71>
 
-#### Select [Mark all].
+Select [Mark all].
 
 Turn the Quick Control Dial to select [Mark all], then press <SET>.
 
@@ -3016,27 +3020,27 @@ If you select [Clear all], all the images selected for printing will be deselect
 
 <PIC:Camera_72>
 
-#### Exit the menu.
+Exit the menu.
 
 On the Print Order screen, press the <MENU> button. The settings will be saved to the CF card, and the menu will reappear.
 - Note that RAW images cannot be selected for printing even when you set "Mark all."
 - When using a PictBridge printer, print no more than 500 images for one print order. If you specify more than this, all the selected images might not be printed.
 
-### MENU Direct Printing with DPOF
+### Direct Printing with DPOF
 
 With a printer compatible with direct printing, you can easily print images specified with DPOF.
 
-### Prepare to print.
+Prepare to print.
 
 See "Setting the Camera" (steps 1 and 2) and "Connect the camera to the printer" (steps 1 to 5) on pages 116 to 117.
 
-#### Select [Print Order].
+Select [Print Order].
 
 Turn the dial to select [Print Order], then press <SET>. The Print Order screen will appear.
 
 <PIC:Camera_73>
 
-#### Select [Print].
+Select [Print].
 
 Turn the dial to select [Print], then press <SET>
 
@@ -3046,7 +3050,7 @@ The print setting screen will appear.
 <PIC:Camera_74>
 
 PictBridge
-#### Set the printing options
+Set the printing options
 
 Bubble Jet Direct
 
@@ -3059,7 +3063,7 @@ Set the [Paper settings] and printing effects. (p.119)
 ### CP Direct /Bubble Jet Direct
 - Set the [Style]. (p.123/126)
 
-### Start printing.
+Start printing.
 - Turn the dial to select [OK], then press <SET>
 
 The printing will start.
@@ -3082,31 +3086,31 @@ If you stopped the printing and want to resume printing the remaining images, se
 - In the case of index printing with PictBridge, you changed the paper settings before resuming the printing.
 - When you stopped the printing, the CF card's remaining capacity was low.
 If there is a printing problem, see page 122 for PictBridge, page 125 for CP Direct, or page 128 for Bubble Jet Direct.
-### Customizing the Camera
+## Customizing the Camera
 
 Custom Functions enable you to customize various camera features to suit your picture-taking preferences.
 - Custom Functions work in Creative Zone modes.
 
-#### Select [Custom Functions (C. Fn)].
+Select [Custom Functions (C. Fn)].
 - Turn the Quick Control Dial to select [Custom Functions (C. Fn)], then press <SET>.
 
 The Custom Function screen will appear.
 
 <PIC:Manual10_228>
 
-#### Select Custom Function No.
+Select Custom Function No.
 
 Turn the dial to select the desired setting, then press <SET>
 
 <PIC:Camera_75>
 
-### Change the setting.
+Change the setting.
 
 Turn the dial to select the desired setting, then press <SET> Repeat steps 2 and 3 if you want to set other Custom Functions. On the bottom of the screen, you can see the current Custom Function settings.
 
 <PIC:Camera_76>
 
-#### Exit the menu.
+Exit the menu.
 
 Press the <MENU> button to return to the menu.
 
@@ -3123,52 +3127,52 @@ Custom Function No.
 
 You can change the function assigned to <SET>. With C. Fn-01-1/2, you can press <SET>, then look at the LCD panel and set the recording quality or processing parameter directly.
 
-### 0: Default (no function)
+0: Default (no function)
 
-### 1: Change quality
+1: Change quality
 
 Enables you to select the recording quality directly.
 
-### 2: Change parameters
+2: Change parameters
 
 Enables you to select the processing parameter directly. "PA-P1, P2" stand for Parameter 1 and 2, and "PA-1" to "PA-3" stand for Set 1 to 3. "PA-B/W" is for monochrome.
 
-### 3: Menu display
+3: Menu display
 
 Gives the same function as the <MENU> button.
 
-### 4: Image replay
+4: Image replay
 
 Gives the same function as the image replay button.
 
 #### C. Fn-02 Long exposure noise reduction
 
-### 0: Off
+0: Off
 
-### 1: On
+1: On
 
 Reduces noise in exposures 1 sec. or longer. After the picture is taken, the time required for noise-reduction processing will be the same as the exposure time. During the noise reduction processing, "busy" will be displayed and shooting will not be possible.
 
 #### C. Fn-03 Flash sync speed in Av mode
-### 0: Auto
+0: Auto
 
-### 1:1/250sec. (fixed)
+1:1/250sec. (fixed)
 
 Sets the flash sync speed to 1/250 sec. in the aperture-priority AE (Av) mode. (Against dark backgrounds such as the night sky, the subject's background will look dark.)
 
 #### C. Fn-04 Shutter button/AE lock button
 
-### 0: AF/AElock
+0: AF/AElock
 
-### 1: AE lock/AF
+1: AE lock/AF
 
 Convenient when you want to focus and meter separately. Press the AE lock button to autofocus and press the shutter button halfway to attain AE lock.
 
-### 2: AF/AF lock, no AE lock
+2: AF/AF lock, no AE lock
 
 In the AI Servo AF mode, you can press the AE lock button to stop the AF operation momentarily. This prevents the AF from being thrown off by any obstacle passing between the camera and subject. The exposure is set at the moment the picture is taken.
 
-### 3: AE/AF, no AE lock
+3: AE/AF, no AE lock
 
 This is useful for subjects which keep moving and stopping repeatedly. In the AI Servo AF mode, you can press the AE lock/AF button to start or stop the AI Servo AF operation. The exposure is set at the moment the picture is taken. Thus, the focusing and exposure will always be at the optimum point as you wait for the decisive moment. C. Fn-04 and C. Fn-17-0, 1, 2 (p.146) both have AF start/stop and AE lock functions. If you have set both these Custom Functions and you execute both Custom Function operations, the latter operation will not work. The only exception will be when AF stop is executed after AF start.
 
@@ -3176,21 +3180,21 @@ This is useful for subjects which keep moving and stopping repeatedly. In the AI
 
 You can set the AF-assist beam to be emitted from the camera or Speedlite.
 
-### 0: Emits
+0: Emits
 
-### 1: Does not emit
+1: Does not emit
 
 AF-assist beam not emitted.
 
-### 2: Only ext. flash emits
+2: Only ext. flash emits
 
 When a Speedlite is used, the AF-assist beam is emitted only when necessary. When the built-in flash is used, the AF-assist beam is not emitted.
 
 #### C. Fn-06 Exposure level increments
 
-### 0: 1/3-stop
+0: 1/3-stop
 
-### 1: 1/2-stop
+1: 1/2-stop
 
 Sets 1/2-stop increments for the shutter speed, aperture, exposure compensation, AEB, etc.
 
@@ -3198,9 +3202,9 @@ Sets 1/2-stop increments for the shutter speed, aperture, exposure compensation,
 
 You can enable the built-in flash, external Speedlite, and flash connected to the PC terminal to fire.
 
-### 0: Fires
+0: Fires
 
-### 1: Does not fire
+1: Does not fire
 
 The flash will not fire.
 #### C. Fn-08 ISO expansion
@@ -3223,7 +3227,7 @@ You can change the AEB sequence when the pictures are bracketed with the shutter
 
 #### C. Fn-10 Superimposed display
 
-### 0: On
+0: On
 
 1: Off  The AF point in the viewfinder will not flash in red. Recommended when it is bothersome to see it light up.
 
@@ -3232,55 +3236,55 @@ The AF point will still light when you select it.
 
 When you press the <MENU> button, you can set the menu screen setting.
 
-### 0: Previous (top if power off)
+0: Previous (top if power off)
 
 Displays the preceding menu screen that was used. Note that the top menu screen [Quality] will be displayed instead in the following cases: The power switch is <OFF>, the battery is replaced, or the CF card is replaced.
 
-### 1: Previous
+1: Previous
 
 Displays the preceding menu screen that was used.
 
-### 2: Top
+2: Top
 
 Always displays the top menu screen [Quality].
 
 #### C. Fn-12 Mirror lockup
 
-### 0: Disable
+0: Disable
 
-### 1: Enable
+1: Enable
 
 Effective for close-up and telephoto shots to prevent camera shake caused by the mirror's reflex action. See page 88 for the mirror lockup procedure.
 
 #### C. Fn-13 AF point selection method
 
-### 0: Normal
+0: Normal
 
 Press the AF point selection button and use the Multi-controller to select the AF point.
 
-### 1: Multi-controller direct
+1: Multi-controller direct
 
 Without pressing the AF point selection button first, you can just use the Multi-controller to select the desired AF point. Pressing the Multi-controller will set it to automatic AF point selection.
 
-### 2: Quick Control Dial direct
+2: Quick Control Dial direct
 
 At first, you can just use the Quick Control Dial to select an AF point directly without pressing the AF point selection button. By holding down the AF point selection button and turning the Main Dial, you can set the exposure compensation.
 
 #### C. Fn-14 E-TTL II
 
-### 0: Evaluative
+0: Evaluative
 
 Fully automatic flash photography for all conditions, from low light to daylight fill-flash.
 
-### 1: Average
+1: Average
 
 The flash is averaged for the entire area covered by the flash. Since automatic flash exposure compensation will not be executed, you may have to set it yourself depending on the scene. This also applies if you use FE lock.
 
 #### C. Fn-15 Shutter curtain sync
 
-### 0: 1st-curtain sync
+0: 1st-curtain sync
 
-### 1: 2nd-curtain sync
+1: 2nd-curtain sync
 
 When a slow shutter speed is set, you can capture a light trail following the subject. The flash fires right before the shutter closes. This Custom Function can be used to obtain 2nd-curtain sync effects even with EX-series Speedlites which do not have this feature. If the EX-series Speedlite has this feature, it will override this Custom Function.
 
@@ -3288,31 +3292,31 @@ When 2nd-curtain sync is used, a preflash will be fired for flash metering contr
 
 #### C. Fn-16 Safety shift in AV or TV
 
-### 0: Disable
+0: Disable
 
-### 1: Enable
+1: Enable
 
 This works in the shutter-priority AE (Tv) and aperture-priority AE (Av) modes. If the subject's brightness changes suddenly and the current shutter speed or aperture becomes unsuitable, the shutter speed or aperture is shifted automatically to obtain a suitable exposure.
 
 #### C. Fn-17 Lens AF stop button function
 
-### 0: AF stop
+0: AF stop
 
 1: AF start  AF operates only while the AF stop button is pressed. While the button is pressed, AF operation with the camera is disabled.
 
-### 2: AE lock while metering
+2: AE lock while metering
 
 When the button is pressed while metering is still active, AE lock is applied. Convenient when you want to focus and meter separately.
 
-### 3: AF point: M -> Auto / Auto -> center
+3: AF point: M -> Auto / Auto -> center
 
 In the manual AF point selection mode, holding down the button switches to automatic AF point selection. Holding down the button switches from manual AF point selection to automatic AF point selection instantly. Convenient when you are no longer able to focus track a moving subject with a manually-selected AF point in the AI Servo AF mode. In the automatic AF point selection mode, holding down the button selects the center AF point instantly.
 
-### 4: ONE SHOT -> AI SERVO
+4: ONE SHOT -> AI SERVO
 
 In the One-Shot AF mode, the AF stop button switches to the AI Servo AF mode only while you hold it down. In the AI Servo AF mode, the AF stop button switches to the One-Shot AF mode only while you hold it down. Convenient when you need to keep switching between One-Shot AF and AI Servo AF for a subject which keeps moving and stopping.
 
-### 5: IS start
+5: IS start
 
 With the lens' IS switch already ON, the Image Stabilizer operates only while you press the AF stop button.
 
@@ -3320,13 +3324,13 @@ The AF stop button is provided only on super telephoto lenses.
 
 #### C. Fn-18 Add original decision data
 
-### 0: Off
+0: Off
 
-### 1: On
+1: On
 
 Data for verifying whether the image is original or not is appended to the image. When an image appended with the verification data is played back, the verification icon will be displayed. (p.104) To verify whether the image is original, the Data Verification Kit DVK-E2 (optional) is required.
 
-### Reference
+## Reference
 
 This section will help you understand your camera better. It covers information on camera features, system accessories, and other reference information.
 
@@ -3375,7 +3379,7 @@ When the camera finishes recording the image to the CF card, the access lamp wil
 The camera turns off by itself.
 - Auto power off is in effect. Press the shutter button halfway. If you do not want auto power off to take effect, set [Auto power off] on the menu to [Off]. Only the battery icon blinks on the top LCD panel.
 - The battery is almost exhausted. Recharge the battery. (p.18)
-### Shooting
+### Troubleshooting: Shooting
 
 No images can be shot or recorded.
 - The CF card is not properly inserted.
@@ -3395,7 +3399,7 @@ Use a soft, lens cloth to clean the screen.
 
 - The LCD's service life has expired.
 Consult your nearest customer service center or dealer.
-### The image is out of focus.
+**The image is out of focus.**
 
 The lens focus mode switch is set to <MF>.
 
@@ -3404,14 +3408,14 @@ Set the lens focus mode switch to <AF> (p.23)
 - Camera shake occurred when you pressed the shutter button.
 To prevent camera shake, hold the camera still and press the shutter button gently. (p.26,38)
 
-### The CF card cannot be used.
+**The CF card cannot be used.**
 - [Err **] is displayed on the LCD panel.
 If it is [Err CF], see page 114.
 If it is [Err 02], see page 153.
 
 - You are using a CF card.
 Using CF cards is recommended. (p.155)
-### Image Review & Operation
+### Troubleshooting: Image Review and Operation
 
 The image cannot be erased.
 - The image is erase-protected. Cancel the protection. (p.111)  The wrong shooting date and time is displayed.
@@ -3505,7 +3509,9 @@ Enables a CF card to be inserted into a PC card slot or PC card reader.
 
 <PIC:Manual10_248>
 
-### Type
+### Specifications
+
+#### Type
 
 Recording media:  Digital, single-lens reflex, AF/AE camera with built-in
 
@@ -3528,7 +3534,7 @@ Total pixels: Approx.8.50 megapixels
 RGB primary color filter
 Located in front of the image sensor, non-removable  Aspect ratio: Color filter system: Low-pass filter:
 
-### Recording System
+#### Recording System
 
 Design rule for Camera File System 2.0: JPEG and RAW JPEG, RAW (12bit)  Recording format:
 
@@ -3545,7 +3551,7 @@ Video output (NTSC/PAL)
 File numbering:
 Color space:
 Processing parameters:  Interface:
-### White Balance
+#### White Balance
 
 Type:  Auto white balance: Color temperature correction:  Auto, daylight, shade, cloudy, tungsten, white fluorescent
 
@@ -3557,7 +3563,7 @@ White balance bracketing:
 3 stops in full-stop increments
 Blue/amber bias or magenta/green bias possible. Color temperature information transmission: Provided
 
-### Viewfinder
+#### Viewfinder
 
 Type:
 
@@ -3584,7 +3590,7 @@ reduction lamp on, high-speed sync, FE lock, flash
 exposure compensation), white balance correction,
 maximum burst, CF card information
 Enabled with depth-of-field preview button  Viewfinder information:  Depth-of-field preview:
-### Autofocus
+#### Autofocus
 
 Type:  AF points: Metering range: Focus modes:  TTL-CT-SIR with a CMOS sensor (TTL secondary image-registration, phase detection) 9 AF points EV -0.5 - 18 (at 20 degrees C/68 degrees F, ISO 100) One-Shot AF, AI Servo AF, AI Focus AF, Manual focusing (MF)
 
@@ -3592,7 +3598,7 @@ n: Auto, manual
 display: Superimposed in viewfinder and indicated on LCD panel
 AF-assist beam:  Built-in flash fires intermittently
 Effective range: Approx. 4.0 m/13.1 ft. at center, approx. 3.5 m/11.5 ft. at periphery
-### Exposure Control
+#### Exposure Control
 
 Metering modes:  Metering range: Exposure control:  ISO speed:  35-zone TTL full aperture metering
 
@@ -3607,7 +3613,7 @@ Manual: 2 stops in 1/3- or 1/2-stop increments (can be combined with AEB)
 AEB: 2 stops in 1/3- or 1/2-stop increments
 Auto: Applied in One-Shot AF mode with evaluative metering when focus is achieved.
 Manual: By AE lock button in all metering modes.  Exposure compensation:  AE lock:
-### Shutter
+#### Shutter
 
 Type: Shutter speeds:  Electronically-controlled, focal-plane shutter
 
@@ -3630,18 +3636,18 @@ E-TTL II autoflash
 Approx. 3 sec.
 Flash-ready icon lights in viewfinder 17mm lens focal length covered
 Provided  Flash exposure compensation: 2 stops in 1/3- or 1/2-stop increments.
-### External Speedlite
+#### External Speedlite
 
 Speedlite: E-TTL II autoflash with EX-series Speedlite
 
 PC terminal: Provided
 Zooming to match
 lens focal length: Provided
-### Drive System
+#### Drive System
 
 Drive modes: Continuous: Max. burst: Single, continuous, and Self-timer (10 sec.) Max. 5 shots per sec. JPEG (Large/Fine): Approx. 20, RAW: Approx. 6. Varies depending on the subject, ISO speed, processing parameters, CF card, etc.
 
-### LCD Monitor
+#### LCD Monitor
 
 Type:
 
@@ -3654,11 +3660,11 @@ Interface languages: TFT color liquid-crystal monitor
 Approx. 118,000
 100% with respect to the effective pixels Five levels provided
 12
-## Image Playback
+#### Image Playback
 
 Display format:  Single image, shooting information, 9-image index, magnified view (Approx. 1.5x - 10x), autoplay, image rotation, and jump In the shooting information mode, any overexposed highlight areas with no image information will blink.  Highlight warning:
 
-### Image Protection and Erase
+#### Image Protection and Erase
 
 Protect: Erase:  Single images can be erase-protected or not. One image or all images in the CF card can be erased (except protected images).
 
@@ -3668,7 +3674,7 @@ Compatible printers: Printable images:  CP Direct, Bubble Jet Direct, and PictBr
 
 printers
 JPEG images (DPOF printing possible)
-### Customization
+#### Customization
 
 Custom Functions:  18 Custom Functions with 50 settings
 
@@ -3676,17 +3682,17 @@ Custom Functions:  18 Custom Functions with 50 settings
 
 Battery: One Battery Pack BP-511A, BP-514, BP-511, or BP-512. AC power can also be supplied with the DC Coupler. With Battery Grip BG-E2, size-AA batteries can be used. Battery life: [shots]
 
+Battery check: Power saving: Date/Time battery: The above figures apply when a fully-charged Battery Pack BP-511A is used.
 <PIC:Manual10_249>
 
-Battery check: Power saving: Date/Time battery: The above figures apply when a fully-charged Battery Pack BP-511A is used.
 Automatic
 Provided. Power turns off after 1, 2, 4, 8, 15, or 30 min. One CR2016 lithium battery
-### Dimensions and Weight
+#### Dimensions and Weight
 
 Dimensions: Weight:  144 (W) x 105.5 (H) x 71.5 (D) mm / 5.7 x 4.2 x 2.8 in.
 
 685g / 24.2 oz. (body only)
-### Operation Environment
+#### Operation Environment
 
 Working temperature range: 0 degrees C-40 degrees C / 32 degrees F-104 degrees F Working humidity: 85% or less
 
@@ -4101,19 +4107,19 @@ Wireless, Multi-Speedlite System...97
 - `<PIC:Camera_35>`
 - `<PIC:Camera_36>`
 - `<PIC:Camera_37>`
+- `<PIC:Manual10_143>`
 - `<PIC:Manual10_136>`
 - `<PIC:Manual10_137>`
 - `<PIC:Camera_38>`
 - `<PIC:Camera_39>`
 - `<PIC:Camera_40>`
 - `<PIC:Manual10_138>`
+- `<PIC:Manual10_145>`
 - `<PIC:Manual10_139>`
+- `<PIC:Manual10_144>`
 - `<PIC:Manual10_140>`
 - `<PIC:Manual10_141>`
 - `<PIC:Manual10_142>`
-- `<PIC:Manual10_143>`
-- `<PIC:Manual10_144>`
-- `<PIC:Manual10_145>`
 - `<PIC:Manual10_146>`
 - `<PIC:Manual10_147>`
 - `<PIC:Manual10_148>`
@@ -5288,6 +5294,12 @@ Wireless, Multi-Speedlite System...97
 - 相对路径：`data\manuals\raw\01_相机_Camera\images\Camera_37.png`
 - 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\01_相机_Camera\images\Camera_37.png`
 
+### <PIC:Manual10_143>
+
+- image_id：`Manual10_143`
+- 相对路径：`data\manuals\raw\01_相机_Camera\images\Manual10_143.jpg`
+- 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\01_相机_Camera\images\Manual10_143.jpg`
+
 ### <PIC:Manual10_136>
 
 - image_id：`Manual10_136`
@@ -5324,11 +5336,23 @@ Wireless, Multi-Speedlite System...97
 - 相对路径：`data\manuals\raw\01_相机_Camera\images\Manual10_138.jpg`
 - 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\01_相机_Camera\images\Manual10_138.jpg`
 
+### <PIC:Manual10_145>
+
+- image_id：`Manual10_145`
+- 相对路径：`data\manuals\raw\01_相机_Camera\images\Manual10_145.jpg`
+- 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\01_相机_Camera\images\Manual10_145.jpg`
+
 ### <PIC:Manual10_139>
 
 - image_id：`Manual10_139`
 - 相对路径：`data\manuals\raw\01_相机_Camera\images\Manual10_139.jpg`
 - 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\01_相机_Camera\images\Manual10_139.jpg`
+
+### <PIC:Manual10_144>
+
+- image_id：`Manual10_144`
+- 相对路径：`data\manuals\raw\01_相机_Camera\images\Manual10_144.jpg`
+- 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\01_相机_Camera\images\Manual10_144.jpg`
 
 ### <PIC:Manual10_140>
 
@@ -5347,24 +5371,6 @@ Wireless, Multi-Speedlite System...97
 - image_id：`Manual10_142`
 - 相对路径：`data\manuals\raw\01_相机_Camera\images\Manual10_142.jpg`
 - 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\01_相机_Camera\images\Manual10_142.jpg`
-
-### <PIC:Manual10_143>
-
-- image_id：`Manual10_143`
-- 相对路径：`data\manuals\raw\01_相机_Camera\images\Manual10_143.jpg`
-- 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\01_相机_Camera\images\Manual10_143.jpg`
-
-### <PIC:Manual10_144>
-
-- image_id：`Manual10_144`
-- 相对路径：`data\manuals\raw\01_相机_Camera\images\Manual10_144.jpg`
-- 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\01_相机_Camera\images\Manual10_144.jpg`
-
-### <PIC:Manual10_145>
-
-- image_id：`Manual10_145`
-- 相对路径：`data\manuals\raw\01_相机_Camera\images\Manual10_145.jpg`
-- 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\01_相机_Camera\images\Manual10_145.jpg`
 
 ### <PIC:Manual10_146>
 

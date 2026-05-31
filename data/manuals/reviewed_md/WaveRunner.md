@@ -14,15 +14,15 @@ In this manual, information of particular importance is distinguished in the fol
 
 The Safety Alert Symbol means ATTENTION! BECOME ALERT! YOUR SAFETY IS INVOLVED!
 
-### WARNING
+**WARNING:**
 
 Failure to follow WARNING instructions could result in severe injury or death to the machine operator, passenger, a bystander, or a person inspecting or repairing the watercraft.
 
-### CAUTION:
+**CAUTION:**
 
 A CAUTION indicates special precautions that must be taken to avoid damage to the watercraft.
 
-### NOTE:
+**NOTE:**
 
 A NOTE provides key information to make procedures easier or clearer.
 
@@ -158,11 +158,10 @@ All riders must wear a Coast Guard approved personal flotation device (PFD) that
 
 Normal swimwear does not adequately protect against forceful water entry into rectum or vagina. All riders must wear a wetsuit bottom or clothing that provides equivalent protection. Such clothing includes thick, tightly woven, sturdy and snug-fitting apparel such as denim, but does not include spandex or similar fabrics, like those used in bicycle shorts.
 
-<PIC:Manual20_19>
-
 (1) Coast Guard approved PFD
 
 (2) Wetsuit bottom
+<PIC:Manual20_19>
 
 Eye protection is recommended to keep wind, water, and glare from the sun out of your eyes while you operate your watercraft. Restraining straps for eyewear are made which are designed to float should your eyewear fall in the water. Footwear and gloves are recommended.
 Helmets meeting Snell or DOT standards are required for IJSBA-sanctioned races. You must decide whether to wear a helmet while you ride for recreation. You should know that a helmet could help protect you in certain kinds of accidents and that it could injure you in others.
@@ -312,7 +311,7 @@ Remember, markings may vary by geographic location. Always consult local boating
 
 <PIC:Manual20_29>
 
-#### To get more boating safety information
+**To get more boating safety information**
 
 Be informed about boating safety. Additional publications and information can be obtained from many organizations, including the following.
 
@@ -342,16 +341,13 @@ When you ride responsibly, with respect and courtesy for others, you help ensure
 
 ## Location of main components
 
-<PIC:Manual20_30>
-
 (1) Handlebars: Use to control direction.
 (2) Fuel tank filler cap
 (3) Rope hole
 (4) Footwell: Use to place feet for balance.
 (5) Intake grate: Prevents debris from getting into the jet pump.
 (6) Speed sensor
-
-<PIC:Manual20_31>
+<PIC:Manual20_30>
 
 (1) Cooling water pilot outlet: Use to verify cooling water flow.
 (2) Bow eye: Use to attach rope for transporting, mooring or towing the watercraft in an emergency.
@@ -362,13 +358,11 @@ When you ride responsibly, with respect and courtesy for others, you help ensure
 (7) Seat
 (8) Glove compartment
 (9) Yamaha Adjustable Sponson (YAS)
+<PIC:Manual20_31>
 
 <PIC:Manual20_32>
 
-<PIC:Manual20_33>
-
 Engine shut-off cord (lanyard)
-
 Throttle lever: Use to accelerate and decelerate.
 Choke lever
 Oil tank filler cap
@@ -382,8 +376,7 @@ Quick Shift Trim System (QSTS) selector: Use to select the trim angle of the wat
 Engine shut-off switch: Remove the clip to stop the engine and disable it from starting.
 Start switch: Push to start the engine.
 Multifunction information center: Use to check watercraft operation.
-
-<PIC:Manual20_34>
+<PIC:Manual20_33>
 
 Spark plugs/Spark plug caps
 Electrical box: Protects electrical components from water.
@@ -396,6 +389,7 @@ Oil tank
 Battery
 Fire extinguisher container
 Water separator
+<PIC:Manual20_34>
 
 ## Operation of controls and other functions
 
@@ -405,19 +399,19 @@ There is a seat latch (1) at the rear of the seat to remove the seat.
 
 <PIC:Manual20_35>
 
-#### To remove the seat:
+**To remove the seat:**
 
 Pull the seat latch up, and then pull the seat off.
 
 <PIC:Manual20_36>
 
-#### To install the seat:
+**To install the seat:**
 
 Insert the projection on the front of the seat into the stay on the deck, and then push the rear of the seat down to lock it in place securely.
 
 <PIC:Manual20_37>
 
-### NOTE:
+**NOTE:**
 
 Make sure that the seat is properly secured before operating the watercraft.
 
@@ -431,7 +425,7 @@ To close the hood, push the hood down to lock it in place.
 
 <PIC:Manual20_39>
 
-### NOTE:
+**NOTE:**
 
 Make sure that the hood is properly secured before operating the watercraft.
 
@@ -439,7 +433,7 @@ Make sure that the hood is properly secured before operating the watercraft.
 
 To remove the fuel tank filler cap (1), turn it counterclockwise.
 
-### NOTE:
+**NOTE:**
 
 Make sure that the fuel tank filler cap is properly secured before operating the watercraft.
 
@@ -459,14 +453,14 @@ The fuel cock knob (1) positions are explained as follows and are shown in the i
 
 <PIC:Manual20_42>
 
-### OFF:
+**OFF:**
 
 With the fuel cock knob in this position, fuel does not flow. Always turn the fuel cock knob to this position when the engine is not running.
 
-### ON:
+**ON:**
 
 With the fuel cock knob in this position, fuel flows to the carburetors. Turn the fuel cock knob to this position when starting the engine and operating the watercraft.
-### RES:
+**RES:**
 
 This indicates reserve. With the fuel cock knob in this position, the fuel reserve is made available. Turn the fuel cock knob to this position if you run out of fuel while operating the watercraft. When this occurs, refuel as soon as possible and be sure to turn the fuel cock knob back to "ON"!
 
@@ -482,7 +476,7 @@ Insert the clip (1), on the end of the engine shut-off cord, under the engine sh
 
 <PIC:Manual20_44>
 
-### WARNING
+**WARNING:**
 
 Always attach the engine shut-off cord to your wrist and the clip to the engine shut-off switch BEFORE starting the engine.
 To prevent accidental starting of the engine or unauthorized use by children or others, always remove the clip from the shut-off switch when the engine is not running.
@@ -510,7 +504,7 @@ Push the start switch (1) (green button) to start the engine.
 
 <PIC:Manual20_48>
 
-### NOTE:
+**NOTE:**
 
 The engine will not start when the clip is removed from the engine shut-off switch.
 
@@ -520,7 +514,7 @@ This watercraft is equipped with cooling water pilot outlets. When the engine is
 
 To check for proper operation of the cooling system, check that water is being discharged from the pilot outlets. If water is not being discharged from the outlets, cooling water may not be circulating in the engine. When this occurs, stop the engine and check for the cause. (See pages 2-13 and 5-4 for further instructions.)
 
-### NOTE:
+**NOTE:**
 
 If the cooling water passages are dry, it will take about 20 seconds for the water to reach the outlet after the engine is started.
 
@@ -539,7 +533,7 @@ The QSTS selector (1) is located at the left handlebar grip and is used to adjus
 Operating the QSTS selector changes the angle of the jet thrust nozzle vertically. This changes the trim angle of the watercraft.
 There are 5 positions: 2 bow down positions, neutral, and 2 bow up positions.
 
-#### To change the trim angle:
+**To change the trim angle:**
 
 1. Reduce engine speed to 3,000 r/min or less.
 2. Squeeze the shift lock lever, and then turn the QSTS selector to the desired position.
@@ -547,7 +541,7 @@ There are 5 positions: 2 bow down positions, neutral, and 2 bow up positions.
 
 <PIC:Manual20_51>
 
-### CAUTION:
+**CAUTION:**
 
 Do not turn the QSTS selector while operating the watercraft at full throttle, otherwise damage could occur to the QSTS.
 The neutral "N" position will provide good performance for most operating conditions.
@@ -555,13 +549,13 @@ To enhance particular types of performance, select bow down or bow up.
 
 <PIC:Manual20_52>
 
-### Bow down
+#### Bow down
 
 Turn the QSTS selector toward the bow-down positions and the bow will go down while the watercraft is on plane.
 Bow down puts more of the bow in the water. This gives the watercraft more "hook," which enhances turning performance. This position will also help the watercraft get up on plane more quickly.
 At higher speeds, however, the watercraft will have greater tendency to "bow steer" and follow waves and wakes in the water. Fuel economy and maximum speed are also reduced.
 
-### Bow up
+#### Bow up
 
 Turn the QSTS selector toward the bow-up positions and the bow will go up while the watercraft is on plane.
 Bow up puts less of the bow in the water. There is less water resistance, so straight-ahead acceleration when on plane and top speed are enhanced.
@@ -585,13 +579,13 @@ This meter contains the following functions for the help and convenience of oper
 
 <PIC:Manual20_54>
 
-### CAUTION:
+**CAUTION:**
 
 Do not run the engine at full throttle or for more than 15 seconds to check the meter for operation on land. The engine could overheat.
 
 Use the specified resistor-type spark plug and cap, otherwise the meter may function erratically.
 
-### NOTE:
+**NOTE:**
 
 All displays light up and the buzzer sounds twice after the engine starts. Then, the meter will operate normally after a few seconds. The current display will continue to operate for 30 seconds after the engine stops.
 
@@ -607,7 +601,7 @@ The meter shows the watercraft speed against water.
 
 <PIC:Manual20_56>
 
-### NOTE:
+**NOTE:**
 
 If the speedometer malfunctions, "_ _" display will blink.
 
@@ -630,7 +624,7 @@ The hour meter is provided to make it easy to follow the maintenance schedule. T
 
 <PIC:Manual20_59>
 
-### NOTE:
+**NOTE:**
 
 The elapsed time will be kept even if the battery terminals have been disconnected. If the hour meter malfunctions, "-" display and the warning light will blink.
 
@@ -649,7 +643,7 @@ The warning signals will be cleared when the engine restarts after refilling eng
 
 <PIC:Manual20_61>
 
-### NOTE:
+**NOTE:**
 
 If the warning indicators blink with adequate oil in the tank, have a Yamaha dealer check the oil filter for dirt and clogs.
 
@@ -663,7 +657,7 @@ If the engine starts to overheat, the warning light and the engine overheat warn
 
 A front storage compartment and a glove compartment are provided.
 
-### NOTE:
+**NOTE:**
 
 Make sure that the storage compartments are properly secured before operating the watercraft.
 
@@ -683,7 +677,7 @@ Open the hood.
 
 <PIC:Manual20_65>
 
-### NOTE:
+**NOTE:**
 
 The front storage compartment can be removed to access the engine compartment.
 
@@ -701,13 +695,13 @@ To close the front storage compartment, push down on the rear of the hood until 
 
 A glove compartment (2) is located in front of the seat.
 
+To open the glove compartment, slide the latch (1) toward you, and then lift up the lid.
 <PIC:Manual20_67>
 
-To open the glove compartment, slide the latch (1) toward you, and then lift up the lid.
-
-<PIC:Manual20_68>
 
 To close the glove compartment, push the lid down until it locks securely.
+<PIC:Manual20_68>
+
 
 Glove compartment:
 
@@ -715,16 +709,16 @@ Capacity: 2 L (0.53 US gal, 0.44 Imp gal)
 
 Load limit: 1 kg (2.2 lb)
 
-### Adjustable Sponson
+## Adjustable Sponson
 The sponsons (1) have adjustable positioning to allow the operator to enhance either straight-line performance or turning performance according to the preference and operating conditions. (See page 4-23 for adjustment procedures.)
 
 <PIC:Manual20_69>
 
-#### Up position
+### Up position
 
 There will be less water resistance in this position, so straight-ahead acceleration when on plane and top speed will be enhanced.
 
-#### Down position
+### Down position
 
 This position will give the watercraft more "hook" which will enhance turning performance.
 
@@ -732,15 +726,15 @@ This position will give the watercraft more "hook" which will enhance turning pe
 
 ## Fire extinguisher
 
+Check that there is a full fire extinguisher on board. The fire extinguisher container (1) is located in the battery compartment.
 <PIC:jetski_04>
 
-Check that there is a full fire extinguisher on board. The fire extinguisher container (1) is located in the battery compartment.
 To open the fire extinguisher container cap, remove the seat and turn it counterclockwise.
 
 <PIC:jetski_05>
 
 After inserting the fire extinguisher make sure that the container cap is tightened securely.
-### NOTE:
+**NOTE:**
 
 See the instructions supplied by the fire extinguisher manufacturer for checking the fire extinguisher. Always keep the extinguisher in the fire extinguisher container.
 
@@ -756,18 +750,18 @@ Capacity: 2 lb or more
 
 1. Swim to the rear of the watercraft and place both hands on the boarding platform, pull yourself up, and then grasp the handgrip with one hand.
 
+2. Pull yourself up to a kneeling position on the platform, and then move to the seat and sit astride.
 <PIC:Manual20_71>
 
-2. Pull yourself up to a kneeling position on the platform, and then move to the seat and sit astride.
-
-<PIC:Manual20_72>
 
 3. Attach the engine shut-off cord to your left wrist, and then install the clip to the engine shut-off switch.
 4. Grip the handlebars firmly with both hands, place both feet on the floor of the footwell, start the engine, and then look in all directions before starting off.
+<PIC:Manual20_72>
+
 
 <PIC:Manual20_73>
 
-### WARNING
+**WARNING:**
 
 Before starting off, make sure that there are no boats, obstructions, or swimmers around you.
 
@@ -793,9 +787,9 @@ D. If the engine is stopped while riding, there is no thrust. The watercraft wil
 
 <PIC:Manual20_75>
 
-### You need throttle to steer.
+**You need throttle to steer.**
 
-### WARNING
+**WARNING:**
 
 Do not release the throttle when trying to steer away from objects--you need throttle to steer. A collision could result in severe injury or death.
 
@@ -803,7 +797,7 @@ When operating at higher speeds, make gradual turns or slow down before turning.
 
 ## Transporting
 
-### WARNING
+**WARNING:**
 
 Always place the fuel cock knob in the "OFF" position when transporting the watercraft, otherwise fuel could leak out into the engine or engine compartment, which would create a fire hazard.
 
@@ -813,7 +807,7 @@ When transporting the watercraft on a trailer, secure the tie downs to the trail
 
 <PIC:Manual20_77>
 
-### CAUTION:
+**CAUTION:**
 
 Do not route ropes or tie downs over the seat, as they may leave permanent marks on the seat's surface. Also, wrap the ropes or tie downs with towels or rags where they touch the body of the watercraft to avoid scratching or damage.
 
@@ -823,13 +817,13 @@ Do not route ropes or tie downs over the seat, as they may leave permanent marks
 
 It is advisable always to carry the Owner's/Operator's Manual and tool kit (2) with you whenever you use the watercraft.
 
+For your convenience, a storage compartment (1) is provided on the watercraft for the manual and tool kit.
 <PIC:Manual20_79>
 
-For your convenience, a storage compartment (1) is provided on the watercraft for the manual and tool kit.
 
 <PIC:Manual20_80>
 
-### NOTE:
+**NOTE:**
 
 To protect these materials from water damage, it would be a good idea to put them in a waterproof bag. If your Owner's/Operator's Manual is damaged, order a replacement from a Yamaha dealer.
 
@@ -841,7 +835,7 @@ This watercraft is equipped with a one-piece, disposable fuel filter (1). The fu
 
 <PIC:Manual20_81>
 
-### WARNING
+**WARNING:**
 
 Do not try to replace the fuel filter yourself. An incorrectly installed filter can leak gasoline, which could lead to fire or explosion. If necessary, have a Yamaha dealer replace the fuel filter.
 
@@ -855,15 +849,15 @@ Check the fuel tank (1) for leakage or water in the tank. If water is found in t
 
 The Adjustable Sponsons can be adjusted to enhance watercraft performance according to operator preference and operating conditions. (See page 2-19 for an explanation of various positions.)
 
-### To adjust:
+**To adjust:**
 
 1. Remove the bolts (1) on both sponsons.
 
+2. Remove both sponsons, and then install them in the desired position.
 <PIC:Manual20_83>
 
-2. Remove both sponsons, and then install them in the desired position.
 
-### NOTE:
+**NOTE:**
 
 Be sure to install both sponsons to the same level.
 
@@ -879,13 +873,13 @@ If weeds or debris get caught in the intake or impeller, cavitation can occur, c
 
 <PIC:Manual20_85>
 
-### WARNING
+**WARNING:**
 
 Before attempting to remove weeds or debris from the jet intake or impeller areas, shut the engine off and remove the clip from the engine shut-off switch. Severe injury or death could result from contact with the rotating parts of the jet pump.
 
 1. Turn the watercraft on its side as shown.
 
-### CAUTION:
+**CAUTION:**
 
 Place a suitable clean cloth or carpeting underneath the watercraft to protect it from abrasions and scratches.
 
@@ -893,19 +887,19 @@ Always turn the watercraft over onto its port (left) side.
 
 When turning the watercraft on its side, support the bow so the handlebars cannot be bent or damaged.
 
+2. Remove any weeds or debris from around the drive shaft, impeller, pump housing, and jet thrust nozzle.
 <PIC:Manual20_86>
 
-2. Remove any weeds or debris from around the drive shaft, impeller, pump housing, and jet thrust nozzle.
 
 If debris is difficult to remove, consult your Yamaha dealer.
 
-### CAUTION:
+**CAUTION:**
 
 Always avoid operating your watercraft in areas where weed growth is thick. If traveling in weeded areas is unavoidable, operate the engine alternately at partial throttle and full throttle. Weeds tend to accumulate more at a steady speed and at trolling speed. If weeds clog the intake or impeller area and cause cavitation, follow the cleaning procedure above.
 
 ## Starting the watercraft
 
-### WARNING
+**WARNING:**
 
 Scan constantly for people, objects, and other watercraft. Be alert for conditions that limit your visibility or block your vision of others.
 
@@ -923,10 +917,10 @@ Practice reboarding in shallow water before riding in deep water.
 
 1. Do not start the engine in less than 60 cm (2 ft) of water. Put the watercraft in water that is deep enough, and then board the watercraft from the side or the rear.
 
-<PIC:Manual20_88>
-
 2. Attach the engine shut-off cord to your left wrist, and then install the clip to the engine shut-off switch.
 3. Grip the handlebars with both hands, place both feet on the floor of the footwell, start the engine, and start off.
+<PIC:Manual20_88>
+
 
 ### Starting from a dock
 
@@ -938,7 +932,7 @@ Practice reboarding in shallow water before riding in deep water.
 
 ## Boarding with a passenger
 
-### WARNING
+**WARNING:**
 
 Severe internal injuries can occur if water is forced into body cavities as a result of being near the jet thrust nozzle. Do not apply throttle until the passenger is seated with his or her feet on the floor of the footwell and is holding on to the operator.
 
@@ -949,7 +943,7 @@ Severe internal injuries can occur if water is forced into body cavities as a re
 
 <PIC:Manual20_90>
 
-### NOTE:
+**NOTE:**
 
 When a passenger is getting on board, both the passenger and the operator should try to balance the watercraft.
 
@@ -959,26 +953,26 @@ When a passenger is getting on board, both the passenger and the operator should
 
 <PIC:Manual20_91>
 
-### WARNING
+**WARNING:**
 
 Before starting off, make sure that there are no boats, obstructions, or swimmers around you.
 
 <PIC:Manual20_92>
 
-### NOTE:
+**NOTE:**
 
 The heavier the total weight of the operator and passengers, the more difficult it will be to balance the watercraft. Do not operate the watercraft when the total weight exceeds 160 kg (353 lb) including any cargo. If it is difficult to balance the watercraft at a standstill, proceed as follows:
 
 1. The passenger must steady the watercraft while the operator is boarding. The operator pulls himself up onto the platform into a seating position, then balances the watercraft.
 
-<PIC:jetski_06>
-
 2. Attach the lanyard to your left wrist, then install the clip on the lanyard to the engine shut-off switch. Start the engine and keep it at idle.
 3. The passenger pulls himself up on the platform, kneels down, then crawls onto the seat as the watercraft accelerates.
+<PIC:jetski_06>
 
-<PIC:jetski_07>
 
 4. The watercraft can now be accelerated to planing speed, then the operator can reduce the throttle to the desired running speed.
+<PIC:jetski_07>
+
 
 <PIC:jetski_08>
 

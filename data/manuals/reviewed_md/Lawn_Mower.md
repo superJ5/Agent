@@ -9,7 +9,7 @@ Gross or Net Torque:
 The gross or net torque of this engine was laboratory rated by the engine manufacturer in accordance with the Society of Automotive Engineers (SAE) J1940 or J2723. As configured to meet safety, emission, and operating requirements, the actual engine torque on this class of mower will be significantly lower. Please refer to the engine manufacturer's information included with the machine.
 
 
-### WARNING
+**WARNING:**
 
 CALIFORNIA Proposition
 65 Warning The engine exhaust from this product contains chemicals known to the State of California to cause cancer, birth defects, or other reproductive harm. Battery posts, terminals, and related accessories contain lead and lead compounds, chemicals known to the State of California to cause cancer and reproductive harm. Wash hands after handling. Use of this product may cause exposure to chemicals known to the State of California to cause cancer, birth defects, or other reproductive harm.
@@ -19,9 +19,9 @@ CALIFORNIA Proposition
 
 This rotary-blade, riding lawn mower is intended to be used by professional, hired operators. It is designed primarily for cutting grass on well-maintained lawns on residential or commercial properties. Using this product for purposes other than its intended use could prove dangerous to you and bystanders.  Read this information carefully to learn how to operate and maintain your product properly and to avoid injury and product damage. You are responsible for operating the product properly and safely.  Whenever you need service, genuine parts, or additional information, contact an Authorized Service Dealer or Customer Service and have the model and serial numbers of your product ready.  Figure 1 identifies the location of the model and serial numbers on the product. Write the numbers in the space provided.  Important:  With your mobile device, you can scan the QR code on the serial number decal (if equipped) to access warranty, parts, and other product information.
 
-<PIC:Manual23_0>
 Figure 1.
 1. Model and serial number location
+<PIC:Manual23_0>
 
 
 This manual uses 2 words to highlight information. Important  calls attention to special mechanical information and  Note  emphasizes general information worthy of special attention.  The safety-alert symbol ( Figure 2 ) appears both in this manual and on the machine to identify important safety messages that you must follow to avoid accidents. This symbol will appear with the word Danger,  Warning, or  Caution.
@@ -29,9 +29,9 @@ This manual uses 2 words to highlight information. Important  calls attention to
 - Warning  indicates a potentially hazardous situation which, if not avoided,  could  result in death or serious injury.
 - Caution  indicates a potentially hazardous situation which, if not avoided,  may  result in minor or moderate injury.
 
-<PIC:Manual23_1>
 Figure 2
 Safety-alert symbol
+<PIC:Manual23_1>
 
 
 ## Contents
@@ -147,12 +147,12 @@ This product is capable of amputating hands and feet and of throwing objects. Al
 - Shut off the engine, remove the key, and wait for all moving parts to stop before leaving the operator's position. Allow the machine to cool before servicing, adjusting, fueling, cleaning, or storing it.  You may copy this page for personal use.
 
 
-<PIC:Manual23_2>
-
 Callouts:
 1. The maximum slope you can operate the machine on is 15 degrees. Use the slope chart to determine the degree of slope of hills before operating. Do not operate this machine on a slope greater than 15 degrees. Fold along the appropriate line to match the recommended slope.
 2. Align this edge with a vertical surface, a tree, building, fence pole, etc.
 3. Example of how to compare slope with folded edge
+<PIC:Manual23_2>
+
 
 ## Safety and Instructional Decals
 
@@ -160,33 +160,31 @@ Callouts:
 Safety decals and instructions are easily visible to the operator and are located near any area of potential danger. Replace any decal that is damaged or missing.
 
 
+WARNING:
 <PIC:Manual23_3>
 
-WARNING:
 
 ### 99-8936
 
-
-<PIC:Manual23_4>
 
 1. Machine speed
 2. Fast
 3. Slow
 4. Neutral
 5. Reverse
+<PIC:Manual23_4>
+
 
 
 ### Manufacturer's Mark
 
+1. This mark indicates that the blade is identified as a part from the original machine manufacturer.
 <PIC:Manual23_5>
 
-1. This mark indicates that the blade is identified as a part from the original machine manufacturer.
 
 ### Battery Symbols
 
 Some or all of these symbols are on your battery.
-<PIC:Manual23_6>
-
 Callouts:
 1. Explosion hazard
 2. No fire, open flame, or smoking
@@ -198,6 +196,8 @@ Callouts:
 8. Battery acid can cause blindness or severe burns.
 9. Flush eyes immediately with water and get medical help fast.
 10. Contains lead; do not discard
+<PIC:Manual23_6>
+
 
 
 ### 106-5517
@@ -211,14 +211,12 @@ Callouts:
 
 
 ### 115-9625
+1. Parking brake-disengaged
 <PIC:Manual23_9>
 
-1. Parking brake-disengaged
 
 
 ### 116-5610
-<PIC:Manual23_10>
-
 Callouts:
 1. Warning-there is no rollover protection when the roll bar is down.
 2. To avoid injury or death from a rollover accident, keep the roll bar in the raised and locked position and wear the seat belt. Lower the roll bar only when absolutely necessary; do not wear the seat belt when the roll bar is down.
@@ -227,10 +225,12 @@ Callouts:
 5. Operator presence switch
 6. Battery
 
+
 1. Hour meter
 2. Power take-off (PTO)
 3. Read the Operator's Manual; drive slowly and carefully.
 
+<PIC:Manual23_10>
 ### 109-6035
 <PIC:Manual23_11>
 
@@ -244,62 +244,61 @@ Callouts:
 
 
 ### 117-3848
-<PIC:Manual23_14>
-
 1. Thrown object hazard-keep bystanders away.
 2. Thrown object hazard, raised deflector-do not operate without the deflector, discharge cover, or grass collection system in place.
 3. Cutting/dismemberment hazard of hand or foot, mower blade-stay away from moving parts; keep all guards and shields in place.
+<PIC:Manual23_14>
+
 
 
 ### 127-0326
-<PIC:Manual23_15>
-
   1. Read the  Operator's Manual.
   2. Height of cut
   3. Remove the key and read the  Operator's Manual  before performing maintenance.
+<PIC:Manual23_15>
+
 
 ### 126-4363
+1. Cutting/dismemberment hazard, fan and entanglement hazard, belt. Shut off the engine and remove the key before adjusting, servicing or cleaning the machine.
 <PIC:Manual23_16>
 
-1. Cutting/dismemberment hazard, fan and entanglement hazard, belt. Shut off the engine and remove the key before adjusting, servicing or cleaning the machine.
 
 ### 126-9939
-<PIC:Manual23_17>
-
 1. Read the Operator's Manual
 2. Fill to bottom of filler neck; warning-do not overfill the tank
+<PIC:Manual23_17>
+
 
 ### 139-6699
+1. Height of cut
 <PIC:Manual23_18>
 
-1. Height of cut
 
 ### 144-6569
-<PIC:Manual23_19>
-
 1. Light
 2. Fast
 3. Slow
+<PIC:Manual23_19>
+
 
 
 ### 144-2669
-<PIC:Manual23_20>
-
 1. Check the engine-oil level.
 2. Check the hydraulic-fluid level.
 3. Check the tire pressure.
 4. Grease the caster wheel.
 5. Read the  Operator's Manual  before performing maintenance.
+<PIC:Manual23_20>
+
 
 
 ### 144-2687
+1. Traction belt routing
 <PIC:Manual23_21>
 
-1. Traction belt routing
 
 
 ### 126-8383
-<PIC:Manual23_22>
 
 Note: This machine complies with the industry standard stability test in the static lateral and longitudinal tests with the maximum recommended slope indicated on the decal. Review the instructions for operating the machine on slopes in the Operator's Manual as well as the conditions in which you would operate the machine to determine whether you can operate the machine in the conditions on that day and at that site. Changes in the terrain can result in a change in slope operation for the machine.
 
@@ -312,8 +311,8 @@ Callouts:
 6. Tipping hazard-do not use the machine near drop-offs or on slopes greater than 15 degrees; only operate across slopes less than 15 degrees.
 
 
+<PIC:Manual23_22>
 ### 132-0871
-<PIC:Manual23_23>
 
 Note: This machine complies with the industry standard stability test in the static lateral and longitudinal tests with the maximum recommended slope indicated on the decal. Review the instructions for operating the machine on slopes in the Operator's Manual as well as the conditions in which you would operate the machine to determine whether you can operate the machine in the conditions on that day and at that site. Changes in the terrain can result in a change in slope operation for the machine.
 
@@ -326,12 +325,12 @@ Callouts:
 6. Tipping hazard-do not use the machine near drop-offs or on slopes greater than 15 degrees; only operate across slopes less than 15 degrees. Decal 132-5067 is for machines with MyRide only.
 
 
+<PIC:Manual23_23>
 ### 132-5067
 <PIC:Manual23_24>
 
 
 ## Product Overview
-<PIC:Manual23_25>
 Figure 4.
 1. Height-of-cut positions
 2. Controls
@@ -344,6 +343,7 @@ Figure 4.
 9. Mower deck
 10. Caster wheel
 11. Anti-scalp roller
+<PIC:Manual23_25>
 
 
 ### Controls
@@ -353,7 +353,6 @@ Become familiar with all the controls before you start the engine and operate th
 
 
 ### Control Panel
-<PIC:Manual23_26>
 Figure 5.
 1. Key switch
 2. Blade-control switch
@@ -361,6 +360,7 @@ Figure 5.
 4. Light switch (for models with lights only)-optional kit for other models
 5. Hour meter (power takeoff)
 6. Choke control (for carbureted models only)
+<PIC:Manual23_26>
 
 
 ### Key Switch
@@ -399,11 +399,11 @@ The hour meter records the number of hours the engine has operated. It operates 
 
 There are symbols on the hour meter that indicate with a black triangle that the interlock component is positioned correctly ( Figure 6 ).
 
-<PIC:Manual23_27>
 Figure 6. Hour meter display.
 1. Safety-interlock symbols
 2. Hour meter
 3. Battery light
+<PIC:Manual23_27>
 
 ### Electronic-Control Unit Malfunction-Indicator Light
 
@@ -472,7 +472,7 @@ Note:  Determine the left and right sides of the machine from the normal operati
 #### Before Operation Safety
 
 
-### General Safety
+##### General Safety
 - Do not allow children or untrained people to operate or service the machine. Local regulations may restrict the age of the operator. The owner is responsible for training all operators and mechanics.
 - Inspect the area where you will use the machine, and remove all objects that could interfere with the operation of the machine or that the machine could throw.
 - Become familiar with the safe operation of the equipment, operator controls, and safety signs.
@@ -486,7 +486,7 @@ Note:  Determine the left and right sides of the machine from the normal operati
 - Do not operate the machine unless all guards and safety devices, such as the deflectors and the entire grass catcher, are in place and functioning properly. Replace worn or deteriorated parts when necessary.
 
 
-### Fuel Safety
+##### Fuel Safety
 - Fuel is extremely flammable and highly explosive. A fire or explosion from fuel can burn you and others and can damage property. - To prevent a static charge from igniting the fuel, place the container and/or machine directly on the ground before filling, not in a vehicle or on an object. - Fill the fuel tank outdoors on level ground, in an open area, and when the engine is cold. Wipe up any fuel that spills. - Do not handle fuel when smoking or around an open flame or sparks. - Do not remove the fuel cap or add fuel to the tank while the engine is running or hot. - If you spill fuel, do not attempt to start the engine. Avoid creating a source of ignition until the fuel vapors have dissipated. - Store fuel in an approved container and keep it out of the reach of children.
 - Fuel is harmful or fatal if swallowed. Long-term exposure to vapors can cause serious injury and illness.  - Avoid prolonged breathing of vapors. - Keep your hands and face away from the nozzle and the fuel-tank opening. - Keep fuel away from your eyes and skin.
 - Do not store the machine or fuel container where there is an open flame, spark, or pilot light, such as on a water heater or on other appliances.
@@ -502,7 +502,7 @@ Note:  Determine the left and right sides of the machine from the normal operati
 ### Adding Fuel
 
 
-### Recommended Fuel
+#### Recommended Fuel
 - For best results, use only clean, fresh (less than 30 days old), unleaded gasoline with an octane rating of 87 or higher  ((R+M)/2  rating method).
 - Ethanol: Gasoline with up to  10%  ethanol (gasohol) or  15%  MTBE (methyl tertiary butyl ether) by volume is acceptable. Ethanol and MTBE are not the same. Gasoline with  15%  ethanol (E15) by volume is not approved for use. Never use gasoline that contains more than  10%  ethanol by volume, such as E15 (contains  15%  ethanol), E20 (contains  20%  ethanol), or E85 (contains up to  85%  ethanol). Using unapproved gasoline may cause performance problems and/or engine damage which may not be covered under warranty.
 - Do not  use gasoline containing methanol.
@@ -510,7 +510,7 @@ Note:  Determine the left and right sides of the machine from the normal operati
 - Do not  add oil to gasoline.
 
 
-#### Using Stabilizer/Conditioner
+##### Using Stabilizer/Conditioner
 
 
 Use a fuel stabilizer/conditioner in the machine to provide the following benefits:
@@ -531,35 +531,35 @@ Before starting the machine each day, perform the Each Use/Daily procedures list
 1. Park the machine on a level surface.
 2. Engage the parking brake.
 
+3. Shut off the engine and remove the key.
 <PIC:lawn_mower_01>
 
-3. Shut off the engine and remove the key.
 
 
 4. Clean around the fuel-tank cap.
 
 5. Remove the fuel-tank cap.
+6. Fill the fuel tank to the bottom of the filler neck.
 <PIC:lawn_mower_02>
 
-6. Fill the fuel tank to the bottom of the filler neck.
 <PIC:lawn_mower_03>
+7. Install the fuel-tank cap securely.
 <PIC:lawn_mower_04>
 
-7. Install the fuel-tank cap securely.
-<PIC:lawn_mower_05>
 Figure 7. Filling the fuel tank.
+<PIC:lawn_mower_05>
 
 ### Breaking in a New Machine
 
 New engines take time to develop full power. Mower decks and drive systems have higher friction when new, placing additional load on the engine. Allow 40 to 50 hours of break-in time for new machines to develop full power and best performance.
 
-#### Using the Rollover-Protection System (ROPS)
+### Using the Rollover-Protection System (ROPS)
 
 
-### WARNING
+**WARNING:**
 To avoid injury or death from rollover, keep the roll bar in the fully raised, locked position and use the seat belt.  Ensure that the seat is secured to the machine.
 
-### WARNING
+**WARNING:**
 There is no rollover protection when the roll bar is in the down position.
 - Lower the roll bar only when absolutely necessary.
 - Do not wear the seat belt when the roll bar is in the down position.
@@ -568,9 +568,9 @@ There is no rollover protection when the roll bar is in the down position.
 - Check carefully for overhead clearances (i.e., branches, doorways, electrical wires) before driving under any objects and do not contact them.
 
 
-### Lowering the Roll Bar
-<PIC:Manual23_32>
+#### Lowering the Roll Bar
 Figure 8
+<PIC:Manual23_32>
 
 Important:  Lower the roll bar only when absolutely necessary.
 1. Remove the hairpin cotters and remove the 2 pins ( Figure 9 ).
@@ -578,23 +578,23 @@ Important:  Lower the roll bar only when absolutely necessary.
 3. Install the 2 pins and secure them with the hairpin cotters ( Figure 9 ).
 
 
-### Raising the Roll Bar
-<PIC:Manual23_33>
+#### Raising the Roll Bar
 Figure 9
 1. Roll bar
 2. Raised position
 3. Pin
 4. Hairpin cotter
+<PIC:Manual23_33>
 
 Important:  Always use the seat belt with the roll bar in the raised position.
 1. Remove the hairpin cotters and remove the 2 pins ( Figure 9 ).
 2. Raise the roll bar to the upright position, install the 2 pins, and secure them with the hairpin cotters ( Figure 9 ).
 
 
-#### Using the Safety-Interlock System
+### Using the Safety-Interlock System
 
 
-### WARNING
+**WARNING:**
 
 
 If the safety-interlock switches are  disconnected or damaged, the machine could operate unexpectedly, causing personal injury.
@@ -602,20 +602,20 @@ If the safety-interlock switches are  disconnected or damaged, the machine could
 - Check the operation of the interlock switches daily and replace any damaged switches before operating the machine.
 
 
-### Understanding the Safety-Interlock System
+#### Understanding the Safety-Interlock System
 
 
 The safety-interlock system is designed to prevent the engine from starting unless the following occurs:
 - The parking brake is engaged.
 - The blade-control switch (PTO) is disengaged.
 - The motion-control levers are in the NEUTRAL-LOCK position.  The safety-interlock system also is designed to shut off the engine when the motion-control levers are moved from the NEUTRAL-LOCK position with the parking brake engaged or if you rise from the seat when the PTO is engaged.  The hour meter has indicators to notify the user when the interlock component is in the correct position. When the component is in the correct position, an indicator displays on the screen.
-<PIC:Manual23_34>
 Figure 10. Safety-interlock indicators.
 
 1. Indicators display when the interlock components are in the correct position
+<PIC:Manual23_34>
 
 
-### Testing the Safety-Interlock System
+#### Testing the Safety-Interlock System
 
 Service Interval:  Before each use or daily
 
@@ -625,8 +625,8 @@ Service Interval:  Before each use or daily
 
 The seat can move forward and backward ( Figure 11 ). Position the seat where you have the best control of the machine and are most comfortable.
 
-<PIC:Manual23_35>
 Figure 11. Seat for machines with MyRide shown.
+<PIC:Manual23_35>
 
 
 ### Changing the Seat Suspension
@@ -637,9 +637,9 @@ Applies to machines without a suspension system only.
 
 The seat is adjustable to provide a smooth and comfortable ride. Position the seat where you are most comfortable. To adjust it, turn the knob in front in either direction to provide the best comfort ( Figure 12 ).
 
-<PIC:Manual23_36>
 Figure 12. Seat-suspension adjustment knob.
 1. Seat-suspension knob
+<PIC:Manual23_36>
 
 
 ### Adjusting the Rear-Shock Assemblies
@@ -650,19 +650,19 @@ Applies to machines with a suspension system only.
 
 The suspension system adjusts to provide a smooth and comfortable ride. You can adjust the two rear-shock assemblies to quickly and easily change the suspension system. Position the suspension system where you are most comfortable. The slots for the rear-shock assemblies have detent positions for reference. You can position the rear-shock assemblies anywhere in the slot, not just in the detent positions. The following graphic shows the position for a soft or firm ride and the different detent positions ( Figure 13 ).
 
-<PIC:Manual23_37>
 Figure 13. Rear-shock assembly positions.
 1. Firmest position
 2. Softest position
 3. Detents in the slots
+<PIC:Manual23_37>
 
 Note: Ensure that the left and right rear-shock assemblies are always adjusted to the same positions.
 
 Adjust the rear-shock assemblies ( Figure 14 ).
 
 
-<PIC:Manual23_38>
 Figure 14. Adjusting the rear-shock assemblies.
+<PIC:Manual23_38>
 
 
 ### During Operation
@@ -694,8 +694,8 @@ Figure 14. Adjusting the rear-shock assemblies.
 - This machine produces sound levels in excess of 85 dBA at the operator's ear and can cause hearing loss through extended periods of exposure.
 
 
-<PIC:Manual23_39>
   1. Wear hearing protection.
+<PIC:Manual23_39>
 - Clean grass and debris from the cutting unit, drives, muffler, and engine to help prevent fires.
 - Start the engine with your feet well away from the blades.
 - Be aware of the mower discharge path and direct the discharge away from others. Avoid discharging material against a wall or obstruction because the material may ricochet back toward you.
@@ -730,7 +730,6 @@ Figure 14. Adjusting the rear-shock assemblies.
 - Do not operate a machine under any conditions where traction, steering, or stability is in question. Be aware that operating the machine on wet grass, across slopes, or downhill may cause the machine to lose traction. Loss of traction to the drive wheels may result in sliding and a loss of braking and steering. The machine can slide even if the drive wheels are stopped.
 
 
-<PIC:Manual23_40>
 Figure 16. Slope safety zones.
 
 Callouts:
@@ -740,6 +739,7 @@ Callouts:
 4. W = width of the machine.
 5. Keep a safe distance (twice the width of the machine) between the machine and any hazard.
 
+<PIC:Manual23_40>
 - Remove or mark obstacles such as ditches, holes, ruts, bumps, rocks, or other hidden hazards. Tall grass can hide obstacles. Uneven terrain could overturn the machine.
 - Use extra care while operating with accessories or attachments, such as grass-collection systems. These can change the stability of the machine and cause a loss of control. Follow directions for counterweights.
 - If possible, keep the deck lowered to the ground while operating on slopes. Raising the deck while operating on slopes can cause the machine to become unstable.
@@ -750,9 +750,9 @@ Callouts:
 
 Use the mower deck as a step to get into the operator's position ( Figure 17 ).
 
-<PIC:Manual23_41>
 Figure 17. Entering the operator's position.
  1. Step here.
+<PIC:Manual23_41>
 
 
 #### Operating the Parking Brake
@@ -767,13 +767,13 @@ Always engage the parking brake when you stop the machine or leave it unattended
 Park the machine on a level surface.
 
 
-<PIC:Manual23_43>
 Figure 18. Engaging the parking brake.
+<PIC:Manual23_43>
 
 ##### Disengaging the Parking Brake
+Figure 19. Disengaging the parking brake.
 <PIC:Manual23_42>
 
-Figure 19. Disengaging the parking brake.
 
 
 #### Operating the Mower Blade-Control Switch (PTO)
@@ -788,23 +788,23 @@ The blade-control switch (PTO) starts and stops the mower blades and any powered
 Note:  Engaging the blade-control switch (PTO) with the throttle position at half or less causes excessive wear to the drive belts.
 
 
-<PIC:Manual23_44>
 Figure 20
+<PIC:Manual23_44>
 
 
 #### Disengaging the Blade-Control Switch (PTO)
 
 
-<PIC:Manual23_45>
 Figure 21
+<PIC:Manual23_45>
 
 
 #### Operating the Throttle
 
 
 You can move the throttle control between FAST  and SLOW  positions ( Figure 22 ).
-<PIC:Manual23_46>
 Figure 22
+<PIC:Manual23_46>
 
 Always use the FAST  position when engaging the PTO.
 
@@ -812,8 +812,8 @@ Always use the FAST  position when engaging the PTO.
 #### Operating the Choke
 
 Use the choke to start a cold engine.
-<PIC:Manual23_47>
  Figure 23
+<PIC:Manual23_47>
 
  1. Pull up the choke knob to engage the choke before using the key switch ( Figure 23 ).
  2. Push down the choke knob to disengage the choke after the engine has started ( Figure 23 ).
@@ -822,25 +822,25 @@ Use the choke to start a cold engine.
 
 Note:  A warm or hot engine may not require choking.  Important:  Do not engage the starter for more than 5 seconds at a time. Engaging the starter motor for more than 5 seconds can damage the starter motor. If the engine fails to start, wait 10 seconds before operating the engine starter again.
 
-<PIC:Manual23_48>
 Figure 24. Starting the engine.
+<PIC:Manual23_48>
 
 #### Shutting Off the Engine
 
 CAUTION: Children or bystanders may be injured if they move or attempt to operate the machine while it is unattended.  Always remove the key and engage the parking brake when leaving the machine unattended.
 
-<PIC:Manual23_49>
 Figure 25. Shutting off the engine.
+<PIC:Manual23_49>
 
 
 #### Using the Motion-Control Levers
 
-<PIC:Manual23_50>
 1. Motion-control
 2. Center, unlocked position
 3. Forward
 4. Backward lever-NEUTRAL-LOCK position
 5. Front of machine
+<PIC:Manual23_50>
 
 
 #### Driving the Machine
@@ -848,7 +848,7 @@ Figure 25. Shutting off the engine.
 The drive wheels turn independently, powered by hydraulic motors on each axle. You can turn 1 side in reverse while you turn the other forward, causing the machine to spin rather than turn. This greatly improves the machine maneuverability but may require some time for you to adapt to how it moves.  The throttle control regulates the engine speed as measured in rpm (revolutions per minute). Place the throttle control in the FAST  position for best performance. Always operate in the full throttle position when mowing.
 
 
-##### WARNING
+**WARNING:**
 
 
 The machine can spin very rapidly. You may lose control of the machine and cause personal injury or damage to the machine.
@@ -859,16 +859,16 @@ The machine can spin very rapidly. You may lose control of the machine and cause
 
 Note:  The engine shuts off when you move the traction-control with the parking brake engaged.  To stop the machine, pull the motion-control levers to the NEUTRAL  position.
 
-<PIC:Manual23_51>
 1. Disengage the parking brake; refer to Disengaging the Parking Brake.
 2. Move the levers to the center, unlocked position.
 3. To go forward, slowly push the motion-control levers forward.
+<PIC:Manual23_51>
 
 #### Driving Backward
 
-<PIC:Manual23_52>
 1. Move the levers to the center, unlocked position.
 2. To go backward, slowly pull the motion-control levers rearward.
+<PIC:Manual23_52>
 
 
 #### Using the Side Discharge
@@ -877,7 +877,7 @@ Note:  The engine shuts off when you move the traction-control with the parking 
 The mower has a hinged grass deflector that disperses clippings to the side and down toward the turf.
 
 
-##### DANGER
+**DANGER:**
 
 
 Without a grass deflector, discharge cover, or a complete grass-catcher assembly mounted in place, you and others are exposed to blade contact and thrown debris. Contact with rotating mower blade(s) and thrown debris will cause injury or death.
@@ -893,21 +893,21 @@ Without a grass deflector, discharge cover, or a complete grass-catcher assembly
 For Machines with a Deck-Lift Pedal
 
 
-#### Using the Transport Lock
+##### Using the Transport Lock
 
 
 1. Push the deck-lift pedal fully forward to lock the mower deck in the TRANSPORT position ( Figure 29 ).
 2. Push the deck-lift pedal forward and push the transport lock forward to the UNLOCK position, then slowly lower the mower deck ( Figure 29 ).
 
 
-<PIC:Manual23_53>
 Figure 29. Using the transport lock.
 1. LOCK position: the mower deck locks into the transport position.
 2. UNLOCK position: the mower deck does not lock into the transport position.
 3. Push on the deck-lift pedal using your foot to raise the mower deck.
+<PIC:Manual23_53>
 
 
-#### Adjusting the Height-of-Cut Pin
+##### Adjusting the Height-of-Cut Pin
 
 You can adjust the height of cut from 38 to 140 mm (1-1/2 to 5-1/2 inches) in 6 mm (1/4 inch) increments by relocating the clevis pin into different hole locations.
 
@@ -917,12 +917,12 @@ You can adjust the height of cut from 38 to 140 mm (1-1/2 to 5-1/2 inches) in 6 
 4. Push the deck-lift pedal forward, push the transport lock forward, and slowly lower the mower deck.
 
 
-<PIC:Manual23_54>
 Figure 30. Adjusting the height-of-cut pin.
 1. Deck-lift pedal
 2. Height-of-cut bracket
 3. Height-of-cut pin
 4. Transport-lock lever
+<PIC:Manual23_54>
 
 
 #### Adjusting the Height of Cut
@@ -934,18 +934,18 @@ For machines with an electric deck lift.
 1. Push up on the deck-lift switch ( Figure 31 ).
 
 
-<PIC:Manual23_55>
 Figure 31. Electric deck-lift switch.
 1. Push up to raise the deck.
 2. Push down to lower the deck.
+<PIC:Manual23_55>
 
 2. Select a hole in the height-of-cut bracket corresponding to the height of cut desired, and insert the pin ( Figure 32 ).
 
 
-<PIC:Manual23_56>
 Figure 32. Height-of-cut pin and bracket.
 1. Height-of-cut pin
 2. Height-of-cut bracket
+<PIC:Manual23_56>
 
 
 3. Push down on the deck-lift switch to set the height of cut ( Figure 31 ).
@@ -960,91 +960,91 @@ Whenever you change the height-of-cut, adjust the height of the anti-scalp rolle
 3. Adjust the anti-scalp rollers as shown in Figure 33, Figure 34, and Figure 35.
 
 
-<PIC:Manual23_57>
 Figure 33. Anti-scalp roller adjustment.
 1. Anti-scalp roller
 2. Spacer
 3. Bushing
 4. Flange nut
 5. Bolt
+<PIC:Manual23_57>
 
 
-<PIC:Manual23_58>
 Figure 34. Anti-scalp roller adjustment.
 1. Anti-scalp roller
 2. Bushing
 3. Flange nut
 4. Bolt
+<PIC:Manual23_58>
 
 
-<PIC:Manual23_59>
 Figure 35. Anti-scalp roller adjustment.
 1. Anti-scalp roller
 2. Spacer
 3. Bushing
 4. Flange nut
 5. Bolt
+<PIC:Manual23_59>
 
 
 #### Operating Tips
 
 
-#### Using the Fast Throttle Setting
+##### Using the Fast Throttle Setting
 
 
 For best mowing and maximum air circulation, operate the engine at the FAST  position. Air is required to thoroughly cut grass clippings, so do not set the height-of-cut so low as to totally surround the mower deck in uncut grass. Always try to have 1 side of the mower deck free from uncut grass, which allows air to be drawn into the mower deck.
 
 
-#### Cutting a Lawn for the First Time
+##### Cutting a Lawn for the First Time
 
 
 Cut grass slightly longer than normal to ensure that the cutting height of the mower deck does not scalp any uneven ground. However, the cutting height used in the past is generally the best one to use. When cutting grass longer than 15 cm (6 inches) tall, you may want to cut the lawn twice to ensure an acceptable quality of cut.
 
 
-#### Cutting a Third of the Grass Blade
+##### Cutting a Third of the Grass Blade
 
 
 It is best to cut only about a third of the grass blade. Cutting more than that is not recommended unless grass is sparse, or it is late fall when grass grows more slowly.
 
 
-#### Alternating the Mowing Direction
+##### Alternating the Mowing Direction
 
 
 Alternate the mowing direction to keep the grass standing straight. This also helps disperse clippings, which enhances decomposition and fertilization.
 
 
-#### Mowing at Correct Intervals
+##### Mowing at Correct Intervals
 
 
 Grass grows at different rates at different times of the year. To maintain the same cutting height, mow more often in early spring. As the grass growth rate slows in mid summer, mow less frequently. If you cannot mow for an extended period, first mow at a high cutting height, then mow again 2 days later at a lower height setting.
 
 
-#### Using a Slower Cutting Speed
+##### Using a Slower Cutting Speed
 
 
 To improve cut quality, use a slower ground speed in certain conditions.
 
 
-#### Avoiding Cutting Too Low
+##### Avoiding Cutting Too Low
 
 
 When mowing uneven turf, raise the cutting height to avoid scalping the turf.
 
 
-#### Stopping the Machine
+##### Stopping the Machine
 
 
 If you must stop the forward motion of the machine while mowing, a clump of grass clippings may
 drop onto your lawn. To avoid this, move onto a previously cut area with the blades engaged or you can disengage the mower deck while moving forward.
 
 
-#### Keeping the Underside of the Mower Deck Clean
+##### Keeping the Underside of the Mower Deck Clean
 
 
 Clean clippings and dirt from the underside of the mower deck after each use. If grass and dirt build up inside the mower deck, cutting quality will eventually become unsatisfactory.
 
 
-#### Maintaining the Blade(s)
+##### Maintaining the Blade(s)
 
 
 Maintain a sharp blade throughout the cutting season because a sharp blade cuts cleanly without tearing or shredding the grass blades. Tearing and shredding turns grass brown at the edges, which slows growth and increases the chance of disease. Check the mower blades after each use for sharpness, and for any wear or damage. File down any nicks and sharpen the blades as necessary. If a blade is damaged or worn, replace it immediately with a genuine replacement blade.
@@ -1067,8 +1067,8 @@ Maintain a sharp blade throughout the cutting season because a sharp blade cuts 
 
 Close the fuel-shutoff valve for transport, maintenance, and storage ( Figure 36 ).
 
-<PIC:Manual23_60>
 Figure 36
+<PIC:Manual23_60>
 1.Ensure that the fuel-shutoff valve is open when starting the engine.
 2. OFF  position
 
@@ -1082,8 +1082,8 @@ Figure 36
 
 #### For Machines with ZT 4400 Hydros
 
-<PIC:Manual23_61>
 Figure 37
+<PIC:Manual23_61>
 
 The drive-wheel release valves are located on the left and right sides underneath the engine deck.
 1. Park the machine on a level surface, disengage the blade-control switch, and engage the parking brake.
@@ -1104,10 +1104,10 @@ The drive-wheel release valves are located on the left and right sides underneat
 5. To run the machine, rotate both cams to the RUN position ( Figure 38 ).
 
 
-<PIC:Manual23_62>
 Figure 38.
 1. Rotate the cam to the BYPASS position.
 2. Rotate the cam to the RUN position.
+<PIC:Manual23_62>
 
 
 ### Transporting the Machine
@@ -1116,19 +1116,17 @@ Figure 38.
 Use a heavy-duty trailer or truck to transport the machine. Use a full-width ramp. Ensure that the trailer or truck has all the necessary brakes, lighting, and marking as required by law. Please carefully read all the safety instructions. Knowing this information could help you or bystanders avoid injury. Refer to your local ordinances for trailer and tie-down requirements.
 
 
-### WARNING
+**WARNING:**
 
 Driving on the street or roadway without turn signals, lights, reflective markings, or a slow-moving-vehicle emblem is dangerous and can lead to accidents, causing personal injury.  Do not drive the machine on a public street or roadway.
 
 
-### Selecting a Trailer
+#### Selecting a Trailer
 
 
-### WARNING
+**WARNING:**
 Loading a machine onto a trailer or truck increases the possibility of tip-over and could cause serious injury or death ( Figure 39 ).
 
-
-<PIC:Manual23_63>
 
 Figure 39. Selecting a trailer ramp.
 1. Full-width ramp in stowed position
@@ -1137,13 +1135,15 @@ Figure 39. Selecting a trailer ramp.
 4. Ramp is at least 4 times as long as the height of the trailer or truck bed to the ground
 5. H = height of the trailer or truck bed to the ground
 6. Trailer
+<PIC:Manual23_63>
+
 
 - Use only a full-width ramp; do not use individual ramps for each side of the machine.
 - Do not exceed a 15-degree angle between the ramp and the ground or between the ramp and the trailer or truck.
 - Ensure that the length of the ramp is at least 4 times as long as the height of the trailer or truck bed to the ground. This ensures that the ramp angle does not exceed 15 degrees on flat ground.
 
 
-### Loading the Machine
+#### Loading the Machine
 
 
 **WARNING:** Loading a machine onto a trailer or truck increases the possibility of tip-over and could cause serious injury or death.
@@ -1158,11 +1158,11 @@ Figure 39. Selecting a trailer ramp.
 4. Back the machine up the ramp ( Figure 40 ).
 
 
-<PIC:Manual23_64>
-
 Figure 40. Loading and unloading the machine on a ramp.
 1. Back the machine up the ramp.
 2. Drive the machine forward down the ramp.
+<PIC:Manual23_64>
+
 
 Continue loading the machine:
 
@@ -1172,12 +1172,12 @@ Continue loading the machine:
 Refer to local regulations for tie-down requirements.
 
 
-<PIC:Manual23_65>
 Figure 41. Tie-down loops.
  1. Tie-down loops.
+<PIC:Manual23_65>
 
 
-### Unloading the Machine
+#### Unloading the Machine
 
 
 1. Lower the ramp, ensuring that the angle between the ramp and the ground does not exceed 15 degrees ( Figure 39 ).
@@ -1232,8 +1232,8 @@ Service Interval:  Every 100 hours
 
 Use light oil or spray lubricant to lubricate the deck-lift pivots ( Figure 42 ).
 
-<PIC:Manual23_68>
 Figure 42. Lubricating the mower deck-lift pivots.
+<PIC:Manual23_68>
 
 #### Greasing the Caster-Wheel Hubs
 
@@ -1249,7 +1249,6 @@ Service Interval:  Yearly
 6. Remove a spacer nut from the axle assembly in the caster wheel ( Figure 43 ).
 
 
-<PIC:Manual23_69>
 Figure 43
  Caster-wheel hub components.
 
@@ -1257,6 +1256,7 @@ Callouts:
 1. Seal guard
 2. Spacer nut with wrench flats
 
+<PIC:Manual23_69>
 Note: Thread-locking compound has been applied to lock the spacer nuts to the axle.
 
 7. Remove the axle (with the other spacer nut still assembled to it) from the wheel assembly.
@@ -1291,10 +1291,10 @@ Important: To prevent seal and bearing damage, check the bearing adjustment ofte
 
 
 Use the following graphic to identify the engine you have and proceed to the section listed below for service.
-<PIC:Manual23_70>
 Figure 44
   1. Kawasaki engine
   2. Kohler engine
+<PIC:Manual23_70>
 
 
 #### Servicing a Kawasaki Engine
@@ -1322,7 +1322,6 @@ Service Interval:  Every 250 hours-For Kawasaki engines-replace the primary air 
 3. Release the latches on the air cleaner and pull the air-cleaner cover off the air-cleaner body ( Figure 46 ).
 
 
-<PIC:Manual23_72>
 Figure 46
 Air-cleaner components.
 
@@ -1333,6 +1332,7 @@ Callouts:
 4. Air-cleaner cover
 5. Safety filter
 
+<PIC:Manual23_72>
 4. Clean the inside of the air-cleaner cover with compressed air.
 5. Gently slide the primary filter out of the air-cleaner body ( Figure 46 ).
 
@@ -1387,8 +1387,9 @@ Note: Ensure that the engine is cool so that the oil has had time to drain into 
 3. To keep dirt, grass clippings, etc., out of the engine, clean the area around the oil-fill cap and dipstick before removing it ( Figure 48 ).
 
 
-<PIC:Manual23_73>
 Figure 48. Checking the engine-oil level.
+<PIC:Manual23_85>
+<PIC:Manual23_73>
 
 ###### Engine-Oil Specifications
 
@@ -1396,7 +1397,7 @@ Figure 48. Checking the engine-oil level.
 Oil Type:  Detergent oil (API service SF, SG, SH, SJ, or SL)
 
 
-###### Crankcase Capacity:
+**Crankcase Capacity:**
 - Kawasaki FX751 and FX801 engines- 2.3 L (78 fl oz) with a filter change; 2.1 L (71 fl oz) without a filter change
 - Kawasaki FX921 engines- 1.9 L (64 fl oz) with a filter change; 1.7 L (57 fl oz) without a filter change  Viscosity:  See the table below.
 <PIC:Manual23_74>
@@ -1419,14 +1420,16 @@ Note:  Although
 4. Shut off the engine, remove the key, and wait for all moving parts to stop before leaving the operating position.
 5. Drain the oil from the engine ( Figure 49 ).
 
-<PIC:Manual23_75>
 Figure 49. Draining the engine oil.
+<PIC:Manual23_86>
+<PIC:Manual23_75>
 
 6. Slowly pour approximately  80%  of the specified oil into the filler tube and slowly add the additional oil to bring it to the Full mark ( Figure 50 ).
 
 
-<PIC:Manual23_76>
 Figure 50. Filling and checking the engine oil.
+<PIC:Manual23_87>
+<PIC:Manual23_76>
 
 7. Start the engine and drive to a flat area.
 8. Check the oil level again.
@@ -1437,8 +1440,8 @@ Figure 50. Filling and checking the engine oil.
 1. Drain the oil from the engine; refer to Changing the Engine Oil.
 2. Change the engine-oil filter ( Figure 51 ).
 
-<PIC:Manual23_77>
 Figure 51. Changing the engine-oil filter.
+<PIC:Manual23_77>
 
 Note: Ensure that the oil-filter gasket touches the engine, and then turn the oil filter an extra 3/4 turn.
 
@@ -1452,7 +1455,7 @@ Service Interval:  Every 100 hours
 Ensure that the air gap between the center and side electrodes is correct before installing the spark plug. Use a spark plug wrench for removing and installing the spark plug and a gapping tool or feeler gauge to check and adjust the air gap. Install a new spark plug if necessary.
 
 
-###### Type of Spark Plug:
+**Type of Spark Plug:**
 - Kawasaki FX751 and FX801 engines- NGK (R) BPR4ES or equivalent
 - Kawasaki FX921 engines- NGK (R)  BPR5ES or equivalent  Air Gap:  0.75 mm  (0.030 inch)
 
@@ -1466,8 +1469,9 @@ Ensure that the air gap between the center and side electrodes is correct before
 4. Locate and remove the spark plug(s) as shown in  Figure 52.
 
 
-<PIC:Manual23_78>
 Figure 52. Locating and removing the spark plug(s).
+<PIC:Manual23_89>
+<PIC:Manual23_78>
 
 ###### Checking the Spark Plug(s)
 
@@ -1478,18 +1482,18 @@ If you see light brown or gray on the insulator, the engine is operating properl
 Set the gap to  0.75 mm  (0.030 inch).
 
 
-<PIC:Manual23_79>
 Figure 53. Checking the spark plug and setting the air gap.
+<PIC:Manual23_79>
 
 ###### Installing the Spark Plug(s)
 
 
-<PIC:Manual23_80>
 Figure 54. Installing the spark plug(s).
+<PIC:Manual23_80>
 
 #### Servicing a Kohler Engine
-<PIC:Manual23_81>
 Figure 54.
+<PIC:Manual23_81>
 
 This section is only for machines with Kohler engines. If your engine looks like the one shown in  Figure 55, you have a Kohler engine.
   Important:  Refer to your engine owner's manual for additional maintenance procedures.
@@ -1511,12 +1515,12 @@ Service Interval:
 4. Clean the air-inlet screen and cover.
 5. Install the air-inlet cover and secure it with the latches ( Figure 56 ).
 
-<PIC:Manual23_83>
 Figure 56. Air-inlet cover and screen.
 1. Air-inlet cover
 2. Air-inlet screen
 3. Air-cleaner body
 4. Latch
+<PIC:Manual23_83>
 
 6. Release the latches on the air cleaner and pull the air-cleaner cover off the air-cleaner body ( Figure 57 ).
 7. Clean the inside of the air-cleaner cover with compressed air.
@@ -1528,14 +1532,14 @@ Note: Avoid knocking the filter into the side of the body.
 
 Important: Never attempt to clean the inner filter. If the inner filter is dirty, then the primary filter is damaged. Replace both filters.
 
-<PIC:Manual23_82>
-
 Figure 57. Air-cleaner filters.
 1. Inner filter
 2. Primary filter
 3. Air-cleaner cover
 4. Latch
 5. Air-cleaner body
+<PIC:Manual23_82>
+
 
 
 ###### Inspecting the Filters
@@ -1593,7 +1597,6 @@ Note: Ensure that the engine is cool so that the oil has had time to drain into 
 3. To keep dirt, grass clippings, etc., out of the engine, clean the area around the oil-fill cap and dipstick before removing it ( Figure 59 ).
 
 
-<PIC:Manual23_85>
 Figure 59
 Checking the engine-oil level.
 
@@ -1612,13 +1615,11 @@ Checking the engine-oil level.
 5. Drain the oil from the engine ( Figure 60 ).
 
 
-<PIC:Manual23_86>
 Figure 60
 Draining the engine oil.
 
 6. Slowly pour approximately  80%  of the specified oil into the filler tube and slowly add the additional oil to bring it to the Full mark ( Figure 61 ).
 
-<PIC:Manual23_87>
 Figure 61
 Filling and checking the engine oil.
 
@@ -1632,8 +1633,8 @@ Filling and checking the engine oil.
 1. Drain the oil from the engine; refer to Changing the Engine Oil.
 2. Change the engine-oil filter ( Figure 62 ).
 
-<PIC:Manual23_88>
 Changing the engine-oil filter.
+<PIC:Manual23_88>
 
 Note: Ensure that the oil-filter gasket touches the engine, and then turn the oil filter an extra 3/4 turn.
 
@@ -1655,20 +1656,19 @@ Service Interval:  Every 200 hours-For Kohler Engines-check the spark plug(s).  
 4. Locate and remove the spark plug(s) as shown in  Figure 63.
 
 
-<PIC:Manual23_89>
 Figure 63
 Locating and removing the spark plug(s).
 
 ###### Installing the Spark Plug
 
-<PIC:Manual23_90>
 Figure 64
+<PIC:Manual23_90>
 
 ###### Checking the Spark Plug(s)
 
 Important:  Do not clean the spark plug(s). Always replace the spark plug(s) when it has a black coating, worn electrodes, an oily film, or cracks.  If you see light brown or gray on the insulator, the engine is operating properly. A black coating on the insulator usually means the air cleaner is dirty.  Set the gap to  0.76 mm  (0.030 inch).
-<PIC:Manual23_91>
 Figure 64
+<PIC:Manual23_91>
 
 #### Cleaning the Engine Screen
 
@@ -1722,9 +1722,9 @@ The fuel filter is located near the engine on the left front of the engine.
 **Note:** Ensure that the flow-direction arrow on the replacement filter points toward the engine.
 
 
-<PIC:Manual23_92>
 Figure 66
 Replacing the fuel filter.
+<PIC:Manual23_92>
 
 #### Servicing the Fuel Tank
 
@@ -1769,9 +1769,9 @@ Incorrectly removing the cables from the battery could damage the machine and ca
 3. Remove the battery as shown in Figure 67.
 
 
-<PIC:Manual23_93>
 Figure 67
  Removing the battery.
+<PIC:Manual23_93>
 
 4. Install the battery in the machine and connect the battery cables; refer to Installing the Battery.
 
@@ -1798,12 +1798,12 @@ Never smoke near the battery and keep sparks and flames away from the battery.
 3. When the battery is fully charged, unplug the charger from the electrical outlet, then disconnect the charger leads from the battery posts ( Figure 68 ).
 
 
-<PIC:Manual23_94>
 Figure 68. Charging the battery.
 1. Positive (+) battery post
 2. Negative (-) battery post
 3. Red (+) charger lead
 4. Black (-) charger lead
+<PIC:Manual23_94>
 
 
 ##### Installing the Battery
@@ -1816,7 +1816,6 @@ Figure 68. Charging the battery.
 **Note:** For MyRide machines, ensure that the ground cable does not rub against the trailing arm or lower shock mount ( Figure 69 ).
 
 
-<PIC:Manual23_95>
 Figure 69. Ground-cable routing on MyRide machines.
 
 1. Ensure that the ground cable does not rub against the lower shock mount.
@@ -1824,6 +1823,7 @@ Figure 69. Ground-cable routing on MyRide machines.
 3. Ground cable
 
 
+<PIC:Manual23_95>
 4. Secure the cables with 2 bolts, 2 washers, and 2 locknuts ( Figure 67 ).
 5. Slide the red terminal boot onto the positive (+) battery terminal.
 6. Secure the battery with the rubber strap ( Figure 67 ).
@@ -1835,11 +1835,11 @@ The electrical system is protected by fuses. It requires no maintenance; however
 
 The fuses are located on the right console next to the seat ( Figure 70 ).
 
-<PIC:Manual23_96>
 Figure 70. Fuses and fuel-shutoff valve.
 1. Fuse cover
 2. Fuse holder
 3. Fuel-shutoff valve
+<PIC:Manual23_96>
 
 1. To replace the fuses, pull out the fuse to remove it.
 2. Install a new fuse ( Figure 70 ).
@@ -1856,10 +1856,10 @@ Service Interval:  Before each use or daily  Inspect the seat belt for wear, cut
 
 #### Adjusting the Tracking
 
-<PIC:Manual23_97>
 Figure 71 Right control lever shown
 1. Tracking screw
 2. Access hole on the front cover panel
+<PIC:Manual23_97>
 
 1. Disengage the blade-control switch (PTO).
 2. Drive to an open, flat area and move the motion-control levers to the NEUTRAL-LOCK position.
@@ -1918,8 +1918,8 @@ Replace the belt if it is worn. The signs of a worn belt include squealing while
 4. Remove the belt covers ( Figure 73 ).
 
 
-<PIC:Manual23_99>
 Figure 73. Removing the belt covers.
+<PIC:Manual23_99>
 
 5. Use a 3/8-inch ratchet in the square hole in the idler arm to remove tension on the idler spring ( Figure 74 ).
 6. Remove the belt from the mower-deck pulleys and the clutch pulley.
@@ -1928,7 +1928,6 @@ Figure 73. Removing the belt covers.
 9. Install the new belt around the mower pulleys and the clutch pulley under the engine ( Figure 74 ).
 
 
-<PIC:Manual23_100>
 Figure 74. Mower belt routing and idler spring.
 1. Spring
 2. Clutch pulley
@@ -1936,6 +1935,7 @@ Figure 74. Mower belt routing and idler spring.
 4. Spring-loaded idler assembly
 5. Ratchet
 6. Square hole in the idler arm for the ratchet
+<PIC:Manual23_100>
 
 10. Install the belt guide on the idler arm ( Figure 74 ).
 11. Using the 3/8-inch ratchet in the square hole, install the idler spring ( Figure 74 ).
@@ -1944,8 +1944,8 @@ Note: Ensure that the spring ends are seated in the anchor grooves.
 12. Install the belt covers ( Figure 75 ).
 
 
-<PIC:Manual23_101>
 Figure 75. Installing the belt covers.
+<PIC:Manual23_101>
 
 
 #### Replacing the Hydraulic Pump-Drive Belt
@@ -1960,7 +1960,6 @@ Figure 75. Installing the belt covers.
 7. Install the new belt around the idler pulley, engine pulley, and 2 hydraulic-pump pulleys ( Figure 76 ).
 
 
-<PIC:Manual23_102>
 Figure 76.
 1. Idler pulley
 2. Square hole in the idler arm for the ratchet
@@ -1971,6 +1970,7 @@ Figure 76.
 7. Mower belt
 8. Idler-spring post
 9. Left hydraulic-pump pulley
+<PIC:Manual23_102>
 
 8. Using the 1/2-inch ratchet or breaker bar in one of the square holes, install the idler spring.
 9. Install the mower belt; refer to Replacing the Mower Belt.
@@ -1995,12 +1995,12 @@ You can adjust the motion control levers higher or lower for maximum comfort.
 3. Remove the hardware holding the control lever to the control-arm shaft.
 
 
-<PIC:Manual23_103>
 Figure 77.
 1. Bolts
 2. Slotted hole
 3. Control lever
 4. Control-arm shaft
+<PIC:Manual23_103>
 
 4. Move the control lever to the next set of holes. Secure the lever with the hardware.
 5. Repeat the adjustment for the opposite control lever.
@@ -2016,8 +2016,8 @@ Figure 77.
 5. Repeat the adjustment for the opposite control lever.
 
 
-<PIC:Manual23_104>
 Figure 78.
+<PIC:Manual23_104>
 
 
 #### Adjusting the Motion-Control Linkage
@@ -2053,18 +2053,18 @@ Note: The motion-control levers must be in neutral while you are making any adju
 11. Adjust the pump-control-rod lengths by rotating the nut in the appropriate direction until the wheels slightly creep in reverse ( Figure 79 and Figure 80 ).
 
 
-<PIC:Manual23_105>
 Figure 79.
 1. Access hole for 1/2-inch socket
+<PIC:Manual23_105>
 
 
-<PIC:Manual23_106>
 Figure 80.
 1. Nut
 2. Stationary plate
 3. Control plate
 4. Return-to-neutral plate
 5. Tabs touching return-to-neutral plate
+<PIC:Manual23_106>
 
 12. Move the motion-control levers to the REVERSE position and while applying slight pressure to the lever, allow the reverse-indicator springs to bring the levers back to neutral.
 
@@ -2099,9 +2099,9 @@ Hydraulic Fluid Type:  500 hydraulic fluid  Important:  Use the specified fluid.
 
 Service Interval: Before each use or daily
 
-<PIC:Manual23_107>
 1. Allow the hydraulic fluid to cool down. Check the oil level when the fluid is cold.
 2. Check expansion reservoir and if necessary add 500 hydraulic fluid to the FULL COLD line
+<PIC:Manual23_107>
 
 #### Changing the Hydraulic Fluid and Filters
 Service Interval:  After the first 100 hours-Change the hydraulic-system filters and fluid.  Every 400 hours or yearly, whichever comes first-After the initial change-change the hydraulic-system filters and fluid when using 500 fluid (change it more often under dirty or dusty conditions).  To replace the hydraulic fluid, the filters need to be removed. Replace both at the same time; refer to Hydraulic-Fluid Specifications  for fluid specifications.  Purge any air in the system after you install the new filters and add fluid. Refer to  Bleeding the Hydraulic System. Repeat the bleeding process until the fluid remains at the FULL COLD line in the reservoir after purging.  Important:  Failure to properly perform this procedure can result in irreparable damage to the transaxle drive system.
@@ -2117,28 +2117,28 @@ This procedure varies depending on the drive system of the model. If it is uncle
 4. Locate and remove the vent plug as follows: Note: Ensure that you keep track of the vent plug after removal, as it can be easy to misplace.
 - For ZT 4400 Hydros, use an extension and 7/16-inch socket, access the vent plug from the top of the machine through the holes near the roll-bar mounts ( Figure 82 ).
 
-<PIC:Manual23_108>
-
 Figure 82.
 1. Access holes for the vent plugs
+<PIC:Manual23_108>
+
 
 - For ZT 5400 Hydros, use a 7/16-inch wrench to access the vent plug from underneath the machine ( Figure 83 ).
 
-<PIC:Manual23_109>
-
 Figure 83.
 1. Vent plug
+<PIC:Manual23_109>
+
 
 **Important:** Do not allow dirt to enter the hydraulic system; otherwise, contamination may occur.
 
 6. Place a drain pan below the filter to catch the fluid that drains when the filter and vent plugs are removed.
 7. Remove the hydraulic-fluid filter cover from the transaxle to drain the fluid ( Figure 84 ).
 
-<PIC:Manual23_110>
-
 Figure 84.
 1. Hydraulic-filter housing
 2. Cover
+<PIC:Manual23_110>
+
 
 8. Remove the O-ring from the filter cover and discard the O-ring.
 9. After the hydraulic fluid drains from the transaxle, remove the filter from the transaxle housing.
@@ -2168,10 +2168,10 @@ Figure 84.
 
 1. Raise the rear of machine and support it with jack stands (or equivalent support) just high enough to allow the drive wheels to turn freely.
 
-<PIC:Manual23_111>
-
 Figure 85.
 1. Jacking points
+<PIC:Manual23_111>
+
 
 2. Start the engine, move the throttle control ahead to the 1/2 throttle position, and disengage the parking brake.
 
@@ -2214,12 +2214,12 @@ Service Interval: Before each use or daily
 3. Inspect the blades, especially in the curved area.
 4. If you notice any cracks, wear, or a slot forming in this area, immediately install a new blade (Figure 86).
 
-<PIC:Manual23_112>
 Figure 86.
 1. Cutting edge
 2. Curved area
 3. Wear/slot forming
 4. Crack
+<PIC:Manual23_112>
 
 ##### Checking for Bent Blades
 
@@ -2229,37 +2229,37 @@ Note: The machine must be on a level surface for the following procedure.
 1. Raise the mower deck to the highest height-of-cut position.
 2. While wearing thickly padded gloves, or other adequate hand protection, slowly rotate the blade into a position that allows you to measure the distance between the cutting edge and the level surface the machine is on (Figure 87).
 
-<PIC:Manual23_113>
 Figure 87.
 1. Deck
 2. Spindle housing
 3. Blade
+<PIC:Manual23_113>
 
 3. Measure from the tip of the blade to the flat surface (Figure 88).
 
-<PIC:Manual23_114>
 Figure 88.
 1. Blade (in position for measuring)
 2. Level surface
 3. Measured distance between blade and the surface (A)
+<PIC:Manual23_114>
 
 4. Rotate the same blade 180 degrees so that the opposing cutting edge is now in the same position (Figure 89).
 
 
-<PIC:Manual23_115>
 Figure 89.
 1. Blade (side previously measured)
 2. Measurement (position used previously)
 3. Opposing side of blade being moved into measurement position
+<PIC:Manual23_115>
 
 5. Measure from the tip of the blade to the flat surface (Figure 90).
 
 
-<PIC:Manual23_116>
 Figure 90.
 1. Opposite blade edge (in position for measuring)
 2. Level surface
 3. Second measured distance between blade and surface (B)
+<PIC:Manual23_116>
 
 **Note:** The variance should be no more than 3 mm (1/8 inch).
 
@@ -2279,13 +2279,13 @@ Replace the blades if they hit a solid object, or if the blade is out of balance
 2. Remove the blade bolt, bushing, and blade from the spindle shaft ( Figure 91 ).
 
 
-<PIC:Manual23_117>
 Figure 91
 1. Sail area of the blade
 2. Blade
 3. Flat of the spindle shaft
 4. Bushing
 5. Blade bolt
+<PIC:Manual23_117>
 
 
 ##### Sharpening the Blades
@@ -2297,12 +2297,12 @@ Figure 91
 2. Check the balance of the blade by putting it on a blade balancer.
 3. Repeat this procedure until the blade is balanced.
 
-<PIC:Manual23_120>
 1. Sharpen at original angle.
+<PIC:Manual23_120>
 
-<PIC:Manual23_121>
 1. Blade
 2. Balancer
+<PIC:Manual23_121>
 
 ##### Installing the Blades
 
@@ -2313,15 +2313,15 @@ Figure 91
 4. Place a wrench on the flat of the spindle shaft and torque the blade bolt to 75 to
 81 N-m (55 to 60 ft-lb).
 
-<PIC:Manual23_118>
 Figure 94.
 1. Bushing
+<PIC:Manual23_118>
 
-<PIC:Manual23_119>
 Figure 95.
 1. Top spindle nut
 2. Flat of the spindle shaft
 3. Blade bolt
+<PIC:Manual23_119>
 
 
 #### Adjusting the Side-to-Side Leveling and the Blade Slope
@@ -2329,7 +2329,7 @@ Figure 95.
 Check to ensure that the mower deck is level any time you install the mower or when you see an uneven cut on your lawn.  Check the mower deck for bent blades prior to leveling, and remove and replace any bent blades; refer to  Servicing the Cutting Blades  before continuing.  Level the mower deck side-to-side first; then you can adjust the front-to-rear slope.
 
 
-##### Requirements:
+**Requirements:**
 - The machine must be on a level surface.
 - All tires must be properly inflated; refer to Checking the Tire Pressure.
 
@@ -2357,41 +2357,42 @@ A. Raise the deck to the transport position (  140 mm  or 5-1/2 inches).
 B. Install the lift-assist spring adjusting screw previously removed in step  9.
 C. Set the gap between the spring and the bracket to 22 to  29 mm  (7/8 to 1-1/8 inches).
 
-<PIC:Manual23_122>
 Figure 96.
 1. Blades side to side
 2. Blade tip
 3. Measure from the tip of the blade to the flat surface here.
+<PIC:Manual23_122>
 
-<PIC:Manual23_123>
 Figure 97.
 1. Blades front to rear
 2. Blade tip
 3. Measure from the tip of the blade to the flat surface here.
+<PIC:Manual23_123>
 
-<PIC:Manual23_124>
 Figure 98.
 1. Adjusting screw
 2. Bracket
 3. Set the gap to 22 to 29 mm (7/8 to 1-1/8 inches).
+<PIC:Manual23_124>
 
-<PIC:Manual23_125>
 Figure 99. Bottom view.
 1. Block - 73 mm (2-7/8 inches)
 2. Welds
+<PIC:Manual23_125>
 
-<PIC:Manual23_126>
+
 **Table: Block Height and Rake Table**
 | Deck Size | Front Block Height | Rake |
 | --- | --- | --- |
 | All mower decks | 73 mm (2-7/8 inches) | 4.8 to 6.4 mm (3/16 to 1/4 inch) |
+<PIC:Manual23_126>
 
-<PIC:Manual23_127>
 Figure 100.
 1. Locknuts
 2. Deck lift arm
 3. Deck hanger
 4. Chain
+<PIC:Manual23_127>
 
 
 #### Removing the Mower Deck
@@ -2407,10 +2408,10 @@ Before servicing or removing the mower deck, lock out the spring-loaded deck arm
 7. Remove and retain the bolts and nuts on both sides of the machine ( Figure 101 ).
 8. Slide the deck out to the right side of the machine.
 
-<PIC:Manual23_128>
 Figure 101.
 1. Remove the nuts and bolts here.
 2. Remove the nuts and bolts here.
+<PIC:Manual23_128>
 
 #### Replacing the Grass Deflector
 
@@ -2424,7 +2425,6 @@ An uncovered discharge opening could allow the machine to throw objects toward y
 5. Install the bolt and the nut.
 6. Place 1  J-hook end of the spring around the grass deflector ( Figure 102 ). Important:  The grass deflector must be able to rotate. Lift the deflector up to the full open position and ensure that it rotates into the full down position.
 
-<PIC:Manual23_129>
 Figure 102.
 1. Bolt
 2. Spacer
@@ -2433,6 +2433,7 @@ Figure 102.
 5. Spring installed
 6. Grass deflector
 7. J-hook end of spring
+<PIC:Manual23_129>
 
 ## Cleaning
 
@@ -2460,8 +2461,8 @@ Use compressed air to clean the suspension system.
 
 Note:  Do not clean the shock assemblies with pressurized water ( Figure 103 ).
 
-<PIC:Manual23_130>
 Figure 103.
+<PIC:Manual23_130>
 
 ### Disposing of Waste
 
@@ -2501,7 +2502,7 @@ E. Dispose of fuel properly. Recycle the fuel according to local codes.  Importa
 17. Store the machine in a clean, dry garage or storage area. Remove the key from the switch and keep it out of reach of children or other unauthorized users. Cover the machine to protect it and keep it clean.
 
 
-### Troubleshooting
+## Troubleshooting
 
 <PIC:Manual23_131>
 
@@ -2509,7 +2510,7 @@ E. Dispose of fuel properly. Recycle the fuel according to local codes.  Importa
 
 <PIC:Manual23_133>
 
-### Schematics
+## Schematics
 
 <PIC:Manual23_134>
 
@@ -2526,12 +2527,12 @@ Kawasaki Engines Electrical Schematic-Page 2 (Rev. A)
 Kohler Engines Electrical Schematic (Rev. A)
 
 
-### California Proposition 65 Warning Information
+## California Proposition 65 Warning Information
 
 
 ### What is this warning?
 
-### WARNING:
+**WARNING:**
 
 
 Cancer and Reproductive Harm.
@@ -2646,11 +2647,15 @@ It has been chosen to provide consumers with as much information as possible so 
 - `<PIC:Manual23_70>`
 - `<PIC:Manual23_71>`
 - `<PIC:Manual23_72>`
+- `<PIC:Manual23_85>`
 - `<PIC:Manual23_73>`
 - `<PIC:Manual23_74>`
+- `<PIC:Manual23_86>`
 - `<PIC:Manual23_75>`
+- `<PIC:Manual23_87>`
 - `<PIC:Manual23_76>`
 - `<PIC:Manual23_77>`
+- `<PIC:Manual23_89>`
 - `<PIC:Manual23_78>`
 - `<PIC:Manual23_79>`
 - `<PIC:Manual23_80>`
@@ -2658,11 +2663,7 @@ It has been chosen to provide consumers with as much information as possible so 
 - `<PIC:Manual23_83>`
 - `<PIC:Manual23_82>`
 - `<PIC:Manual23_84>`
-- `<PIC:Manual23_85>`
-- `<PIC:Manual23_86>`
-- `<PIC:Manual23_87>`
 - `<PIC:Manual23_88>`
-- `<PIC:Manual23_89>`
 - `<PIC:Manual23_90>`
 - `<PIC:Manual23_91>`
 - `<PIC:Manual23_92>`
@@ -3181,6 +3182,12 @@ It has been chosen to provide consumers with as much information as possible so 
 - 相对路径：`data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_72.jpg`
 - 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_72.jpg`
 
+### <PIC:Manual23_85>
+
+- image_id：`Manual23_85`
+- 相对路径：`data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_85.jpg`
+- 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_85.jpg`
+
 ### <PIC:Manual23_73>
 
 - image_id：`Manual23_73`
@@ -3193,11 +3200,23 @@ It has been chosen to provide consumers with as much information as possible so 
 - 相对路径：`data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_74.jpg`
 - 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_74.jpg`
 
+### <PIC:Manual23_86>
+
+- image_id：`Manual23_86`
+- 相对路径：`data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_86.jpg`
+- 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_86.jpg`
+
 ### <PIC:Manual23_75>
 
 - image_id：`Manual23_75`
 - 相对路径：`data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_75.jpg`
 - 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_75.jpg`
+
+### <PIC:Manual23_87>
+
+- image_id：`Manual23_87`
+- 相对路径：`data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_87.jpg`
+- 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_87.jpg`
 
 ### <PIC:Manual23_76>
 
@@ -3210,6 +3229,12 @@ It has been chosen to provide consumers with as much information as possible so 
 - image_id：`Manual23_77`
 - 相对路径：`data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_77.jpg`
 - 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_77.jpg`
+
+### <PIC:Manual23_89>
+
+- image_id：`Manual23_89`
+- 相对路径：`data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_89.jpg`
+- 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_89.jpg`
 
 ### <PIC:Manual23_78>
 
@@ -3253,35 +3278,11 @@ It has been chosen to provide consumers with as much information as possible so 
 - 相对路径：`data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_84.jpg`
 - 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_84.jpg`
 
-### <PIC:Manual23_85>
-
-- image_id：`Manual23_85`
-- 相对路径：`data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_85.jpg`
-- 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_85.jpg`
-
-### <PIC:Manual23_86>
-
-- image_id：`Manual23_86`
-- 相对路径：`data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_86.jpg`
-- 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_86.jpg`
-
-### <PIC:Manual23_87>
-
-- image_id：`Manual23_87`
-- 相对路径：`data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_87.jpg`
-- 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_87.jpg`
-
 ### <PIC:Manual23_88>
 
 - image_id：`Manual23_88`
 - 相对路径：`data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_88.jpg`
 - 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_88.jpg`
-
-### <PIC:Manual23_89>
-
-- image_id：`Manual23_89`
-- 相对路径：`data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_89.jpg`
-- 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\20_骑乘式割草机_Lawn_Mower\images\Manual23_89.jpg`
 
 ### <PIC:Manual23_90>
 

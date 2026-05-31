@@ -1,10 +1,10 @@
 # Owner's Instructions
 
 
+Before operating the unit, please read this manual thoroughly, and retain for future reference.
 <PIC:Manual39_0>
 
 
-Before operating the unit, please read this manual thoroughly, and retain for future reference.
 
 ## Contents
 
@@ -48,10 +48,10 @@ You can wash laundry efficiently by two types, Normal or Soft
 Be sure that the washer is grounded. To avoid electrical shock, use a metal pipe for the ground connection. But, don't ground the washer with gas pipes or telephone lines to avoid the dangers of explosion or lightning strike
 
 
+Do not put your hands into the spin dryer basket during spinning.
 <PIC:Manual39_1>
 
 
-Do not put your hands into the spin dryer basket during spinning.
 
 
 <PIC:washing_machine1_02>
@@ -67,11 +67,11 @@ Disconnect the power cord from the power supply after use. Ventilation opening m
 
 ## PRECAUTIONS WHEN OPERATING
 
-### Don't use excessively hot water
+**Don't use excessively hot water**
 
 (50 degrees C or more) Plastic parts may be deformed or damaged. Also, clothing may be deformed or discolored
 
-### Before washing, empty all pockets
+**Before washing, empty all pockets**
 
 If nails or pins remain in pockets, they may damage the washer or clothes. Close the water tap a little if the water pressure is too high. Be sure to cover with the inner cover on laundry before spinning. This prevents laundry from being tossed out and damaged. To avoid water splashes, close the wash tub lid. Never splash water on the control panel.
 
@@ -86,13 +86,13 @@ Option Hose (with pump) OVERFLOW FILTER LINT FILTER WASH TUB WASH TUB LID Be sur
 
 
 ### CONTROL PANEL
-<PIC:Manual39_3>
-
 1. WASH SELECTOR To select wash action.
 2. WASH TIMER To set the wash time, 1-15 minutes.
 3. CYCLE SELECTOR To set the Washing/Rinsing or Draining.
 4. SPIN DRY TIMER To set the spin time, 1-5 minutes. (1-10 minutes)
 5. WATER SELECTOR During washing, WATER GUIDE KNOB should be selected to wash. During spin rinsing, WATER GUIDE KNOB should be selected to spin
+<PIC:Manual39_3>
+
 
 
 ## WASHING PROCEDURE
@@ -156,9 +156,9 @@ Caption: Optional spin dry timer knob (1-10 minutes, Super/Delicate/Normal).<PIC
 5. Repeat this cycle until drain water is clean. (2~3 cycles)
 
 ### OVERFLOW RINSE
+1. Keep supplying water Adjust water pressure to ensure that the amount of water supplied does not exceed that water drained.
 <PIC:Manual39_19>
 
-1. Keep supplying water Adjust water pressure to ensure that the amount of water supplied does not exceed that water drained.
 
 
 2. Set the WASH TIMER 6~8 minutes.<PIC:Manual39_20>
@@ -177,19 +177,19 @@ Caption: Optional spin dry timer knob (1-10 minutes, Super/Delicate/Normal).<PIC
 
 ### ENVIRONMENT
 
-### Leave some space
+**Leave some space**
 
 Space at least 15 cm between the washer and the wall.
 
-### Place the washer on a sturdy flat surface
+**Place the washer on a sturdy flat surface**
 
 If the washer is placed on an uneven or weak surface, noise or vibration may occur. (Allowable is 2 degrees)
 
-### Never install the washer near water
+**Never install the washer near water**
 
 Do not place the washer in steamy rooms or where the washer is directly exposed to rain. Moisture may destroy the electrical insulation and cause an electrical shock hazard.
 
-### Avoid direct sunlight or heating devices
+**Avoid direct sunlight or heating devices**
 
 As plastic and electrical components are affected by direct heat, never place the washer near heaters, boilers, etc. Do not place under direct sunlight. Install the drain hose about 70~80 cm above the ground for pump model.<PIC:Manual39_24>
 
@@ -241,14 +241,14 @@ The amount of detergent is average. Follow the instruction detergent printed on 
 
 ## MAINTENANCE
 
-### WHEN YOU LOAD THE LAUNDRY INTO THE SPIN BASKET.
+### Loading the Spin Basket
 
 Press the laundry evenly and put the safety cover into the spin basket drum as shown in the figure.<PIC:Manual39_33>
 
-#### TO PICK OUT THE CLOTHING WHICH HAS FALLEN BETWEEN THE BASKET AND TUB
+### Removing Clothing Between the Basket and Tub
+For safety, pull the power supply plug out of the socket.
 <PIC:Manual39_34>
 
-For safety, pull the power supply plug out of the socket.
 1. Disassemble a screw from the spin dryer hatch.
 2. The spin dryer hatch is fixed to the brim by the concave and convex parts at two places. Expand the concave and convex parts, and pull up the spin dryer hatch to remove it.
 3. Remove the clothing.
