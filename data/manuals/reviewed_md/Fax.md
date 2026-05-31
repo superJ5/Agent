@@ -147,9 +147,9 @@ Wait until pages have exited the product before picking them up. Failure to do t
   
 (MFC-J6540DW/MFC-J6555DW/MFC-J6740DW/MFC-J6940DW/MFC-J6955DW)  Be careful not to put your fingers in the areas shown in the illustrations. It may cause injury to you.  
 
+  (MFC-J5955DW/MFC-J6540DW/MFC-J6555DW/MFC-J6740DW/MFC-J6940DW/MFC-J6955DW)  
 <PIC:Manual15_9>
 
-  (MFC-J5955DW/MFC-J6540DW/MFC-J6555DW/MFC-J6740DW/MFC-J6940DW/MFC-J6955DW)  
 To prevent possible injuries, at least two people should lift the product. One person should hold the front of the product, and one person should hold the back, as shown in the illustration below. Carry the product by sliding your hands into the handhold indentations located on each side of the product. Be careful not to trap your fingers when you put the product down.  
 
 <PIC:fax_08>

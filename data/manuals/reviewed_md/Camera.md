@@ -186,14 +186,14 @@ After detaching the lens from the camera, attach the lens caps or put down the l
 
 ### LCD Panel
 
+The actual display will show only the applicable items.
 <PIC:Manual10_3>
 
-The actual display will show only the applicable items.
 ### Viewfinder Information
 
+The actual display will show only the applicable items.
 <PIC:Manual10_4>
 
-The actual display will show only the applicable items.
 ### Mode Dial
 
 The Mode Dial is divided into two function zones.
@@ -348,20 +348,20 @@ Load a fully charged BP-511A battery pack into the camera.
 #### Close the cover.
 - Press the cover until it snaps shut.
 
+Battery Pack BP-511A, BP-514, BP-511, or BP-512 can also be used.
 <PIC:Camera_10>
 
-Battery Pack BP-511A, BP-514, BP-511, or BP-512 can also be used.
 ### Checking the Battery Level
 
 When the power switch is set to <ON>, the battery level will be indicated at one of three levels.
 
 <PIC:Manual10_17>
 
-<PIC:Camera_11>
-
 Battery level OK.
+
 Battery level is low.
 Battery must be recharged.
+<PIC:Camera_11>
 ### Battery Life
 - The figures above are based on a fully-charged BP-511A and CIPA (Camera & Imaging Products Association) testing criteria. The actual number of shots may be fewer than indicated above depending on the shooting conditions.
 
@@ -471,9 +471,9 @@ If the CF card is inserted in the wrong way, it may damage the camera. As shown 
 The CF card eject button pops out.
 Top
 
+CF card eject button
 <PIC:Manual10_26>
 
-CF card eject button
 #### Close the cover.
 
 Close the cover and slide it in the direction shown by the arrow until it snaps shut. When the shots remaining is displayed on the LCD panel.
@@ -602,9 +602,9 @@ The Multi-controller consists of eight direction keys and a button at the center
 
 By setting various optional settings with the menus, you can set the image recording quality, processing parameters, the date/time, Custom Functions, etc. While looking at the LCD monitor, you use the <MENU> button, <JUMP> button, <SET> button, and dial on the camera back to proceed to the next step.
 
+The menu screen is color coded for the three menu categories.
 <PIC:Manual10_37>
 
-The menu screen is color coded for the three menu categories.
 
 <PIC:Manual10_38>
 
@@ -751,9 +751,9 @@ The date/time (back-up) battery maintains the camera's date and time. The batter
 
 Open the cover and remove the battery.
 
+Take out the battery holder.
 <PIC:Manual10_46>
 
-Take out the battery holder.
 
 <PIC:Manual10_47>
 
@@ -764,9 +764,9 @@ Take out the battery holder.
 
 Close the cover.
 
+For the date/time battery, be sure to use a CR2016 lithium battery.
 <PIC:Manual10_49>
 
-For the date/time battery, be sure to use a CR2016 lithium battery.
 ### MENU Cleaning the CMOS sensor
 
 The image sensor is like the film in a film camera. If any dust or other foreign matter adheres to the image sensor, it may show up as a dark speck in the images. To avoid this, follow the procedure below to clean the image sensor. Note that the image sensor is a very delicate component. If possible, you should have it cleaned by a Canon Service Center.  While you clean the image sensor, the camera must be turned on. Using the AC Adapter Kit ACK-E2 (optional, see page 154) is recommended. If you use a battery, make sure the battery level is sufficient. Before cleaning the sensor, detach the lens from the camera.
@@ -1318,9 +1318,9 @@ For details on [Filter effects] and
 
 The same effect as using filters with black-and-white film can be obtained with digital images. A color can be brightened by using a filter having a similar or same color. At the same time, the complementary colors will be darkened.
 
+Setting the Contrast to the plus side will make the filter effect more pronounced.
 <PIC:Manual10_90>
 
-Setting the Contrast to the plus side will make the filter effect more pronounced.
 ### Toning Effect
 
 When color toning is set, color toning will be applied to the captured black-and-white image before being recorded to the CF card. It can make the image look more impressive.
@@ -1407,9 +1407,9 @@ The AF point which achieves focus flashes briefly. At the same time, the focus c
 
 With evaluative metering, the exposure setting (shutter speed and aperture) will be set when focus is achieved. The exposure setting and focus will be locked as long as the shutter button is pressed halfway. (p.69) You can then recompose the shot while retaining the exposure setting and point of focus.
 
-<PIC:Manual10_100>
 
 AF point Focus confirmation light
+<PIC:Manual10_100>
 
 <PIC:Manual10_101>
 
@@ -1680,13 +1680,13 @@ FE lock
 
 In this mode, you set the shutter speed and the camera automatically sets the aperture value to suit the brightness of the subject. This is called Shutter-Priority AE. A fast shutter speed can freeze the motion of a fast-moving subject and a slow shutter speed can blur the subject to give the impression of motion. <Tv> stands for Time value.
 
-<PIC:Manual10_121>
 
 Fast shutter speed
+<PIC:Manual10_121>
 
-<PIC:Manual10_122>
 
 Slow shutter speed
+<PIC:Manual10_122>
 #### Set the Mode Dial to <Tv>.
 
 #### Set the desired shutter speed.
@@ -1718,13 +1718,13 @@ The shutter speeds from "8000" to "4" indicate the denominator of the fractional
 
 In this mode, you set the desired aperture and the camera sets the shutter speed automatically to suit the subject brightness. This is called aperture-priority AE. The smaller the aperture (larger f/number), the wider the depth of field (range of acceptable focus). The larger the aperture (smaller f/number), the narrower the depth of field. <Av> stands for Aperture value.
 
-<PIC:Manual10_126>
 
 With a large aperture
+<PIC:Manual10_126>
 
-<PIC:Manual10_127>
 
 With a small aperture
+<PIC:Manual10_127>
 #### Set the Mode Dial to <Av>.
 
 <PIC:Camera_34>
@@ -1798,6 +1798,7 @@ In this mode, you set both the shutter speed and aperture value as desired. To d
 The exposure setting will be displayed in the viewfinder and on the LCD panel.
 The exposure level icon  lets you see how far you are from the standard exposure level.
 Standard exposure index Exposure level mark
+<PIC:Manual10_143>
 
 <PIC:Manual10_136>
 
@@ -1851,10 +1852,12 @@ Set the Quick Control Dial switch to enabled and, while looking at the viewfinde
 <PIC:Manual10_138>
 
 Increased exposure
+<PIC:Manual10_145>
 
 <PIC:Manual10_139>
 
 Decreased exposure
+<PIC:Manual10_144>
 
 <PIC:Manual10_140>
 
@@ -1874,15 +1877,12 @@ Set the exposure compensation amount.  To cancel the exposure compensation, set 
 
 By changing the shutter speed or aperture automatically, the camera brackets the exposure up to 2 stops in 1/3-stop increments for three successive shots. This is called Auto Exposure Bracketing (AEB).
 
-<PIC:Manual10_143>
 
 Standard exposure
 
-<PIC:Manual10_144>
 
 Decreased exposure
 
-<PIC:Manual10_145>
 
 Increased exposure
 #### Select [AEB].
@@ -1935,9 +1935,9 @@ The AE lock indicator lights in the viewfinder to indicate that the exposure set
 
 <PIC:Manual10_149>
 
+AE lock indicator
 <PIC:Manual10_150>
 
-AE lock indicator
 ### Recompose and take the picture.
 
 If you want to maintain the AE lock while taking more shots, hold down the AE lock button and press the shutter button to take another shot.
@@ -2085,17 +2085,17 @@ When flash is used in a low-light environment, the subject's eyes may look red i
 
 Turn the Quick Control Dial to select [On], then press <SET>.
 
+When you press the shutter button down halfway, the red-eye reduction lamp-on indicator appears in the viewfinder.
 <PIC:Manual10_161>
 
-When you press the shutter button down halfway, the red-eye reduction lamp-on indicator appears in the viewfinder.
 - Red-eye reduction will not work unless the subject looks at the red-eye reduction lamp. Tell the subject to look at the lamp.
 - To increase the effectiveness of red-eye reduction, press the shutter button down fully after the red-eye reduction lamp (which lights for approximately 1.5 seconds) indicator goes off.  You can shoot anytime by pressing the shutter button down fully, even if the red-eye reduction lamp is still on.
 - The effectiveness of red-eye reduction varies from subject to subject.
 - Red-eye reduction is more effective in brighter rooms or when the camera is closer to the subject.
 
+Red-eye reduction lamp On indicator
 <PIC:Manual10_162>
 
-Red-eye reduction lamp On indicator
 ### FE lock
 
 FE (flash exposure) lock obtains and locks the correct flash exposure reading for any part of a subject.
@@ -2240,9 +2240,9 @@ Turn the Quick Control Dial to select [On], then press <SET>.
 - While looking at the gray chart on the left, turn the dial to adjust.
 - Press <SET> to exit the setting and return to the menu.
 
+You can select any captured image to view. You can view a single image, the shooting information, an index display, or a magnified view.
 <PIC:Camera_47>
 
-You can select any captured image to view. You can view a single image, the shooting information, an index display, or a magnified view.
 ### Single image display
 
 ### Playback the image.
@@ -2259,17 +2259,19 @@ Press the <INFO> button to switch the display format.
 
 <PIC:Camera_49>
 
+Single image display (with basic info)
 <PIC:Manual10_170>
 
-Single image display (with basic info)
 
-<PIC:Manual10_171>
 
 Shooting information
+<PIC:Manual10_171>
 
+Single image display (no shooting info)
 <PIC:Manual10_172>
 
-Single image display (no shooting info)  To quit the playback, press the Playback button. The LCD monitor will turn off.
+To quit the playback, press the Playback button. The LCD monitor will turn off.
+
 - Even in display formats other than single image (index display, magnified view, etc.), you can press the <INFO> button to display or hide the basic info.
 - While data is being written to the CF card (access lamp blinking) after continuous shooting, press the Playback button to display the last image which has been written to the CF card. Turn the Quick Control Dial to select the image. After all the images have been written to the CF card, they can be displayed in sequence.
 ### Shooting Information Display
@@ -2282,13 +2284,13 @@ A histogram is a graph indicating the image's brightness. The horizontal axis in
 
 ### Sample Histograms
 
-<PIC:Manual10_174>
 
 Dark image
+<PIC:Manual10_174>
 
-<PIC:Manual10_175>
 
 Normal image
+<PIC:Manual10_175>
 
 <PIC:Manual10_176>
 
@@ -2335,9 +2337,9 @@ First, the center of the image will be magnified.
 
 - Press the reduce button to reduce the magnification. Hold down the reduce button to continue reducing the magnification until it reaches the size in step 1.
 
-<PIC:Manual10_177>
 
 Magnified area
+<PIC:Manual10_177>
 ### Scroll around the image.
 - Use the Multi-controller to scroll around the image in any direction.
 
@@ -2454,9 +2456,9 @@ To protect another image, repeat step 2.
 
 - To exit the image protection, press the MENU button. The menu will reappear.
 
-<PIC:Camera_57>
 
 Image protect icon
+<PIC:Camera_57>
 
 - Once an image is protected, it cannot be erased by the camera's Erase function. To erase a protected image, you must first cancel the protection.
 
@@ -2619,9 +2621,9 @@ Check that the printer connected icon is displayed on the upper left of the LCD 
 
 Turn the dial to select the image to be printed. Press <SET>. The print setting screen will appear.
 
-<PIC:Manual10_196>
 
 Printer connected icon
+<PIC:Manual10_196>
 ### Print setting screen
 
 - Set the date imprinting to on or off.
@@ -2661,9 +2663,9 @@ If you are using a Canon printer, refer to the printer's instruction manual for 
 
 - Turn the dial to select the desired layout, then press <SET>. The Print setting screen will reappear.
 
-<PIC:Manual10_202>
 
 Setting the Layout
+<PIC:Manual10_202>
 ### About Layout
 
 <PIC:Manual10_203>
@@ -2972,9 +2974,9 @@ Turn the dial to select the image to be printed.
 
 Press the Multi-controller button to see a three-image view. To return to the single-image view, press the Playback button.
 
+Three-image view
 <PIC:Camera_70>
 
-Three-image view
 
 <PIC:Manual10_225>
 
@@ -3676,9 +3678,9 @@ Custom Functions:  18 Custom Functions with 50 settings
 
 Battery: One Battery Pack BP-511A, BP-514, BP-511, or BP-512. AC power can also be supplied with the DC Coupler. With Battery Grip BG-E2, size-AA batteries can be used. Battery life: [shots]
 
+Battery check: Power saving: Date/Time battery: The above figures apply when a fully-charged Battery Pack BP-511A is used.
 <PIC:Manual10_249>
 
-Battery check: Power saving: Date/Time battery: The above figures apply when a fully-charged Battery Pack BP-511A is used.
 Automatic
 Provided. Power turns off after 1, 2, 4, 8, 15, or 30 min. One CR2016 lithium battery
 ### Dimensions and Weight
@@ -4101,19 +4103,19 @@ Wireless, Multi-Speedlite System...97
 - `<PIC:Camera_35>`
 - `<PIC:Camera_36>`
 - `<PIC:Camera_37>`
+- `<PIC:Manual10_143>`
 - `<PIC:Manual10_136>`
 - `<PIC:Manual10_137>`
 - `<PIC:Camera_38>`
 - `<PIC:Camera_39>`
 - `<PIC:Camera_40>`
 - `<PIC:Manual10_138>`
+- `<PIC:Manual10_145>`
 - `<PIC:Manual10_139>`
+- `<PIC:Manual10_144>`
 - `<PIC:Manual10_140>`
 - `<PIC:Manual10_141>`
 - `<PIC:Manual10_142>`
-- `<PIC:Manual10_143>`
-- `<PIC:Manual10_144>`
-- `<PIC:Manual10_145>`
 - `<PIC:Manual10_146>`
 - `<PIC:Manual10_147>`
 - `<PIC:Manual10_148>`
@@ -5288,6 +5290,12 @@ Wireless, Multi-Speedlite System...97
 - 相对路径：`data\manuals\raw\01_相机_Camera\images\Camera_37.png`
 - 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\01_相机_Camera\images\Camera_37.png`
 
+### <PIC:Manual10_143>
+
+- image_id：`Manual10_143`
+- 相对路径：`data\manuals\raw\01_相机_Camera\images\Manual10_143.jpg`
+- 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\01_相机_Camera\images\Manual10_143.jpg`
+
 ### <PIC:Manual10_136>
 
 - image_id：`Manual10_136`
@@ -5324,11 +5332,23 @@ Wireless, Multi-Speedlite System...97
 - 相对路径：`data\manuals\raw\01_相机_Camera\images\Manual10_138.jpg`
 - 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\01_相机_Camera\images\Manual10_138.jpg`
 
+### <PIC:Manual10_145>
+
+- image_id：`Manual10_145`
+- 相对路径：`data\manuals\raw\01_相机_Camera\images\Manual10_145.jpg`
+- 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\01_相机_Camera\images\Manual10_145.jpg`
+
 ### <PIC:Manual10_139>
 
 - image_id：`Manual10_139`
 - 相对路径：`data\manuals\raw\01_相机_Camera\images\Manual10_139.jpg`
 - 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\01_相机_Camera\images\Manual10_139.jpg`
+
+### <PIC:Manual10_144>
+
+- image_id：`Manual10_144`
+- 相对路径：`data\manuals\raw\01_相机_Camera\images\Manual10_144.jpg`
+- 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\01_相机_Camera\images\Manual10_144.jpg`
 
 ### <PIC:Manual10_140>
 
@@ -5347,24 +5367,6 @@ Wireless, Multi-Speedlite System...97
 - image_id：`Manual10_142`
 - 相对路径：`data\manuals\raw\01_相机_Camera\images\Manual10_142.jpg`
 - 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\01_相机_Camera\images\Manual10_142.jpg`
-
-### <PIC:Manual10_143>
-
-- image_id：`Manual10_143`
-- 相对路径：`data\manuals\raw\01_相机_Camera\images\Manual10_143.jpg`
-- 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\01_相机_Camera\images\Manual10_143.jpg`
-
-### <PIC:Manual10_144>
-
-- image_id：`Manual10_144`
-- 相对路径：`data\manuals\raw\01_相机_Camera\images\Manual10_144.jpg`
-- 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\01_相机_Camera\images\Manual10_144.jpg`
-
-### <PIC:Manual10_145>
-
-- image_id：`Manual10_145`
-- 相对路径：`data\manuals\raw\01_相机_Camera\images\Manual10_145.jpg`
-- 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\01_相机_Camera\images\Manual10_145.jpg`
 
 ### <PIC:Manual10_146>
 

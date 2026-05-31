@@ -158,11 +158,10 @@ All riders must wear a Coast Guard approved personal flotation device (PFD) that
 
 Normal swimwear does not adequately protect against forceful water entry into rectum or vagina. All riders must wear a wetsuit bottom or clothing that provides equivalent protection. Such clothing includes thick, tightly woven, sturdy and snug-fitting apparel such as denim, but does not include spandex or similar fabrics, like those used in bicycle shorts.
 
-<PIC:Manual20_19>
-
 (1) Coast Guard approved PFD
 
 (2) Wetsuit bottom
+<PIC:Manual20_19>
 
 Eye protection is recommended to keep wind, water, and glare from the sun out of your eyes while you operate your watercraft. Restraining straps for eyewear are made which are designed to float should your eyewear fall in the water. Footwear and gloves are recommended.
 Helmets meeting Snell or DOT standards are required for IJSBA-sanctioned races. You must decide whether to wear a helmet while you ride for recreation. You should know that a helmet could help protect you in certain kinds of accidents and that it could injure you in others.
@@ -342,16 +341,13 @@ When you ride responsibly, with respect and courtesy for others, you help ensure
 
 ## Location of main components
 
-<PIC:Manual20_30>
-
 (1) Handlebars: Use to control direction.
 (2) Fuel tank filler cap
 (3) Rope hole
 (4) Footwell: Use to place feet for balance.
 (5) Intake grate: Prevents debris from getting into the jet pump.
 (6) Speed sensor
-
-<PIC:Manual20_31>
+<PIC:Manual20_30>
 
 (1) Cooling water pilot outlet: Use to verify cooling water flow.
 (2) Bow eye: Use to attach rope for transporting, mooring or towing the watercraft in an emergency.
@@ -362,13 +358,11 @@ When you ride responsibly, with respect and courtesy for others, you help ensure
 (7) Seat
 (8) Glove compartment
 (9) Yamaha Adjustable Sponson (YAS)
+<PIC:Manual20_31>
 
 <PIC:Manual20_32>
 
-<PIC:Manual20_33>
-
 Engine shut-off cord (lanyard)
-
 Throttle lever: Use to accelerate and decelerate.
 Choke lever
 Oil tank filler cap
@@ -382,8 +376,7 @@ Quick Shift Trim System (QSTS) selector: Use to select the trim angle of the wat
 Engine shut-off switch: Remove the clip to stop the engine and disable it from starting.
 Start switch: Push to start the engine.
 Multifunction information center: Use to check watercraft operation.
-
-<PIC:Manual20_34>
+<PIC:Manual20_33>
 
 Spark plugs/Spark plug caps
 Electrical box: Protects electrical components from water.
@@ -396,6 +389,7 @@ Oil tank
 Battery
 Fire extinguisher container
 Water separator
+<PIC:Manual20_34>
 
 ## Operation of controls and other functions
 
@@ -701,13 +695,13 @@ To close the front storage compartment, push down on the rear of the hood until 
 
 A glove compartment (2) is located in front of the seat.
 
+To open the glove compartment, slide the latch (1) toward you, and then lift up the lid.
 <PIC:Manual20_67>
 
-To open the glove compartment, slide the latch (1) toward you, and then lift up the lid.
-
-<PIC:Manual20_68>
 
 To close the glove compartment, push the lid down until it locks securely.
+<PIC:Manual20_68>
+
 
 Glove compartment:
 
@@ -732,9 +726,9 @@ This position will give the watercraft more "hook" which will enhance turning pe
 
 ## Fire extinguisher
 
+Check that there is a full fire extinguisher on board. The fire extinguisher container (1) is located in the battery compartment.
 <PIC:jetski_04>
 
-Check that there is a full fire extinguisher on board. The fire extinguisher container (1) is located in the battery compartment.
 To open the fire extinguisher container cap, remove the seat and turn it counterclockwise.
 
 <PIC:jetski_05>
@@ -756,14 +750,14 @@ Capacity: 2 lb or more
 
 1. Swim to the rear of the watercraft and place both hands on the boarding platform, pull yourself up, and then grasp the handgrip with one hand.
 
+2. Pull yourself up to a kneeling position on the platform, and then move to the seat and sit astride.
 <PIC:Manual20_71>
 
-2. Pull yourself up to a kneeling position on the platform, and then move to the seat and sit astride.
-
-<PIC:Manual20_72>
 
 3. Attach the engine shut-off cord to your left wrist, and then install the clip to the engine shut-off switch.
 4. Grip the handlebars firmly with both hands, place both feet on the floor of the footwell, start the engine, and then look in all directions before starting off.
+<PIC:Manual20_72>
+
 
 <PIC:Manual20_73>
 
@@ -823,9 +817,9 @@ Do not route ropes or tie downs over the seat, as they may leave permanent marks
 
 It is advisable always to carry the Owner's/Operator's Manual and tool kit (2) with you whenever you use the watercraft.
 
+For your convenience, a storage compartment (1) is provided on the watercraft for the manual and tool kit.
 <PIC:Manual20_79>
 
-For your convenience, a storage compartment (1) is provided on the watercraft for the manual and tool kit.
 
 <PIC:Manual20_80>
 
@@ -859,9 +853,9 @@ The Adjustable Sponsons can be adjusted to enhance watercraft performance accord
 
 1. Remove the bolts (1) on both sponsons.
 
+2. Remove both sponsons, and then install them in the desired position.
 <PIC:Manual20_83>
 
-2. Remove both sponsons, and then install them in the desired position.
 
 ### NOTE:
 
@@ -893,9 +887,9 @@ Always turn the watercraft over onto its port (left) side.
 
 When turning the watercraft on its side, support the bow so the handlebars cannot be bent or damaged.
 
+2. Remove any weeds or debris from around the drive shaft, impeller, pump housing, and jet thrust nozzle.
 <PIC:Manual20_86>
 
-2. Remove any weeds or debris from around the drive shaft, impeller, pump housing, and jet thrust nozzle.
 
 If debris is difficult to remove, consult your Yamaha dealer.
 
@@ -923,10 +917,10 @@ Practice reboarding in shallow water before riding in deep water.
 
 1. Do not start the engine in less than 60 cm (2 ft) of water. Put the watercraft in water that is deep enough, and then board the watercraft from the side or the rear.
 
-<PIC:Manual20_88>
-
 2. Attach the engine shut-off cord to your left wrist, and then install the clip to the engine shut-off switch.
 3. Grip the handlebars with both hands, place both feet on the floor of the footwell, start the engine, and start off.
+<PIC:Manual20_88>
+
 
 ### Starting from a dock
 
@@ -971,14 +965,14 @@ The heavier the total weight of the operator and passengers, the more difficult 
 
 1. The passenger must steady the watercraft while the operator is boarding. The operator pulls himself up onto the platform into a seating position, then balances the watercraft.
 
-<PIC:jetski_06>
-
 2. Attach the lanyard to your left wrist, then install the clip on the lanyard to the engine shut-off switch. Start the engine and keep it at idle.
 3. The passenger pulls himself up on the platform, kneels down, then crawls onto the seat as the watercraft accelerates.
+<PIC:jetski_06>
 
-<PIC:jetski_07>
 
 4. The watercraft can now be accelerated to planing speed, then the operator can reduce the throttle to the desired running speed.
+<PIC:jetski_07>
+
 
 <PIC:jetski_08>
 

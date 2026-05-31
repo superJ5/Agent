@@ -91,9 +91,9 @@ Record your Primary Identification (PRI-ID) number, Hull Identification Number (
 
 The PRI-ID number is stamped on a label attached inside the engine compartment. (See page 56 for engine hood opening and closing procedures.)
 
+1 Primary Identification (PRI-ID) number
 <PIC:Manual09_2>
 
-1 Primary Identification (PRI-ID) number
 
 <PIC:Manual09_3>
 
@@ -101,16 +101,16 @@ The PRI-ID number is stamped on a label attached inside the engine compartment. 
 
 The HIN is stamped into the right rear corner of the hull.
 
+1 Hull Identification Number (HIN)
 <PIC:Manual09_4>
 
-1 Hull Identification Number (HIN)
 ### Engine serial number
 
 The engine serial numbers are stamped on a label attached to each engine unit. (See page 56 for engine hood opening and closing procedures.)
 
+1 Engine serial number
 <PIC:Manual09_5>
 
-1 Engine serial number
 ### Port side
 
 Starboard side
@@ -127,20 +127,20 @@ certificate
 
 These labels are attached to each engine unit and to the inside of the engine compartment. (See page 56 for engine hood opening and closing procedures.)
 
+1 Emission control information label
 <PIC:Manual09_6>
 
-1 Emission control information label
 
+1 Emission control information label
 <PIC:Manual09_7>
 
-1 Emission control information label
 ### Manufactured date label
 
 This label is attached to each engine unit. (See page 56 for engine hood opening and closing procedures.)
 
+1 Manufactured date label
 <PIC:Manual09_8>
 
-1 Manufactured date label
 ## Important labels
 
 Read the following labels before operating this boat. If you need any additional information, contact a Boat Dealer.
@@ -221,10 +221,10 @@ If any of these labels is damaged or missing, contact a Boat Dealer for a replac
 
 #### 17
 
-<PIC:Boat_08>
 
 MAXIMUM CAPACITIES  10 PERSONS OR 1860 LBS.  2250 POUNDS, PERSONS, GEAR  THIS BOAT COMPLIES WITH U.S. COAST GUARD SAFETY STANDARDS IN EFFECT ON THE DATE OF CERTIFICATION MEETS U.S. EPA EVAP STANDARDS USING CERTIFIED COMPONENTS MANUFACTURER:  JET BOAT MANUFACTURING U.S.A., INC. MODEL: VONORE, TN
 DESIGN COMPLIANCE WITH NMMA REQUIREMENTS IS VERIFIED. MANUFACTURER RESPONSIBLE FOR PRODUCTION CONTROL.
+<PIC:Boat_08>
 
 18  All applicable electrical system components installed as original equipment meet appropriate U.S.C.G. requirements for ignition protection. (Ref. 33 CFR 183.410 and 183.440) 60E-83627-00 The safe use and operation of this boat is dependent upon the use of proper operating techniques, as well as upon the common sense, good judgment, and expertise of the operator. Every operator should know the following requirements before operating the boat.
 
@@ -250,13 +250,13 @@ Scan constantly for people, objects, and other watercraft. Be alert for conditio
 
 - The operator and all passengers must wear a U.S. Coast Guard (USCG) approved personal flotation device (PFD).
 
+1 PFD  - Eye protection is recommended to keep wind, water, and glare from the sun out of your eyes while you operate your boat. Restraining straps for eyewear are made which are designed to float should your eyewear fall in the water.  - Never operate the boat after consuming alcohol or taking drugs.  - For reasons of safety and proper care of the boat, always perform the pre-operation checks listed on page 85 before operating the boat.  - Passengers must always sit in a designated seating area, place feet on the deck, and hold on to the handgrips when the boat is in motion.  - Always consult your doctor on whether it is safe for you to ride in this boat if you are pregnant or in poor health.  - Do not attempt to modify this boat.  Modifications to your boat may reduce safety and reliability, and render the boat unsafe or illegal to use.  - Attach the engine shut-off cord (lanyard) to the PFD and keep it free from the steering wheel or other controls so that the engine stops if the operator accidentally leaves the helm. Failure to attach the engine shut-off cord (lanyard) could result in a runaway boat if the operator is ejected.  After operation, remove the engine shut-off cord (lanyard) and the main switch key to avoid accidental starting or unauthorized use by children or others.
 <PIC:Manual09_23>
 
-1 PFD  - Eye protection is recommended to keep wind, water, and glare from the sun out of your eyes while you operate your boat. Restraining straps for eyewear are made which are designed to float should your eyewear fall in the water.  - Never operate the boat after consuming alcohol or taking drugs.  - For reasons of safety and proper care of the boat, always perform the pre-operation checks listed on page 85 before operating the boat.  - Passengers must always sit in a designated seating area, place feet on the deck, and hold on to the handgrips when the boat is in motion.  - Always consult your doctor on whether it is safe for you to ride in this boat if you are pregnant or in poor health.  - Do not attempt to modify this boat.  Modifications to your boat may reduce safety and reliability, and render the boat unsafe or illegal to use.  - Attach the engine shut-off cord (lanyard) to the PFD and keep it free from the steering wheel or other controls so that the engine stops if the operator accidentally leaves the helm. Failure to attach the engine shut-off cord (lanyard) could result in a runaway boat if the operator is ejected.  After operation, remove the engine shut-off cord (lanyard) and the main switch key to avoid accidental starting or unauthorized use by children or others.
-
-<PIC:Manual09_24>
 
 1 Engine shut-off switch 2 Engine shut-off cord (lanyard)  - Scan constantly for swimmers and stay away from swimming areas. Swimmers are hard to see and you could accidentally hit someone in the water.  - Avoid being hit by another boat. You should always take responsibility to watch for traffic; other boaters may not be watching for you. If they do not see you, or you maneuver more quickly than other boaters expect, you risk a collision.  - Maintain a safe distance from other boats and watercraft, and also watch for ski ropes or fishing lines. Obey the "Rules of the road", and be sure to check behind you before making a turn. (See "Rules of the road" on page 17.)
+<PIC:Manual09_24>
+
 ### Required equipment
 
 The U.S. Coast Guard (USCG) has regulations which describe minimum standards of safety. You must comply with these regulations, which apply to boats like your boat which are less than 26 feet long.  - Personal flotation devices (PFD):  Type I, II, or III as required for all people on board (see "Operational requirements" for more information), plus at least one Type IV (throwable type).  - Fire extinguisher:  At least one 5-B (B-1) type hand-held portable fire extinguisher.  - Visual distress signals:  It is recommended that a USCG-approved day/night pyrotechnic device be stored on your boat. A mirror can also be used as an emergency signal. Contact your Boat Dealer or the Coast Guard for more information.  - Sound signalling device:
@@ -275,9 +275,9 @@ Never start the engine or let it run for any length of time in an enclosed area.
 
 - Keep away from the intake grates while the engines are on. Items such as long hair, loose clothing, or PFD straps can become entangled in moving parts, resulting in severe injury or drowning.  - Never insert any object into the jet thrust nozzles while the engines are running. Severe injury or death could result from coming in contact with the rotating parts of the jet pumps.
 
+1 Intake grate 2 Jet thrust nozzle  - Stop the engines and remove the clip from the engine shut-off switch before removing any debris or weeds, which may have collected around the jet intakes. (See page 126 for more information.)
 <PIC:Manual09_25>
 
-1 Intake grate 2 Jet thrust nozzle  - Stop the engines and remove the clip from the engine shut-off switch before removing any debris or weeds, which may have collected around the jet intakes. (See page 126 for more information.)
 ### Night operation
 
 When using your boat before dawn or after dusk, you must have both bow and anchor lights operating. When at anchor in the dark, the anchor light must be lit. (See pages 51, 67 and 68 for instructions.)
@@ -393,9 +393,9 @@ You share the areas you enjoy when operating your boat with others and with natu
 
 1 Front starboard seat (page 55) 2 Handgrip 3 Rod holder (page 64) 4 Front console seat (page 55) 5 T-top (page 73) 6 Windshield (page 67) 7 Bimini top (page 74) 8 Anchor light (page 51, 67) 9 Fuel tank filler cap (page 78) 10  Leaning post (page 55) 11  Jump seat (page 55) 12  Courtesy light (page 51) 13  Speaker 14  Cleat 15  Front port seat (page 55) 16  Bow light (page 51)  17  Anchor storage compartment (page 57) 18  Bow eye
 
+1 Swim platform (page 70) 2 Cleat 3 Wet storage compartment (page 63) 4 Rod holder (page 64) 5 Ski tow hook 6 Engine hood (page 56) 7 Enclosed storage compartment (page 61) 8 Handgrip 9 Bow light (page 51) 10  Speaker 11  Courtesy light (page 51) 12  Cooling water pilot outlet (page 94) 13  Bilge pump outlet (page 82) 14  Jump seat (page 55) 15  Livewell (page 65) 16  Reboarding grip
 <PIC:Manual09_35>
 
-1 Swim platform (page 70) 2 Cleat 3 Wet storage compartment (page 63) 4 Rod holder (page 64) 5 Ski tow hook 6 Engine hood (page 56) 7 Enclosed storage compartment (page 61) 8 Handgrip 9 Bow light (page 51) 10  Speaker 11  Courtesy light (page 51) 12  Cooling water pilot outlet (page 94) 13  Bilge pump outlet (page 82) 14  Jump seat (page 55) 15  Livewell (page 65) 16  Reboarding grip
 
 <PIC:Manual09_36>
 
@@ -409,9 +409,9 @@ You share the areas you enjoy when operating your boat with others and with natu
 
 1 Tachometer (page 36) 2 Multi-function display unit (page 36) 3 Compass 4 Stereo receiver (page 54) 5 Handgrip 6 Storage pocket (page 62) 7 Remote control lever (page 32) 8 Jet wash switch (page 50) 9 No-wake mode/cruise assist switch (page 50) 10  Tilt lever (page 34) 11  Glove compartment (page 62) 12  Steering wheel (page 34)
 
+1 Main switch (page 31) 2 Switch circuit breaker (page 53) 3 Engine shut-off switch (page 30) 4 Engine shut-off cord (lanyard) (page 30) 5 Blower switch (page 50) 6 Navigation and anchor lights switch (page 51) 7 Courtesy light switch (page 51) 8 Accessory switch 1 (page 50) 9 Accessory switch 2 (page 50) 10  Aerator switch (page 50) 11  Livewell switch (page 50) 12  Bilge pump switch (page 50) 13  Horn switch (page 50) 14  Aux input (page 54) 15  12 V DC outlet (page 54)
 <PIC:Manual09_38>
 
-1 Main switch (page 31) 2 Switch circuit breaker (page 53) 3 Engine shut-off switch (page 30) 4 Engine shut-off cord (lanyard) (page 30) 5 Blower switch (page 50) 6 Navigation and anchor lights switch (page 51) 7 Courtesy light switch (page 51) 8 Accessory switch 1 (page 50) 9 Accessory switch 2 (page 50) 10  Aerator switch (page 50) 11  Livewell switch (page 50) 12  Bilge pump switch (page 50) 13  Horn switch (page 50) 14  Aux input (page 54) 15  12 V DC outlet (page 54)
 
 <PIC:Manual09_39>
 
@@ -439,9 +439,9 @@ The batteries and switch assembly are located in the battery compartment.  This 
 
 There are three switches on the battery switch assembly: the "START" switch, "HOUSE" switch, and "EMERG PARALLEL" switch.  1 "HOUSE" switch (red) 2 "EMERG PARALLEL" switch (yellow) 3 "START" switch (red)
 
+1 ON position (green) 2 OFF position (red)
 <PIC:Manual09_43>
 
-1 ON position (green) 2 OFF position (red)
 
 <PIC:Manual09_44>
 
@@ -495,13 +495,13 @@ The shift gates are dropped down part way over the jet thrust nozzles. The neutr
 
 When the remote control levers are initially moved to the forward position and the boat is operating at a slow speed, the shift gates are lifted up slightly from the neutral position and jet thrust is directed downward at an angle. This function, which is called the thrust directional enhancer (TDE), helps to provide good handling response when the steering wheel is turned, even though there is less thrust available at low engine speeds.  1 TDE position
 
+1 Shift gate 2 Jet thrust nozzle
 <PIC:Manual09_48>
 
-1 Shift gate 2 Jet thrust nozzle
 
-<PIC:Manual09_49>
 
 When the remote control levers are moved farther forward, the shift gates are lifted all the way up. All jet thrust is to the rear, which moves the boat forward.  1 Shift gate 2 Jet thrust nozzle
+<PIC:Manual09_49>
 
 <PIC:Manual09_50>
 
@@ -515,9 +515,9 @@ The shift gates are dropped all the way down over the jet thrust nozzles. Jet th
 
 Your boat can be steered by turning the steering wheel the same direction you wish to travel, to the right or left. When the steering wheel is turned, the angle of the jet thrust nozzles at the rear of the craft is changed, and the change in direction of the jet thrust nozzles changes the direction of the boat accordingly.  In addition, the direction of the articulating keel changes according to the movement of the jet thrust nozzles.  1 Steering wheel
 
+1 Jet thrust nozzle 2 Articulating keel
 <PIC:Manual09_52>
 
-1 Jet thrust nozzle 2 Articulating keel
 
 <PIC:Manual09_53>
 
@@ -528,9 +528,9 @@ Since the strength of the jet thrust determines the speed and direction of a tur
 
 - Never touch the tilt lever during operation, otherwise the steering wheel could suddenly change position, which may lead to an accident. - Be sure the steering wheel is locked in position after adjustment. If the steering wheel is not locked in position, it may suddenly change position during operation, which may lead to an accident.  The tilt lever is located under the steering wheel and is used to adjust the tilt of the steering wheel. There are 5 positions.
 
+1 Tilt lever  To adjust the tilt:  (1) Push the lever down, and then move the steering wheel up or down to the desired position. (2) The lever will lock into place when the steering wheel is moved into one of the 5 available positions. (3) Make sure that the tilt lever returns to its original position and that the steering wheel is securely locked in place.
 <PIC:Manual09_54>
 
-1 Tilt lever  To adjust the tilt:  (1) Push the lever down, and then move the steering wheel up or down to the desired position. (2) The lever will lock into place when the steering wheel is moved into one of the 5 available positions. (3) Make sure that the tilt lever returns to its original position and that the steering wheel is securely locked in place.
 ## Instrument operation
 
 ### Tachometers
@@ -628,9 +628,9 @@ The multi-function display has a day mode and a night mode. The brightness can b
 
 To make the display darker, drag the slider to the left. To make the display brighter, drag the slider to the right.
 
+1 Slider control  TIP: The slider limits depend on the selected light mode.
 <PIC:Manual09_77>
 
-1 Slider control  TIP: The slider limits depend on the selected light mode.
 ### Unit setting screen
 
 The display units for the multi-function display unit can be changed.
@@ -659,16 +659,16 @@ This screen displays the number of hours that the engines have been running sinc
 
 After maintenance is performed, reset the number of hours of operation as follows.  To reset the number of hours of operation: (1) Tap the "Reset" button.
 
+1 "Reset" button  (2) When the confirmation message appears, tap the "YES" button to reset the number of hours of operation.
 <PIC:Manual09_84>
 
-1 "Reset" button  (2) When the confirmation message appears, tap the "YES" button to reset the number of hours of operation.
 ### TIP:
 
 To return to the maintenance setting screen without resetting the number of hours, tap the "NO" button.
 
+1 "YES" button
 <PIC:Manual09_85>
 
-1 "YES" button
 ### Language setting screen
 
 The language for the multi-function display unit can be changed.
@@ -680,17 +680,17 @@ Tap the desired language, and then tap the "Save" button to save the setting. To
 
 This screen can be used to reset the settings to their factory default settings.
 
+To reset the settings: (1) Tap the "Reset" button.
 <PIC:Manual09_87>
 
-To reset the settings: (1) Tap the "Reset" button.
-
-<PIC:Manual09_88>
 
 1 "Reset" button (2) When the confirmation message appears, tap the "YES" button to reset the settings.  TIP: To return to the factory reset screen without resetting the settings, tap the "NO" button.
+<PIC:Manual09_88>
 
-<PIC:Manual09_89>
 
 1 "YES" button
+<PIC:Manual09_89>
+
 ### Warnings
 
 If a malfunction or fault occurs, a warning buzzer will sound and a warning icon and warning message will be displayed on the center display.
@@ -701,15 +701,15 @@ If a malfunction or fault occurs, a warning buzzer will sound and a warning icon
 
 If the displayed warning message includes instructions, follow those instructions. If you have any questions, consult a Boat Dealer.
 
+1 Warning title 2 Message
 <PIC:Manual09_92>
 
-1 Warning title 2 Message
 
 ### Warning example
 
+The check engine warning indicator is also displayed on the tachometer for the engine with the warning.  1 Check engine warning indicator
 <PIC:Manual09_93>
 
-The check engine warning indicator is also displayed on the tachometer for the engine with the warning.  1 Check engine warning indicator
 
 <PIC:Manual09_94>
 
@@ -791,13 +791,13 @@ Once the reverse RPM control is activated, pushing the plus side of the no-wake 
 
 Push this switch to turn on the 2 courtesy lights on the sides of the console and the livewell light.
 
+1 Courtesy light
 <PIC:Manual09_102>
 
-1 Courtesy light
 
+1 Courtesy light
 <PIC:Manual09_103>
 
-1 Courtesy light
 
 <PIC:Manual09_104>
 
@@ -805,19 +805,19 @@ Push this switch to turn on the 2 courtesy lights on the sides of the console an
 
 This toggle switch controls the bow light and anchor light. Push the upper side of the switch to turn on both the bow light and anchor light for night running ("NAV"). Push the lower side of the switch to operate the anchor light alone when anchored at night ("ANC"). Put the switch in the middle position to turn off all lights. (See page 67 and 68 for more information.)
 
+1 Bow light
 <PIC:Manual09_105>
 
-1 Bow light
 ### 210FSH DELUXE
 
+1 Anchor light  1 Livewell light
 <PIC:Manual09_106>
 
-1 Anchor light  1 Livewell light
 ### 210FSH SPORT
 
+1 Anchor light
 <PIC:Manual09_107>
 
-1 Anchor light
 ### Aerator switch
 
 Use this switch to circulate the water in the livewell. Push the "MNL" side of the switch to circulate water continuously in the livewell. Push the "AUTO" side of the switch to circulate water in the livewell according to the on and off operation settings. Put the switch in the middle position to stop circulating water. (See page 42 for information on setting the automatic operation settings.)
@@ -828,9 +828,9 @@ The electrical circuit for each switch is protected by a circuit breaker. If the
 
 <PIC:Manual09_108>
 
+1 Switch circuit breaker
 <PIC:Manual09_109>
 
-1 Switch circuit breaker
 ### Accessory outlet
 
 There is a 12 V DC outlet with a circuit breaker located in the storage pocket.
@@ -839,20 +839,20 @@ There is a 12 V DC outlet with a circuit breaker located in the storage pocket.
 
 Do not use an automotive cigarette lighter or other accessories that get hot because the outlet can be damaged.
 
+1 Circuit breaker 2 12 V DC outlet
 <PIC:Manual09_110>
 
-1 Circuit breaker 2 12 V DC outlet
 ### Stereo system
 
 A stereo receiver is standard. The stereo system consists of the receiver, speakers, auxiliary input jack, USB terminal, and Bluetooth. Refer to the stereo system Operation Manual included with your boat.
 
+1 Stereo receiver
 <PIC:Manual09_111>
 
-1 Stereo receiver
-
-<PIC:Manual09_112>
 
 1 Auxiliary input jack 2 USB terminal
+<PIC:Manual09_112>
+
 ## Equipment operation
 
 ### Seats
@@ -861,45 +861,45 @@ A stereo receiver is standard. The stereo system consists of the receiver, speak
 
 Passengers must always sit in a designated seating area, place feet on the deck, and hold on to the handgrips when the boat is in motion.  This boat is equipped with the following seats.
 
+1 Front starboard seat 2 Front console seat 3 Front port seat
 <PIC:Manual09_113>
 
-1 Front starboard seat 2 Front console seat 3 Front port seat
-
-<PIC:Manual09_114>
 
 1 Jump seat (starboard) 2 Leaning post 3 Jump seat (port)
+<PIC:Manual09_114>
+
 ### Leaning post
 
 The leaning post is a seat that is located in the center of the boat.  There is a cooler box under the leaning post.
 
+1 Strap 2 Leaning post 3 Cooler box  The leaning post for these models is equipped with a backrest. The position of the backrest can be changed by pulling the strap toward the bow or toward the stern. By moving the backrest, you can change the seating position of the leaning post to face the bow or face the stern.
 <PIC:Manual09_115>
 
-1 Strap 2 Leaning post 3 Cooler box  The leaning post for these models is equipped with a backrest. The position of the backrest can be changed by pulling the strap toward the bow or toward the stern. By moving the backrest, you can change the seating position of the leaning post to face the bow or face the stern.
 ### Jump seats
 
 The 2 jump seats are located on the port and starboard sides of the boat near the stern.
 
+1 Jump seat (starboard) 2 Jump seat (port)
 <PIC:Manual09_116>
 
-1 Jump seat (starboard) 2 Jump seat (port)
 ### Removable backrest
 
 This boat has 2 removable backrests.
 
+1 Backrest
 <PIC:Manual09_117>
 
-1 Backrest
 
+1 Backrest
 <PIC:Manual09_118>
 
-1 Backrest
 ### Engine hood
 
 The engine hood can be opened to access the engine.  The engine hood latches are located under the front of the leaning post.  To open the engine hood, pull the engine hood latches up and lift the engine hood. NOTICE:  210FSH DELUXE: Do not open the engine hood while the anchor light is installed. Otherwise, the anchor light could be damaged.
 
+1 Engine hood latch 2 Engine hood  To close the engine hood, push the leaning post to securely lock it in place.
 <PIC:Manual09_119>
 
-1 Engine hood latch 2 Engine hood  To close the engine hood, push the leaning post to securely lock it in place.
 ### Storage compartments
 
 This boat is equipped with the following convenient on-board storage compartments. Make sure that the storage compartments are securely closed before getting underway.
@@ -908,71 +908,71 @@ This boat is equipped with the following convenient on-board storage compartment
 
 The anchor storage compartment is located at the bow.  To open the anchor storage compartment:  (1) Pull the lock handle up. (2) Turn the lock handle clockwise and then open the anchor storage compartment lid.
 
+1 Lock handle 2 Anchor storage compartment lid
 <PIC:Manual09_120>
 
-1 Lock handle 2 Anchor storage compartment lid
-
-<PIC:Manual09_121>
 
 1 Anchor storage compartment  When storing the anchor, place some cushioning material or the anchor line under the anchor.
+<PIC:Manual09_121>
+
 To close the bow storage compartment: Close the front port seat, and then hook the latch on to the deck.  To close the anchor storage compartment:  (1) Close the anchor storage compartment lid. (2) Turn the lock handle counterclockwise and make sure that the lid is securely closed. (3) Push the lock handle down.
 ### Bow storage compartment
 
 The bow storage compartment is located under the front port seat. To open a bow storage compartment: Unhook the latch, and then open the front port seat.
 
+1 Front port seat 2 Latch
 <PIC:Manual09_122>
 
-1 Front port seat 2 Latch
-
-<PIC:Manual09_123>
 
 1 Bow storage compartment
+<PIC:Manual09_123>
+
 ### Insulated fish box
 
 The fish box is located under the front starboard seat. It is insulated, and can be filled with some ice to help keep fish cold while boating. The box is self-draining.  To open the fish box:  Unhook the latch, and then open the front starboard seat.
 
+1 Front starboard seat  2 Latch
 <PIC:Manual09_124>
 
-1 Front starboard seat  2 Latch
-
-<PIC:Manual09_125>
 
 1 Fish box
+<PIC:Manual09_125>
+
 To close the stern storage compartment: Close the stern storage compartment lid, and then hook the latch on to the deck.
 ### Stern storage compartment
 
 The stern storage compartment is located under the jump seat (starboard). To open the stern storage compartment: Unhook the latch, and then open the stern storage compartment lid.
 
+1 Stern storage compartment lid 2 Latch
 <PIC:Manual09_126>
 
-1 Stern storage compartment lid 2 Latch
-
-<PIC:Manual09_127>
 
 1 Stern storage compartment  To close the fish box: Close the front starboard seat, and then hook the latch onto the deck.
+<PIC:Manual09_127>
+
 ### Lockable storage compartment
 
 The lockable storage compartment is located on the bow side of the console.  The lockable storage compartment has a large compartment suitable for use as an onboard changing room and can also accommodate a portable toilet (not included). WARNING! Do not open the lockable storage compartment while the boat is moving. The lockable storage compartment lid could block your vision of others. In addition, the lockable storage compartment lid could close unexpectedly due to the movement of the boat and you could be pinched. Carbon monoxide (CO) can cause brain damage or death. Carbon monoxide can be present in this compartment. Signs of carbon monoxide poisoning include nausea, headache, dizziness, drowsiness, and lack of consciousness. Get fresh air if anyone shows signs of carbon monoxide poisoning.  To open the lockable storage compartment: While pulling the lockable storage compartment latch, lift the lockable storage compartment lid.
 
+1 Lockable storage compartment lid 2 Lockable storage compartment latch
 <PIC:Manual09_128>
 
-1 Lockable storage compartment lid 2 Lockable storage compartment latch
-
-<PIC:Manual09_129>
 
 1 Lockable storage compartment  To use the lockable storage compartment light:  (1) To turn on the lockable storage compartment light, push the light.
+<PIC:Manual09_129>
 
-<PIC:Manual09_130>
 
 1 Lockable storage compartment light  (2) To turn off the light, push the light again. To drain water from the lockable storage compartment:  (1) Remove the drain plug on the bottom of the lockable storage compartment to drain the water.
+<PIC:Manual09_130>
 
-<PIC:Manual09_131>
 
 1 Drain plug  (2) Securely install the drain plug in its original position.  To close the lockable storage compartment: Push the lockable storage compartment lid down to securely lock it in place.  To lock the lockable storage compartment:  (1) Close the lockable storage compartment.  (2) Insert the lockable storage compartment key into the keyhole of the lockable storage compartment latch, and then turn the key 90 degrees  clockwise.
+<PIC:Manual09_131>
 
-<PIC:Manual09_132>
 
 1 Lockable storage compartment key 2 Keyhole
+<PIC:Manual09_132>
+
 ### TIP:
 
 Store the lockable storage compartment key so that it is not lost.
@@ -981,51 +981,51 @@ To unlock the lockable storage compartment: Insert the lockable storage compartm
 
 The curtain can be installed when the lockable storage compartment is open. To install the curtain:  (1) Insert the curtain into the curtain rails.
 
+1 Curtain rail 2 Curtain  (2) Snap the buttons on the curtain onto the button bases on the lockable storage compartment.
 <PIC:Manual09_133>
 
-1 Curtain rail 2 Curtain  (2) Snap the buttons on the curtain onto the button bases on the lockable storage compartment.
-
-<PIC:Manual09_134>
 
 1 Button base  To remove the curtain:  (1) Unsnap the buttons on the curtain from the button bases. (2) Remove the curtain from the curtain rails.
+<PIC:Manual09_134>
+
 ### Enclosed storage compartment (port)
 
 The enclosed storage compartment is a large storage compartment that is located on the port side of the boat.  To open the enclosed storage compartment: Pull the enclosed storage compartment door latch to open the door.
 
+1 Enclosed storage compartment door 2 Enclosed storage compartment door latch
 <PIC:Manual09_135>
 
-1 Enclosed storage compartment door 2 Enclosed storage compartment door latch
-
-<PIC:Manual09_136>
 
 1 Enclosed storage compartment
+<PIC:Manual09_136>
+
 To close the enclosed storage compartment: Close the enclosed storage compartment door, and then push it to securely lock it in place.
 ### Enclosed storage compartment (starboard)
 
 The enclosed storage compartment is a large storage compartment that is located on the starboard side of the boat. To open the enclosed storage compartment: Pull the enclosed storage compartment door latch to open the door.
 
+1 Enclosed storage compartment door latch  2 Enclosed storage compartment door
 <PIC:Manual09_137>
 
-1 Enclosed storage compartment door latch  2 Enclosed storage compartment door
-
-<PIC:Manual09_138>
 
 1 Enclosed storage compartment  To close the enclosed storage compartment: Close the enclosed storage compartment door, and then push it to securely lock it in place.
+<PIC:Manual09_138>
+
 ### Glove compartment
 
 The glove compartment is located under the steering wheel.  To open the glove compartment:  Pull the glove compartment latch to open the glove compartment lid.
 
+1 Glove compartment lid 2 Glove compartment latch
 <PIC:Manual09_139>
 
-1 Glove compartment lid 2 Glove compartment latch
-
-<PIC:Manual09_140>
 
 1 Glove compartment  To close the glove compartment: Close the glove compartment lid, and then push it to securely lock it in place. To lock the glove compartment:  (1) Close the glove compartment. (2) Insert the glove compartment key into the keyhole of the glove compartment latch, and then turn the key  90 degrees  clockwise.
+<PIC:Manual09_140>
 
-<PIC:Manual09_141>
 
 1 Keyhole 2 Glove compartment key
+<PIC:Manual09_141>
+
 ### TIP:
 
 Store the glove compartment key so that it is not lost. To unlock the glove compartment: Insert the glove compartment key into the keyhole of the glove compartment latch, and then turn the key  90 degrees  counterclockwise.
@@ -1034,20 +1034,20 @@ Store the glove compartment key so that it is not lost. To unlock the glove comp
 
 The storage pocket is located on the starboard side of the glove compartment. The storage pocket is equipped with an auxiliary input jack and USB terminal for the stereo system, and a 12 V DC outlet.
 
+1 Storage pocket 2 12 V DC outlet 3 Auxiliary input jack 4 USB terminal
 <PIC:Manual09_142>
 
-1 Storage pocket 2 12 V DC outlet 3 Auxiliary input jack 4 USB terminal
 ### Wet storage compartment
 
 The wet storage compartment is located under the swim platform.  To open the wet storage compartment:  (1) Pull the lock handle up. (2) Turn the lock handle clockwise, and then open the rear platform hatch.
 
+1 Rear platform hatch 2 Lock handle
 <PIC:Manual09_143>
 
-1 Rear platform hatch 2 Lock handle
-
-<PIC:Manual09_144>
 
 1 Wet storage compartment  To close the wet storage compartment:  (1) Close the rear platform hatch. (2) Turn the lock handle counterclockwise and make sure that the hatch is securely closed. (3) Push the lock handle down.
+<PIC:Manual09_144>
+
 ### TIP:
 
 The engines will not start if the rear platform hatch is not securely closed.
@@ -1056,145 +1056,145 @@ The engines will not start if the rear platform hatch is not securely closed.
 
 The bucket storage compartment is located in the center of the boat at the bow. To open the bucket storage compartment: (1) Pull the lock handle up. (2) Turn the lock handle, and then open the bucket storage compartment lid.
 
+1 Bucket storage compartment lid 2 Lock handle
 <PIC:Manual09_145>
 
-1 Bucket storage compartment lid 2 Lock handle
-
-<PIC:Manual09_146>
 
 1 Bucket storage compartment  To drain the bucket storage compartment: (1) Remove the drain plug on the bottom of the bucket storage compartment to drain the water.
+<PIC:Manual09_146>
 
-<PIC:Manual09_147>
 
 1 Drain plug  (2) Securely install the drain plug in its original position.  To close the bucket storage compartment:  (1) Close the rear platform hatch. (2) Turn the lock handle and make sure that the hatch is securely closed. (3) Push the lock handle down.
+<PIC:Manual09_147>
+
 ### Rod holders
 
 This boat is equipped with rod holders on the port and starboard sides of the console.
 
+1 Rod holder
 <PIC:Manual09_148>
 
-1 Rod holder
 
+1 Rod holder
 <PIC:Manual09_149>
 
-1 Rod holder
 
+1 Rod holder
 <PIC:Manual09_150>
 
-1 Rod holder
 
+1 Rod holder
 <PIC:Manual09_151>
 
-1 Rod holder
 ### 210FSH SPORT
 
+1 Rod holder
 <PIC:Manual09_152>
 
-1 Rod holder
 ### Livewell
 
 The livewell for holding live bait and fish is located on the starboard side of the boat at the stern.  To open the livewell: Pull the latch to open the livewell lid.
 
+1 Livewell lid 2 Latch
 <PIC:Manual09_153>
 
-1 Livewell lid 2 Latch
-
-<PIC:Manual09_154>
 
 1 Livewell  To supply water to the livewell:  (1) Push the livewell switch to turn on the livewell pump and supply water. (2) When there is sufficient water in the livewell, push the livewell switch to turn off the livewell pump. (3) If necessary, push the aerator switch to aerate and circulate the water in the livewell. (See page 52.)
+<PIC:Manual09_154>
 
-<PIC:Manual09_155>
 
 1 Aerator switch 2 Livewell switch
+<PIC:Manual09_155>
+
 ### TIP:
 
 Push the courtesy light switch to turn on the livewell light. To drain water from the livewell: (1) Remove the drain plug on the bottom of the livewell to drain the water.
 
+1 Drain plug  (2) Securely install the drain plug in its original position.  To close the livewell: Close the livewell lid, and then push it to securely lock it in place.
 <PIC:Manual09_156>
 
-1 Drain plug  (2) Securely install the drain plug in its original position.  To close the livewell: Close the livewell lid, and then push it to securely lock it in place.
 ### Battery compartment
 
 ### WARNING
 
 Do not carry any flammable substances in the compartment or any heavy or metal items that can damage the battery or cause a short circuit. Sparks or fire could result.  The battery compartment is located on the port side of the boat at the stern. To open the battery compartment: Unhook the latch, and then open the battery compartment lid.
 
+1 Battery compartment lid 2 Latch
 <PIC:Manual09_157>
 
-1 Battery compartment lid 2 Latch
-
-<PIC:Manual09_158>
 
 1 Battery compartment  To close the battery compartment: Close the battery compartment lid, and then hook the latch onto the deck.
+<PIC:Manual09_158>
+
 ### Windshield
 
 The windshield is removable. To remove the windshield:  (1) Turn the lock knobs counterclockwise and remove them.  (2) Remove the windshield.
 
+1 Windshield 2 Lock knob  To install the windshield:  (1) Place the windshield in its original position. (2) Securely install the lock knobs by turning them clockwise.
 <PIC:Manual09_159>
 
-1 Windshield 2 Lock knob  To install the windshield:  (1) Place the windshield in its original position. (2) Securely install the lock knobs by turning them clockwise.
 ### Anchor light (210FSH SPORT)
 
 The anchor light is located at the top of the T-top. It is also the "all-around" light for navigation at night or in low-visibility conditions. (See page 50 for information on the anchor light on.)  To use the anchor light: Pull the lock tab, raise the anchor light, and then move the lock tab to its original position to lock the anchor light in place.
 
+1 Lock tab  To store the anchor light: Pull the lock tab, lower the anchor light, and then move the lock tab to its original position to lock the anchor light in place.
 <PIC:Manual09_160>
 
-1 Lock tab  To store the anchor light: Pull the lock tab, lower the anchor light, and then move the lock tab to its original position to lock the anchor light in place.
 ### Anchor light
 
 (210FSH DELUXE)  The boat is equipped with a removable anchor light. It is also the "all-around" light for navigation at night or in low-visibility conditions. (See page 51 for information on the anchor light on.)  The anchor light is stored in the lockable storage compartment.  To set up the anchor light:  (1) Open the lockable storage compartment. (See page 59.)
 
+1 Lockable storage compartment  (2) Remove the anchor light from the anchor light holder.
 <PIC:Manual09_161>
 
-1 Lockable storage compartment  (2) Remove the anchor light from the anchor light holder.
-
-<PIC:Manual09_162>
 
 1 Anchor light holder 2 Anchor light  (3) Slide anchor light stoppers A and B apart to disconnect them.
+<PIC:Manual09_162>
 
-<PIC:Manual09_163>
 
 1 Anchor light stopper A 2 Anchor light stopper B  (4) Extend the anchor light pole, and then screw anchor light stopper A onto the center section of the pole.
+<PIC:Manual09_163>
 
-<PIC:Manual09_164>
 
 1 Anchor light stopper A  (5) Open the cap of the anchor light socket, fit the protrusion on the anchor light into the slot in the socket, and then install the light into the socket.
+<PIC:Manual09_164>
 
-<PIC:Manual09_165>
 
 1 Cap 2 Slot 3 Protrusion  (6) Fit anchor light stopper B into the anchor light socket.
+<PIC:Manual09_165>
 
-<PIC:Manual09_166>
 
 1 Anchor light stopper B  To store the anchor light:  (1) Pull anchor light stopper B upward, remove the anchor light, and then close the cap of the anchor light socket. (2) Unscrew anchor light stopper A from the center section of the anchor light pole, and then fold the pole. (3) Connect the stoppers by fitting the protrusion on anchor light stopper A into the slot in anchor light stopper B.
+<PIC:Manual09_166>
 
-<PIC:Manual09_167>
 
 1 Anchor light stopper A 2 Anchor light stopper B  (4) Install the anchor light into the anchor light holder, and then close the lockable storage compartment.
+<PIC:Manual09_167>
+
 ### Swim platform
 
 ### WARNING
 
 Stay away from the swim platform area while the engine is running. Exhaust gases coming from underneath it contain carbon monoxide, a colorless, odorless gas which may cause brain damage or death when inhaled. Symptoms include nausea, dizziness, and drowsiness.  The swim platform area provides a place to stand or sit while putting on skis or a wakeboard, and includes a ladder to make boarding from the water easier.
 
+1 Swim platform
 <PIC:Manual09_168>
 
-1 Swim platform
 ### Ladder
 
 The ladder is stored under the swim platform. To use the ladder:  (1) Lift the end of the ladder to release it from the hooks on the boat.
 
+1 Ladder  (2) Pull the ladder out completely, and then lower it.
 <PIC:Manual09_169>
 
-1 Ladder  (2) Pull the ladder out completely, and then lower it.
 
 <PIC:Manual09_170>
 
 To stow the ladder:  (1) Raise the ladder until it is horizontal, and then push it forward completely. (2) Push the end of the ladder to fit it onto the hooks on the boat.
 
+1 Hook
 <PIC:Manual09_171>
 
-1 Hook
 ### Jet wash
 
 ### WARNING
@@ -1205,92 +1205,92 @@ The jet wash system must be used only by a passenger who is not operating the bo
 
 - If the jet wash system will not be used for an extended period, turn the shut-off valve to the closed position. To prevent water from freezing in the jet wash hoses when storing the boat in freezing temperatures, drain the water from the hoses. For more information, contact a Boat Dealer. Before using the jet wash system, make sure that the shut-off valve is in the open position. If water leaks from the hose fitting or coil hose or if you notice any other problem, turn the shut-off valve to the closed position immediately.  - While the jet wash system is being used, scan constantly for people, objects, and other watercraft. Otherwise, the boat could collide with another watercraft, a dock, or other obstacle.  - 210FSH DELUXE: Before using the jet wash system, make sure that the anchor light socket is closed. If the anchor light socket is not closed and water enters the socket, the socket could malfunction.
 
+1 Hose fitting
 <PIC:Manual09_172>
 
-1 Hose fitting
 #### To use the jet wash:
 
 (1) Connect the coil hose to the hose fitting.
 
+1 Coil hose 2 Hose fitting  (2) Start the engines. (See page 96.) (3) Push the jet wash switch.
 <PIC:Manual09_173>
 
-1 Coil hose 2 Hose fitting  (2) Start the engines. (See page 96.) (3) Push the jet wash switch.
-
-<PIC:Manual09_174>
 
 1 Jet wash switch
+<PIC:Manual09_174>
+
 ### TIP:
 
 - The water supply will start 5 seconds after the jet wash switch is pushed.  - The water flow can be adjusted to 3 levels. Push the jet wash switch to adjust the water flow level.
 
+1 Jet wash switch
 <PIC:Manual09_175>
 
-1 Jet wash switch
 
 <PIC:Manual09_176>
 
 (4) Move the jet wash handle lever to discharge water.
 
+1 Jet wash handle lever  To stop using the jet wash: (1) Push the jet wash switch. (2) Stop the engines. (See page 98.) (3) Push the collar on the hose fitting inward, and then disconnect the coil hose from the fitting.
 <PIC:Manual09_177>
 
-1 Jet wash handle lever  To stop using the jet wash: (1) Push the jet wash switch. (2) Stop the engines. (See page 98.) (3) Push the collar on the hose fitting inward, and then disconnect the coil hose from the fitting.
-
-<PIC:Manual09_178>
 
 1 Hose fitting
+<PIC:Manual09_178>
+
 
 To turn the water supply on or off: (1) Stop the engines. (See page 98.) (2) Open the rear platform hatch. (See page 63.)
 (3) Remove the inspection cover.
 
+1 Inspection cover  (4) To turn on the water supply, turn the shut-off valve 90 degrees  clockwise.
 <PIC:Manual09_179>
 
-1 Inspection cover  (4) To turn on the water supply, turn the shut-off valve 90 degrees  clockwise.
-
-<PIC:Manual09_180>
 
 1 Shut-off valve  (5) To turn off the water supply, turn the shut-off valve 90 degrees  counterclockwise.  (6) Install the inspection cover. (7) Close the rear platform hatch.
+<PIC:Manual09_180>
+
 ### T-top (210FSH SPORT)
 
 The bimini top can be installed to use the T-top as a sunshade or rain cover for the leaning post. (See page 74 for bimini top removal and installation procedures.)
 
+1 T-top
 <PIC:Manual09_181>
 
-1 T-top
 ### Bimini top (210FSH SPORT)
 
 The T-top is equipped with a bimini top, which can be used as a sunshade or rain cover for the leaning post.  The bimini top can be removed and installed.
 
+1 Bimini top  To remove the bimini top:  (1) Open the flap on the starboard side of the bimini top.
 <PIC:Manual09_182>
 
-1 Bimini top  To remove the bimini top:  (1) Open the flap on the starboard side of the bimini top.
-
-<PIC:Manual09_183>
 
 1 Flap (2) Loosen the ratchet, and then loosen the strap securing the bimini top.
+<PIC:Manual09_183>
 
-<PIC:Manual09_184>
 
 1 Ratchet  (3) Slowly pull the bimini top toward the bow and remove it.
+<PIC:Manual09_184>
+
 To install the bimini top: When installing the bimini top, simply reverse the removal steps.
 ### Bimini top (210FSH DELUXE) Setting up the bimini top
 
 To set up the bimini top: (1) Raise the bimini top.
 
+1 Bimini top  (2) Secure each forward support pole to the forward support pole mounting bracket using the lock pin.
 <PIC:Manual09_185>
 
-1 Bimini top  (2) Secure each forward support pole to the forward support pole mounting bracket using the lock pin.
-
-<PIC:Manual09_186>
 
 1 Forward support pole  2 Lock pin 3 Forward support pole mounting bracket  (3) Remove the storage cover, unfold the bimini top, and pull it toward the stern.
+<PIC:Manual09_186>
 
-<PIC:Manual09_187>
 
 1 Storage cover  (4) Push each center pole up, and then install the lock pin.
+<PIC:Manual09_187>
 
-<PIC:Manual09_188>
 
 1 Center pole 2 Lock pin
+<PIC:Manual09_188>
+
 ### NOTICE
 
 Do not exceed 72 km/h (45 mph) with the bimini top in the up position.
@@ -1300,20 +1300,20 @@ Do not exceed 72 km/h (45 mph) with the bimini top in the up position.
 
 Do not trailer the boat with the bimini top in the fully extended or upright storage position. Put the bimini top in the fully collapsed position to avoid damage.  To store the bimini top in the upright position:  (1) Remove the lock pins, and then push the center poles down.
 
+1 Center pole 2 Lock pin  (2) Pull the bimini top toward the bow.
 <PIC:Manual09_189>
 
-1 Center pole 2 Lock pin  (2) Pull the bimini top toward the bow.
-
-<PIC:Manual09_190>
 
 1 Bimini top  (3) Install the storage cover.
+<PIC:Manual09_190>
+
 ### Storing the bimini top in the fully collapsed position
 
 To store the bimini top in the fully collapsed position:  (1) Follow the above steps for "Storing the bimini top in the upright position". (2) While supporting the bimini top, remove the lock pins securing the forward support poles to the forward support pole mounting brackets.
 
+1 Forward support pole 2 Lock pin 3 Forward support pole mounting bracket (3) Lower the bimini top onto the rear deck.
 <PIC:Manual09_191>
 
-1 Forward support pole 2 Lock pin 3 Forward support pole mounting bracket (3) Lower the bimini top onto the rear deck.
 
 <PIC:Manual09_192>
 
@@ -1325,9 +1325,9 @@ The bimini top must be secured to the boat when it is being trailered. When the 
 
 To remove the bimini top:  (1) Store the bimini top. See "Storing the bimini top in the fully collapsed position". (2) Remove the main pole mounting pins securing the bimini top to the main pole mounting brackets.
 
+1 Main pole mounting pin (3) Remove the bimini top from the boat.
 <PIC:Manual09_193>
 
-1 Main pole mounting pin (3) Remove the bimini top from the boat.
 ### Installing the bimini top
 
 #### To install the bimini top:
@@ -1352,9 +1352,9 @@ Fuel
 
 There are two types of gasohol: gasohol containing ethanol and that containing methanol. Gasohol containing ethanol can be used if ethanol content does not exceed 10% and the fuel meets minimum octane ratings. E-85 is a fuel blend containing 85% ethanol and therefore must not be used in this boat. All ethanol blends containing more than 10% ethanol can cause fuel system damage or engine performance problems.  does not recommend gasohol containing methanol because it can cause fuel system damage and engine performance problems.  To fill the fuel tank:  (1) Before refueling, turn off the engine. Never refuel while smoking, or while in the vicinity of sparks, open flames, or other sources of ignition. (2) Refuel the boat in a well-ventilated area. If the boat is in the water, be sure it is securely moored to the fueling dock. All passengers must be out of the boat during refueling. (3) Press the fuel tank filler cap button, and then open the fuel tank filler cap.
 
+1 Fuel tank filler cap 2 Fuel tank filler cap button  (4) Slowly add fuel to the fuel tank.  Fuel tank capacity:  197 L (52.0 US gal, 43.3 Imp. gal)
 <PIC:Manual09_194>
 
-1 Fuel tank filler cap 2 Fuel tank filler cap button  (4) Slowly add fuel to the fuel tank.  Fuel tank capacity:  197 L (52.0 US gal, 43.3 Imp. gal)
 (5) Stop filling when the fuel just becomes visible in the bottom of the filler tube. Do not "top off" the tank, because gasoline could spill out. (6) Wipe up any spilled fuel immediately. (7) Close the fuel tank filler cap by pushing it until it locks in place. Make sure that the fuel tank filler cap is securely closed.
 ### Engine Med RX Fuel Additive
 
@@ -1393,13 +1393,13 @@ Engine oil is extremely hot immediately after the engines are turned off. Coming
 
 (1) With the engine stopped, place the boat in a precisely level position on land or launch the boat. (2) Look in all directions, and then start the engine. (See page 96 for information on starting the engine.) (3) Run the engine at idling speed for 6 minutes or more. Run the engine an additional 5 minutes if the ambient temperature is 20 degrees C (68 degrees F) or less. (4) Stop the engine. (5) Open the engine hood. (See page 56.) (6) Loosen the oil tank filler cap and remove it, and then wipe the attached dipstick clean.
 
+1 Oil tank filler cap/Dipstick  (7) Screw the oil tank filler cap into the filler hole until it stops. Remove the oil tank filler cap again and make sure that the engine oil level is between the minimum and maximum level marks.
 <PIC:Manual09_196>
 
-1 Oil tank filler cap/Dipstick  (7) Screw the oil tank filler cap into the filler hole until it stops. Remove the oil tank filler cap again and make sure that the engine oil level is between the minimum and maximum level marks.
-
-<PIC:Manual09_197>
 
 1 Dipstick 2 Maximum level mark 3 Minimum level mark  (8) If the engine oil level is significantly above the maximum level mark, consult a Boat Dealer. If the engine oil level is below the minimum level mark, slowly add engine oil. (9) Repeat steps (6)-(8) until the engine oil is at the proper level. (10) Securely install the oil tank filler cap and turn it until it stops. (11) Repeat the checking oil level procedure for the other engine. (12) Close the engine hood.
+<PIC:Manual09_197>
+
 ### Draining the bilge water
 
 ### NOTICE
@@ -1412,18 +1412,18 @@ This model is equipped with multiple drain plugs.
 Bilge water from the various compartments flows through drain passages and collects in the bottom of the hull. The bilge water can be drained from the boat by removing the hull drain plug.
 ### Lockable storage compartment
 
+1 Drain plug
 <PIC:Manual09_198>
 
-1 Drain plug
 ### Engine compartment
 
+1 Fuel tank compartment drain plug  To drain the bilge water from the hull:  Remove the hull drain plug at the stern to drain the water. Check the condition of the O-ring on the hull drain plug, and then securely install the drain plug.
 <PIC:Manual09_199>
 
-1 Fuel tank compartment drain plug  To drain the bilge water from the hull:  Remove the hull drain plug at the stern to drain the water. Check the condition of the O-ring on the hull drain plug, and then securely install the drain plug.
-
-<PIC:Manual09_200>
 
 1 Hull drain plug
+<PIC:Manual09_200>
+
 ### Draining the bilge water on water
 
 This model is equipped with a self-draining deck and bilge pump to drain the bilge water on water.
@@ -1436,13 +1436,13 @@ Most water that enters the deck area drains automatically out the stern through 
 
 Your boat is equipped with a drainage system that channels water that enters the boat from the storage compartments to the bilge under the engine compartment.  When the bilge pump switch is turned on, the bilge pump will operate.
 
+1 Bilge pump switch  Even if the bilge pump switch is not turned on, the bilge pump will detect when there is excessive water in the bilge and will automatically drain most of it through the bilge pump outlet. This function works automatically, even if the battery switches are turned to the off position.
 <PIC:Manual09_201>
 
-1 Bilge pump switch  Even if the bilge pump switch is not turned on, the bilge pump will detect when there is excessive water in the bilge and will automatically drain most of it through the bilge pump outlet. This function works automatically, even if the battery switches are turned to the off position.
-
-<PIC:Manual09_202>
 
 1 Bilge pump outlet
+<PIC:Manual09_202>
+
 ### TIP:
 
 - The bilge pump indicator light comes on while the bilge pump is operating.
@@ -1485,23 +1485,23 @@ Make sure the steering wheel is not loose. There should not be any free play, ei
 
 Make sure both the jet thrust nozzles change directions as the steering wheel is turned. The jet thrust nozzles should point to starboard (right) when the wheel is turned to the right. The jet thrust nozzles should point to port (left) when the wheel is turned to the left. There should not be free play between the steering wheel and the jet thrust nozzles. In addition, check that the direction of the articulating keel changes according to the movement of the jet thrust nozzles.
 
+1 Jet thrust nozzle 2 Articulating keel  Remote control lever checks WARNING  Do not touch the shift gates while the remote control levers are being operated, otherwise, you could be pinched.  Operate the remote control levers several times to make sure that operation is smooth throughout the whole range.
 <PIC:Manual09_207>
 
-1 Jet thrust nozzle 2 Articulating keel  Remote control lever checks WARNING  Do not touch the shift gates while the remote control levers are being operated, otherwise, you could be pinched.  Operate the remote control levers several times to make sure that operation is smooth throughout the whole range.
-
-<PIC:Manual09_208>
 
 1 Neutral position 2 TDE position 3 Forward position 4 Reverse position 5 Shift 6 Fully closed 7 Throttle 8 Fully open
+<PIC:Manual09_208>
+
 Check that the shift gates are slightly above the shift gate neutral position when the remote control levers are in the forward position, and that the shift gates are in the fully open position when the remote control levers are moved farther forward.
 
+Fully open position  Check that the shift gates are in the fully closed position when the remote control levers are in the reverse position.
 <PIC:Manual09_209>
 
-Fully open position  Check that the shift gates are in the fully closed position when the remote control levers are in the reverse position.
 ### Fully closed position
 
+1 Shift gate
 <PIC:Manual09_210>
 
-1 Shift gate
 ### Fire extinguisher check
 
 As an inboard boat less than 26 feet in length, your boat must be fitted with one 5-B (B-1) type fire extinguisher when navigating waters controlled by the U.S. Coast Guard. In addition, most state and local boating laws require that the craft carry a USCG-approved fire extinguisher whenever the boat is operated.  Make sure at least one fire extinguisher is aboard and full; two fire extinguishers are recommended. See the instructions supplied by the extinguisher manufacturer to determine the indication of the condition.  A fire extinguisher is not standard equipment with this boat. If you do not have a fire extinguisher, contact your local Boat Dealer or fire extinguisher dealer for one meeting the proper specifications.
@@ -1520,9 +1520,9 @@ If you choose to have two fire extinguishers, the other fire extinguisher is to 
 
 A chemical-type fire extinguisher may not help when sprayed into the engine compartment through the FIRE-PORT because that type needs to be aimed directly at the base of the flames to be effective. See below for FIRE-PORT information.
 
+1 FIRE-PORT
 <PIC:Manual09_213>
 
-1 FIRE-PORT
 
 <PIC:Manual09_214>
 
@@ -1531,16 +1531,16 @@ A FIRE-PORT is mounted below the leaning post. Use this port to spray the conten
 
 Make sure that the access port caps are securely installed.  To check the access port caps:  (1) Open the rear platform hatch. (See page 63 for information on the rear platform hatch.) (2) Make sure that the access port caps are securely installed. If they are removed or are not locked, securely install them. (See page 126 for information on the access port caps.)
 
+1 Access port cap  (3) Close the rear platform hatch.
 <PIC:Manual09_215>
 
-1 Access port cap  (3) Close the rear platform hatch.
 ### Jet intake checks
 
 Carefully check the jet intakes under the boat for weeds, debris, or anything else that might restrict the intake of water. If the intakes are clogged, cavitation could occur, reducing jet thrust, and possibly damaging jet pump parts.
 
+1 Jet intake  In some cases, the engines may overheat because of a lack of cooling water, and damage could result. If the jet intakes are clogged, clean them. (See page 126 for information on the jet intakes.)  WARNING! Rotating parts could cause severe injury or death. Before attempting to remove weeds or debris from the jet intakes or impeller areas; shut off the engines, remove the main switch key, and then remove the engine shut-off cord (lanyard) from the engine shut-off switch.
 <PIC:Manual09_216>
 
-1 Jet intake  In some cases, the engines may overheat because of a lack of cooling water, and damage could result. If the jet intakes are clogged, clean them. (See page 126 for information on the jet intakes.)  WARNING! Rotating parts could cause severe injury or death. Before attempting to remove weeds or debris from the jet intakes or impeller areas; shut off the engines, remove the main switch key, and then remove the engine shut-off cord (lanyard) from the engine shut-off switch.
 ### Fuel system checks
 
 Check the fuel filler hoses and joints in the engine compartment for damage, looseness, and signs of leaking. At least annually, or if a problem is suspected, check the fuel tank and fuel filler hoses and clamps. Have a Boat Dealer check the fuel tank and fuel filler hoses and clamps.  WARNING! If there are signs of leaking fuel, do not operate the boat until the source of the fuel leak is found and corrected. Gasoline and its vapors are highly flammable and explosive.
@@ -1549,21 +1549,21 @@ Check the fuel filler hoses and joints in the engine compartment for damage, loo
 
 Make sure that the engine oil level is between the minimum level mark and maximum level mark on the dipstick. (See page 80 for information on checking the engine oil level.)
 
+1 Oil tank filler cap/Dipstick
 <PIC:Manual09_217>
 
-1 Oil tank filler cap/Dipstick
 (See page 81 for information on draining the bilge water.)
 
+1 Dipstick 2 Maximum level mark 3 Minimum level mark
 <PIC:Manual09_218>
 
-1 Dipstick 2 Maximum level mark 3 Minimum level mark
 ### Battery check
 
 Make sure that the battery terminals are not damaged and that the battery leads are connected properly.  WARNING! The battery must always be fully charged and in good condition. Loss of battery power may leave you stranded. Never operate the boat if the battery does not have sufficient power to start the engines or if it shows any other signs of decreased power.
 
+1 Negative  (-)  battery terminal: Black lead 2 Positive  (+)  battery terminal: Red lead
 <PIC:Manual09_219>
 
-1 Negative  (-)  battery terminal: Black lead 2 Positive  (+)  battery terminal: Red lead
 ### Bilge water check
 
 Make sure that no bilge water has collected in the engine compartment. If bilge water has collected in the engine compartment, drain it.
@@ -1572,48 +1572,48 @@ Make sure that no bilge water has collected in the engine compartment. If bilge 
 
   Loosen the drain plug and remove it, and then make sure that the plug and the O-ring on the hull drain plug is not damaged and that there is no foreign material on the threads or the O-ring on the hull drain plug.  NOTICE: Before installing the drain plug, clean the drain plug threads and the O-ring on the hull drain plug to remove any foreign materials, such as dirt or sand. Otherwise, the drain plug could be damaged, allowing water to enter the engine compartment. Make sure that the drain plug is tightened securely before launching the boat. Otherwise, water may flood the boat and cause it to submerge.  Securely install the drain plug by tightening it until it stops.
 
+1 Hull drain plug
 <PIC:Manual09_220>
 
-1 Hull drain plug
 ### Blower switch check
 
 ### WARNING
 
 Gasoline vapors can explode. Before starting the engine, check the engine compartment for gasoline, gasoline vapors, and loose electrical connections, and then operate the blower for at least 4 minutes. Do not start the engine or operate the blower if you can smell gasoline vapors in the engine compartment or if there are any loose electrical connections. Contact a Boat Dealer if there is a problem you cannot locate or correct.  Make sure that the blower operates properly when the blower switch is pushed.
 
+1 Blower switch
 <PIC:Manual09_221>
 
-1 Blower switch
-
-<PIC:Manual09_222>
 
 1 Blower  Push the blower switch to operate the blower and ventilate the engine compartment for at least 4 minutes.
+<PIC:Manual09_222>
+
 ### Navigation and anchor lights switch
 
 Check: Push the navigation and anchor lights switch and check that the bow light and anchor light come on.  (1) 210FSH DELUXE: Install the anchor light. (See page 68 for information on the anchor light.) (2) Push the upper side of the navigation and anchor lights switch and check that the bow light and anchor light come on.
 
+1 Navigation and anchor lights switch
 <PIC:Manual09_223>
 
-1 Navigation and anchor lights switch
-
-<PIC:Manual09_224>
 
 1 Bow light  210FSH DELUXE
+<PIC:Manual09_224>
 
-<PIC:Manual09_225>
 
 1 Anchor light  210FSH SPORT
+<PIC:Manual09_225>
 
-<PIC:Manual09_226>
 
 1 Anchor light  (3) Push the lower side of the navigation and anchor lights switch and check that only the anchor light comes on.  (4) Put the navigation and anchor lights switch in the middle position and check that the bow light and anchor light are off. (5) 210FSH DELUXE: Remove the anchor light.
+<PIC:Manual09_226>
+
 ### Horn switch check
 
 Push the horn switch and check that the horn sounds.
 
+1 Horn switch  Engine shut-off cord (lanyard) check Make sure that the engine shut-off cord (lanyard) is not damaged. If the cord is damaged, replace it.  WARNING! Never try to repair the engine shut-off cord (lanyard) or tie it together. The engine shut-off cord (lanyard) may not pull free when the operator falls off, allowing the boat to continue to run and cause an accident.
 <PIC:Manual09_227>
 
-1 Horn switch  Engine shut-off cord (lanyard) check Make sure that the engine shut-off cord (lanyard) is not damaged. If the cord is damaged, replace it.  WARNING! Never try to repair the engine shut-off cord (lanyard) or tie it together. The engine shut-off cord (lanyard) may not pull free when the operator falls off, allowing the boat to continue to run and cause an accident.
 
 <PIC:Manual09_228>
 
@@ -1625,9 +1625,9 @@ Perform the post-launch checks in the pre-operation checklist while the boat is 
 
 Check the engine shut-off switch for proper operation.  (1) Start the engines. (See page 96 for information on starting the engines.) (2) Pull the engine shut-off cord (lanyard) to remove the clip from the engine shut-off switch to make sure that the engines stop immediately. (3) Make sure that the engines cannot be started with the clip removed from the engine shut-off switch.
 
+1 Engine shut-off switch 2 Clip
 <PIC:Manual09_229>
 
-1 Engine shut-off switch 2 Clip
 ### Cooling water pilot outlet check
 
 Check that water comes out from the pilot outlets while the engines are running in the water. If water is not circulating, something may be clogging the intake grates. Refer to "Jet pump clean-out procedure" on page 126.
@@ -1646,9 +1646,9 @@ A continuous flow of water from the pilot outlets shows that water is flowing th
 
 Check the amount of fuel remaining in the fuel tank using the fuel level bar graph on the multi-function display.
 
+1 Fuel level bar graph  Add fuel if necessary. (See page 78 for information on filling the fuel tank.)
 <PIC:Manual09_231>
 
-1 Fuel level bar graph  Add fuel if necessary. (See page 78 for information on filling the fuel tank.)
 ## Operation
 
 ### Driving your boat
@@ -1682,18 +1682,18 @@ Severe injury or death may result if you ignore any of the following:  - Before 
 
 There is a hull drain plug at the bottom of the stern. Check the O-ring on the hull drain plug and make sure that the plug is tightened securely before launching the boat. Otherwise, water may flood the boat and cause it to submerge.
 
+1 Hull drain plug  (2) Turn the battery switch to the ON position.  (3) Push the blower switch to operate the blowers and ventilate the engine compartment for at least 4 minutes.
 <PIC:Manual09_234>
 
-1 Hull drain plug  (2) Turn the battery switch to the ON position.  (3) Push the blower switch to operate the blowers and ventilate the engine compartment for at least 4 minutes.
-
-<PIC:Manual09_235>
 
 1 Blower switch  (4) Attach the engine shut-off cord (lanyard) to your PFD. Install the clip onto the engine shut-off switch by pushing the clip groove over the nut beneath the knob. Be sure the cord is not wrapped around the steering wheel or tangled in the controls.  WARNING! Check that the engine  shut-off  cord  (lanyard)  is attached correctly. If the engine shut-off cord (lanyard) is not attached correctly, it may not pull free when the operator falls off, allowing the boat to
+<PIC:Manual09_235>
+
 continue to run and cause an accident.
 
+1 Engine shut-off switch 2 Clip 3 Engine shut-off cord (lanyard)
 <PIC:Manual09_236>
 
-1 Engine shut-off switch 2 Clip 3 Engine shut-off cord (lanyard)
 ### TIP:
 
 The engines will not start when the clip is removed from the engine shut-off switch. The starter motors will turn over without the cord attached.  (5) Put the remote control levers in the neutral position. The starter motors will not operate unless the remote control levers are in neutral. (6) Turn the main switch keys to the start position and release it when the engines start. If the engines do not start after 5 seconds of cranking, release the keys. Wait at least 15 seconds before trying to start the engines again.
@@ -1773,9 +1773,9 @@ When passengers are on board, make sure they are seated and holding onto the han
 
 To avoid severe injury or death, do not board from the rear, use swim platform, or swim behind boat if engines are running.  - Severe internal injuries can occur if water is forced into body cavities as a result of being near the jet thrust nozzles. - Exhaust gases coming from underneath the swim platform contain carbon monoxide, a colorless, odorless gas which may cause brain damage or death when inhaled. Symptoms include nausea, dizziness, and drowsiness.  (1) Be sure the engines are off, and then move to the stern of the boat. (2) Pull out the ladder and climb up onto the swim platform. (See page 70 for information on ladder.)
 
+(3) Return the ladder to the stowed position, and then sit in one of the seats provided.
 <PIC:Manual09_246>
 
-(3) Return the ladder to the stowed position, and then sit in one of the seats provided.
 ### Boarding from a dock or landing jetty
 
 (1) Board the boat from the side. One person should board at a time by stepping into the boat. Never jump in. Avoid stepping on slick gelcoat surfaces on the boat's gunwales, especially if wet.  (2) Sit in one of the seats provided and put both feet on the deck.
@@ -1841,13 +1841,13 @@ The trailer hitch ball must match the size of the socket on the trailer hitch co
 
 - Check your state laws to be sure your trailer meets all regulations, such as proper licensing, brake, axle load, and safety chain requirements. - Check the trailer for any loose fasteners or damaged parts. - Check the tires for proper inflation. - Check the wheel bearings and wheel lug nuts before each trip. - Check the tail, brake, and turn signal lights for proper operation.  - Secure the bow of the boat to the trailer with the winch line and also with the chain. Secure the stern eyes to the trailer with tiedowns.
 
+1 Bow eye
 <PIC:Manual09_251>
 
-1 Bow eye
-
-<PIC:Manual09_252>
 
 1 Stern eye  TIP:  During transport, use a boat cover to prevent any items from blowing out of the boat, or make sure to store any items inside the storage compartments and securely close the compartments.  - Be sure the access port cap is properly installed (see page 126 for more information) and the rear platform hatch is closed securely. - Be sure any cargo that must be carried in the boat as well as all hatches are secured.  - While traveling, check the wheel hubs on the trailer whenever you park. If a hub feels abnormally hot, have the bearing inspected before continuing your trip. On longer trips, it is a good idea to carry a set of spare wheel bearings, seals, and races. - When making a turn, do not cut corners. The trailer has a smaller turning circle, so it turns more sharply around the corner than the towing vehicle.
+<PIC:Manual09_252>
+
 ### Backing your trailer
 
 It takes practice to back a trailer successfully. If you are not familiar backing up with a trailer, practice first in an open area away from obstacles.
@@ -1871,13 +1871,13 @@ Each launch may have particular differences, such as ramp angle, prevailing wind
 
 (1) Disconnect the trailer lights from the towing vehicle.  (2) Back the trailer down the ramp as close to 90 degrees  to the shoreline as you can. If possible, have a second person act as an observer while standing to the side of the trailer. Stop when the tops of the trailer's fenders are about 3 inches above the waterline.  (3) With the boat moving at the slowest idle speed, guide the boat onto the support rails. Use throttle only if necessary for steering ability.  WARNING! Using too much throttle can cause the boat to jump over the front of the trailer, which can result in injury to the boat operator and bystanders.  (4) Make sure the boat is centered on the support rails and is headed straight for the bow stop (bumper board). Ease the boat forward until the bow rests against the bow stop.  NOTICE:  The winch line is not designed to pull the boat onto the trailer.  (5) Attach and tighten the winch line. NOTICE:  The winch line should not be the only line securing the bow during trailering. Use the chain along with the winch to secure the boat to the trailer.
 
+1 Bow eye (6) Pull the trailer up the ramp out of the way of other boaters. Attach the bow and stern tie-downs. Reconnect the trailer lights.
 <PIC:Manual09_255>
 
-1 Bow eye (6) Pull the trailer up the ramp out of the way of other boaters. Attach the bow and stern tie-downs. Reconnect the trailer lights.
-
-<PIC:Manual09_256>
 
 1 Stern eye  (7) Perform the post-operation checks on page 105.
+<PIC:Manual09_256>
+
 ### Lifting
 
 NOTICE  Do not attach lifting cables to the bow eye, cleats, stern eyes, ski tow hook, or handgrips. Serious damage to the boat can occur. Use only a sling designed specifically for lifting boats.  If you need to remove the boat from the water without a trailer, use these guidelines:  - Use a sling-type lifting mechanism designed for lifting boats. The sling should be covered with a protective material to prevent damage to the hull gelcoat. - Use spreader bars to avoid side stress to the hull that may cause cracks in the gelcoat and fiberglass. - Attach guidelines to the bow eye and stern eyes to control movement of the boat during lifting.
@@ -1891,13 +1891,13 @@ NOTICE  Do not attach lifting cables to the bow eye, cleats, stern eyes, ski tow
 
 Cooling system flushing is essential to prevent the cooling system from clogging up with salt, sand, or dirt.  (1) Connect the garden hose adapter to a garden hose.
 
+1 Garden hose adapter 2 Garden hose  (2) Loosen the flush hose connector cap and remove it. Insert the garden hose adapter into the flush hose connector by pushing and twisting it until it is securely connected.
 <PIC:Manual09_257>
 
-1 Garden hose adapter 2 Garden hose  (2) Loosen the flush hose connector cap and remove it. Insert the garden hose adapter into the flush hose connector by pushing and twisting it until it is securely connected.
-
-<PIC:Manual09_258>
 
 1 Flush hose connector 2 Flush hose connector cap 3 Garden hose adapter  (3) Connect the garden hose to a water tap. (4) Make sure that the area around the boat is clear, and then start the engine. Immediately after the engine starts, fully turn the water supply on so that water flows out continually from the jet thrust nozzle and cooling water pilot outlet.  NOTICE: Never turn on the water before starting the engine. The water could flow back through the muffler into the crankcase causing severe engine damage. Be sure to turn on the water immediately after starting the engine to prevent engine overheating.  (5) Run the engine at a fast idle for 3 to 5 minutes. If the engine stops while flushing, turn the water supply off immediately and perform the procedure again from step 4.  (6) Turn off the water supply, and then drain residual water from the exhaust system by alternately pushing the remote control lever up to half throttle and back to idle for 10 to 15 seconds.  (7) Stop the engine.  NOTICE:  Never have the water on when the engine is not running. The water could flow back through the muffler into the crankcase causing severe engine damage. Do not run the engine for more than 15 seconds after the water supply has been turned off to avoid engine overheating.  (8) Remove the garden hose adapter. (9) Install and tighten the cap securely.
+<PIC:Manual09_258>
+
 ### Cleaning
 
 the boat
@@ -1910,9 +1910,9 @@ Gasoline and its vapors are highly flammable and explosive. If there is fuel or 
 
 (1) Remove the hull drain plug. (See page 82 for hull drain plug removal and installation procedures.)
 
+1 Hull drain plug  (2) Clean the hull, boat interior, and drive unit with Yamaclean Wash & Wax Concentrate, or a mild natural soap, and water. Rinse with fresh water. Scum on the hull can be removed with Yamaclean Hull Cleaner.  NOTICE:  Incorrect cleaning can damage vinyl. See "Basic stain guide" on page 114.  (3) Clean the engine and bilge areas with Yamaclean Bilge Cleaner or an equivalent and rinse with fresh water. Drain all water and wipe up any remaining moisture with clean, dry rags.  NOTICE:  Be careful not to get water on the air filter area or electrical components. Do not use high-pressure water when rinsing the engine or engine compartment as severe engine damage could result.  (4) Open the rear platform hatch. (See page 63 for rear platform hatch opening and closing procedures.)  (5) Remove the access port cap to let any water drain that has pooled on it. (See page 126 for access port cap removal and installation procedures.) If the boat will be stored on the trailer nearby, leave the cap out until you prepare to launch the boat again. If the boat will be transported on the trailer any distance, temporarily reinstall the cap and close the hatch until you get home. Open the hatch again when you arrive and remove the cap as before. Leave the cap loose until you plan to transport the boat on the trailer again.  NOTICE:  Leaving the access port cap out when you are not using or transporting the boat helps keep it from becoming stuck in the access port. (See page 126 for more information.)  (6) Securely install the hull drain plug by tightening it until it stops.  NOTICE:  Before installing the hull drain plug, clean the drain plug thread and O-ring to remove any foreign materials, such as dirt or sand. Otherwise, the hull drain plug could be damaged, allowing water to enter the hull. Check the O-ring on the hull drain plug and make sure that the hull drain plug is tightened securely before launching the boat. Otherwise, water may flood the boat and cause it to submerge.  (7) Spray the exterior of the engine with Yamalube Silicone Protectant and Lubricant, or an equivalent. For areas requiring heavy protection, use Yamashield. (8) Wax the hull with a non-abrasive wax designed for marine gelcoat.  WARNING! Slippery surfaces can cause falls and injury. Be careful not to apply too much wax on deck and gunwale stepping surfaces. This will make them slippery.  (9) Wipe all vinyl and rubber components, such as the seats and engine compartment seals, with Yamaclean Vinyl Dressing or other quality vinyl protectant. NOTICE:  Some well-known "protectant" products on the market can actually damage vinyl over time. Consult a Boat Dealer if you want to use a product other than Yamaclean Vinyl Protectant.  (10) Wash the fabric of the bimini top with a mild natural soap in lukewarm water, then rinse. Do not use detergents. Allow to air dry thoroughly before storage.
 <PIC:Manual09_259>
 
-1 Hull drain plug  (2) Clean the hull, boat interior, and drive unit with Yamaclean Wash & Wax Concentrate, or a mild natural soap, and water. Rinse with fresh water. Scum on the hull can be removed with Yamaclean Hull Cleaner.  NOTICE:  Incorrect cleaning can damage vinyl. See "Basic stain guide" on page 114.  (3) Clean the engine and bilge areas with Yamaclean Bilge Cleaner or an equivalent and rinse with fresh water. Drain all water and wipe up any remaining moisture with clean, dry rags.  NOTICE:  Be careful not to get water on the air filter area or electrical components. Do not use high-pressure water when rinsing the engine or engine compartment as severe engine damage could result.  (4) Open the rear platform hatch. (See page 63 for rear platform hatch opening and closing procedures.)  (5) Remove the access port cap to let any water drain that has pooled on it. (See page 126 for access port cap removal and installation procedures.) If the boat will be stored on the trailer nearby, leave the cap out until you prepare to launch the boat again. If the boat will be transported on the trailer any distance, temporarily reinstall the cap and close the hatch until you get home. Open the hatch again when you arrive and remove the cap as before. Leave the cap loose until you plan to transport the boat on the trailer again.  NOTICE:  Leaving the access port cap out when you are not using or transporting the boat helps keep it from becoming stuck in the access port. (See page 126 for more information.)  (6) Securely install the hull drain plug by tightening it until it stops.  NOTICE:  Before installing the hull drain plug, clean the drain plug thread and O-ring to remove any foreign materials, such as dirt or sand. Otherwise, the hull drain plug could be damaged, allowing water to enter the hull. Check the O-ring on the hull drain plug and make sure that the hull drain plug is tightened securely before launching the boat. Otherwise, water may flood the boat and cause it to submerge.  (7) Spray the exterior of the engine with Yamalube Silicone Protectant and Lubricant, or an equivalent. For areas requiring heavy protection, use Yamashield. (8) Wax the hull with a non-abrasive wax designed for marine gelcoat.  WARNING! Slippery surfaces can cause falls and injury. Be careful not to apply too much wax on deck and gunwale stepping surfaces. This will make them slippery.  (9) Wipe all vinyl and rubber components, such as the seats and engine compartment seals, with Yamaclean Vinyl Dressing or other quality vinyl protectant. NOTICE:  Some well-known "protectant" products on the market can actually damage vinyl over time. Consult a Boat Dealer if you want to use a product other than Yamaclean Vinyl Protectant.  (10) Wash the fabric of the bimini top with a mild natural soap in lukewarm water, then rinse. Do not use detergents. Allow to air dry thoroughly before storage.
 ### Basic stain guide
 
 Here are basic steps to remove common stains from boat upholstery. Consult a Boat Dealer or upholstery-cleaning professional for difficult stains.
@@ -1931,9 +1931,9 @@ If the boat will not be used for more than a month, remove the battery and store
 
 (1) Turn the battery switch to the OFF position. (See page 30.) (2) Disconnect the ground lead (black) and the negative (-) battery lead (black). (3) Disconnect the positive (+) battery lead (red). (4) Unfasten the battery strap, and then remove the battery from the boat.
 
+1 Positive (+)  battery lead (red) 2 Battery strap 3 Negative  (-)  battery lead (black) 4 Ground lead (black)
 <PIC:Manual09_262>
 
-1 Positive (+)  battery lead (red) 2 Battery strap 3 Negative  (-)  battery lead (black) 4 Ground lead (black)
 #### To store the battery:
 
 (1) Clean the battery casing and terminals using a mixture of baking soda and water (one tablespoon of baking soda to one cup of water). (2) Apply dielectric grease or petroleum jelly to the battery terminals and to all exposed connectors. (3) If the battery will be stored for a longer period, check its state of charge (use a hydrometer or a voltmeter and load tester) at least once a month and recharge the battery if it gets too low.
@@ -1989,9 +1989,9 @@ Grease the bearing housing through the grease nipples.  NOTICE:  Fill the grease
 
 <PIC:Manual09_267>
 
+1 Bearing housing grease nipple
 <PIC:Manual09_268>
 
-1 Bearing housing grease nipple
 ## Maintenance
 
 ### WARNING
@@ -2040,28 +2040,28 @@ Note: Engine speed will be limited to 3500 rpm.
 
 Severe injury or death may result if you ignore any of the following:  - Turn off and remove both main switch keys, remove the clip from the engine shut-off switch, and wait for all movement to stop before removing the access port caps. - Never override the interlocks to run the engines with the rear platform hatch open. - The impellers have sharp edges. Be careful when reaching into jet pump areas.  If weeds or debris get caught in the intakes or impellers, cavitation can occur, and though the engine speed rises, forward thrust will decrease. If this condition is allowed to continue, jet pump damage can occur and the engines may overheat and seize. If there is any sign that a jet intake or impeller is clogged with weeds or debris, follow this clean-out procedure.  (1) Turn off and remove the main switch key, remove the clip from the engine shut-off switch, and wait for all movement to stop. (2) Open the rear platform hatch. (See page 63.) (3) Check that the retaining cord is securely attached to the access port cap and strap eye.
 
+1 Retaining cord 2 Strap eye  (4) While holding the handle and pushing down, turn the access port cap counterclockwise until the "SET" mark is aligned with the slot, and then lift the cap by the handle.
 <PIC:Manual09_275>
 
-1 Retaining cord 2 Strap eye  (4) While holding the handle and pushing down, turn the access port cap counterclockwise until the "SET" mark is aligned with the slot, and then lift the cap by the handle.
 ### NOTICE
 
 - Do not lift or pull the cap with the retaining cord. - Set the cap where it cannot be accidentally knocked overboard.
 
+1 "SET" mark 2 Slot
 <PIC:Manual09_276>
 
-1 "SET" mark 2 Slot
-
-<PIC:Manual09_277>
 
 1 Access port cap  (5) Remove any weeds or debris from the drive shaft, impeller, pump housing, and jet thrust nozzle. If you cannot remove the debris, consult a Boat Dealer.  (6) To reinstall the access port cap, first clean off any sand or other foreign matter from the cap or port surfaces. Apply a light coat of Yamalube Waterproof Marine Grease (P/N: ACC-GREAS-10-CT), if available, to the seal of the access port cap. If grease is not available, apply the grease during the post-operation checks.  (7) Insert the cap so that the "SET" mark is aligned with the slot, and then while pushing the handle turn the cap clockwise until the "SET" mark is aligned with the edge of the access port.
+<PIC:Manual09_277>
 
-<PIC:Manual09_278>
 
 1 "SET" mark  2 Slot 3 Edge of the access port  (8) Check that the cap is perpendicular to the centerline of the boat. Pull the handle forcefully to make sure that the cap is locked securely. If a strong pull will move the access port cap, it is not locked securely-the cap could be forced out by water pressure during operation.
+<PIC:Manual09_278>
 
-<PIC:Manual09_279>
 
 1 Perpendicular to the centerline of the boat  (9) Close the rear platform hatch.
+<PIC:Manual09_279>
+
 ### NOTICE
 
 Be sure the access port caps are locked securely in place. Otherwise, the caps could be forced out of the access ports by water pressure, causing loss of performance and possible damage.
@@ -2080,38 +2080,38 @@ Severe injury or death may result if you ignore any of the following:  - If the 
 
 (1) Connect the positive  (+)  terminal of the dead battery to the positive  (+)  terminal of the booster battery with the positive  (+)  jumper cable. (2) Connect one end of the negative  (-)  jumper cable to the negative  (-)  terminal of the booster battery. (3) Connect the other end of the negative  (-)  jumper cable to an engine hanger. NOTICE:  Be sure all connections are secure and correct before attempting to start the engine. Any wrong connection may damage the electrical system.
 
+1 Negative  (-)  jumper cable 2 Positive  (+)  jumper cable 3 Engine hanger 4 Booster battery  (4) Start the engine, and then disconnect the jumper cables by reversing the above steps.  NOTICE:  Do not turn the main switch key for more than 5 seconds. If the engine does not start in 5 seconds, release the main switch key and try again after 15 seconds. Continuous cranking for more than 5 seconds will discharge the battery and the engine will not start. The starter motor may also be damaged if it is engaged continuously for more than 5 seconds.
 <PIC:Manual09_280>
 
-1 Negative  (-)  jumper cable 2 Positive  (+)  jumper cable 3 Engine hanger 4 Booster battery  (4) Start the engine, and then disconnect the jumper cables by reversing the above steps.  NOTICE:  Do not turn the main switch key for more than 5 seconds. If the engine does not start in 5 seconds, release the main switch key and try again after 15 seconds. Continuous cranking for more than 5 seconds will discharge the battery and the engine will not start. The starter motor may also be damaged if it is engaged continuously for more than 5 seconds.
 ### Fuse replacement
 
 ### WARNING
 
 Do not use fuses of a higher amperage than recommended. Substitution with a fuse that has an improper rating can cause extensive electrical system damage and possible fire.  If a fuse is blown, replace it with the proper fuse. To replace a fuse: (1) Open the engine hood. (See page 56.) (2) Unfasten the band.
 
+1 Band  (3) Remove the fuse box from the air filter case by pulling the fuse box toward the bow.  (4) While pushing both sides of the fuse box cover inward, pull the cover toward the bow and remove it.
 <PIC:Manual09_281>
 
-1 Band  (3) Remove the fuse box from the air filter case by pulling the fuse box toward the bow.  (4) While pushing both sides of the fuse box cover inward, pull the cover toward the bow and remove it.
-
-<PIC:Manual09_282>
 
 1 Fuse box cover
+<PIC:Manual09_282>
 
-<PIC:Manual09_283>
 
 1 Electronic throttle valve fuse  2 Fuel pump fuse 3 Main relay drive fuse 4 Main fuse 5 Fuse puller 6 Battery fuse 7 Spare fuse 8 Unused fuse  (5) When replacing the accessory fuse and bilge pump fuse, remove the fuse holder. (Open the battery compartment to access the accessory fuse and bilge pump fuse. [See page 66.])
+<PIC:Manual09_283>
 
-<PIC:Manual09_284>
 
 1 Fuse holder 2 Accessory fuse 3 Bilge pump fuse  (6) Replace the blown fuse with the spare fuse of the correct amperage by using the fuse puller.
+<PIC:Manual09_284>
+
 Towing the boat  Fuse amperage: Electronic throttle valve fuse: 10 A Fuel pump fuse: 10 A Main relay drive fuse: 10 A Main fuse: 20 A Battery fuse: 30 A Accessory fuse: 20 A Bilge pump fuse: 3 A  (7) Install the fuse box cover. (8) If the accessory fuse or bilge pump fuse was replaced, install the fuse holder. (9) Install the fuse box to the air filter case. (10) Fasten the band. (11) Close the engine hood.
 ### WARNING
 
 - The operator of the towing boat must keep speed to a minimum and avoid traffic or obstacles which could be a hazard to either boat.  - The towing line should be long enough so the towed boat will not collide with the towing boat when slowing down.  The boat should be towed only if it becomes inoperative.  The towing rope should be long enough so that the boat will not collide with the towing boat when slowing down. A good rule of thumb is a tow rope which is three times the combined length of the towing boat and the boat.  Tow the boat using the bow eye only. Tow the boat at a no-wake speed.  NOTICE:  Do not tow the boat at speed fast enough to leave a wake (8 km/h, 5 mph). Severe engine damage could result because water can flood the non-operating engine through the water intake.
 
+1 Bow eye
 <PIC:Manual09_285>
 
-1 Bow eye
 ## Consumer information
 
 ### Limited warranty

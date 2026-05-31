@@ -102,9 +102,9 @@ Pass them on to any subsequent user.
 
 ## Overview
 
+OVERVIEW / PRESENTATION
 <PIC:Manual07_1>
 
-OVERVIEW / PRESENTATION
 ## SPECIFICATIONS
 
 <PIC:Manual07_2>
@@ -117,9 +117,9 @@ OVERVIEW / PRESENTATION
 
 This machine is equipped with an energy saving feature. The machine will automatically enter power off mode after 9 minutes. To turn the machine on, either press the Espresso or Lungo button.
 
+To turn the machine off before automatic Power Off mode, press both the Espresso and Lungo button simultaneously.
 <PIC:Manual07_4>
 
-To turn the machine off before automatic Power Off mode, press both the Espresso and Lungo button simultaneously.
 
 <PIC:Manual07_5>
 
@@ -127,17 +127,17 @@ To turn the machine off before automatic Power Off mode, press both the Espresso
 
 1. With machine turned off, press and hold the Espresso button for 3 seconds.
 
+2. The Espresso button will blink to indicate the current setting.
 <PIC:Manual07_6>
 
-2. The Espresso button will blink to indicate the current setting.
-
-<PIC:Manual07_7>
 
 3. To change this setting, press the Espresso button: one time for power off mode after 9 minutes, one more time for power off mode after 30 minutes, one more time to deactivate.
+<PIC:Manual07_7>
 
-<PIC:Manual07_8>
 
 4. To exit the energy saving mode, press the Lungo button for 3 seconds.
+<PIC:Manual07_8>
+
 
 <PIC:Manual07_9>
 
@@ -147,30 +147,29 @@ CAUTION: first read the important safeguards to avoid risks of fatal electrical 
 
 1. Remove the plastic film from the drip grid.
 
+2. Rinse the water tank before filling with drinkable water.
 <PIC:Manual07_10>
 
-2. Rinse the water tank before filling with drinkable water.
-
-<PIC:Manual07_11>
 
 3. Place a container (minimum 1 L / 34 oz) under coffee outlet.
+<PIC:Manual07_11>
 
-<PIC:Manual07_12>
 
 4. Plug into mains.
+<PIC:Manual07_12>
 
-<PIC:Manual07_13>
 
 5. Press the Espresso or Lungo button to activate the machine.
+<PIC:Manual07_13>
 
-<PIC:Manual07_14>
 
 Blinking lights: heating up (25 seconds)
 Steady lights: ready
-
-<PIC:Manual07_19>
+<PIC:Manual07_14>
 
 6. Press the Lungo button to rinse the machine. Repeat 3 times.
+<PIC:Manual07_19>
+
 
 <PIC:Manual07_16>
 
@@ -178,30 +177,29 @@ Steady lights: ready
 
 1. Rinse then fill the water tank with drinkable water.
 
+2. Press the Espresso or Lungo button to activate the machine.
 <PIC:Manual07_17>
 
-2. Press the Espresso or Lungo button to activate the machine.
-
-<PIC:Manual07_18>
 
 Blinking lights: heating up (25 seconds)
 Steady lights: ready
-
-<PIC:Manual07_19>
+<PIC:Manual07_18>
 
 3. Lift the lever completely and insert a capsule. CAUTION: never lift lever during operation and refer to the important safeguards to avoid possible harm when operating the appliance. NOTE: during heat up, you can press either coffee button while blinking. The coffee will then flow automatically when the machine is ready.
+<PIC:Manual07_19>
 
-<PIC:Manual07_20>
 
 4. Close the lever and place a cup under the coffee outlet.
+<PIC:Manual07_20>
 
-<PIC:Manual07_21>
 
 5. Press the Espresso (40 ml / 1.35 oz) or the Lungo (110 ml / 3.7 oz) button to start. Preparation will stop automatically. To stop the coffee flow manually or add more coffee, press again.
+<PIC:Manual07_21>
 
-<PIC:Manual07_22>
 
 6. Remove the cup. Lift and close the lever to eject the capsule into the used capsule container.
+<PIC:Manual07_22>
+
 
 <PIC:Manual07_23>
 
@@ -209,21 +207,21 @@ Steady lights: ready
 
 1. Turn the machine on and wait for it to be in ready mode (steady lights).
 
+2. Fill the water tank with potable water and insert a capsule.
 <PIC:Manual07_24>
 
-2. Fill the water tank with potable water and insert a capsule.
-
-<PIC:Manual07_25>
 
 3. Place a cup under the coffee outlet.
+<PIC:Manual07_25>
 
-<PIC:Manual07_26>
 
 4. Press and hold the Espresso or Lungo button.
+<PIC:Manual07_26>
 
-<PIC:Manual07_27>
 
 5. Release button once the desired volume is served.
+<PIC:Manual07_27>
+
 
 6. Water volume level is now stored.
 ## EMPTYING THE SYSTEM BEFORE A PERIOD OF NON-USE AND FOR FROST PROTECTION, OR BEFORE A REPAIR
@@ -232,38 +230,38 @@ NOTE: Your machine will be blocked for 10 minutes after emptying mode.
 
 1. To enter the emptying mode, press both the Espresso and Lungo button to turn the machine off.
 
+2. Remove the water tank and open the lever.
 <PIC:Manual07_28>
 
-2. Remove the water tank and open the lever.
-
-<PIC:Manual07_29>
 
 3. Press both the Espresso and Lungo button for 3 seconds.
+<PIC:Manual07_29>
+
 
 <PIC:Manual07_30>
 
 Both LEDs blink alternatively.
 
+4. Close the lever.
 <PIC:Manual07_31>
 
-4. Close the lever.
-
-<PIC:Manual07_32>
 
 5. Machine switches off automatically.
+<PIC:Manual07_32>
+
 
 6. Empty and clean the used capsule container and drip tray.
 ## RESET TO FACTORY SETTINGS
 
 1. With machine being turned off, press and hold down the Lungo button for 5 seconds.
 
+2. LEDs will blink fast 3 times to confirm machine has been reset to factory settings.
 <PIC:Manual07_33>
 
-2. LEDs will blink fast 3 times to confirm machine has been reset to factory settings.
-
-<PIC:Manual07_34>
 
 3. LEDs will then continue to blink normally, as heating up, until ready. Steady lights: machine ready
+<PIC:Manual07_34>
+
 
 <PIC:Manual07_35>
 
@@ -281,47 +279,47 @@ Note: Duration: approximately 15 minutes.
 
 1. Remove the capsule and close the lever.
 
+2. Empty the drip tray and used capsule container.
 <PIC:Manual07_36>
 
-2. Empty the drip tray and used capsule container.
-
-<PIC:Manual07_37>
 
 3. Fill the water tank with 0.5 L / 17 oz of drinkable water and add 1 descaling liquid.
+<PIC:Manual07_37>
 
-<PIC:Manual07_38>
 
 4. Place a container (minimum volume 1 L / 34 oz) under the coffee outlet.
+<PIC:Manual07_38>
 
-<PIC:Manual07_39>
 
 5. To enter the descaling mode, while the machine is turned on, press both the Espresso and Lungo button for 3 seconds.
+<PIC:Manual07_39>
+
 
 <PIC:Manual07_40>
 
 Both LEDs blink.
 
+6. Press the Lungo button and wait until the water tank is empty.
 <PIC:Manual07_41>
 
-6. Press the Lungo button and wait until the water tank is empty.
-
-<PIC:Manual07_42>
 
 7. Refill the water tank with the used descaling solution collected in the container and repeat step 4 and 6.
+<PIC:Manual07_42>
 
-<PIC:Manual07_43>
 
 8. Empty and rinse the water tank. Fill with drinkable water.
+<PIC:Manual07_43>
 
-<PIC:Manual07_44>
 
 9. When ready, repeat step 4 and 6 to now rinse the machine.
+<PIC:Manual07_44>
+
 
 10. To exit the descaling mode, press both the Espresso and Lungo button for 3 seconds.
 
+11. The machine is now ready for use.
 <PIC:Manual07_45>
 
-11. The machine is now ready for use.
 
 CAUTION: the descaling solution can be harmful. Avoid contact with eyes, skin and surfaces. Never use any product other than the descaling kit available at the Club to avoid damage to your machine. The following table will indicate the descaling frequency required for the optimum performance of your machine, based on water hardness. For any additional questions you may have regarding descaling, please contact your Club.
 

@@ -1,7 +1,7 @@
 
 # Over-the-Range Microwave
-<PIC:Manual24_0>
 Use and Care Manual
+<PIC:Manual24_0>
 For Models: HMV9302, HMV9305, HMV9306, HMV9307
 
 PLEASE READ ENTIRE INSTRUCTIONS BEFORE PROCEEDING
@@ -166,9 +166,8 @@ Plug in to a grounded 3 prong outlet. Do not remove ground prong. Do not use an 
 ### GROUNDING INSTRUCTIONS
 - For all cord connected appliances:  The microwave oven must be grounded. In the event of an electrical short circuit, grounding reduces the risk of electric shock by providing an escape wire for the electric current. The microwave oven is equipped with a cord having a grounding wire with a grounding plug. The plug must be plugged into an outlet that is properly installed and grounded.
 
-<PIC:Manual24_2>
-
 Ensure proper ground exists before use
+<PIC:Manual24_2>
 
 ### WARNING
 
@@ -830,13 +829,13 @@ The grease filter should be removed and cleaned often, at least once a month.
 
 1. To remove grease filter, slide filter to the side. Pull filter downward and push to the other side. The filter will drop out.
 
+2. Wash in dishwasher or soak grease filter in hot water and a mild detergent. Rinse well and shake to dry. Do not use ammonia or place in a dishwasher. The aluminum filter will darken.
 <PIC:Manual24_47>
 
-2. Wash in dishwasher or soak grease filter in hot water and a mild detergent. Rinse well and shake to dry. Do not use ammonia or place in a dishwasher. The aluminum filter will darken.
-
-<PIC:Manual24_48>
 
 3. To reinstall the filter, slide it into the side slot, then push up and toward oven center to lock
+<PIC:Manual24_48>
+
 
 <PIC:Manual24_49>
 
@@ -851,29 +850,29 @@ If your oven is vented inside, the charcoal filter should be replaced every 6 to
 1. Unplug the oven or turn off power at the main power supply.
 2. Remove the two vent grill mounting screws. (2 middle screws)
 
-<PIC:Manual24_50>
-
 3. Tip the grill forward, then lift it out.
 4. Remove old filter.
+<PIC:Manual24_50>
 
-<PIC:Manual24_51>
 
 5. Slide a new charcoal filter into place. The filter should rest at the angle shown.
+<PIC:Manual24_51>
 
-<PIC:Manual24_52>
 
 6. Slide the bottom of the grill into place. Push the top until it snaps into place. Replace the mounting screws. Turn the power back on at the main power supply and set the clock.
+<PIC:Manual24_52>
+
 
 ### COOKTOP/NIGHT LIGHT REPLACEMENT
 
 1. Unplug the oven or turn off power at the main power supply.
 
-<PIC:Manual24_53>
-
 2. Remove the bulb cover and mounting screws.
 3. Replace bulb(s) with 30 or 40 watt appliance bulb(s)
 4. Replace bulb cover and mounting screws.
 5. Turn the power back on at the main power supply or plug in the oven.
+<PIC:Manual24_53>
+
 
 ### CAUTION
 
@@ -884,17 +883,17 @@ To avoid personal injury or property damage, wear gloves when replacing light bu
 1. Unplug oven or turn off power at the main power supply.
 2. Remove the vent cover mounting screws. (2 middle screws)
 3. Tip the cover forward, then lift out to remove.
+4. Remove bulb holder
 <PIC:Manual24_54>
 
-4. Remove bulb holder
-<PIC:Manual24_55>
-
 5. Lift up the bulb holder
-<PIC:Manual24_56>
+<PIC:Manual24_55>
 
 6. Replace bulb with a 30 or 40 watt appliance bulb.
 7. Replace the bulb holder.
 8. Slide the bottom of the vent cover into place. Push the top until it snaps into place. Replace the mounting screws. Turn the power back on at the main power supply or plug in the oven.
+<PIC:Manual24_56>
+
 
 ## TROUBLESHOOTING
 

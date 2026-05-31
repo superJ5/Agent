@@ -1,9 +1,9 @@
 # Landline Manual
 
 Always there to help you
+XL490 XL495
 <PIC:landline_01>
 
-XL490 XL495
 1 Important safety instructions  3
 2 Your phone  5
 What is in the box  5
@@ -181,18 +181,17 @@ Tip:
 
 ### Overview of the phone
 
+Figure: Handset overview, front side.
 <PIC:Manual22_7>
 
-Figure: Handset overview, front side.
-
-<PIC:Manual22_8>
-
 Figure: Handset overview, rear side.
+<PIC:Manual22_8>
 
 Earpiece:
 - Scroll up on the menu.
 - Increase the earpiece/speaker volume.
 - Access the phonebook in standby  mode.
+
 c:
 - Delete text or digits.
 - Cancel operation.
@@ -200,24 +199,17 @@ c:
 - Change the sound profile during a call.
 
 d:
-
 - End the call.
-
 - Exit the menu/operation.
-
 - Press and hold this key to switch the handset on or off.
-
 <PIC:Manual22_9>
 
 m1/m2/m3:
 
-
 Store the emergency phone numbers or  numbers you call frequently.
 <PIC:Manual22_10>
 
-
 - Press to enter a space during text  editing.
-
 - Press and hold this key to lock/unlock the keypad in standby mode.
 - Press and hold this key to enter a pause when making a call.
 - Switch to upper/lower case during  editing.
@@ -227,85 +219,67 @@ Store the emergency phone numbers or  numbers you call frequently.
 
 Microphone.
 
-
 Activate/deactivate audio boost in earpiece or handsfree mode.
 - Turn the speaker phone on/off.
 - Make and receive calls through the  speaker.
-
 <PIC:Manual22_11>
 
-Callout 12:
 - Press and hold this key to make an intercom call (for multi-handset version only).
 - Change the dial mode (from pulse mode to temporary tone mode).
+<PIC:Manual22_12>
 
-Callout 13:
 - Scroll down on the menu.
 - Decrease the earpiece/speaker volume.
 - Access the call log in standby mode.
 
-<PIC:Manual22_12>
-
-Callout 14:
 - Make and receive calls.
 - Recall key (This function is network dependent.)
 
-Callout 15:
 - Access the main menu in standby mode.
 - Confirm selection.
 - Enter the options menu.
 - Select the function displayed on the handset screen directly above the key.
 
-Callout 16: LED indicator.
+LED indicator.
 
 View events or charging status.
 
+Loudspeaker.
+
+Battery door.
 <PIC:Manual22_13>
-
-Callout 17: Loudspeaker.
-
-Callout 18: Battery door.
 
 ### Overview of the base station
 
 #### Base station (XL490)
 
-<PIC:Manual22_18>
-
-Callout 1:
 - Press to find handsets.
 - Press and hold this key to enter the registration mode.
+<PIC:Manual22_18>
 
 #### Base station (XL495)
 
-<PIC:Manual22_19>
-
-Callout 1:
 - Press to find handsets.
 - Press and hold this key to enter the registration mode.
+<PIC:Manual22_19>
 
-Callout 2: Speaker.
+Speaker.
 
-Callout 3: Turn the answering machine on or off.
+Turn the answering machine on or off.
 
-<PIC:Manual22_14>
-
-Callout 4:
 - Delete the current playback message.
 - Press and hold this key to delete all old messages.
+<PIC:Manual22_14>
 
+Decrease/increase the speaker volume.
 <PIC:Manual22_15>
 
-Callout 5: Decrease/increase the speaker volume.
-
+Skip backward/forward during playback.
 <PIC:Manual22_16>
 
-Callout 6: Skip backward/forward during playback.
-
-<PIC:Manual22_17>
-
-Callout 7:
 - Play messages.
 - Stop messages playback.
+<PIC:Manual22_17>
 
 ## 3  Get started
 
@@ -1489,11 +1463,11 @@ The voice mail service is managed by your  service provider but not the phone it
 - The charging contacts are dirty. Disconnect  the power supply first and clean the  contacts with a damp cloth.
 - Check the LED indicator of your handset  for the charging status if  [Menu] > [Phone  setup] > [Charge status ]  is selected.
 - Batteries are defective. Purchase new ones  with the same specifications. To remove the  battery door, refer to the instruction in the  following picture.
+<PIC:Manual22_60>
 
 Note:
 - If the above solutions do not help, disconnect the  power supply from both the handset and base station.  Try again after 1 minute.
 
-<PIC:Manual22_60>
 
 ### No display.
 - Make sure the batteries are charged.

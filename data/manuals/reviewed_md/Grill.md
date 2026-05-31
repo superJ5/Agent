@@ -24,11 +24,11 @@ Tools needed for assembly: Adjustable wrench (not provided), screwdriver (not pr
 3. Open lid.
 4. If odor continues, keep away from the appliance and immediately call your gas supplier or your fire department.  
 
+1. Do not store or use gasoline or other flammable liquids or vapors in the vicinity of this or any other appliance.
+2. An LP Tank not connected for use shall not be stored in the vicinity of this or any other appliance.
 <PIC:Manual19_2>
 
   
-1. Do not store or use gasoline or other flammable liquids or vapors in the vicinity of this or any other appliance.
-2. An LP Tank not connected for use shall not be stored in the vicinity of this or any other appliance.
 
 Call Grill Service Center For Help And Parts. If you have questions or need assistance during assembly please call 1-800-241-7548. You will be speaking to a representative of the grill manufacturer and not a Sears employee. To order new parts call Sears at 1-800-4-MY-HOME.
 
@@ -65,20 +65,20 @@ Safety Precautions
 
 The symbols and boxes shown below explain what each heading means. Read and follow all of the messages found throughout the manual.
 
-<PIC:Manual19_6>
 
   
 DANGER: Indicates an imminently hazardous situation which, if not avoided, will result in death or serious injury  
+<PIC:Manual19_6>
 
+WARNING: Be alert to the possibility of serious bodily injury if the instructions are not followed. Be sure to read and carefully follow all of the messages  
 <PIC:Manual19_7>
 
   
-WARNING: Be alert to the possibility of serious bodily injury if the instructions are not followed. Be sure to read and carefully follow all of the messages  
 
+CAUTION: Indicates a potentially hazardous situation which, if not avoided, may result in minor or moderate injury
 <PIC:Manual19_8>
 
   
-CAUTION: Indicates a potentially hazardous situation which, if not avoided, may result in minor or moderate injury
 
 ## Repair Protection Agreements
 
@@ -124,10 +124,10 @@ For Sears professional installation of home appliances, garage door openers, wat
   
 OPD Hand Wheel  feature is identified by a unique triangular hand wheel. Use only LP Tanks equipped with this type of valve. -  LP Tank must be arranged for vapor withdrawal and include collar to protect LP Tank valve. Always keep LP Tanks in upright position during use, transit or storage  
 
+LP Tank in upright position for vapor withdrawal
 <PIC:Manual19_13>
 
   
-LP Tank in upright position for vapor withdrawal
 
 ## LP (Liquefied Petroleum Gas)
 
@@ -145,10 +145,10 @@ LP Tank in upright position for vapor withdrawal
 
 - Leak test must be repeated each time LP tank is exchanged or refilled.  - Do not smoke during leak test  -  Do not use an open flame to check for gas leaks  - Grill must be leak tested outdoors in a well-ventilated area, away from ignition sources such as gas fired or electrical appliances. During leak test, keep grill away from open flames or sparks.  -  Use a clean paintbrush and a 50/50 mild soap and water solution. Brush soapy solution on to areas indicated by arrows in figure below. Leaks are indicated by growing bubbles.
 
+If "growing" bubbles appear do not use or move the LP tank. Contact an LP gas supplier or your fire department!  
 <PIC:Manual19_14>
 
   
-If "growing" bubbles appear do not use or move the LP tank. Contact an LP gas supplier or your fire department!  
 Do not use household cleaning agents. Damage to gas train components can result.  
 
 <PIC:Manual19_15>
@@ -160,19 +160,20 @@ Do not use household cleaning agents. Damage to gas train components can result.
 3. Turn LP tank OFF by turning OPD hand wheel clockwise to a full stop.
  4. Remove the protective cap from LP tank valve. Always use cap and strap supplied with valve.  
 
+Do not use a POL transport plug (plastic part with external threads)! It will defeat the safety feature of the valve.  
 <PIC:Manual19_16>
 
   
-Do not use a POL transport plug (plastic part with external threads)! It will defeat the safety feature of the valve.  
 
+5. Hold regulator and insert nipple into LP tank valve. Hand-tighten the coupling nut, holding regulator in a straight line with LP tank valve so as not to cross-thread the connection.  
 <PIC:Manual19_17>
 
   
-5. Hold regulator and insert nipple into LP tank valve. Hand-tighten the coupling nut, holding regulator in a straight line with LP tank valve so as not to cross-thread the connection.  
 
+Nipple has to be centered into the LP tank valve.
 <PIC:Manual19_18>
 
-  Nipple has to be centered into the LP tank valve.  6. Turn the coupling nut clockwise and tighten to a full stop. The regulator will seal on the back-check feature in the LP tank valve, resulting in some resistance. An additional one-half to three-quarters turn is required to complete the connection. Tighten by hand only-do not use tools.
+6. Turn the coupling nut clockwise and tighten to a full stop. The regulator will seal on the back-check feature in the LP tank valve, resulting in some resistance. An additional one-half to three-quarters turn is required to complete the connection. Tighten by hand only-do not use tools.
 
 #### NOTE:
 
@@ -187,10 +188,10 @@ If you cannot complete the connection, disconnect regulator and repeat steps 5 a
 
 1. Turn all grill control knobs to OFF  2. Be sure regulator is tightly connected to LP tank  3. Completely open LP tank valve by turning OPD hand wheel counterclockwise. If you hear a rushing sound, turn gas off immediately. There is a major leak at the connection. Correct before proceeding by calling Sears for replacement parts at 1-800-4-MY-HOME.  4. Brush soapy solution on to areas where bubbles are shown in picture below:
 
+5. If "growing" bubbles appear, there is a leak. Close LP tank valve immediately and retighten connections. If leaks cannot be stopped do not try to repair. Call Sears for replacement parts at 1-800-4-MY-HOME.  6. Always close LP tank valve after performing leak test by turning hand wheel clockwise.  
 <PIC:Manual19_20>
 
   
-5. If "growing" bubbles appear, there is a leak. Close LP tank valve immediately and retighten connections. If leaks cannot be stopped do not try to repair. Call Sears for replacement parts at 1-800-4-MY-HOME.  6. Always close LP tank valve after performing leak test by turning hand wheel clockwise.  
 
 <PIC:Manual19_21>
 
@@ -319,18 +320,18 @@ Food safety is a very important part of enjoying the outdoor cooking experience.
 
 Poultry and large cuts of meat cook slowly to perfection on the grill by indirect heat. The heat from selected burners circulates gently throughout the grill, cooking meat or poultry without the touch of a direct flame. This method greatly reduces flare-ups when cooking extra fatty cuts because there is no direct flame to ignite the fats and juices that drip during cooking
 
+1 Burner Cooking Cook with direct or indirect heat Best for smaller meals or foods Consumes less fuel.
 <PIC:Manual19_36>
 
   
-1 Burner Cooking Cook with direct or indirect heat Best for smaller meals or foods Consumes less fuel.
 
 ### Indirect Cooking Instructions
 
 Always cook with the lid closed. Due to weather conditions, cooking times may vary. During cold and windy conditions the temperature setting may need to be increased to ensure sufficient cooking temperatures
 
+  2 Burner Cooking Great indirect cooking on low. Produces slow, even heating. Ideal for slow roasting and baking.
 <PIC:Manual19_37>
 
-  2 Burner Cooking Great indirect cooking on low. Produces slow, even heating. Ideal for slow roasting and baking.
 
 ## Grill Halogen Light
 
@@ -352,15 +353,15 @@ Always cook with the lid closed. Due to weather conditions, cooking times may va
 
 Make sure light switch on the control panel is in the "OFF" position and adapter plug is disconnected from outlet.
 
+Release the screw securing the light socket.  
 <PIC:Manual19_40>
 
   
-Release the screw securing the light socket.  
 
+Take out the socket and remove the lens.
 <PIC:Manual19_41>
 
   
-Take out the socket and remove the lens.
 
 <PIC:Manual19_42>
 
@@ -387,10 +388,10 @@ Take care not to touch the bulb with your bare fingers. Touching bulb with your 
 
 - Since 1971 the National Electric Code (NEC) has required Ground Fault Interrupter devices on all outdoor circuits. -  If your residence was built before 1971, check with a qualified electrician to determine if a Ground Fault Interrupter protector exists. -  Do not use this appliance if the circuit does not have GFI protection -  Do not plug this appliance into an indoor circuit.
 
+1. To protect against electric shock, do not immerse cord or plugs in water or other liquid. 2. Unplug from the outlet when not in use and before cleaning. Allow to cool before putting on or taking off parts. 3. Do not operate grill with a damaged cord, plug, or after the appliance malfunctions or has been damaged in any manner. 4. Do not let the cord hang over the edge of a table or touch hot surfaces. 5. Do not use an outdoor cooking gas appliance for purposes other than intended. 6. When connecting, first connect plug to the outdoor cooking gas appliance then plug appliance into the outlet. 7. Use only a Ground Fault Interrupter (GFI) protected circuit with this outdoor cooking gas appliance. 8. Never remove the grounding plug or use with an adapter of 2 prongs. 9. Use only extension cords with a 3 prong grounding plug, rated for the power of the equipment, and approved for outdoor use with a W-A marking.
 <PIC:Manual19_44>
 
   
-1. To protect against electric shock, do not immerse cord or plugs in water or other liquid. 2. Unplug from the outlet when not in use and before cleaning. Allow to cool before putting on or taking off parts. 3. Do not operate grill with a damaged cord, plug, or after the appliance malfunctions or has been damaged in any manner. 4. Do not let the cord hang over the edge of a table or touch hot surfaces. 5. Do not use an outdoor cooking gas appliance for purposes other than intended. 6. When connecting, first connect plug to the outdoor cooking gas appliance then plug appliance into the outlet. 7. Use only a Ground Fault Interrupter (GFI) protected circuit with this outdoor cooking gas appliance. 8. Never remove the grounding plug or use with an adapter of 2 prongs. 9. Use only extension cords with a 3 prong grounding plug, rated for the power of the equipment, and approved for outdoor use with a W-A marking.
 
 ## PARTS LIST
 
@@ -481,20 +482,20 @@ First, remove the two screws and lock washers factory attached to the side burne
 #### 10
 Insert sideburner burner into left shelf. The stud on bottom of burner fits into rear small hole in sideburner drip pan on shelf, shown A. 
 
+Secure burner to sideburner drip pan with one Wing nut, shown B. Make sure burner tube engages side burner valve, shown C  
 <PIC:Manual19_63>
 
-Secure burner to sideburner drip pan with one Wing nut, shown B. Make sure burner tube engages side burner valve, shown C  
 
-<PIC:Manual19_62>
 
   Wing nut Qty. 1  
+<PIC:Manual19_62>
 
 #### 11
 Under sideburner shelf, attach sideburner ignitor wire to electrode, shown A. Place sideburner grate onto sideburner shelf aligning grate legs with holes in shelf, shown B  
 
+  Side burner Ignitor Wire  
 <PIC:Manual19_64>
 
-  Side burner Ignitor Wire  
 
 <PIC:Manual19_65>
 
@@ -540,9 +541,9 @@ Note: Some parts omitted for clarity of illustration
 #### 19
 LP CYLINDER IS SOLD SEPARATELY. Fill and leak check the cylinder before attaching to grill and regulator (see Use & Care section). Once cylinder has been filled and leak checked, place cylinder into hole in bottom shelf. Make sure cylinder valve is facing front of grill. Secure cylinder with cylinder screw under bottom shelf. See Use & Care section of this manual to perform the "Burner Flame Check" and for important safety instructions before using.  
 
+  Always keep LP cylinders in upright position during use, transport, and storage.  
 <PIC:Manual19_73>
 
-  Always keep LP cylinders in upright position during use, transport, and storage.  
 
 <PIC:Manual19_74>
 

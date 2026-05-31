@@ -143,38 +143,39 @@ SEVERE INJURY OR DEATH MAY RESULT IF YOU IGNORE ANY OF THE FOLLOWING: Read the O
 When you ride your snowmobile, you must know and use the following for your safety. Severe injury or death may result if you ignore any of the following.
 
 ### Before Operating
+1. Read the Owner's Manual and all labels before operating this machine. Become familiar with all of the operating controls and their function. Consult a dealer about any control or function you do not understand.  2. This machine was not manufactured for use on public streets, roads, or highways. Such use is prohibited by law, and you could collide with another vehicle.  3. BR 250 T and CS 340 E are designed to carry the OPERATOR ONLY. Passengers are prohibited. Carrying a passenger can cause loss of control.  4. Do not operate the machine after drinking alcohol or taking drugs. Your ability to operate the machine is reduced by the influence of alcohol or drugs.  5. For safety and proper care of the machine, always perform the pre-operation checks on page 6-1~6-8 before starting the engine. Check the throttle, steering, and brake operation every time before starting the engine. Be sure the throttle lever moves freely and it returns to the idle position when it is released.  6. Apply the parking brake before starting the engine. Never drive the machine with the parking brake applied. This may overheat the brake disc and reduce braking ability.  7. Do not allow anyone to stand behind the machine when starting, inspecting or adjusting the machine. A broken track, track fittings or debris thrown by the track could be dangerous to the operator or bystanders.
 <PIC:snowmobile_01>
 <PIC:snowmobile_02>
 <PIC:snowmobile_03>
 
-1. Read the Owner's Manual and all labels before operating this machine. Become familiar with all of the operating controls and their function. Consult a dealer about any control or function you do not understand.  2. This machine was not manufactured for use on public streets, roads, or highways. Such use is prohibited by law, and you could collide with another vehicle.  3. BR 250 T and CS 340 E are designed to carry the OPERATOR ONLY. Passengers are prohibited. Carrying a passenger can cause loss of control.  4. Do not operate the machine after drinking alcohol or taking drugs. Your ability to operate the machine is reduced by the influence of alcohol or drugs.  5. For safety and proper care of the machine, always perform the pre-operation checks on page 6-1~6-8 before starting the engine. Check the throttle, steering, and brake operation every time before starting the engine. Be sure the throttle lever moves freely and it returns to the idle position when it is released.  6. Apply the parking brake before starting the engine. Never drive the machine with the parking brake applied. This may overheat the brake disc and reduce braking ability.  7. Do not allow anyone to stand behind the machine when starting, inspecting or adjusting the machine. A broken track, track fittings or debris thrown by the track could be dangerous to the operator or bystanders.
-
-<PIC:Manual34_10>
 
   8. Handle fuel with care; it is highly flammable  Never add fuel when the engine is running or hot. Allow the engine to cool for several minutes after running. Use an approved fuel container. Fill the fuel tank outdoors with extreme care. Never remove the fuel cap indoors. Never fill the fuel tank indoors. Never refuel while smoking or in the vicinity of an open flame. Make sure the fuel tank cap is closed securely after refueling. Wipe up any spilled fuel immediately.  9. If you swallow some gasoline, inhale a lot of gasoline vapor, or get some gasoline into your eye (s), see your doctor immediately. If any gasoline spills on your skin or clothing, immediately wash your skin with soap and water, and change your clothes.
+<PIC:Manual34_10>
 
-<PIC:Manual34_11>
 
   10. Wear protective clothing. Wear an approved helmet, and a face shield or goggles. Also, wear a good quality snowmobile suit, boots, and a pair of snowmobile gloves or mittens that will permit use of your thumbs and fingers for operation of the controls.
+<PIC:Manual34_11>
+
 
 ## Operation
-<PIC:Manual34_12>
-
 1. Do not run the engine indoors, except when starting the engine to transport the machine in or out of the building. Open the outside doors; exhaust fumes are dangerous.  2. Be careful where you ride. There may be obstacles hidden beneath the snow. Stay on established trails to minimize your exposure to hazards. Ride slowly and cautiously when you ride off of established trails. Hitting a rock or stump, or running into wires could cause an accident and injury.
 3. This machine is not designed for use on surfaces other than snow or ice. Use on dirt, sand, grass, rocks, or bare pavement may cause loss of control and may damage the machine.  4. Avoid operating on glare ice, or on snow which has a lot of dirt or sand mixed in. Operation under such conditions will damage or result in rapid wear of ski runners, drive track, slide runners and drive sprockets  5. Always have other snowmobilers with you when going on a ride. You may need help if you run out of fuel, have an accident, or damage your snowmobile  6. Many surfaces such as ice and hard-packed snow require much longer stopping distances. Be alert, plan ahead and begin decelerating early. The best braking method on most surfaces is to release the throttle and apply the brake gently-not suddenly
+<PIC:Manual34_12>
+
 
 ### Maintenance and Storage
 
 1. Modifications made to the machine not approved by, or the removal of original equipment may render your machine unsafe for use and may cause severe personal injury. Modifications may also make your machine illegal to use.  2. Never store the machine with fuel in the fuel tank inside a building where ignition sources are present such as hot water and space heaters, open flame, spark, clothes dryers, and the like. Allow the engine to cool before storing in any enclosure.  3. Always refer to "STORAGE" for important details if the machine is to be stored for an extended period.  4. Maintain or replace safety and instruction labels, as necessary.
 
+(1)  Ski damper  Fuel cock lever  (3)  Windshield  (4)  Steering handlebar  Seat  Drive track  (2)  Slide rail suspension  Frame  Steering ski  Front baffle plate  Shroud  Headlight  (3)  Taillight  (4)  Flap  (5)  Tow hitch  Speedometer  Primer pump knob  Engine stop switch  Throttle lever  Starter handle  Shroud latch  Starter lever  Main switch  Headlight beam switch  Brake lever  Parking brake button
 <PIC:Manual34_13>
 
 <PIC:Manual34_14>
 
 <PIC:Manual34_15>
 
-  (1)  Ski damper  Fuel cock lever  (3)  Windshield  (4)  Steering handlebar  Seat  Drive track  (2)  Slide rail suspension  Frame  Steering ski  Front baffle plate  Shroud  Headlight  (3)  Taillight  (4)  Flap  (5)  Tow hitch  Speedometer  Primer pump knob  Engine stop switch  Throttle lever  Starter handle  Shroud latch  Starter lever  Main switch  Headlight beam switch  Brake lever  Parking brake button
 
+(1)  Windshield  Steering handlebar  (3)  Seat  (4)  Drive track  Slide rail suspension  Frame  (2)  Steering ski  Telescopic strut suspension  Shroud  Headlight  Front baffle plate  Taillight  (3)  Flap  (4)  Luggage box  (5)  Speedometer  Engine stop switch  Throttle lever  Shroud latch  Main switch  Grip warmer switch  Starter handle  Starter lever  Headlight beam switch  Brake lever  Parking brake button
 <PIC:Manual34_16>
 
 <PIC:Manual34_17>
@@ -183,8 +184,8 @@ When you ride your snowmobile, you must know and use the following for your safe
 
 <PIC:Manual34_19>
 
-  (1)  Windshield  Steering handlebar  (3)  Seat  (4)  Drive track  Slide rail suspension  Frame  (2)  Steering ski  Telescopic strut suspension  Shroud  Headlight  Front baffle plate  Taillight  (3)  Flap  (4)  Luggage box  (5)  Speedometer  Engine stop switch  Throttle lever  Shroud latch  Main switch  Grip warmer switch  Starter handle  Starter lever  Headlight beam switch  Brake lever  Parking brake button
 
+(1)  Windshield  Steering handlebar  (3)  Seat  (4)  Drive track  Slide rail suspension  Frame  (2)  Telescopic strut suspension  Steering ski  Headlight  Front baffle plate  Shroud  Tow hitch  (3)  Flap  (4)  Taillight  (5)  Brake lever  Parking brake button  Headlight beam switch  Odometer  Speedometer  Trip odometer  Engine stop switch  Throttle lever  Drive select lever (Shift lever)  Shroud latch  Grip warmer switch  Starter handle  Main switch  Trip odometer reset knob  Starter lever
 <PIC:Manual34_20>
 
 <PIC:Manual34_21>
@@ -193,8 +194,8 @@ When you ride your snowmobile, you must know and use the following for your safe
 
 <PIC:Manual34_23>
 
-  (1)  Windshield  Steering handlebar  (3)  Seat  (4)  Drive track  Slide rail suspension  Frame  (2)  Telescopic strut suspension  Steering ski  Headlight  Front baffle plate  Shroud  Tow hitch  (3)  Flap  (4)  Taillight  (5)  Brake lever  Parking brake button  Headlight beam switch  Odometer  Speedometer  Trip odometer  Engine stop switch  Throttle lever  Drive select lever (Shift lever)  Shroud latch  Grip warmer switch  Starter handle  Main switch  Trip odometer reset knob  Starter lever
 
+(1)  Windshield  Steering handlebar  (3)  Seat  (4)  Drive track  Slide rail suspension  Frame  (2)  Telescopic strut suspension  Steering ski  Headlight  Front baffle plate  Shroud  Taillight  (3)  Flap  (4)  Tow hitch  (5)  Luggage box  Headlight adjusting knob  Engine stop switch  Throttle lever  Drive select lever (Shift lever)  Main switch  Starter handle  Starter lever  Grip warmer switch  Headlight beam switch  Brake lever  Parking brake button
 <PIC:Manual34_24>
 
 <PIC:Manual34_25>
@@ -203,7 +204,6 @@ When you ride your snowmobile, you must know and use the following for your safe
 
 <PIC:Manual34_27>
 
-  (1)  Windshield  Steering handlebar  (3)  Seat  (4)  Drive track  Slide rail suspension  Frame  (2)  Telescopic strut suspension  Steering ski  Headlight  Front baffle plate  Shroud  Taillight  (3)  Flap  (4)  Tow hitch  (5)  Luggage box  Headlight adjusting knob  Engine stop switch  Throttle lever  Drive select lever (Shift lever)  Main switch  Starter handle  Starter lever  Grip warmer switch  Headlight beam switch  Brake lever  Parking brake button
 
 <PIC:Manual34_28>
 
@@ -261,9 +261,9 @@ If T.O.R.S. stops the engine, make sure that the cause of the malfunction has be
 
   Idle or starting  Run Trouble
 
+  (1)  Carburetor switch  Throttle switch  (3)  Throttle cable  (4)  Throttle valve  "ON"  "OFF"
 <PIC:Manual34_37>
 
-  (1)  Carburetor switch  Throttle switch  (3)  Throttle cable  (4)  Throttle valve  "ON"  "OFF"
 
 <PIC:Manual34_38>
 
@@ -292,11 +292,11 @@ Always set the parking brake before attempting to start the engine. Never run th
 
 The drive select lever is used to shift your machine into forward or reverse. After coming to a complete stop, move the lever to the desired direction.  (1)  Drive select lever (Shift lever)
 
+(3)  Move to forward  (4)  Move to reverse
 <PIC:Manual34_41>
 
 <PIC:Manual34_42>
 
-  (3)  Move to forward  (4)  Move to reverse
 
 <PIC:Manual34_43>
 
@@ -342,11 +342,9 @@ NOTE: Loosen the bolt  (1)  to remove the V-belt
 
 - Be sure the fuel hose is not pinched and is in place when installing the V-belt.
 
+CAUTION:  Be sure the V-belt is installed securely in the holder. The V-belt could be damaged by the hot muffler if it comes loose.
 <PIC:Manual34_53>
 
-CAUTION:  Be sure the V-belt is installed securely in the holder. The V-belt could be damaged by the hot muffler if it comes loose.
-
-  CAUTION:  Be sure the V-belt is installed securely in the holder
 
 SHROUD LATCH  To open the shroud, unhook the latch, then slowly raise the shroud forward until it stops. When closing the shroud, slowly lower it to its home position, then hook the shroud latches.  (1)  Latch  Shroud
 <PIC:Manual34_54>
@@ -414,11 +412,11 @@ This machine is equipped with two fuel tanks; main tank  (1)  in the engine room
 ### FUEL COCK LEVER
 
 The fuel cock lever controls the fuel lines.
+(1)  OFF: With the lever in this position, fuel does not flow. The engine cannot be started.  ON: In this position, fuel flows from the main tank to the carburetor. The engine can be started and operated. The lever should usually be kept in the "ON" position while operating the machine.  (3)  RES: In this position, fuel flows from the sub-tank to the carburetor. The machine can be operated for a short time. If the machine runs out of fuel in the "ON" position, turn the lever to the "RES" position. Remember to fill both main and sub fuel tanks at the first opportunity. After refueling, return the lever to the "ON" position.
 <PIC:Manual34_70>
 <PIC:Manual34_71>
 <PIC:Manual34_72>
 
-(1)  OFF: With the lever in this position, fuel does not flow. The engine cannot be started.  ON: In this position, fuel flows from the main tank to the carburetor. The engine can be started and operated. The lever should usually be kept in the "ON" position while operating the machine.  (3)  RES: In this position, fuel flows from the sub-tank to the carburetor. The machine can be operated for a short time. If the machine runs out of fuel in the "ON" position, turn the lever to the "RES" position. Remember to fill both main and sub fuel tanks at the first opportunity. After refueling, return the lever to the "ON" position.
 
 ### SPARK PLUG HOLDER
 
@@ -450,9 +448,9 @@ Use the tow point within the specified weight limits  (1)  Tow point
 Avoid towing for a long time under the low speed to prevent early wear of the drive V-belt.  ### HEADLIGHT BEAM SWITCH
 
 Push the switch to change the head light beam alternately to high or low.  (1)  Headlight beam switch  Push  (3)  High beam
+  HEADLIGHT ADJUSTING KNOB(VK540E) Use the knob to adjust the headlight vertical position  (1)  Up  Down
 <PIC:Manual34_80>
 
-  HEADLIGHT ADJUSTING KNOB(VK540E) Use the knob to adjust the headlight vertical position  (1)  Up  Down
 <PIC:Manual34_81>
 
 ### GRIP AND THUMB WARMER SWITCH (CS340E/ET410TR/VK540E)
@@ -629,9 +627,9 @@ Pull slowly on the recoil starter until it is engaged, then pull it briskly. Aft
 
   Pull slowly on the recoil starter until it is engaged, then pull it briskly. After the engine starts, put the starter lever (choke) in the "Half-open" position. Warm up the engine until it does not run roughly or begin to stall when the starter lever is returned to the "Close" position.  Electric Starting Model
 
+  2. Turn the main switch to the "START" position After the engine starts, put the starter lever (choke) in the "Half-open" position. Warm up the engine until it does not run roughly or begin to stall when the starter lever is returned to the "Close" position.  (1)  "START"
 <PIC:Manual34_117>
 
-  2. Turn the main switch to the "START" position After the engine starts, put the starter lever (choke) in the "Half-open" position. Warm up the engine until it does not run roughly or begin to stall when the starter lever is returned to the "Close" position.  (1)  "START"
 
 ### CAUTION:
 
@@ -775,9 +773,8 @@ The back buzzer beeps while the shift lever is in reverse 2. Release the parking
 ### STOPPING THE ENGINE
 
 1. Turn the main switch to the "OFF" position to stop the engine.
-<PIC:Manual34_133>
-
 ### (1) "OFF"
+<PIC:Manual34_133>
 
 ### WARNING
 
@@ -805,9 +802,9 @@ If you do not have a torque wrench available during a service operation requirin
 The spark plug is an important engine component and is easy to inspect. The condition of the spark plug can indicate something of the condition of the engine. Check the coloration on the white porcelain insulator around the center electrode. The ideal coloration at this point is a medium to a light tan color for a machine that is being ridden normally. If a spark plug shows a distinctly different color, there could be something wrong with the engine. For example, a very white center electrode porcelain color could indicate an intake track air leak or carburetion problem for that cylinder. Do not attempt to diagnose such problems yourself. Instead, take the machine to your  dealer. You should periodically remove and inspect the spark plug because heat and deposits will cause any spark plug to slowly breakdown and erode. Consult your dealer before changing to a different type of spark plug.
 Spark plugs are produced in several different thread lengths. The thread length (reach) is the distance from the spark plug gasket seat to the end of the threaded portion. If the reach is too long, overheating and engine damage may result. If the reach is too short, spark plug fouling and poor performance may result. Also, if too short, carbon will form on the exposed threads resulting in combustion chamber hot spots and thread damage. Always use a spark plug with the proper reach.
 
+  Before installing any spark plug, measure the electrode gap with a wire thickness gauge and adjust to specification.
 <PIC:Manual34_138>
 
-  Before installing any spark plug, measure the electrode gap with a wire thickness gauge and adjust to specification.
 
 <PIC:Manual34_139>
 
@@ -830,6 +827,7 @@ Be sure this adjustment is serviced by a  dealer.  Be sure the throttle lever mo
 ### CAUTION:
 
 Be sure the engine idle speed is adjusted first  1. Loosen the adjuster lock nut. 2. Turn the adjuster in or out until proper throttle lever free play is achieved.
+Locknut  (3)  Adjuster
 <PIC:Manual34_144>
 <PIC:Manual34_145>
 <PIC:Manual34_146>
@@ -837,16 +835,15 @@ Be sure the engine idle speed is adjusted first  1. Loosen the adjuster lock nut
 
 <PIC:Manual34_148>
 
-  Locknut  (3)  Adjuster
 3. Tighten the locknut
 
   OIL PUMP CABLE ADJUSTMENT
 <PIC:Manual34_149>
 <PIC:Manual34_150>
 <PIC:Manual34_151>
+  CARBURETOR ADJUSTMENT
 <PIC:Manual34_152>
 
-  CARBURETOR ADJUSTMENT
 
 ### CAUTION:
 - Be sure this adjustment is serviced by a  dealer.
@@ -874,19 +871,19 @@ Main Jet Replacement  Replace the main jet according to the setting chart which 
 
 Never remove the drain plug or the float chamber while the engine is hot. Fuel will flow out from the float chamber which could ignite and cause injury.
 
+Place a rag under the carburetor before removing the drain plug or float chamber to catch any spilled fuel.  Handle fuel with care: it is highly flammable
 <PIC:Manual34_158>
 
 <PIC:Manual34_159>
 
 <PIC:Manual34_160>
 
-  Place a rag under the carburetor before removing the drain plug or float chamber to catch any spilled fuel.  Handle fuel with care: it is highly flammable
 
 <PIC:Manual34_161>
 
+  1. Loosen the carburetor clamps and turn over the carburetor. 2. Pinch the fuel hose to prevent fuel flowing. 3. Remove the drain plug and install the proper main jet 4. Assemble by reversing the removal steps.
 <PIC:Manual34_162>
 
-  1. Loosen the carburetor clamps and turn over the carburetor. 2. Pinch the fuel hose to prevent fuel flowing. 3. Remove the drain plug and install the proper main jet 4. Assemble by reversing the removal steps.
 
 ### WARNING
 
@@ -900,9 +897,9 @@ Operating at high altitude reduces the performance of a gasoline engine, about  
 
 The drive chain gears and V-belt clutch should be adjusted when operating over 900 m (3000 ft) high altitude. Consult a dealer.  FAN BELT (VK540E) Deflection check 1. Remove the fan cover.
 
+  2. Measure the fan belt deflection by applying 50 N {5 kg (11 lb)} of force at the center of belt  (1)  Deflection  (2)  50 N {5 kg (11 lb)}  Standard belt deflection: 8 mm (0.31 in)/50 N {5 kg (11 lb)}  If the deflection exceeds the specification, consult a  dealer.
 <PIC:Manual34_163>
 
-  2. Measure the fan belt deflection by applying 50 N {5 kg (11 lb)} of force at the center of belt  (1)  Deflection  (2)  50 N {5 kg (11 lb)}  Standard belt deflection: 8 mm (0.31 in)/50 N {5 kg (11 lb)}  If the deflection exceeds the specification, consult a  dealer.
 
 ### DRIVE V-BELT REPLACEMENT (BR250T/CS340E)
 
@@ -950,17 +947,17 @@ Never run the engine without the drive V-belt or with the drive V-belt guard rem
 ### Oil Replenishing
 
 1. Check the oil level by removing the level bolt and filler cap.
+(1)  Level bolt  Filler cap
 <PIC:Manual34_175>
 <PIC:Manual34_176>
 <PIC:Manual34_177>
 
 <PIC:Manual34_178>
 
-  (1)  Level bolt  Filler cap
-
-<PIC:Manual34_179>
 
   2. Add chain oil until it begins to flow out from the level hole.
+<PIC:Manual34_179>
+
 
 <PIC:Manual34_180>
 
@@ -1149,9 +1146,10 @@ A broken track, track fittings, or debris thrown by the track could be dangerous
 
 Measure the gap between the slide runner and the edge of the track window. Measure both sides.
 
+(1) Deflection  (2) 100 N {10 kg (22 lb)}  Standard track deflection: BR250T 40 ~ 50 mm (1.57 ~ 1.97 in)/100 N {10 kg (22 lb)} CS340E 25 ~ 30 mm (0.98 ~ 1.18 in)/100 N {10 kg (22 lb)} ET410TR 30 ~ 35 mm (1.18 ~ 1.38 in)/100 N {10 kg (22 lb)} VK540E 35 ~ 45 mm (1.38 ~ 1.77 in)/100 N {10 kg (22 lb)}
 <PIC:Manual34_207>
 
-  (1) Deflection  (2) 100 N {10 kg (22 lb)}  Standard track deflection: BR250T 40 ~ 50 mm (1.57 ~ 1.97 in)/100 N {10 kg (22 lb)} CS340E 25 ~ 30 mm (0.98 ~ 1.18 in)/100 N {10 kg (22 lb)} ET410TR 30 ~ 35 mm (1.18 ~ 1.38 in)/100 N {10 kg (22 lb)} VK540E 35 ~ 45 mm (1.38 ~ 1.77 in)/100 N {10 kg (22 lb)} 3. If the deflection is incorrect, adjust the track
+3. If the deflection is incorrect, adjust the track
 
 ### Track Adjustment (BR250T)
 
@@ -1163,6 +1161,7 @@ Be sure this adjustment is made by a  dealer. Support the machine securely on a 
 2. Loosen the rear axle bolts  (1)
 3. Start the engine and rotate the track one or two turns. Stop the engine.
 4. Check the track alignment with the slide runner  (3)  If the alignment is incorrect, turn the left and right adjuster to adjust.
+Slide runner  Track  Track metal  Gap  Forward
 <PIC:Manual34_208>
 <PIC:Manual34_209>
 <PIC:Manual34_210>
@@ -1170,13 +1169,12 @@ Be sure this adjustment is made by a  dealer. Support the machine securely on a 
 
 <PIC:Manual34_212>
 
-  Slide runner  Track  Track metal  Gap  Forward
 
 <PIC:Manual34_213>
 
+NOTE:  Install the box  (3)  and wrench  (4)  of the toolkit on the adjuster lock nut  (5)  to turn the adjuster as follows;  Set the wrench as far as space permits and turn it  Remove the wrench and turn it over  and install the wrench on the box.  Repeat the above steps  5. Adjust track deflection to the specified amount
 <PIC:Manual34_214>
 
-  NOTE:  Install the box  (3)  and wrench  (4)  of the toolkit on the adjuster lock nut  (5)  to turn the adjuster as follows;  Set the wrench as far as space permits and turn it  Remove the wrench and turn it over  and install the wrench on the box.  Repeat the above steps  5. Adjust track deflection to the specified amount
 
 <PIC:Manual34_215>
 
@@ -1231,16 +1229,16 @@ The adjusters should be turned an equal amount
 
 ### SKI ALIGNMENT
 
-<PIC:Manual34_224>
-
   1. Turn the handlebars so the skis face straight ahead.
 2. Check the following for ski alignment.
 1) Ski is facing forward.
 2) Ski toe-out  (-)  is within specification.
+<PIC:Manual34_224>
 
-<PIC:Manual34_225>
 
   3. If alignment is not correct, consult a  dealer 
+<PIC:Manual34_225>
+
 
 ### HANDLEBAR ADJUSTMENT
 
@@ -1295,17 +1293,17 @@ Apply a dab of grease to the cable end only. Do not grease the brake/throttle ca
 3. Remove the bulb cover.
 
 
+ 4. Remove the bulb holder by depressing and turning it counterclockwise.
+(1)  Bulb cover
 <PIC:Manual34_237>
 
- 4. Remove the bulb holder by depressing and turning it counterclockwise.
 
 <PIC:Manual34_238>
 
-  (1)  Bulb cover
-
-<PIC:Manual34_239>
 
   5. Remove the bulb.
+<PIC:Manual34_239>
+
 
 <PIC:Manual34_240>
 

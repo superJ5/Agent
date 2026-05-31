@@ -95,24 +95,24 @@ This is an Air fryer that works on hot air. Do not fill the pan with oil, frying
 
 Do not touch hot surfaces. Use handles or knobs. Handle the hot pan with oven-safe gloves. This appliance is for household use only. This appliance may produce some smoke when you use it for the first time. This is normal. Preheating of the appliance is not necessary.
 
+1 Put the plug in the wall outlet
 <PIC:Manual08_5>
 
-1 Put the plug in the wall outlet
-
-<PIC:Manual08_6>
 
 2 Remove the pan with the basket from the appliance by pulling the handle.
+<PIC:Manual08_6>
 
-<PIC:air_fryer_01>
 
 3 Put the ingredients in the basket.
+<PIC:air_fryer_01>
+
 Note
 The Airfryer can prepare a large range of ingredients. Consult the 'Food table' for the right quantities and approximate cooking times.
 Do not exceed the amount indicated in the 'Food table' section or overfill the basket beyond the 'MAX' indication as this could affect the quality of the end result. If you want to prepare different ingredients at the same time, make sure you check the suggested cooking time required for the different ingredients before you start to cook them simultaneously.
 
+4 Put the pan with the basket back into the Air fryer
 <PIC:air_fryer_02>
 
-4 Put the pan with the basket back into the Air fryer
 
 <PIC:air_fryer_03>
 
@@ -121,17 +121,17 @@ Do not exceed the amount indicated in the 'Food table' section or overfill the b
 Never use the pan without the basket in it.
 Do not touch the pan or the basket during and for some time after use, as they get very hot. 5 Press the power On/off button to switch on the appliance
 
+6 Press the temperature up or down button to choose the needed temperature.
 <PIC:Manual08_7>
 
-6 Press the temperature up or down button to choose the needed temperature.
-
-<PIC:Manual08_8>
 
 7 Press the time up button to choose the needed time
+<PIC:Manual08_8>
 
-<PIC:Manual08_9>
 
 8 Press the On/Off button to start the cooking process
+<PIC:Manual08_9>
+
 
 <PIC:air_fryer_04>
 
@@ -144,25 +144,25 @@ During cooking the temperature and time are shown alternately. The last cooking 
 
 During cooking, if you want to change the cooking time or temperature, press the corresponding up or down button at any time to do so. To pause the cooking process, press the On/Off button. To resume the cooking process, press the On/Off button again to continue the cooking process. The device is automatically in pause mode when you pull out the pan and the basket. The cooking process continues when the pan and the basket are put in the appliance again.  If you do not set the required cooking time within 30 minutes, the appliance automatically shuts off for safety reasons. Some ingredients require shaking or turning halfway through the cooking time (see 'Food table'). To shake the ingredients, pull out the pan with the basket, place it on a heat-resistant worktop, slide the lid and press the basket release button to remove the basket and shake the basket over the sink. Then put the basket into the pan, and slide them back into the appliance. If you set the timer to the half of the cooking time and you hear the timer bell, it is time to shake or turn the ingredients. Be sure to reset the timer to the remaining cooking time.
 
+9 When you hear the timer bell, the cooking time has elapsed
 <PIC:Manual08_10>
 
-9 When you hear the timer bell, the cooking time has elapsed
 You can stop the cooking process manually. To do this, press the On/Off button.
 
+10 Pull out the pan and check if the ingredients are ready
 <PIC:air_fryer_05>
 
-10 Pull out the pan and check if the ingredients are ready
-
-<PIC:air_fryer_12>
 
 Caution
+<PIC:air_fryer_12>
+
 The Air fryer pan is hot after the cooking process. Always place it on a heat-resistant worktop (e.g. trivet, etc.) when you remove the pan from the device.
 Note
 If the ingredients are not ready yet, simply slide the pan back into the Airfryer by the handle and add a few extra minutes to the set time.  11 To remove small ingredients (e.g. fries), lift the basket out of the pan by sliding the lid first, and then pressing the basket release button
 
+Caution
 <PIC:air_fryer_13>
 
-Caution
 After the cooking process, the pan, the basket, the interior housing and the ingredients are hot. Depending on the type of ingredients in the Air fryer, steam may escape from the pan.  12 Empty the basket contents into a bowl or onto a plate. Always remove the basket from the pan to empty contents, as a small amount of oil may be in the bottom of the pan.
 
 <PIC:air_fryer_14>
@@ -179,9 +179,9 @@ Repeat steps 3 to 12 if you want to prepare another batch.
 
 1. Press the menu button as often as the keep warm icon is blinking
 
+2 Press the On/off button to start the keep warm mode
 <PIC:air_fryer_06>
 
-2 Press the On/off button to start the keep warm mode
 
 <PIC:Manual08_11>
 
@@ -203,9 +203,9 @@ During the keep warm mode, the fan and heater inside of the appliance turn on fr
 
 1 Follow steps 1 to 5 in chapter "Airfrying".  2 Press the Menu button. The frozen snacks icon is blinking. Press the Menu button as often as your needed preset is blinking.
 
+3 Start the cooking process by pressing the On/off button.  Note In the following table you can find more information about the presets.
 <PIC:air_fryer_16>
 
-3 Start the cooking process by pressing the On/off button.  Note In the following table you can find more information about the presets.
 
 <PIC:air_fryer_07>
 
@@ -215,17 +215,17 @@ During the keep warm mode, the fan and heater inside of the appliance turn on fr
 
 1 During the cooking process long press the power On/off button to stop the cooking process. The device is then in stand-by mode.
 
+2 Press the On/off button again to turn on the device.
 <PIC:air_fryer_08>
 
-2 Press the On/off button again to turn on the device.
-
-<PIC:Manual08_13>
 
 3 Press the menu button as often as your needed preset is blinking.
+<PIC:Manual08_13>
 
-<PIC:Manual08_14>
 
 4 Press the On/off button to start the cooking process.
+<PIC:Manual08_14>
+
 
 <PIC:Manual08_15>
 
@@ -261,13 +261,13 @@ Put the pan with the rubber plug in the dishwasher. Do not remove the rubber plu
 
 If food residues stuck to the pan or the basket, you can soak them in hot water and dishwashing liquid for 10-15 minutes. Soaking loosens the food residues and makes it easier to remove. Make sure you use a dishwashing liquid that can dissolve oil and grease. If there are grease stains on the pan or the basket and you have not been able to remove them with hot water and dishwashing liquid, use a liquid degreaser.  If necessary, food residues stuck to the heating element can be removed with a soft to medium-bristle brush. Do not use a steel wire brush or a hard bristle brush, as this might damage the coating on the heating element.  4 Wipe the outside of the appliance with a moist cloth.  Note Make sure no moisture remains on the control panel. Dry the control panel with a cloth after you have cleaned it.
 
+5 Clean the heating element with a cleaning brush to remove any food residues.
 <PIC:air_fryer_09>
 
-5 Clean the heating element with a cleaning brush to remove any food residues.
-
-<PIC:air_fryer_10>
 
 6 Clean the inside of the appliance with hot water and a non-abrasive sponge.
+<PIC:air_fryer_10>
+
 
 <PIC:air_fryer_11>
 
@@ -286,9 +286,9 @@ Always hold the Air fryer horizontally when you carry it. Make sure that you als
 
 ## Recycling
 
-<PIC:air_fryer_15>
 
 This symbol means that this product shall not be disposed of with normal household waste (2012/19/EU). Follow your country's rules for the separate collection of electrical and electronic products. Correct disposal helps prevent negative consequences for the environment and human health.
+<PIC:air_fryer_15>
 ## Software updates
 
 Updating is essential to safeguard your privacy and the proper functioning of your Airfryer and the App.  From time to time, the App is updating automatically to the latest software. Also the Air fryer is updating the firmware automatically.

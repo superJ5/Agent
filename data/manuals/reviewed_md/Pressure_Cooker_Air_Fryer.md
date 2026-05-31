@@ -143,9 +143,9 @@ This appliance comes with one power lead. To reduce the risk of electric shock, 
 
 <PIC:Manual30_1>
 
+WARNING  Read this manual carefully and completely and retain for future reference. Failure to adhere to safety instructions may result in serious injury or damage.
 <PIC:Manual30_2>
 
-WARNING  Read this manual carefully and completely and retain for future reference. Failure to adhere to safety instructions may result in serious injury or damage.
 
 ## Welcome to the world of Cooking
 
@@ -160,6 +160,7 @@ See Care, cleaning and storage: Removing and installing parts to find out how ev
 <PIC:Manual30_3>
 
 ### Bottom of pressure cooking lid, inner pot, cooker base and air fryer lid
+<PIC:Manual30_37>
 
 <PIC:Manual30_4>
 
@@ -256,9 +257,9 @@ When pressure has been fully released, the float valve drops into the lid.
 
 ### Control Panel
 
+View the full user manual online.
 <PIC:Manual30_10>
 
-View the full user manual online.
 
 ### Pressure control features (Your little bag of tricks!)
 
@@ -299,9 +300,9 @@ See Releasing pressure: Venting methods for safe depressurization techniques
 The steam release valve sits loosely on the steam release pipe. When the cooker releases pressure, steam ejects from the top of the steam release valve.
 The steam release valve is integral to product safety and necessary for pressure cooking.
 
+WARNING
 <PIC:Manual30_15>
 
-WARNING
 Do not cover or block the steam release valve in any way.
 
 ## Pressure control features
@@ -362,9 +363,9 @@ Pressure Cook
 
 - Sous Vide
 
+Air fryer lid
 <PIC:multi-use_pressure_cooker_and_air_fryer_03>
 
-Air fryer lid
 Air Fry
 
 - Roast
@@ -466,8 +467,6 @@ Note: You can place food in the air fryer basket, in any oven-safe dish, or dire
 02 Insert the stainless-steel inner pot into the cooker base.
 03 Place the air fryer lid on the cooker base by lining up the lid fins and inserting them into the base handles.  Press the lid down to ensure the power and sensor connectors are in full contact with each other.
 
-<PIC:Manual30_26>
-
 CAUTION If the power and sensor parts are not fully connected, you may get a Lid message or C9 error. Failure to ensure a proper connection could result in damage to the cooker.
 04 Select a Smart Program: Air Fry, Grill, Bake, Roast or Dehydrate.
 05 Use the  + / -  buttons to adjust the Time and Temperature.
@@ -475,6 +474,8 @@ CAUTION If the power and sensor parts are not fully connected, you may get a Lid
 07 If you need to remove the lid, carefully lift the air fryer lid off the cooker base and place it on the protective pad provided. Lifting the lid automatically pauses cooking.
 08 Carefully turn, flip, or rotate your food, then place the air fryer lid back on the cooker base to resume cooking.  CAUTION The inner pot and accessories will be hot during and after cooking. To avoid injury, use hand protection and do not touch the inner pot accessories with bare skin.  Some food doesn't need to be flipped. If you don't remove the lid after the turn food indicator appears, cooking continues after 10 seconds.
 09 When one minute remains, the display counts down by seconds. When the Smart Program completes, the cooker beeps and the display shows End
+<PIC:Manual30_26>
+
 
 ## Settings
 
@@ -564,7 +565,6 @@ Place one finger on the flat top of float valve, then turn the lid over. Detach 
 
 Drop the narrow end of the float valve into the float valve hole on the top of the lid. Place one finger on the flat top of the float valve, then turn the lid over. Firmly attach the silicone cap to the bottom of the float valve.  Do not attempt to operate the pressure cooker without the float valve and/or silicone cap properly installed in the pressure cooking lid
 
-<PIC:Manual30_37>
 
 Bottom
 
@@ -631,6 +631,7 @@ This appliance complies with the WEEE Directive 2012/19/EU on the disposal of el
 - `<PIC:Manual30_1>`
 - `<PIC:Manual30_2>`
 - `<PIC:Manual30_3>`
+- `<PIC:Manual30_37>`
 - `<PIC:Manual30_4>`
 - `<PIC:Manual30_5>`
 - `<PIC:Manual30_6>`
@@ -668,7 +669,6 @@ This appliance complies with the WEEE Directive 2012/19/EU on the disposal of el
 - `<PIC:Manual30_34>`
 - `<PIC:Manual30_35>`
 - `<PIC:Manual30_36>`
-- `<PIC:Manual30_37>`
 - `<PIC:Manual30_38>`
 - `<PIC:Manual30_39>`
 - `<PIC:Manual30_40>`
@@ -699,6 +699,12 @@ This appliance complies with the WEEE Directive 2012/19/EU on the disposal of el
 - image_id：`Manual30_3`
 - 相对路径：`data\manuals\raw\16_多功能压力锅空气炸锅_Pressure_Cooker_Air_Fryer\images\Manual30_3.jpg`
 - 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\16_多功能压力锅空气炸锅_Pressure_Cooker_Air_Fryer\images\Manual30_3.jpg`
+
+### <PIC:Manual30_37>
+
+- image_id：`Manual30_37`
+- 相对路径：`data\manuals\raw\16_多功能压力锅空气炸锅_Pressure_Cooker_Air_Fryer\images\Manual30_37.jpg`
+- 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\16_多功能压力锅空气炸锅_Pressure_Cooker_Air_Fryer\images\Manual30_37.jpg`
 
 ### <PIC:Manual30_4>
 
@@ -921,12 +927,6 @@ This appliance complies with the WEEE Directive 2012/19/EU on the disposal of el
 - image_id：`Manual30_36`
 - 相对路径：`data\manuals\raw\16_多功能压力锅空气炸锅_Pressure_Cooker_Air_Fryer\images\Manual30_36.jpg`
 - 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\16_多功能压力锅空气炸锅_Pressure_Cooker_Air_Fryer\images\Manual30_36.jpg`
-
-### <PIC:Manual30_37>
-
-- image_id：`Manual30_37`
-- 相对路径：`data\manuals\raw\16_多功能压力锅空气炸锅_Pressure_Cooker_Air_Fryer\images\Manual30_37.jpg`
-- 绝对路径：`E:\.codex\worktrees\3f3c\ai_agent_competition\data\manuals\raw\16_多功能压力锅空气炸锅_Pressure_Cooker_Air_Fryer\images\Manual30_37.jpg`
 
 ### <PIC:Manual30_38>
 

@@ -2,21 +2,21 @@
 
 Active Noise Canceling Truly Wireless Earphones  
 
+  Multifunction Button  
 <PIC:Manual12_0>
 
-  Multifunction Button  
-
-<PIC:Manual12_1>
 
   Right Earbud Left Earbud
+<PIC:Manual12_1>
 
-<PIC:Manual12_2>
 
   Status LED  Indicators  Battery Level  LED Indicators  
+<PIC:Manual12_2>
 
-<PIC:Manual12_3>
 
   Battery Level  Display Button  
+<PIC:Manual12_3>
+
 
 <PIC:Manual12_4>
 
@@ -24,17 +24,17 @@ Active Noise Canceling Truly Wireless Earphones
 
 1. To power the charging case, insert the USB-C cable into the charging port located at the back of the charging case.  
 
+2. Insert the standard USB cable into any suitable USB port.
 <PIC:earphones_04>
 
-2. Insert the standard USB cable into any suitable USB port.
-
-<PIC:earphones_05>
 
 3. The Battery Level LED Indicators will light up according to the battery capacity.  
+<PIC:earphones_05>
 
-<PIC:earphones_06>
 
 4. You can see the case battery level at any time by pressing the button on the right hand side of the case.  
+<PIC:earphones_06>
+
 
 <PIC:earphones_07>
 
@@ -42,9 +42,9 @@ Active Noise Canceling Truly Wireless Earphones
 
 When the case is opened the earbuds will first connect to each other then enter pairing mode. When in the case the earbud LEDs show their charge status:  
 
+  When removed from the case the earbud LEDs  show their pairing status:  
 <PIC:Manual12_5>
 
-  When removed from the case the earbud LEDs  show their pairing status:  
 
 <PIC:Manual12_6>
 
@@ -80,9 +80,9 @@ To activate phone Voice Assistant, press and hold either earbud's control button
 
 To activate the music app, press and hold either earbud's control button until the first beep, then let go. The music app resumes playback where you left off. If there was no previous session or to play other music, simply tap again and the music app will play songs it thinks you'll like.  
 
+To Turn ON/OFF ambient awareness  and ANC Modes, press the left earbud,  the earbud cycles modes.  
 <PIC:earphones_02>
 
-To Turn ON/OFF ambient awareness  and ANC Modes, press the left earbud,  the earbud cycles modes.  
 
 <PIC:earphones_03>
 
@@ -123,8 +123,6 @@ Once enabled in the earphones App, simply say "Hey assistant" and you will hear 
 
 When using your earphones, basic safety precautions should always be followed including:  
 
-<PIC:Manual12_13>
-
 1. READ ALL INSTRUCTIONS BEFORE USING YOUR EARPHONES AND CHARGING CASE.
 2. Do not use the product near water. Do not put on wet surfaces.
 3. Only clean using a clean cloth.
@@ -135,6 +133,8 @@ When using your earphones, basic safety precautions should always be followed in
 8. Do not drop, crush, or expose this product to excessive physical force.
 9. This product is not intended for commercial use.
 10. When charging, keep all charging cables well ventilated. Do not keep your charging cable in contact with flammable materials such as bedding, linens or synthetic fabrics.
+<PIC:Manual12_13>
+
 
 ## Maintenance and Care
 

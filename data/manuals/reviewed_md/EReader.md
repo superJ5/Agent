@@ -138,35 +138,30 @@ Press the "Play/Pause" button to start the recording, press it again to pause th
 
 Select "Settings" from main menu then click "M" button to enter the system settings mode.  It includes following sub-menu: "Display Settings", "System Settings", "language",  "System Information", "Auto-shut time", "Time ", "Calendar".
 
+  Display setting:    Select the   "Display Settings",  click "M" button to open the  Display settings Menu.  
 <PIC:Manual13_13>
 
-  Display setting:    Select the   "Display Settings",  click "M" button to open the  Display settings Menu.  
-
+1. To select the   " Light time ",  it will be display ?? Seconds?? ??0 Seconds?? ??5 Seconds??  ??0 Seconds?? ??0 Seconds??and ??lways On?? Please select the desire time and press  ????to confirm.  2. There are 5 levels of " Brightness  ".  Please select desire Brightness level then press  ????key to confirm.
 <PIC:eReader_01>
 
-1. To select the   " Light time ",  it will be display “5 Seconds”, “10 Seconds”, “15 Seconds”,  “20 Seconds”, “30 Seconds” and “Always On”. Please select the desire time and press  “M” to confirm.  2. There are 5 levels of " Brightness  ".  Please select desire Brightness level then press  “M” key to confirm.  System setting:  Select the   "System Settings",  click "M" button to go into the  system settings menu.  
-
+System setting:  Select the   "System Settings",  click "M" button to go into the  system settings menu.
 <PIC:eReader_02>
 
-1. Select " Restorable "   to restore your system to factory default settings. Please make  sure to back up all the data in the device before doing so.  2. To select the   "Key Lock Time ",  it will be display “10 Secords ”, “ 30 Secords ”, “ 5  Minutes ”, “10 Minutes ”, “ No Locking ”; To select the time or “ No Locking ” and click " M  " button to change the key locking time.  Language Settings:   This device provides several On Screen languages: English,  Chinese, Deutsch, Portugues, French, Spanish,  and other languages. Please on system  setting menu select “language” then select desire language and press “M” key to confirm.  
-
+1. Select " Restorable "   to restore your system to factory default settings. Please make  sure to back up all the data in the device before doing so.  2. To select the   "Key Lock Time ",  it will be display ??0 Secords ?? ??30 Secords ?? ??5  Minutes ?? ??0 Minutes ?? ??No Locking ?? To select the time or ??No Locking ??and click " M  " button to change the key locking time.
+Language Settings:   This device provides several On Screen languages: English,  Chinese, Deutsch, Portugues, French, Spanish,  and other languages. Please on system  setting menu select ??anguage??then select desire language and press ????key to confirm.
 <PIC:eReader_03>
 
 System Information:   It displays version information of the device, product  brands, company names, Software version, Memory Size and other information.  
-
 <PIC:eReader_04>
 
-Automatic shutdown time:   There are five automatic shutdown time: 3  minutes, 5 minutes, 10 minutes, 15 minutes and 20 minutes. Please select desire time  and press “M” key to confirm.  
-
+Automatic shutdown time:   There are five automatic shutdown time: 3  minutes, 5 minutes, 10 minutes, 15 minutes and 20 minutes. Please select desire time  and press ????key to confirm.  
 <PIC:eReader_05>
 
-Time Settings:   Display the current system's time information. You can change the  “HH” hour and “MM” minutes by “Up/Down/Left/Right” direction key, select “YES” to  confirm the change.  
-Date Settings:   Display the current system's date information. You can change the  “YY” year, “MM” month and “D” days by “Up/Down/Left/Right” direction key, select “YES”  to confirm the change.  
-
+Time Settings:   Display the current system's time information. You can change the  ??H??hour and ??M??minutes by ??p/Down/Left/Right??direction key, select ??ES??to  confirm the change.  
+Date Settings:   Display the current system's date information. You can change the  ??Y??year, ??M??month and ????days by ??p/Down/Left/Right??direction key, select ??ES?? to confirm the change.  
 <PIC:eReader_06>
 
 Calendar:   Select the "Calendar" then click "M" button to enter.  
-
 <PIC:eReader_07>
 
 ### Document Management

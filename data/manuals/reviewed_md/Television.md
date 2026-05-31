@@ -84,10 +84,10 @@ Troubleshooting check list... 23
 
 <PIC:Manual35_0>
 
-<PIC:Manual35_1>
-
 17. MTS BUTTON (some models): To listen to the MTS sound.
 18. TURBO SOUND/TURBO-S BUTTON (some models): To switch on or off TURBO SOUND function. TURBO PICTURE/TURBO-P BUTTON (some models): To switch on or off TURBO PICTURE function.
+<PIC:Manual35_1>
+
 
 <PIC:Manual35_2>
 
@@ -104,12 +104,12 @@ Open the battery compartment cover on the back side and insert the batteries wit
 This is a simplified representation of front panel
 
 
-<PIC:Manual35_3>
-
-
 19. STANDBY INDICATOR (STANDBY): Illuminates red when the TV is in standby mode. Refer to "Turning on/off the TV".
 20. REMOTE CONTROL SENSOR
 21. EYE SENSOR (some models): Adjusts picture according to the surrounding conditions.
+<PIC:Manual35_3>
+
+
 
 Before operating your TV, make sure the following instructions have been completed.
 
@@ -197,17 +197,17 @@ You can conveniently perform MANUAL PROGRAM using the MEMORY/ERASE button on the
 4. Press the right arrow button and then use the up/down arrow button to select the channel number you want to memorize or erase.
 
 
+5. Press the right arrow button and then use the up/down arrow button to select Memory.
 <PIC:Manual35_10>
 
 
-5. Press the right arrow button and then use the up/down arrow button to select Memory.
-
-
-<PIC:Manual35_11>
 
 
 6. Press the arrow button and then arrow button to select On or off.
 7. Repeatedly press the MENU button to exit.
+<PIC:Manual35_11>
+
+
 
 ## Selecting the Channel
 
@@ -338,10 +338,10 @@ Auto demonstration allows you to review all the menus programmed in the TV set.
 3. Press the arrow button, and the demonstration starts. When the demonstration reaches the last display, it starts again from the beginning.
 
 
+To stop auto demonstration, press any button
 <PIC:Manual35_21>
 
 
-To stop auto demonstration, press any button
 
 ## Favorite channel memory
 
@@ -555,13 +555,13 @@ Ghosts are caused when the TV signal splits and follows two paths. One is the di
 If your receiver is located at the weak, fringe area of a TV signal your picture may be marred by small dots. It may be necessary to install a special antenna to improve the picture.
 
 
-<PIC:television0_03>
-
-
 2. An old, bad or illegally recorded tape is played.
 3. Strong, random signals from a car or airplane interfere with the TV signal.
 4. The signal from the antenna is weak.
 5. The program wasn't captioned when it was produced, transmitted or taped
+<PIC:television0_03>
+
+
 
 #### Using the Text Function
 
