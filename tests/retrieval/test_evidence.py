@@ -26,7 +26,9 @@ class DocumentStub:
 class FakeVectorSearchService:
     def __init__(self) -> None:
         self.calls: list[dict[str, object]] = []
+        self.query_all_calls: list[dict[str, object]] = []
         self.parents: list[Result] = []
+        self.children: list[Result] = []
         self.error: Exception | None = None
 
     def query_documents(self, **kwargs):
@@ -34,6 +36,39 @@ class FakeVectorSearchService:
         if self.error is not None:
             raise self.error
         return list(self.parents)
+
+    def query_all_documents(self, **kwargs):
+        self.query_all_calls.append(kwargs)
+        if self.error is not None:
+            raise self.error
+
+        parent_ids = _values(kwargs.get("parent_chunk_ids"))
+        tiers = _values(kwargs.get("retrieval_tiers"))
+        doc_id = kwargs.get("doc_id")
+        language = kwargs.get("language")
+        results: list[Result] = []
+        for child in self.children:
+            metadata = child.metadata or {}
+            if parent_ids and metadata.get("parent_chunk_id") not in parent_ids:
+                continue
+            if tiers and metadata.get("retrieval_tier") not in tiers:
+                continue
+            if doc_id and metadata.get("doc_id") != doc_id:
+                continue
+            if language and metadata.get("language") != language:
+                continue
+            results.append(child)
+        return results
+
+
+def _values(value: object) -> set[object]:
+    if value is None:
+        return set()
+    if isinstance(value, str):
+        return {value}
+    if isinstance(value, (list, tuple, set)):
+        return set(value)
+    return {value}
 
 
 def load_module(module_name: str, path: Path):
@@ -197,7 +232,7 @@ def test_build_retrieval_bundle_fetches_only_primary_parents_and_traces_images()
     assert bundle.support_hits == [parent]
     assert service.calls == [
         {
-            "retrieval_tiers": ["support"],
+            "retrieval_tiers": ["support", "big_support"],
             "chunk_ids": ["parent-1"],
             "language": "en",
             "limit": 1,
@@ -272,13 +307,386 @@ def test_fetch_parent_support_hits_passes_hit_language_to_parent_query():
     assert evidence.fetch_parent_support_hits([primary], diagnostics) == [parent]
     assert service.calls == [
         {
-            "retrieval_tiers": ["support"],
+            "retrieval_tiers": ["support", "big_support"],
             "chunk_ids": ["parent-1"],
             "limit": 1,
             "language": "zh",
         }
     ]
     assert diagnostics.trace["support_parent_request"]["language"] == "zh"
+
+
+def test_big_support_expands_top_primary_descendants_and_direct_support_parent():
+    evidence, schemas, service = load_evidence_module()
+    primary = Result(
+        "child-id",
+        "child content",
+        0.2,
+        {
+            "chunk_id": "child-1",
+            "doc_id": "manual-1",
+            "retrieval_tier": "primary",
+            "parent_chunk_id": "big-1",
+            "language": "en",
+        },
+    )
+    big_parent = Result(
+        "big-id",
+        "big support heading only",
+        0.0,
+        {
+            "chunk_id": "big-1",
+            "doc_id": "manual-1",
+            "retrieval_tier": "big_support",
+            "language": "en",
+        },
+    )
+    support_parent = Result(
+        "support-id",
+        "ordinary support context",
+        0.0,
+        {
+            "chunk_id": "support-1",
+            "doc_id": "manual-1",
+            "retrieval_tier": "support",
+            "parent_chunk_id": "big-1",
+            "language": "en",
+            "chunk_index": 2,
+        },
+    )
+    direct_primary = Result(
+        "direct-primary-id",
+        "direct primary",
+        0.0,
+        {
+            "chunk_id": "direct-primary",
+            "doc_id": "manual-1",
+            "retrieval_tier": "primary",
+            "parent_chunk_id": "big-1",
+            "language": "en",
+            "chunk_index": 3,
+        },
+    )
+    primary_a = Result(
+        "primary-a-id",
+        "primary a",
+        0.0,
+        {
+            "chunk_id": "primary-a",
+            "doc_id": "manual-1",
+            "retrieval_tier": "primary",
+            "parent_chunk_id": "support-1",
+            "language": "en",
+            "chunk_index": 4,
+        },
+    )
+    primary_b = Result(
+        "primary-b-id",
+        "primary b",
+        0.0,
+        {
+            "chunk_id": "primary-b",
+            "doc_id": "manual-1",
+            "retrieval_tier": "primary",
+            "parent_chunk_id": "support-1",
+            "language": "en",
+            "chunk_index": 5,
+        },
+    )
+    primary_c = Result(
+        "primary-c-id",
+        "primary c",
+        0.0,
+        {
+            "chunk_id": "primary-c",
+            "doc_id": "manual-1",
+            "retrieval_tier": "primary",
+            "parent_chunk_id": "support-1",
+            "language": "en",
+            "chunk_index": 6,
+        },
+    )
+    service.parents = [big_parent, support_parent]
+    service.children = [support_parent, direct_primary, primary_a, primary_b, primary_c]
+
+    def fake_rerank(query, candidates, options, diagnostics):
+        del query, options
+        diagnostics.trace["reranker"] = {"provider": "fake"}
+        by_id = {candidate.chunk_id: candidate for candidate in candidates}
+        return schemas.RerankResult(
+            candidates=[
+                by_id["primary-b"],
+                by_id["primary-c"],
+                by_id["direct-primary"],
+            ],
+            provider="fake",
+        )
+
+    evidence.rerank_candidates = fake_rerank
+    diagnostics = schemas.RetrievalDiagnostics(request_id="req-big")
+    bundle = evidence.build_retrieval_bundle(
+        query="find safety",
+        analysis=SimpleNamespace(primary_intent="general"),
+        rerank_result=schemas.RerankResult(
+            candidates=[make_candidate(schemas, primary)],
+            provider="lexical",
+        ),
+        options=SimpleNamespace(top_k=1),
+        diagnostics=diagnostics,
+    )
+
+    assert bundle.hits == [primary]
+    assert [hit.metadata["chunk_id"] for hit in bundle.support_hits] == [
+        "big-1",
+        "primary-b",
+        "primary-c",
+        "direct-primary",
+        "support-1",
+    ]
+    assert service.calls == [
+        {
+            "retrieval_tiers": ["support", "big_support"],
+            "chunk_ids": ["big-1"],
+            "language": "en",
+            "limit": 1,
+        },
+        {
+            "retrieval_tiers": ["support"],
+            "chunk_ids": ["support-1", "big-1"],
+            "limit": 2,
+            "language": "en",
+        },
+    ]
+    assert [call["parent_chunk_ids"] for call in service.query_all_calls] == [
+        ["big-1"],
+        ["support-1"],
+    ]
+    assert diagnostics.trace["big_support_parent_ids"] == ["big-1"]
+    assert diagnostics.trace["big_support_descendant_count"] == {"big-1": 4}
+    assert diagnostics.trace["big_support_expanded_hits"][0]["selected"][0][
+        "chunk_id"
+    ] == "primary-b"
+
+
+def test_big_support_descendant_collection_caps_at_one_hundred_primary_chunks():
+    evidence, schemas, service = load_evidence_module()
+    big_parent = Result(
+        "big-id",
+        "big support heading only",
+        0.0,
+        {
+            "chunk_id": "big-1",
+            "doc_id": "manual-1",
+            "retrieval_tier": "big_support",
+            "language": "en",
+        },
+    )
+    service.children = [
+        Result(
+            f"primary-{index}",
+            metadata={
+                "chunk_id": f"primary-{index}",
+                "doc_id": "manual-1",
+                "retrieval_tier": "primary",
+                "parent_chunk_id": "big-1",
+                "language": "en",
+                "chunk_index": index,
+            },
+        )
+        for index in range(101)
+    ]
+    diagnostics = schemas.RetrievalDiagnostics(request_id="req-cap")
+
+    descendants, truncated = evidence.collect_big_support_descendants(
+        big_parent,
+        diagnostics=diagnostics,
+        language="en",
+    )
+
+    assert len(descendants) == 100
+    assert truncated is True
+    assert descendants[0].metadata["chunk_id"] == "primary-0"
+    assert descendants[-1].metadata["chunk_id"] == "primary-99"
+
+
+def test_big_support_descendant_collection_stops_after_four_layers():
+    evidence, schemas, service = load_evidence_module()
+    big_parent = Result(
+        "big-id",
+        "big support heading only",
+        0.0,
+        {
+            "chunk_id": "big-1",
+            "doc_id": "manual-1",
+            "retrieval_tier": "big_support",
+            "language": "en",
+        },
+    )
+    service.children = [
+        Result(
+            "support-1-id",
+            metadata={
+                "chunk_id": "support-1",
+                "doc_id": "manual-1",
+                "retrieval_tier": "support",
+                "parent_chunk_id": "big-1",
+                "language": "en",
+            },
+        ),
+        Result(
+            "support-2-id",
+            metadata={
+                "chunk_id": "support-2",
+                "doc_id": "manual-1",
+                "retrieval_tier": "support",
+                "parent_chunk_id": "support-1",
+                "language": "en",
+            },
+        ),
+        Result(
+            "support-3-id",
+            metadata={
+                "chunk_id": "support-3",
+                "doc_id": "manual-1",
+                "retrieval_tier": "support",
+                "parent_chunk_id": "support-2",
+                "language": "en",
+            },
+        ),
+        Result(
+            "support-4-id",
+            metadata={
+                "chunk_id": "support-4",
+                "doc_id": "manual-1",
+                "retrieval_tier": "support",
+                "parent_chunk_id": "support-3",
+                "language": "en",
+            },
+        ),
+        Result(
+            "too-deep-primary-id",
+            metadata={
+                "chunk_id": "too-deep-primary",
+                "doc_id": "manual-1",
+                "retrieval_tier": "primary",
+                "parent_chunk_id": "support-4",
+                "language": "en",
+            },
+        ),
+    ]
+    diagnostics = schemas.RetrievalDiagnostics(request_id="req-depth")
+
+    descendants, truncated = evidence.collect_big_support_descendants(
+        big_parent,
+        diagnostics=diagnostics,
+        language="en",
+    )
+
+    assert descendants == []
+    assert truncated is False
+    assert [call["parent_chunk_ids"] for call in service.query_all_calls] == [
+        ["big-1"],
+        ["support-1"],
+        ["support-2"],
+        ["support-3"],
+    ]
+
+
+def test_big_support_parent_without_descendants_records_zero_count():
+    evidence, schemas, service = load_evidence_module()
+    primary = Result(
+        "child-id",
+        "child content",
+        0.2,
+        {
+            "chunk_id": "child-1",
+            "doc_id": "manual-1",
+            "retrieval_tier": "primary",
+            "parent_chunk_id": "big-1",
+            "language": "en",
+        },
+    )
+    big_parent = Result(
+        "big-id",
+        "big support heading only",
+        0.0,
+        {
+            "chunk_id": "big-1",
+            "doc_id": "manual-1",
+            "retrieval_tier": "big_support",
+            "language": "en",
+        },
+    )
+    service.parents = [big_parent]
+    diagnostics = schemas.RetrievalDiagnostics(request_id="req-empty")
+
+    support_hits = evidence.fetch_parent_support_hits(
+        [primary],
+        diagnostics,
+        language="en",
+        query="query",
+        options=SimpleNamespace(top_k=1),
+    )
+
+    assert support_hits == [big_parent]
+    assert diagnostics.trace["big_support_descendant_count"] == {"big-1": 0}
+    assert diagnostics.trace["big_support_expanded_hits"][0]["selected"] == []
+
+
+def test_big_support_expand_false_keeps_parent_and_skips_descendant_queries():
+    evidence, schemas, service = load_evidence_module()
+    primary = Result(
+        "child-id",
+        "child content",
+        0.2,
+        {
+            "chunk_id": "child-1",
+            "doc_id": "manual-1",
+            "retrieval_tier": "primary",
+            "parent_chunk_id": "big-1",
+            "language": "en",
+        },
+    )
+    big_parent = Result(
+        "big-id",
+        "big support heading only",
+        0.0,
+        {
+            "chunk_id": "big-1",
+            "doc_id": "manual-1",
+            "retrieval_tier": "big_support",
+            "language": "en",
+        },
+    )
+    service.parents = [big_parent]
+    service.children = [
+        Result(
+            "primary-a-id",
+            metadata={
+                "chunk_id": "primary-a",
+                "doc_id": "manual-1",
+                "retrieval_tier": "primary",
+                "parent_chunk_id": "big-1",
+                "language": "en",
+            },
+        )
+    ]
+    diagnostics = schemas.RetrievalDiagnostics(request_id="req-skip")
+
+    support_hits = evidence.fetch_parent_support_hits(
+        [primary],
+        diagnostics,
+        language="en",
+        query="query",
+        options=SimpleNamespace(top_k=1),
+        expand_big_support=False,
+    )
+
+    assert support_hits == [big_parent]
+    assert service.query_all_calls == []
+    assert diagnostics.trace["big_support_expansion_skipped"] == [
+        {"parent_id": "big-1", "reason": "expand_big_support_false"}
+    ]
 
 
 def test_support_parent_failure_keeps_primary_hits_and_records_warning():

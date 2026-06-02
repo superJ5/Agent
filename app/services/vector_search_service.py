@@ -76,6 +76,7 @@ class VectorSearchService:
         retrieval_tiers: str | Sequence[str] | None = None,
         chunk_types: str | Sequence[str] | None = None,
         chunk_ids: str | Sequence[str] | None = None,
+        parent_chunk_ids: str | Sequence[str] | None = None,
     ) -> str:
         filter_expr = vector_store_manager.build_metadata_filter_expr(
             doc_id=doc_id,
@@ -83,6 +84,7 @@ class VectorSearchService:
             retrieval_tiers=retrieval_tiers,
             chunk_types=chunk_types,
             chunk_ids=chunk_ids,
+            parent_chunk_ids=parent_chunk_ids,
         )
         return filter_expr or 'id != ""'
 
@@ -168,6 +170,7 @@ class VectorSearchService:
         retrieval_tiers: str | Sequence[str] | None = None,
         chunk_types: str | Sequence[str] | None = None,
         chunk_ids: str | Sequence[str] | None = None,
+        parent_chunk_ids: str | Sequence[str] | None = None,
         limit: int = 256,
     ) -> list[SearchResult]:
         """Query documents by metadata filters without vector similarity search."""
@@ -179,6 +182,7 @@ class VectorSearchService:
                 retrieval_tiers=retrieval_tiers,
                 chunk_types=chunk_types,
                 chunk_ids=chunk_ids,
+                parent_chunk_ids=parent_chunk_ids,
             )
 
             rows = collection.query(
@@ -205,6 +209,7 @@ class VectorSearchService:
         retrieval_tiers: str | Sequence[str] | None = None,
         chunk_types: str | Sequence[str] | None = None,
         chunk_ids: str | Sequence[str] | None = None,
+        parent_chunk_ids: str | Sequence[str] | None = None,
         batch_size: int = METADATA_QUERY_BATCH_SIZE,
     ) -> list[SearchResult]:
         """Query all documents matching metadata filters without vector similarity search."""
@@ -216,6 +221,7 @@ class VectorSearchService:
                 retrieval_tiers=retrieval_tiers,
                 chunk_types=chunk_types,
                 chunk_ids=chunk_ids,
+                parent_chunk_ids=parent_chunk_ids,
             )
             safe_batch_size = max(int(batch_size), 1)
 

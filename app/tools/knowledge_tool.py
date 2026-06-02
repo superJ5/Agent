@@ -80,7 +80,7 @@ _LAST_RETRIEVAL_METADATA: ContextVar[dict[str, Any] | None] = ContextVar(
 _last_retrieval_metadata_fallback: dict[str, Any] | None = None
 PIC_ID_RE = re.compile(r"([A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+)", re.IGNORECASE)
 PROFILE_TERM_RE = re.compile(r"[A-Za-z][A-Za-z0-9+\-]{1,}|[\u4e00-\u9fff]{2,16}")
-PROFILE_SCAN_LIMIT = 4096
+PROFILE_SCAN_LIMIT = 6000
 PROFILE_STOP_TERMS = {
     "pic",
     "baseline",

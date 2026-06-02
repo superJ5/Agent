@@ -155,6 +155,88 @@ def test_search_filters_by_tier_and_chunk_type() -> None:
     assert [result.id for result in results] == ["procedure-primary"]
 
 
+def test_search_always_excludes_big_support_tier() -> None:
+    provider = make_provider()
+    provider.build_index(
+        [
+            Result(
+                "primary",
+                "battery",
+                metadata={"retrieval_tier": "primary"},
+            ),
+            Result(
+                "big-support",
+                "battery battery battery",
+                metadata={"retrieval_tier": "big_support"},
+            ),
+            Result(
+                "support",
+                "battery",
+                metadata={"retrieval_tier": "support"},
+            ),
+        ]
+    )
+
+    unfiltered_results = provider.search("battery", top_k=5)
+    support_results = provider.search(
+        "battery",
+        top_k=5,
+        retrieval_tiers=["support", "big_support"],
+    )
+
+    assert [result.id for result in unfiltered_results] == ["primary", "support"]
+    assert [result.id for result in support_results] == ["support"]
+
+
+def test_search_does_not_treat_long_index_text_as_big_support() -> None:
+    provider = make_provider()
+    long_index_text = "battery " * 2000
+    provider.build_index(
+        [
+            Result(
+                "long-primary",
+                metadata={
+                    "retrieval_tier": "primary",
+                    "index_text": long_index_text,
+                },
+            ),
+            Result(
+                "long-support",
+                metadata={
+                    "retrieval_tier": "support",
+                    "index_text": long_index_text,
+                },
+            ),
+        ]
+    )
+
+    results = provider.search("battery", top_k=5)
+
+    assert [result.id for result in results] == ["long-primary", "long-support"]
+
+
+def test_search_does_not_make_auxiliary_recallable_without_matching_filter() -> None:
+    provider = make_provider()
+    provider.build_index(
+        [
+            Result(
+                "primary",
+                "battery",
+                metadata={"retrieval_tier": "primary"},
+            ),
+            Result(
+                "auxiliary",
+                "battery battery",
+                metadata={"retrieval_tier": "auxiliary"},
+            ),
+        ]
+    )
+
+    results = provider.search("battery", top_k=5, retrieval_tiers=["primary"])
+
+    assert [result.id for result in results] == ["primary"]
+
+
 def test_search_filters_by_language() -> None:
     provider = make_provider()
     provider.build_index(

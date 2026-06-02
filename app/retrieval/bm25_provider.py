@@ -8,6 +8,8 @@ from collections.abc import Callable, Iterable, Mapping, Sequence
 from importlib import import_module
 from typing import Any, Protocol, TypeVar, cast
 
+from app.retrieval.tier_policy import BIG_SUPPORT_TIER
+
 SearchResultT = TypeVar("SearchResultT")
 Tokenizer = Callable[[str], Iterable[str]]
 
@@ -306,6 +308,9 @@ def _matches_filters(
     language: str | None,
 ) -> bool:
     metadata = _metadata_for_result(result)
+    tier = _lookup_value(result, metadata, ("retrieval_tier", "retrieval_tiers", "tier"))
+    if BIG_SUPPORT_TIER in _normalise_candidate_values(tier):
+        return False
     if doc_id is not None and not _value_matches(
         _lookup_value(result, metadata, ("doc_id", "document_id")),
         {doc_id},
