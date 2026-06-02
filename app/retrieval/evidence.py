@@ -10,7 +10,20 @@ from typing import TYPE_CHECKING, Any
 
 from langchain_core.documents import Document
 
-from app.retrieval.schemas import RetrievalBundle, chunk_id_from_search_result
+from app.retrieval.reranker import rerank_candidates
+from app.retrieval.schemas import (
+    RecallCandidate,
+    RetrievalBundle,
+    RetrievalDiagnostics,
+    chunk_id_from_search_result,
+)
+from app.retrieval.tier_policy import (
+    BIG_SUPPORT_TIER,
+    DESCENDANT_QUERY_TIERS,
+    EVIDENCE_PARENT_TIERS,
+    PRIMARY_TIER,
+    SUPPORT_TIER,
+)
 
 if TYPE_CHECKING:
     from app.services.vector_search_service import SearchResult
@@ -28,9 +41,7 @@ else:
 if TYPE_CHECKING:
     from app.retrieval.schemas import (
         QueryAnalysis,
-        RecallCandidate,
         RerankResult,
-        RetrievalDiagnostics,
         RetrievalOptions,
     )
 
@@ -39,6 +50,9 @@ EVIDENCE_SCHEMA_VERSION = "retrieval_evidence_v1"
 DEFAULT_TOP_K = 3
 CHANNEL_ORDER = ("vector", "bm25", "scan")
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
+BIG_SUPPORT_TOP_N = 3
+BIG_SUPPORT_MAX_DEPTH = 4
+BIG_SUPPORT_MAX_CANDIDATES = 100
 
 
 def build_retrieval_bundle(
@@ -62,7 +76,13 @@ def build_retrieval_bundle(
         hits=primary_hits,
         query=query,
     )
-    support_hits = fetch_parent_support_hits(primary_hits, diagnostics, language=language)
+    support_hits = fetch_parent_support_hits(
+        primary_hits,
+        diagnostics,
+        language=language,
+        query=query,
+        options=options,
+    )
     intent = _read_field(analysis, "primary_intent") or "general"
 
     summary = _ensure_summary(diagnostics)
@@ -98,14 +118,18 @@ def fetch_parent_support_hits(
     hits: list[SearchResult],
     diagnostics: RetrievalDiagnostics,
     language: str | None = None,
+    query: str | None = None,
+    options: RetrievalOptions | None = None,
+    expand_big_support: bool = True,
 ) -> list[SearchResult]:
-    """Fetch one-hop support parent chunks for primary hits."""
+    """Fetch supplemental support context for primary hits."""
     language = language_filter(diagnostics=diagnostics, hits=hits, language=language)
     parent_ids = collect_parent_chunk_ids(hits)
+    primary_hit_ids = {chunk_id_for_result(hit) for hit in hits if hit is not None}
     trace = _ensure_trace(diagnostics)
     trace["support_parent_ids"] = list(parent_ids)
     trace["support_parent_request"] = {
-        "retrieval_tiers": ["support"],
+        "retrieval_tiers": list(EVIDENCE_PARENT_TIERS),
         "chunk_ids": list(parent_ids),
         "language": language,
         "limit": len(parent_ids),
@@ -123,7 +147,7 @@ def fetch_parent_support_hits(
 
     try:
         query_kwargs: dict[str, Any] = {
-            "retrieval_tiers": ["support"],
+            "retrieval_tiers": list(EVIDENCE_PARENT_TIERS),
             "chunk_ids": parent_ids,
             "limit": len(parent_ids),
         }
@@ -135,10 +159,53 @@ def fetch_parent_support_hits(
         trace["support_parent_error"] = str(exc)
         return []
 
-    support_hits = filter_and_order_parent_hits(parents, parent_ids)
-    trace["support_parent_hits"] = [evidence_hit_summary(result) for result in support_hits]
+    parent_hits = filter_and_order_parent_hits(
+        parents,
+        parent_ids,
+        allowed_tiers=EVIDENCE_PARENT_TIERS,
+    )
+    trace["support_parent_hits"] = [
+        evidence_hit_summary(result) for result in parent_hits
+    ]
 
-    found_parent_ids = {chunk_id_for_result(result) for result in support_hits}
+    support_hits: list[SearchResult] = []
+    support_seen: set[str] = set()
+    for parent in parent_hits:
+        parent_tier = result_metadata(parent).get("retrieval_tier")
+        append_support_context(
+            support_hits,
+            parent,
+            primary_hit_ids=primary_hit_ids,
+            support_seen=support_seen,
+        )
+        if parent_tier != BIG_SUPPORT_TIER:
+            continue
+        if not expand_big_support:
+            record_big_support_skip(
+                trace,
+                chunk_id_for_result(parent),
+                reason="expand_big_support_false",
+            )
+            continue
+        if not query or options is None:
+            record_big_support_skip(
+                trace,
+                chunk_id_for_result(parent),
+                reason="missing_query_or_options",
+            )
+            continue
+        expand_big_support_parent(
+            parent,
+            query=query,
+            options=options,
+            diagnostics=diagnostics,
+            language=language,
+            primary_hit_ids=primary_hit_ids,
+            support_hits=support_hits,
+            support_seen=support_seen,
+        )
+
+    found_parent_ids = {chunk_id_for_result(result) for result in parent_hits}
     missing_parent_ids = [
         parent_id for parent_id in parent_ids if parent_id not in found_parent_ids
     ]
@@ -171,15 +238,17 @@ def collect_parent_chunk_ids(hits: Sequence[SearchResult]) -> list[str]:
 def filter_and_order_parent_hits(
     parents: Sequence[SearchResult],
     parent_ids: Sequence[str],
+    allowed_tiers: Sequence[str] = (SUPPORT_TIER,),
 ) -> list[SearchResult]:
-    """Keep only requested support parent ids and return them in request order."""
+    """Keep requested parent ids in request order and restrict retrieval tiers."""
     requested = set(parent_ids)
+    allowed = set(allowed_tiers)
     parent_by_id: dict[str, SearchResult] = {}
 
     for parent in parents:
         metadata = result_metadata(parent)
         retrieval_tier = metadata.get("retrieval_tier")
-        if retrieval_tier and retrieval_tier != "support":
+        if retrieval_tier and retrieval_tier not in allowed:
             continue
 
         parent_chunk_id = chunk_id_for_result(parent)
@@ -189,6 +258,320 @@ def filter_and_order_parent_hits(
         parent_by_id[parent_chunk_id] = parent
 
     return [parent_by_id[parent_id] for parent_id in parent_ids if parent_id in parent_by_id]
+
+
+def append_support_context(
+    support_hits: list[SearchResult],
+    result: SearchResult,
+    *,
+    primary_hit_ids: set[str],
+    support_seen: set[str],
+) -> bool:
+    """Append supplemental context once, without duplicating primary hits."""
+    chunk_id = chunk_id_for_result(result)
+    if not chunk_id or chunk_id in primary_hit_ids or chunk_id in support_seen:
+        return False
+
+    support_seen.add(chunk_id)
+    support_hits.append(result)
+    return True
+
+
+def expand_big_support_parent(
+    parent: SearchResult,
+    *,
+    query: str,
+    options: RetrievalOptions,
+    diagnostics: RetrievalDiagnostics,
+    language: str | None,
+    primary_hit_ids: set[str],
+    support_hits: list[SearchResult],
+    support_seen: set[str],
+) -> None:
+    """Expand one big_support parent into its most relevant primary descendants."""
+    trace = _ensure_trace(diagnostics)
+    parent_id = chunk_id_for_result(parent)
+    parent_ids = trace.setdefault("big_support_parent_ids", [])
+    if isinstance(parent_ids, list) and parent_id not in parent_ids:
+        parent_ids.append(parent_id)
+
+    descendants, truncated = collect_big_support_descendants(
+        parent,
+        diagnostics=diagnostics,
+        language=language,
+    )
+
+    descendant_count = trace.setdefault("big_support_descendant_count", {})
+    if isinstance(descendant_count, dict):
+        descendant_count[parent_id] = len(descendants)
+
+    selected_descendants = select_big_support_descendants(
+        query=query,
+        descendants=descendants,
+        options=options,
+        diagnostics=diagnostics,
+        parent_id=parent_id,
+    )
+
+    for descendant in selected_descendants:
+        append_support_context(
+            support_hits,
+            descendant,
+            primary_hit_ids=primary_hit_ids,
+            support_seen=support_seen,
+        )
+
+    direct_support_parents = fetch_direct_support_parents(
+        selected_descendants,
+        diagnostics=diagnostics,
+        language=language,
+    )
+    for support_parent in direct_support_parents:
+        append_support_context(
+            support_hits,
+            support_parent,
+            primary_hit_ids=primary_hit_ids,
+            support_seen=support_seen,
+        )
+
+    expanded_hits = trace.setdefault("big_support_expanded_hits", [])
+    if isinstance(expanded_hits, list):
+        expanded_hits.append(
+            {
+                "parent_id": parent_id,
+                "descendant_count": len(descendants),
+                "max_candidates": BIG_SUPPORT_MAX_CANDIDATES,
+                "truncated": truncated,
+                "selected": [
+                    evidence_hit_summary(result) for result in selected_descendants
+                ],
+                "direct_support_parents": [
+                    evidence_hit_summary(result) for result in direct_support_parents
+                ],
+            }
+        )
+
+
+def collect_big_support_descendants(
+    parent: SearchResult,
+    *,
+    diagnostics: RetrievalDiagnostics,
+    language: str | None,
+) -> tuple[list[SearchResult], bool]:
+    """Collect primary descendants under a big_support parent by walking children."""
+    parent_id = chunk_id_for_result(parent)
+    doc_id = _clean_string(result_metadata(parent).get("doc_id")) or None
+    current_parent_ids = [parent_id] if parent_id else []
+    visited_parent_ids = set(current_parent_ids)
+    descendants: list[SearchResult] = []
+    descendant_seen: set[str] = set()
+    truncated = False
+
+    for _depth in range(1, BIG_SUPPORT_MAX_DEPTH + 1):
+        if not current_parent_ids or len(descendants) >= BIG_SUPPORT_MAX_CANDIDATES:
+            break
+
+        children = query_direct_children(
+            current_parent_ids,
+            diagnostics=diagnostics,
+            language=language,
+            doc_id=doc_id,
+        )
+        next_parent_ids: list[str] = []
+
+        for child in sort_results_for_hierarchy(children):
+            child_id = chunk_id_for_result(child)
+            if not child_id:
+                continue
+            tier = result_metadata(child).get("retrieval_tier")
+            if tier == PRIMARY_TIER:
+                if child_id in descendant_seen:
+                    continue
+                descendant_seen.add(child_id)
+                descendants.append(child)
+                if len(descendants) >= BIG_SUPPORT_MAX_CANDIDATES:
+                    truncated = True
+                    break
+            elif tier in {SUPPORT_TIER, BIG_SUPPORT_TIER}:
+                if child_id in visited_parent_ids:
+                    continue
+                visited_parent_ids.add(child_id)
+                next_parent_ids.append(child_id)
+            else:
+                continue
+
+        current_parent_ids = next_parent_ids
+
+    return descendants, truncated
+
+
+def query_direct_children(
+    parent_ids: Sequence[str],
+    *,
+    diagnostics: RetrievalDiagnostics,
+    language: str | None,
+    doc_id: str | None,
+) -> list[SearchResult]:
+    """Query direct children for one hierarchy layer."""
+    if vector_search_service is None:
+        message = "big_support expansion failed: vector search service unavailable"
+        add_diagnostic_warning(diagnostics, message)
+        _ensure_trace(diagnostics)["big_support_descendant_error"] = message
+        return []
+
+    query_kwargs: dict[str, Any] = {
+        "doc_id": doc_id,
+        "retrieval_tiers": list(DESCENDANT_QUERY_TIERS),
+        "parent_chunk_ids": list(parent_ids),
+    }
+    if language:
+        query_kwargs["language"] = language
+
+    query_all_documents = getattr(vector_search_service, "query_all_documents", None)
+    try:
+        if callable(query_all_documents):
+            return list(query_all_documents(**query_kwargs))
+        query_kwargs["limit"] = max(BIG_SUPPORT_MAX_CANDIDATES * 4, 256)
+        return list(vector_search_service.query_documents(**query_kwargs))
+    except Exception as exc:
+        add_diagnostic_warning(diagnostics, f"big_support expansion failed: {exc}")
+        _ensure_trace(diagnostics)["big_support_descendant_error"] = str(exc)
+        return []
+
+
+def select_big_support_descendants(
+    *,
+    query: str,
+    descendants: Sequence[SearchResult],
+    options: RetrievalOptions,
+    diagnostics: RetrievalDiagnostics,
+    parent_id: str,
+) -> list[SearchResult]:
+    """Rerank big_support primary descendants and return the top few."""
+    if not descendants:
+        return []
+
+    candidates = [
+        RecallCandidate.from_search_result(
+            result,
+            recall_channel="big_support_descendant",
+        )
+        for result in descendants
+    ]
+    child_diagnostics = RetrievalDiagnostics(
+        request_id=str(_read_field(diagnostics, "request_id", "") or "")
+    )
+    try:
+        reranked = rerank_candidates(query, candidates, options, child_diagnostics)
+    except Exception as exc:
+        add_diagnostic_warning(
+            diagnostics,
+            f"big_support rerank failed for {parent_id}: {exc}",
+        )
+        return [candidate.result for candidate in candidates[:BIG_SUPPORT_TOP_N]]
+
+    for warning in child_diagnostics.warnings:
+        add_diagnostic_warning(diagnostics, str(warning))
+
+    trace = _ensure_trace(diagnostics)
+    rerank_trace = trace.setdefault("big_support_rerank", {})
+    if isinstance(rerank_trace, dict):
+        rerank_trace[parent_id] = child_diagnostics.trace.get("reranker", {})
+
+    return [
+        candidate.result
+        for candidate in list(_read_field(reranked, "candidates", []) or [])[
+            :BIG_SUPPORT_TOP_N
+        ]
+    ]
+
+
+def fetch_direct_support_parents(
+    descendants: Sequence[SearchResult],
+    *,
+    diagnostics: RetrievalDiagnostics,
+    language: str | None,
+) -> list[SearchResult]:
+    """Fetch direct ordinary support parents for selected descendant primary chunks."""
+    parent_ids = collect_parent_chunk_ids(descendants)
+    if not parent_ids:
+        return []
+
+    if vector_search_service is None:
+        message = "selected descendant support expansion failed: vector search service unavailable"
+        add_diagnostic_warning(diagnostics, message)
+        _ensure_trace(diagnostics)["big_support_selected_parent_error"] = message
+        return []
+
+    query_kwargs: dict[str, Any] = {
+        "retrieval_tiers": [SUPPORT_TIER],
+        "chunk_ids": parent_ids,
+        "limit": len(parent_ids),
+    }
+    if language:
+        query_kwargs["language"] = language
+
+    try:
+        parents = vector_search_service.query_documents(**query_kwargs)
+    except Exception as exc:
+        add_diagnostic_warning(
+            diagnostics,
+            f"selected descendant support expansion failed: {exc}",
+        )
+        _ensure_trace(diagnostics)["big_support_selected_parent_error"] = str(exc)
+        return []
+
+    direct_support_parents = filter_and_order_parent_hits(
+        parents,
+        parent_ids,
+        allowed_tiers=(SUPPORT_TIER,),
+    )
+    trace = _ensure_trace(diagnostics)
+    trace["big_support_selected_parent_ids"] = list(parent_ids)
+    trace["big_support_selected_parent_hits"] = [
+        evidence_hit_summary(parent) for parent in direct_support_parents
+    ]
+    return direct_support_parents
+
+
+def sort_results_for_hierarchy(results: Sequence[SearchResult]) -> list[SearchResult]:
+    """Sort children by stable metadata order when it is available."""
+    indexed_results = list(enumerate(results))
+    indexed_results.sort(key=lambda item: hierarchy_order_key(item[1], item[0]))
+    return [result for _, result in indexed_results]
+
+
+def hierarchy_order_key(result: SearchResult, fallback_index: int) -> tuple[int, int, int, int]:
+    metadata = result_metadata(result)
+    source_lines = list_value(metadata.get("source_lines"))
+    source_start = safe_int(source_lines[0]) if source_lines else None
+    chunk_index = safe_int(metadata.get("chunk_index"), default=1_000_000)
+    return (
+        chunk_index if chunk_index is not None else 1_000_000,
+        source_start if source_start is not None else 1_000_000,
+        chunk_id_numeric_suffix(chunk_id_for_result(result)),
+        fallback_index,
+    )
+
+
+def chunk_id_numeric_suffix(chunk_id: str) -> int:
+    match = re.search(r"_(\d+)$", str(chunk_id or ""))
+    if not match:
+        return 1_000_000
+    return int(match.group(1))
+
+
+def safe_int(value: Any, default: int | None = None) -> int | None:
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def record_big_support_skip(trace: dict[str, Any], parent_id: str, *, reason: str) -> None:
+    skipped = trace.setdefault("big_support_expansion_skipped", [])
+    if isinstance(skipped, list):
+        skipped.append({"parent_id": parent_id, "reason": reason})
 
 
 def search_result_to_document(result: SearchResult) -> Document:

@@ -7,6 +7,8 @@ import json
 import time
 import uuid
 from collections.abc import Sequence
+from datetime import UTC, datetime
+from pathlib import Path
 from typing import Any, cast
 
 from langchain_core.documents import Document
@@ -20,7 +22,10 @@ from app.services.vector_embedding_service import vector_embedding_service
 COLLECTION_NAME = "biz"
 MAX_PRIMARY_KEY_LENGTH = 100
 EMBEDDING_BATCH_SIZE = 10
+MAX_EMBEDDING_INPUT_CHARS = 8192
 MAX_CONTENT_BYTES = 8000
+MAX_METADATA_BYTES = 60000
+EMBEDDING_LIMIT_REPORT_PATH = Path("logs/embedding_input_limit_report.jsonl")
 
 
 class VectorStoreManager:
@@ -29,6 +34,8 @@ class VectorStoreManager:
     def __init__(self) -> None:
         self.vector_store: Milvus | None = None
         self.collection_name = COLLECTION_NAME
+        self.embedding_limit_report_path = EMBEDDING_LIMIT_REPORT_PATH
+        self.embedding_limit_report_count = 0
         self._initialize_vector_store()
 
     def _initialize_vector_store(self) -> None:
@@ -76,15 +83,19 @@ class VectorStoreManager:
             for batch_start in range(0, len(documents), EMBEDDING_BATCH_SIZE):
                 batch_documents = documents[batch_start : batch_start + EMBEDDING_BATCH_SIZE]
                 batch_ids = ids[batch_start : batch_start + EMBEDDING_BATCH_SIZE]
-                embedding_inputs = [
-                    self._get_embedding_text(document) for document in batch_documents
+                raw_embedding_inputs = [
+                    self._get_raw_embedding_text(document) for document in batch_documents
                 ]
-                embeddings = vector_embedding_service.embed_documents(embedding_inputs)
+                embeddings, embedding_inputs = self._embed_documents_with_limit_report(
+                    batch_documents,
+                    raw_embedding_inputs,
+                )
 
-                for doc_id, document, embedding in zip(
+                for doc_id, document, embedding, embedding_text in zip(
                     batch_ids,
                     batch_documents,
                     embeddings,
+                    embedding_inputs,
                     strict=True,
                 ):
                     stored_content = self._truncate_varchar_bytes(document.page_content)
@@ -93,7 +104,11 @@ class VectorStoreManager:
                             "id": doc_id,
                             "vector": embedding,
                             "content": stored_content,
-                            "metadata": self._sanitize_metadata(document.metadata or {}),
+                            "metadata": self._prepare_metadata(
+                                document.metadata or {},
+                                stored_content=stored_content,
+                                embedding_text=embedding_text,
+                            ),
                         }
                     )
 
@@ -125,11 +140,70 @@ class VectorStoreManager:
 
     @staticmethod
     def _get_embedding_text(document: Document) -> str:
+        raw_text = VectorStoreManager._get_raw_embedding_text(document)
+        return VectorStoreManager._truncate_embedding_text(raw_text)
+
+    @staticmethod
+    def _get_raw_embedding_text(document: Document) -> str:
         metadata = document.metadata or {}
         index_text = metadata.get("index_text")
         if isinstance(index_text, str) and index_text.strip():
             return index_text.strip()
-        return document.page_content
+        return str(document.page_content).strip()
+
+    def _embed_documents_with_limit_report(
+        self,
+        documents: list[Document],
+        raw_embedding_inputs: list[str],
+    ) -> tuple[list[list[float]], list[str]]:
+        """Embed raw inputs; on provider token-limit errors, locate exact chunks."""
+        try:
+            return (
+                vector_embedding_service.embed_documents(raw_embedding_inputs),
+                raw_embedding_inputs,
+            )
+        except RuntimeError as exc:
+            if not self._is_embedding_input_limit_error(exc):
+                raise
+
+        embeddings: list[list[float]] = []
+        used_inputs: list[str] = []
+        for document, raw_text in zip(documents, raw_embedding_inputs, strict=True):
+            try:
+                embedding = vector_embedding_service.embed_documents([raw_text])[0]
+                embeddings.append(embedding)
+                used_inputs.append(raw_text)
+                continue
+            except RuntimeError as exc:
+                if not self._is_embedding_input_limit_error(exc):
+                    raise
+                fallback_text = self._truncate_embedding_text(raw_text)
+                self._record_embedding_limit_hit(
+                    document,
+                    original_text=raw_text,
+                    fallback_text=fallback_text,
+                    provider_error=str(exc),
+                )
+
+            embeddings.append(vector_embedding_service.embed_documents([fallback_text])[0])
+            used_inputs.append(fallback_text)
+
+        return embeddings, used_inputs
+
+    @staticmethod
+    def _is_embedding_input_limit_error(exc: Exception) -> bool:
+        message = str(exc)
+        return (
+            "Range of input length should be [1, 8192]" in message
+            or ("8192" in message and "input length" in message.lower())
+        )
+
+    @staticmethod
+    def _truncate_embedding_text(text: str) -> str:
+        stripped = str(text or "").strip()
+        if len(stripped) <= MAX_EMBEDDING_INPUT_CHARS:
+            return stripped
+        return stripped[:MAX_EMBEDDING_INPUT_CHARS]
 
     @staticmethod
     def _truncate_varchar_bytes(value: str, max_bytes: int = MAX_CONTENT_BYTES) -> str:
@@ -162,6 +236,145 @@ class VectorStoreManager:
             dict[str, Any],
             json.loads(json.dumps(metadata, ensure_ascii=False, default=str)),
         )
+
+    @classmethod
+    def _prepare_metadata(
+        cls,
+        metadata: dict[str, Any],
+        *,
+        stored_content: str,
+        embedding_text: str,
+    ) -> dict[str, Any]:
+        prepared = dict(metadata)
+        if isinstance(prepared.get("text"), str):
+            prepared["text"] = stored_content
+        if isinstance(prepared.get("index_text"), str):
+            prepared["index_text"] = embedding_text
+
+        sanitized = cls._sanitize_metadata(prepared)
+        if cls._metadata_size_bytes(sanitized) <= MAX_METADATA_BYTES:
+            return sanitized
+
+        for field_name in ("index_text", "text"):
+            if isinstance(sanitized.get(field_name), str):
+                sanitized[field_name] = cls._truncate_varchar_bytes(
+                    sanitized[field_name],
+                    max_bytes=2000,
+                )
+            if cls._metadata_size_bytes(sanitized) <= MAX_METADATA_BYTES:
+                return sanitized
+
+        for field_name in ("index_text", "text"):
+            sanitized.pop(field_name, None)
+            if cls._metadata_size_bytes(sanitized) <= MAX_METADATA_BYTES:
+                return sanitized
+
+        return sanitized
+
+    @staticmethod
+    def _metadata_size_bytes(metadata: dict[str, Any]) -> int:
+        return len(json.dumps(metadata, ensure_ascii=False, default=str).encode("utf-8"))
+
+    def reset_embedding_limit_report(
+        self,
+        path: str | Path | None = None,
+    ) -> None:
+        """Start a fresh embedding input limit report for one indexing run."""
+        self.embedding_limit_report_path = Path(path or EMBEDDING_LIMIT_REPORT_PATH)
+        self.embedding_limit_report_count = 0
+        try:
+            self.embedding_limit_report_path.parent.mkdir(parents=True, exist_ok=True)
+            if self.embedding_limit_report_path.exists():
+                self.embedding_limit_report_path.unlink()
+        except OSError as exc:
+            logger.warning("Failed to reset embedding input limit report: {}", exc)
+
+    def append_embedding_limit_report(
+        self,
+        path: str | Path | None = None,
+    ) -> None:
+        """Use an existing embedding input limit report without clearing it."""
+        self.embedding_limit_report_path = Path(path or EMBEDDING_LIMIT_REPORT_PATH)
+        try:
+            self.embedding_limit_report_path.parent.mkdir(parents=True, exist_ok=True)
+        except OSError as exc:
+            logger.warning("Failed to prepare embedding input limit report: {}", exc)
+        self.embedding_limit_report_count = self._count_report_entries(
+            self.embedding_limit_report_path,
+        )
+
+    @staticmethod
+    def _count_report_entries(path: Path) -> int:
+        try:
+            if not path.exists():
+                return 0
+            return sum(
+                1
+                for line in path.read_text(encoding="utf-8").splitlines()
+                if line.strip()
+            )
+        except OSError as exc:
+            logger.warning("Failed to count embedding input limit report: {}", exc)
+            return 0
+
+    def embedding_limit_report_summary(self) -> dict[str, Any]:
+        """Return the report location and hit count for script output."""
+        return {
+            "path": self.embedding_limit_report_path.as_posix(),
+            "count": self.embedding_limit_report_count,
+            "count_note": (
+                "Count is the number of JSONL entries currently tracked for this "
+                "report path. In append mode it includes entries from earlier "
+                "script invocations."
+            ),
+            "limit_note": (
+                "This report records chunks whose raw embedding input was rejected "
+                "by the provider with the 8192 input-token limit, then re-embedded "
+                "with a local truncated fallback."
+            ),
+        }
+
+    def _record_embedding_limit_hit(
+        self,
+        document: Document,
+        *,
+        original_text: str,
+        fallback_text: str,
+        provider_error: str,
+    ) -> None:
+        metadata = document.metadata or {}
+        entry = {
+            "generated_at": datetime.now(UTC).isoformat(),
+            "doc_id": metadata.get("doc_id"),
+            "doc_name": metadata.get("doc_name"),
+            "chunk_id": metadata.get("chunk_id"),
+            "retrieval_tier": metadata.get("retrieval_tier"),
+            "chunk_type": metadata.get("chunk_type"),
+            "title": metadata.get("title") or metadata.get("section_title"),
+            "section_path": metadata.get("section_path") or [],
+            "section_depth": len(metadata.get("section_path") or []),
+            "hierarchy": " > ".join(str(part) for part in metadata.get("section_path") or []),
+            "parent_chunk_id": metadata.get("parent_chunk_id"),
+            "source_file": metadata.get("source_file") or metadata.get("_source"),
+            "source_lines": metadata.get("source_lines"),
+            "original_embedding_chars": len(original_text),
+            "fallback_embedding_chars": len(fallback_text),
+            "max_embedding_input_chars": MAX_EMBEDDING_INPUT_CHARS,
+            "limit_kind": "provider_8192_token_limit_rejected_raw_input",
+            "provider_error": provider_error,
+            "token_limit_note": (
+                "The provider limit is 8192 tokens. Character counts are recorded "
+                "only to show the size of the raw input and fallback text."
+            ),
+        }
+        try:
+            self.embedding_limit_report_path.parent.mkdir(parents=True, exist_ok=True)
+            with self.embedding_limit_report_path.open("a", encoding="utf-8") as handle:
+                handle.write(json.dumps(entry, ensure_ascii=False, default=str))
+                handle.write("\n")
+            self.embedding_limit_report_count += 1
+        except OSError as exc:
+            logger.warning("Failed to write embedding input limit report: {}", exc)
 
     @staticmethod
     def _normalize_filter_values(
@@ -214,6 +427,7 @@ class VectorStoreManager:
         retrieval_tiers: str | Sequence[str] | None = None,
         chunk_types: str | Sequence[str] | None = None,
         chunk_ids: str | Sequence[str] | None = None,
+        parent_chunk_ids: str | Sequence[str] | None = None,
     ) -> str | None:
         optional_parts: list[str | None] = [
             cls.build_metadata_equals_expr("doc_id", doc_id),
@@ -221,6 +435,7 @@ class VectorStoreManager:
             cls._build_metadata_in_expr("retrieval_tier", retrieval_tiers),
             cls._build_metadata_in_expr("chunk_type", chunk_types),
             cls._build_metadata_in_expr("chunk_id", chunk_ids),
+            cls._build_metadata_in_expr("parent_chunk_id", parent_chunk_ids),
         ]
         parts = [part for part in optional_parts if part]
         if not parts:
@@ -269,7 +484,7 @@ class VectorStoreManager:
             raise RuntimeError("VectorStore is not initialized")
 
         try:
-            docs = self.vector_store.similarity_search(query, k=k)
+            docs: list[Document] = self.vector_store.similarity_search(query, k=k)
             logger.debug("Similarity search finished for query='{}', count={}", query, len(docs))
             return docs
         except Exception as exc:

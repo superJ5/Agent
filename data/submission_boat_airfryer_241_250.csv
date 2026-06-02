@@ -1,0 +1,374 @@
+id,ret
+241,ERROR: 请求超时
+242,"Based on the manual information, here's how to find the **approval label of the emission control certificate** on your boat:
+
+## Location of the Approval Label
+
+The approval label location depends on your boat type:
+
+### For WaveRunner (Personal Watercraft):
+The label is attached to:
+- **The electrical box**
+- **The exhaust side of the crankcase**
+
+![Manual20_3](data/manuals/raw/05_摩托艇_WaveRunner/images/Manual20_3.jpg)
+
+![Manual20_4](data/manuals/raw/05_摩托艇_WaveRunner/images/Manual20_4.jpg)
+
+### For Boats:
+The labels are attached to:
+- **Each engine unit**
+- **The inside of the engine compartment**
+
+![Manual09_6](data/manuals/raw/04_船_Boat/images/Manual09_6.jpg)
+
+![Manual09_7](data/manuals/raw/04_船_Boat/images/Manual09_7.jpg)
+
+## How to Access:
+1. **Open the engine hood/compartment** (refer to page 56 of your manual for hood opening and closing procedures)
+2. **Look for the rectangular label** inside the engine compartment or on the engine unit itself
+3. The label contains emission control information including EPA compliance details
+
+## What the Label Shows:
+The emission control certificate label typically includes:
+- Engine family information
+- U.S. EPA marine SI regulations compliance
+- FELs (Family Emission Limits) in g/kW-hr
+- Spark plug gap specifications
+- Other certification details
+
+If you cannot locate the label, please consult your boat dealer or refer to the ""Identification number records"" section in your owner's manual for more detailed diagrams specific to your model."
+243,"Based on the manual, here's how to properly configure the battery system before sailing:
+
+## Battery Switch Configuration Before Sailing
+
+### Normal Setup (Recommended)
+Before starting the engine and sailing, ensure the battery switches are set as follows:
+
+| Switch | Position | Purpose |
+|--------|----------|---------|
+| **""START"" switch** (red) | **ON** | Powers the starter battery for engine starting |
+| **""HOUSE"" switch** (red) | **ON** | Powers the house battery for accessories (lighting, bilge pump, audio, etc.) |
+| **""EMERG PARALLEL"" switch** (yellow) | **OFF** | Keep OFF during normal operation |
+
+![Battery Switch Assembly](data/manuals/raw/04_船_Boat/images/Manual09_42.jpg)
+
+![Switch Positions](data/manuals/raw/04_船_Boat/images/Manual09_43.jpg)
+
+### Pre-Sailing Steps
+1. **Turn the battery switch to the ON position** in the battery compartment
+2. Operate the blowers for at least 4 minutes to ventilate the engine compartment
+3. Attach the engine shut-off cord (lanyard) to your PFD
+4. Ensure remote control levers are in neutral
+5. Start the engine using the main switch
+
+### Emergency Battery Parallel Feature
+If the **start battery is discharged**, you can use the ""EMERG PARALLEL"" switch:
+
+1. Turn the **""EMERG PARALLEL"" switch to ON** - this connects both batteries to provide power for starting
+2. Start the engine
+3. **Once the engine starts or the start battery is charged, turn the ""EMERG PARALLEL"" switch back to OFF**
+
+> **NOTICE:** Do not turn the ""HOUSE"" switch to OFF if the boat is moored in the water, as it will prevent the anchor light from functioning.
+
+This setup allows both batteries to be charged automatically while the engine is running during normal operation."
+244,"Based on the manual information, here's how the ship steers:
+
+## Steering Mechanism
+
+**Basic Principle:** Your boat is steered by turning the steering wheel in the direction you wish to travel (right or left). When the steering wheel is turned, it changes the angle of the **jet thrust nozzles** at the rear of the craft, which changes the direction of the boat accordingly.
+
+![Manual09_52](data/manuals/raw/04_船_Boat/images/Manual09_52.jpg)
+
+![Manual09_53](data/manuals/raw/04_船_Boat/images/Manual09_53.jpg)
+
+## How It Works
+
+1. **Water Intake:** Water is sucked in through the intake grate and pressurized by the impeller in the jet pumps.
+
+2. **Thrust Generation:** The pressurized water is expelled from the pumps through the jet thrust nozzles, creating thrust to move and steer the boat.
+
+3. **Directional Control:** The angle of the jet thrust nozzles determines the direction of travel. An **articulating keel** also changes direction according to the movement of the jet thrust nozzles.
+
+## Important: Throttle is Essential for Steering
+
+**⚠️ You need throttle to steer.** Steering control depends on the combination of:
+- Steering wheel/handlebar position
+- Amount of throttle
+
+![Manual09_239](data/manuals/raw/04_船_Boat/images/Manual09_239.jpg)
+
+![Manual09_240](data/manuals/raw/04_船_Boat/images/Manual09_240.jpg)
+
+| Throttle Level | Turning Effect |
+|---------------|----------------|
+| **More throttle** | Higher thrust = sharper turns |
+| **Less throttle** | Lower thrust = more gradual turns |
+| **Idle/Neutral** | Minimum thrust - limited steering ability |
+| **No throttle** (engine stopped) | No steering - boat goes straight even if wheel is turned |
+
+## Key Safety Points
+
+- **Do not pull back to idle when trying to steer away from objects** - you need throttle to steer
+- At speeds above trolling, releasing the throttle completely causes rapidly decreasing steering ability
+- At trolling speed, the boat can be turned gradually using just idle thrust
+- Since boats steer from the stern, the stern swings out in the **opposite direction** of your turn (e.g., turning right makes the stern swing left)
+
+This jet-driven steering system is different from traditional propeller boats with rudders, as it relies entirely on directed water thrust for both propulsion and steering control."
+245,"If you receive an **over temperature warning** on your boat, follow these steps immediately:
+
+## Immediate Actions
+
+1. **Reduce engine speed** immediately when you see ""Over Temperature"" on the multifunction display and hear the buzzer
+2. **Return to shore** or maneuver to a safe location
+3. The engine speed is automatically limited to help prevent damage
+
+## Check Cooling Water Flow
+
+Check the **cooling water pilot outlets** on the starboard side of the hull:
+
+![Manual09_95](data/manuals/raw/04_船_Boat/images/Manual09_95.jpg)
+
+- Verify that water is coming out of the outlets while engines are running, especially when applying throttle
+- If you don't see any water, cooling water may not be circulating in the engines
+
+**TIP:** If the cooling water passages are dry, it may take about 20 seconds for water to reach the pilot outlets after starting.
+
+## If Water Is Not Circulating
+
+If no water is flowing from the pilot outlets, something may be clogging the **intake grates**:
+
+![Manual09_96](data/manuals/raw/04_船_Boat/images/Manual09_96.jpg)
+
+Refer to the ""Jet pump clean-out procedure"" in your manual to clear any blockages.
+
+## Emergency Procedures
+
+### Single Engine Overheating
+- **Shut off the overheating engine**
+- Use the properly running engine to return to shore
+- Operate at **no-wake speed** (8 km/h, 5 mph) to prevent water from flooding the non-operating engine through the water intake
+
+### Both Engines Overheating
+- If towing is not possible, operate both engines **just slightly above idle** while returning to shore
+- If you can be towed, refer to the ""Towing the boat"" procedure in your manual
+
+## ⚠️ Important Notice
+
+If the cause of overheating cannot be found and corrected, take special precautions to avoid major engine damage. **Do not continue running the engines** if water is not flowing from the pilot outlets during operation, as serious damage could occur."
+246,"Based on the manual information, here is how to turn on the sound system to listen to music on your phone:
+
+### 1. Accessing Music Mode
+To listen to music, you first need to enter the **Music Mode** from the main menu.
+*   Navigate to the **Main Menu** and select **Music** (Reference 4).
+*   Select the desired audio file from the list and press the **""M""** button to enter play mode (Reference 3).
+    *   *Note: You can add audio files (MP3, WMA, WAC, AAC, etc.) by connecting the device to a computer via USB and dragging the files into the device.*
+
+![Manual13_3](data/manuals/raw/08_电子阅读器_EReader/images/Manual13_3.jpg)
+
+### 2. Controlling Playback and Volume
+Once in Music Mode, you can control the sound using the navigation keys:
+*   **Play/Pause:** Press the **""Play / Pause""** key.
+*   **Adjust Volume:** Press the **""Up/Down""** key on the Navigation pad (or Up/Prev page, Down/Next page keys) to adjust the volume (Reference 3).
+*   **Skip Tracks:** Press and release the **""Left""** or **""Right""** direction key to go to the previous or next audio file.
+
+![Manual13_7](data/manuals/raw/08_电子阅读器_EReader/images/Manual13_7.jpg)
+
+### 3. Configuring Sound Settings
+If you need to adjust specific sound profiles or volumes, you can do so via the **Phone Setup** menu:
+*   Go to **[Menu] > [Phone setup] > [Sounds] > [MySound]**.
+*   Here you can select between **Earpiece** or **Loudspeaker** and choose a sound profile (Reference 1).
+*   You can also set the **Ring volume** (5 levels) or turn on **Silent mode** if needed.
+
+![earphones_01](data/manuals/raw/07_降噪无线耳机_Earphones/images/earphones_01.png)
+
+*Note: If you are using wireless earphones, you may need to press and hold the earbud's control button until the first beep to activate the music app (Reference 2).*"
+247,"Based on the manual information, here's how to properly store wet items while on board:
+
+## Wet Storage Compartment (Recommended for Wet Items)
+
+Your boat has a **dedicated wet storage compartment** specifically designed for storing wet items:
+
+**Location:** Under the swim platform
+
+**To Open:**
+1. Pull the lock handle up
+2. Turn the lock handle clockwise
+3. Open the rear platform hatch
+
+![Manual09_143](data/manuals/raw/04_船_Boat/images/Manual09_143.jpg)
+
+**To Close:**
+1. Close the rear platform hatch
+2. Turn the lock handle counterclockwise and ensure the hatch is securely closed
+3. Push the lock handle down
+
+![Manual09_144](data/manuals/raw/04_船_Boat/images/Manual09_144.jpg)
+
+⚠️ **Important:** The engines will not start if the rear platform hatch is not securely closed.
+
+## Alternative: Lockable Storage Compartment with Drain
+
+The lockable storage compartment on the bow side of the console can also accommodate wet items because it has a **drain plug**:
+
+**To Drain Water:**
+1. Remove the drain plug on the bottom of the compartment to drain water
+2. Securely reinstall the drain plug after draining
+
+![Manual09_130](data/manuals/raw/04_船_Boat/images/Manual09_130.jpg)
+
+## Important Warning About Other Storage Compartments
+
+⚠️ **The standard storage compartments (front storage compartment and glove compartment) are NOT designed to be waterproof.** If you need to store items that must stay dry in these compartments, place them in a waterproof bag first.
+
+## Summary
+
+For wet items, use:
+- **Wet storage compartment** (under swim platform) - specifically designed for wet items
+- **Lockable storage compartment** - has drain plug for water drainage
+
+Avoid using standard storage compartments for wet items unless they're in waterproof bags."
+248,"Based on the boat manual, here's how to open the battery compartment:
+
+## Battery Compartment Location
+The battery compartment is located on the **port side of the boat at the stern**.
+
+## How to Open
+
+To open the battery compartment:
+1. **Unhook the latch**
+2. **Open the battery compartment lid**
+
+![Manual09_157](data/manuals/raw/04_船_Boat/images/Manual09_157.jpg)
+
+![Manual09_158](data/manuals/raw/04_船_Boat/images/Manual09_158.jpg)
+
+## How to Close
+To close the battery compartment:
+1. Close the battery compartment lid
+2. Hook the latch onto the deck
+
+## Important Safety Warning
+⚠️ **Do not carry any flammable substances in the compartment or any heavy or metal items that can damage the battery or cause a short circuit.** Sparks or fire could result.
+
+## Battery Information
+The boat uses **two marine batteries**:
+- **Start battery** - Connected to the starter circuit on the engine
+- **House battery** - Provides power for accessory circuits (lighting, bilge pump, blowers, audio system)
+
+The battery switches are located inside the battery compartment:
+- ""START"" switch (red)
+- ""HOUSE"" switch (red)  
+- ""EMERG PARALLEL"" switch (yellow)
+
+![Manual09_42](data/manuals/raw/04_船_Boat/images/Manual09_42.jpg)
+
+In normal operation, keep the ""START"" and ""HOUSE"" switches in the ON position, and the ""EMERG PARALLEL"" switch in the OFF position."
+249,"## ⚠️ Important Safety Warning
+
+**Do NOT install the anchor light while the boat is moving.** This is a dangerous activity that could lead to falls overboard, injuries, or accidents. The anchor light installation should be completed **before getting underway** or only when the boat is **stopped/stationary** in safe conditions.
+
+---
+
+## Proper Anchor Light Installation Procedure (210FSH DELUXE)
+
+According to the manual, here's the correct installation process:
+
+### Step 1: Access the Storage
+Open the lockable storage compartment where the anchor light is stored.
+
+![Manual09_161](data/manuals/raw/04_船_Boat/images/Manual09_161.jpg)
+
+### Step 2: Remove the Anchor Light
+Remove the anchor light from the anchor light holder.
+
+![Manual09_162](data/manuals/raw/04_船_Boat/images/Manual09_162.jpg)
+
+### Step 3: Disconnect Stoppers
+Slide anchor light stoppers A and B apart to disconnect them.
+
+### Step 4: Extend the Pole
+Extend the anchor light pole, then screw anchor light stopper A onto the center section of the pole.
+
+![Manual09_163](data/manuals/raw/04_船_Boat/images/Manual09_163.jpg)
+
+### Step 5: Install the Light
+Open the cap of the anchor light socket, fit the protrusion on the anchor light into the slot in the socket, and install the light into the socket.
+
+![Manual09_164](data/manuals/raw/04_船_Boat/images/Manual09_164.jpg)
+
+![Manual09_165](data/manuals/raw/04_船_Boat/images/Manual09_165.jpg)
+
+### Step 6: Secure Stopper B
+Fit anchor light stopper B into the anchor light socket.
+
+### Step 7: Turn On the Light
+Push the upper side of the navigation and anchor lights switch to activate the anchor light.
+
+![Manual09_223](data/manuals/raw/04_船_Boat/images/Manual09_223.jpg)
+
+---
+
+## Safety Recommendations
+
+| Situation | Recommended Action |
+|-----------|-------------------|
+| **Before departure** | Install anchor light during pre-operation checks |
+| **If light needed while underway** | Stop the boat in a safe location, then install |
+| **Emergency situation** | Reduce speed, ensure stability, have someone assist |
+
+**Additional Notice:** For 210FSH DELUXE models, do not open the engine hood while the anchor light is installed, as it could be damaged.
+
+---
+
+## Bottom Line
+
+Anchor light installation requires handling poles, opening compartments, and precise fitting—all activities that demand stability and focus. **Always complete this task before departure or when the boat is safely stopped.** Your safety is more important than saving a few minutes."
+250,"Based on the boat manual, here's how to use the jet wash function to clean your boat after use:
+
+## ⚠️ Important Safety Warnings
+
+- **The jet wash system must be used only by a passenger who is NOT operating the boat**
+- The boat operator must attach the engine shut-off cord (lanyard) to their PFD and constantly scan for people, objects, and other watercraft
+- Before using, ensure the shut-off valve is in the **open position**
+- For 210FSH DELUXE: Make sure the anchor light socket is closed before use
+
+## 📋 Steps to Use the Jet Wash
+
+### Before Starting:
+1. **Check the shut-off valve** - Ensure it's in the open position (turn 90° clockwise to open)
+   ![Manual09_180](data/manuals/raw/04_船_Boat/images/Manual09_180.jpg)
+
+### Operating Procedure:
+
+1. **Connect the coil hose** to the hose fitting
+   ![Manual09_172](data/manuals/raw/04_船_Boat/images/Manual09_172.jpg)
+   ![Manual09_173](data/manuals/raw/04_船_Boat/images/Manual09_173.jpg)
+
+2. **Start the engines**
+
+3. **Push the jet wash switch**
+   - Water supply will start 5 seconds after pushing the switch
+   - Push the switch to adjust water flow (3 levels available)
+   ![Manual09_174](data/manuals/raw/04_船_Boat/images/Manual09_174.jpg)
+   ![Manual09_175](data/manuals/raw/04_船_Boat/images/Manual09_175.jpg)
+
+4. **Move the jet wash handle lever** to discharge water
+   ![Manual09_177](data/manuals/raw/04_船_Boat/images/Manual09_177.jpg)
+
+## 🛑 To Stop Using the Jet Wash:
+
+1. Push the jet wash switch
+2. Stop the engines
+3. Push the collar on the hose fitting inward, then disconnect the coil hose
+   ![Manual09_178](data/manuals/raw/04_船_Boat/images/Manual09_178.jpg)
+
+## 💡 Additional Tips:
+
+- **For extended non-use**: Turn the shut-off valve to closed position
+- **For freezing temperatures**: Drain water from hoses to prevent freezing
+- **If you notice leaks**: Turn the shut-off valve to closed position immediately
+- Always scan constantly for obstacles while using the jet wash system
+
+The jet wash system display will show the current mode on your boat's screen:
+![Manual09_176](data/manuals/raw/04_船_Boat/images/Manual09_176.jpg)"

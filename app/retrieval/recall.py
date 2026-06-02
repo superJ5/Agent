@@ -8,6 +8,8 @@ from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any, Protocol, cast
 
+from app.retrieval.tier_policy import RECALL_INCLUDED_TIERS, is_recallable_tier
+
 if TYPE_CHECKING:
     from app.retrieval.schemas import (
         QueryAnalysis,
@@ -88,6 +90,29 @@ class BM25Provider(Protocol):
 _bm25_provider: BM25Provider | None = None
 
 
+def effective_recall_tiers(route_tiers: Sequence[str] | None) -> list[str]:
+    """Return the tiers allowed at a normal recall service boundary."""
+    if not route_tiers:
+        return list(RECALL_INCLUDED_TIERS)
+    tiers = [route_tiers] if isinstance(route_tiers, str) else list(route_tiers)
+    return list(
+        dict.fromkeys(
+            tier
+            for raw_tier in tiers
+            if (tier := str(raw_tier or "").strip()) and is_recallable_tier(tier)
+        )
+    )
+
+
+def filter_recallable_results(results: Sequence[SearchResult]) -> list[SearchResult]:
+    """Keep only results whose retrieval tier may participate in normal recall."""
+    return [
+        result
+        for result in results
+        if is_recallable_tier(_result_retrieval_tier(result))
+    ]
+
+
 def set_bm25_provider(provider: BM25Provider | None) -> None:
     """Install or clear the process-local BM25 provider."""
     global _bm25_provider
@@ -107,6 +132,10 @@ def recall_candidates(
     language = _analysis_language(analysis, query)
     trace["language"] = language
     trace["language_filter"] = language
+    trace["effective_recall_routes"] = _serialize_effective_recall_routes(
+        _primary_intent(analysis),
+        analysis,
+    )
     channel_filters = trace.setdefault("channel_filters", {})
 
     if getattr(options, "enable_vector_recall", True):
@@ -170,6 +199,9 @@ def vector_recall(
     results: list[SearchResult] = []
 
     for route in _recall_routes(intent, analysis):
+        retrieval_tiers = effective_recall_tiers(route["tiers"])
+        if not retrieval_tiers:
+            continue
         chunk_types = _resolve_chunk_types(route["chunk_families"], doc_id=route["doc_id"])
         for variant in _query_variants(query, intent, query_terms)[:3]:
             hits = service.search_similar_documents(
@@ -177,10 +209,11 @@ def vector_recall(
                 top_k=fetch_k,
                 doc_id=route["doc_id"],
                 language=language,
-                retrieval_tiers=list(route["tiers"]) if route["tiers"] else None,
+                retrieval_tiers=retrieval_tiers,
                 chunk_types=list(chunk_types) if chunk_types else None,
             )
-            results.extend(_filter_results_to_active_docs(hits, scoped_doc_id=route["doc_id"]))
+            active_hits = _filter_results_to_active_docs(hits, scoped_doc_id=route["doc_id"])
+            results.extend(filter_recallable_results(active_hits))
 
     reranked = _rerank_scan_results(
         deduplicate_results(results),
@@ -214,6 +247,9 @@ def bm25_recall(
     results: list[SearchResult] = []
 
     for route in _recall_routes(intent, analysis):
+        retrieval_tiers = effective_recall_tiers(route["tiers"])
+        if not retrieval_tiers:
+            continue
         chunk_types = _resolve_chunk_types(route["chunk_families"], doc_id=route["doc_id"])
         hits = _search_bm25_provider(
             provider,
@@ -221,10 +257,11 @@ def bm25_recall(
             top_k=fetch_k,
             doc_id=route["doc_id"],
             language=language,
-            retrieval_tiers=list(route["tiers"]) if route["tiers"] else None,
+            retrieval_tiers=retrieval_tiers,
             chunk_types=list(chunk_types) if chunk_types else None,
         )
-        results.extend(_filter_results_to_active_docs(hits, scoped_doc_id=route["doc_id"]))
+        active_hits = _filter_results_to_active_docs(hits, scoped_doc_id=route["doc_id"])
+        results.extend(filter_recallable_results(active_hits))
 
     return deduplicate_results(results)[:fetch_k]
 
@@ -268,6 +305,9 @@ def scan_recall(
     per_route_limit = max(limit // max(len(routes), 1), 1)
 
     for index, route in enumerate(routes):
+        retrieval_tiers = effective_recall_tiers(route["tiers"])
+        if not retrieval_tiers:
+            continue
         remaining_limit = limit - len(results)
         if remaining_limit <= 0:
             break
@@ -280,12 +320,12 @@ def scan_recall(
         hits = service.query_all_documents(
             doc_id=route["doc_id"],
             language=language,
-            retrieval_tiers=list(route["tiers"]) if route["tiers"] else None,
+            retrieval_tiers=retrieval_tiers,
             chunk_types=list(chunk_types) if chunk_types else None,
             batch_size=route_limit,
         )
         filtered = _filter_results_to_active_docs(hits, scoped_doc_id=route["doc_id"])
-        results.extend(filtered[:route_limit])
+        results.extend(filter_recallable_results(filtered)[:route_limit])
 
     reranked = _rerank_scan_results(
         deduplicate_results(results[:limit]),
@@ -326,7 +366,7 @@ def should_trigger_scan(
         threshold = 24.0 if intent in {"safety", "troubleshooting", "general"} else 20.0
         return lexical_score < threshold
 
-    return top_candidate.merged_score < 0.18
+    return bool(top_candidate.merged_score < 0.18)
 
 
 def merge_recall_results(
@@ -345,9 +385,18 @@ def merge_recall_results(
     trace["pre_merge"] = {
         channel: _serialize_results(results) for channel, results in channel_results
     }
+    trace["filtered_pre_merge"] = {}
+    trace["recall_filter"] = {}
     trace["normalized_scores"] = {}
 
-    for channel, results in channel_results:
+    for channel, raw_results in channel_results:
+        results = filter_recallable_results(raw_results)
+        trace["filtered_pre_merge"][channel] = _serialize_results(results)
+        trace["recall_filter"][channel] = {
+            "before": len(raw_results),
+            "after": len(results),
+            "dropped": max(len(raw_results) - len(results), 0),
+        }
         normalized_scores = normalize_channel_scores(results, channel)
         trace["normalized_scores"][channel] = list(normalized_scores)
         for result, score in zip(results, normalized_scores, strict=True):
@@ -431,6 +480,16 @@ def get_chunk_id(result: SearchResult) -> str:
     return str(chunk_id or "")
 
 
+def _result_retrieval_tier(result: SearchResult) -> str | None:
+    metadata = getattr(result, "metadata", None)
+    if isinstance(metadata, dict):
+        tier = metadata.get("retrieval_tier")
+        if tier is not None:
+            return str(tier)
+    tier = getattr(result, "retrieval_tier", None)
+    return str(tier) if tier is not None else None
+
+
 def deduplicate_results(results: Iterable[SearchResult]) -> list[SearchResult]:
     """Deduplicate search results by chunk id while preserving first-seen order."""
     deduped: list[SearchResult] = []
@@ -509,6 +568,32 @@ def _dedupe_routes(routes: Sequence[dict[str, Any]]) -> list[dict[str, Any]]:
         seen.add(key)
         deduped.append(route)
     return deduped
+
+
+def _serialize_effective_recall_routes(
+    intent: str,
+    analysis: QueryAnalysis,
+) -> list[dict[str, Any]]:
+    routes = _recall_routes(intent, analysis)
+    return [
+        {
+            "doc_id": route.get("doc_id"),
+            "route_tiers": _serialize_route_tiers(route.get("tiers")),
+            "effective_recall_tiers": effective_recall_tiers(route.get("tiers")),
+            "chunk_families": list(route.get("chunk_families") or ()),
+        }
+        for route in routes
+    ]
+
+
+def _serialize_route_tiers(route_tiers: object) -> list[str] | None:
+    if route_tiers is None:
+        return None
+    if isinstance(route_tiers, str):
+        return [route_tiers]
+    if isinstance(route_tiers, Sequence):
+        return [str(tier) for tier in route_tiers]
+    return [str(route_tiers)]
 
 
 def _all_intents(analysis: QueryAnalysis) -> list[str]:
@@ -610,7 +695,11 @@ def _query_variants(query: str, intent: str, query_terms: Sequence[str]) -> list
     try:
         from app.tools.knowledge_tool import expand_queries
 
-        return expand_queries(query, intent, query_terms)
+        return [
+            str(variant)
+            for variant in expand_queries(query, intent, query_terms)
+            if str(variant or "").strip()
+        ]
     except Exception:
         variants = [query.strip()]
         if query_terms:
@@ -625,7 +714,10 @@ def _resolve_chunk_types(
     try:
         from app.tools.knowledge_tool import resolve_chunk_types
 
-        return resolve_chunk_types(chunk_families, doc_id=doc_id)
+        resolved = resolve_chunk_types(chunk_families, doc_id=doc_id)
+        if not resolved:
+            return None
+        return list(dict.fromkeys(str(item) for item in resolved if item))
     except Exception:
         if not chunk_families:
             return None
@@ -639,7 +731,7 @@ def _filter_results_to_active_docs(
     try:
         from app.tools.knowledge_tool import filter_results_to_active_docs
 
-        return filter_results_to_active_docs(results, scoped_doc_id=scoped_doc_id)
+        return list(filter_results_to_active_docs(results, scoped_doc_id=scoped_doc_id))
     except Exception:
         return list(results)
 
@@ -662,7 +754,7 @@ def _rerank_scan_results(
             intent=intent,
             prefer_support=prefer_support,
         )
-        return post_filter_results(reranked, intent=intent, query_terms=query_terms)
+        return list(post_filter_results(reranked, intent=intent, query_terms=query_terms))
     except Exception:
         scored = [
             (_simple_lexical_score(result, query=query, query_terms=query_terms), result)

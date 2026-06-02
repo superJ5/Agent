@@ -26,7 +26,7 @@ class Result:
         self.id = id
         self.score = score
         self.content = content
-        self.metadata = metadata or {}
+        self.metadata = {"retrieval_tier": "primary", **(metadata or {})}
 
 
 class FakeVectorSearchService:
@@ -156,6 +156,30 @@ def test_normalize_channel_scores_handles_vector_cosine_and_scan_rank():
     assert scan_scores == [1.0, 2 / 3, 1 / 3]
 
 
+def test_effective_recall_tiers_defaults_and_filters_without_mutating_route():
+    route_tiers = ("primary", "big_support", "support", "auxiliary")
+
+    assert recall.effective_recall_tiers(None) == ["primary", "support"]
+    assert recall.effective_recall_tiers(()) == ["primary", "support"]
+    assert recall.effective_recall_tiers(route_tiers) == ["primary", "support"]
+    assert recall.effective_recall_tiers(("auxiliary", "big_support")) == []
+    assert route_tiers == ("primary", "big_support", "support", "auxiliary")
+
+
+def test_filter_recallable_results_keeps_only_primary_and_support_in_order():
+    primary = Result("primary", metadata={"chunk_id": "primary", "retrieval_tier": "primary"})
+    big_support = Result(
+        "big",
+        metadata={"chunk_id": "big", "retrieval_tier": "big_support"},
+    )
+    support = Result("support", metadata={"chunk_id": "support", "retrieval_tier": "support"})
+    auxiliary = Result("aux", metadata={"chunk_id": "aux", "retrieval_tier": "auxiliary"})
+
+    filtered = recall.filter_recallable_results([primary, big_support, support, auxiliary])
+
+    assert [result.metadata["chunk_id"] for result in filtered] == ["primary", "support"]
+
+
 def test_merge_recall_results_deduplicates_by_chunk_and_merges_channels():
     diagnostics = Diagnostics()
     options = make_options()
@@ -175,6 +199,35 @@ def test_merge_recall_results_deduplicates_by_chunk_and_merges_channels():
     assert shared.merged_score > 0
     assert diagnostics.trace["recall"]["pre_merge"]["vector"][0]["chunk_id"] == "shared"
     assert diagnostics.trace["recall"]["post_merge"]
+
+
+def test_merge_recall_results_filters_big_support_stub_results():
+    diagnostics = Diagnostics()
+    options = make_options()
+    primary = Result("primary", 0.9, metadata={"chunk_id": "primary", "retrieval_tier": "primary"})
+    big_support = Result(
+        "big",
+        1.0,
+        metadata={"chunk_id": "big", "retrieval_tier": "big_support"},
+    )
+    support = Result("support", 0.2, metadata={"chunk_id": "support", "retrieval_tier": "support"})
+
+    merged = recall.merge_recall_results(
+        [("vector", [primary, big_support, support])],
+        options,
+        diagnostics,
+    )
+
+    assert [candidate.chunk_id for candidate in merged] == ["primary", "support"]
+    assert diagnostics.trace["recall"]["recall_filter"]["vector"] == {
+        "before": 3,
+        "after": 2,
+        "dropped": 1,
+    }
+    assert [hit["chunk_id"] for hit in diagnostics.trace["recall"]["filtered_pre_merge"]["vector"]] == [
+        "primary",
+        "support",
+    ]
 
 
 def test_recall_candidates_supports_bm25_only_channel(monkeypatch):
@@ -288,6 +341,73 @@ def test_vector_recall_does_not_use_low_confidence_doc_as_only_filter(monkeypatc
     assert [call["doc_id"] for call in fake_service.search_calls] == [None]
 
 
+def test_vector_recall_uses_default_effective_tiers_when_route_tiers_is_none(monkeypatch):
+    patch_lightweight_helpers(monkeypatch)
+    route = {"tiers": None, "chunk_families": ("component",)}
+    fake_service = FakeVectorSearchService()
+    monkeypatch.setattr(recall, "vector_search_service", fake_service)
+    monkeypatch.setattr(recall, "_route_for_intent", lambda intent: route)
+
+    recall.vector_recall(
+        "battery",
+        make_analysis(terms=["battery"]),
+        make_options(reranker_top_n=8),
+    )
+
+    assert route["tiers"] is None
+    assert [call["retrieval_tiers"] for call in fake_service.search_calls] == [
+        ["primary", "support"]
+    ]
+
+
+def test_vector_recall_filters_big_support_from_calls_and_results(monkeypatch):
+    patch_lightweight_helpers(monkeypatch)
+    fake_service = FakeVectorSearchService()
+    monkeypatch.setattr(recall, "vector_search_service", fake_service)
+    monkeypatch.setattr(
+        recall,
+        "_route_for_intent",
+        lambda intent: {
+            "tiers": ("primary", "big_support", "support", "auxiliary"),
+            "chunk_families": ("component",),
+        },
+    )
+
+    def search_similar_documents(**kwargs):
+        fake_service.search_calls.append(kwargs)
+        return [
+            Result("primary", 0.4, metadata={"chunk_id": "primary"}),
+            Result(
+                "big",
+                0.9,
+                metadata={"chunk_id": "big", "retrieval_tier": "big_support"},
+            ),
+            Result(
+                "support",
+                0.3,
+                metadata={"chunk_id": "support", "retrieval_tier": "support"},
+            ),
+            Result(
+                "aux",
+                0.8,
+                metadata={"chunk_id": "aux", "retrieval_tier": "auxiliary"},
+            ),
+        ]
+
+    monkeypatch.setattr(fake_service, "search_similar_documents", search_similar_documents)
+
+    results = recall.vector_recall(
+        "battery",
+        make_analysis(terms=["battery"]),
+        make_options(reranker_top_n=8),
+    )
+
+    assert [call["retrieval_tiers"] for call in fake_service.search_calls] == [
+        ["primary", "support"]
+    ]
+    assert [result.metadata["chunk_id"] for result in results] == ["primary", "support"]
+
+
 def test_bm25_unavailable_degrades_to_empty_with_warning():
     recall.set_bm25_provider(None)
     diagnostics = Diagnostics()
@@ -340,6 +460,56 @@ def test_bm25_recall_detects_language_when_analysis_has_no_language(monkeypatch)
         recall.set_bm25_provider(None)
 
     assert [call["language"] for call in provider.calls] == ["zh"]
+
+
+def test_bm25_recall_filters_big_support_from_calls_and_results(monkeypatch):
+    patch_lightweight_helpers(monkeypatch)
+    provider = FakeBM25Provider()
+    monkeypatch.setattr(
+        provider,
+        "search",
+        lambda query, **kwargs: provider.calls.append({"query": query, **kwargs})
+        or [
+            Result("primary", 12.0, metadata={"chunk_id": "primary"}),
+            Result(
+                "big",
+                14.0,
+                metadata={"chunk_id": "big", "retrieval_tier": "big_support"},
+            ),
+            Result(
+                "support",
+                8.0,
+                metadata={"chunk_id": "support", "retrieval_tier": "support"},
+            ),
+            Result(
+                "aux",
+                7.0,
+                metadata={"chunk_id": "aux", "retrieval_tier": "auxiliary"},
+            ),
+        ],
+    )
+    monkeypatch.setattr(
+        recall,
+        "_route_for_intent",
+        lambda intent: {
+            "tiers": ("primary", "big_support", "support", "auxiliary"),
+            "chunk_families": ("component",),
+        },
+    )
+    recall.set_bm25_provider(provider)
+
+    try:
+        results = recall.bm25_recall(
+            "battery",
+            make_analysis(terms=["battery"]),
+            make_options(enable_bm25_recall=True),
+            Diagnostics(),
+        )
+    finally:
+        recall.set_bm25_provider(None)
+
+    assert [call["retrieval_tiers"] for call in provider.calls] == [["primary", "support"]]
+    assert [result.metadata["chunk_id"] for result in results] == ["primary", "support"]
 
 
 def test_scan_recall_preserves_unscoped_safety_path_for_high_confidence_doc(monkeypatch):
@@ -395,6 +565,54 @@ def test_scan_recall_passes_chinese_language_filter(monkeypatch):
     )
 
     assert [call["language"] for call in fake_service.scan_calls] == ["zh", "zh"]
+
+
+def test_scan_recall_filters_big_support_from_calls_and_results(monkeypatch):
+    patch_lightweight_helpers(monkeypatch)
+    fake_service = FakeVectorSearchService()
+    monkeypatch.setattr(recall, "vector_search_service", fake_service)
+    monkeypatch.setattr(
+        recall,
+        "_route_for_intent",
+        lambda intent: {
+            "tiers": ("primary", "big_support", "support", "auxiliary"),
+            "chunk_families": ("component",),
+        },
+    )
+
+    def query_all_documents(**kwargs):
+        fake_service.scan_calls.append(kwargs)
+        return [
+            Result("primary", 0.0, metadata={"chunk_id": "primary"}),
+            Result(
+                "big",
+                0.0,
+                metadata={"chunk_id": "big", "retrieval_tier": "big_support"},
+            ),
+            Result(
+                "support",
+                0.0,
+                metadata={"chunk_id": "support", "retrieval_tier": "support"},
+            ),
+            Result(
+                "aux",
+                0.0,
+                metadata={"chunk_id": "aux", "retrieval_tier": "auxiliary"},
+            ),
+        ]
+
+    monkeypatch.setattr(fake_service, "query_all_documents", query_all_documents)
+
+    results = recall.scan_recall(
+        "battery",
+        make_analysis(terms=["battery"]),
+        make_options(scan_candidate_limit=4, reranker_top_n=8),
+    )
+
+    assert [call["retrieval_tiers"] for call in fake_service.scan_calls] == [
+        ["primary", "support"]
+    ]
+    assert [result.metadata["chunk_id"] for result in results] == ["primary", "support"]
 
 
 def test_empty_recall_triggers_scan_and_respects_scan_limit(monkeypatch):
