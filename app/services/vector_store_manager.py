@@ -26,6 +26,8 @@ MAX_EMBEDDING_INPUT_CHARS = 8192
 MAX_CONTENT_BYTES = 8000
 MAX_METADATA_BYTES = 60000
 EMBEDDING_LIMIT_REPORT_PATH = Path("logs/embedding_input_limit_report.jsonl")
+SKIPPED_CHUNK_REPORT_PATH = Path("logs/index_skipped_chunks_report.jsonl")
+PreparedVectorRow = tuple[str, Document, dict[str, Any]]
 
 
 class VectorStoreManager:
@@ -36,6 +38,8 @@ class VectorStoreManager:
         self.collection_name = COLLECTION_NAME
         self.embedding_limit_report_path = EMBEDDING_LIMIT_REPORT_PATH
         self.embedding_limit_report_count = 0
+        self.skipped_chunk_report_path = SKIPPED_CHUNK_REPORT_PATH
+        self.skipped_chunk_report_count = 0
         self._initialize_vector_store()
 
     def _initialize_vector_store(self) -> None:
@@ -79,27 +83,50 @@ class VectorStoreManager:
             start_time = time.time()
             collection = milvus_manager.get_collection()
             ids = [self._build_document_id(document) for document in documents]
-            rows = []
+            inserted_ids: list[str] = []
+
             for batch_start in range(0, len(documents), EMBEDDING_BATCH_SIZE):
                 batch_documents = documents[batch_start : batch_start + EMBEDDING_BATCH_SIZE]
                 batch_ids = ids[batch_start : batch_start + EMBEDDING_BATCH_SIZE]
-                raw_embedding_inputs = [
-                    self._get_raw_embedding_text(document) for document in batch_documents
-                ]
-                embeddings, embedding_inputs = self._embed_documents_with_limit_report(
-                    batch_documents,
-                    raw_embedding_inputs,
-                )
+                prepared_rows = self._prepare_rows_for_batch(batch_ids, batch_documents)
+                inserted_ids.extend(self._insert_rows_with_retry(collection, prepared_rows))
 
-                for doc_id, document, embedding, embedding_text in zip(
-                    batch_ids,
-                    batch_documents,
-                    embeddings,
-                    embedding_inputs,
-                    strict=True,
-                ):
-                    stored_content = self._truncate_varchar_bytes(document.page_content)
-                    rows.append(
+            if inserted_ids:
+                collection.flush()
+            elapsed = time.time() - start_time
+            logger.info(
+                "Added {} documents to VectorStore in {:.2f}s; skipped {} chunk(s)",
+                len(inserted_ids),
+                elapsed,
+                len(documents) - len(inserted_ids),
+            )
+            return inserted_ids
+        except Exception as exc:
+            logger.error(f"Failed to add documents: {exc}")
+            raise
+
+    def _prepare_rows_for_batch(
+        self,
+        batch_ids: list[str],
+        batch_documents: list[Document],
+    ) -> list[PreparedVectorRow]:
+        raw_embedding_inputs = [
+            self._get_raw_embedding_text(document) for document in batch_documents
+        ]
+        embedded_documents = self._embed_batch_documents_for_indexing(
+            batch_ids,
+            batch_documents,
+            raw_embedding_inputs,
+        )
+
+        prepared_rows: list[PreparedVectorRow] = []
+        for doc_id, document, embedding, embedding_text in embedded_documents:
+            try:
+                stored_content = self._truncate_varchar_bytes(document.page_content)
+                prepared_rows.append(
+                    (
+                        doc_id,
+                        document,
                         {
                             "id": doc_id,
                             "vector": embedding,
@@ -109,21 +136,147 @@ class VectorStoreManager:
                                 stored_content=stored_content,
                                 embedding_text=embedding_text,
                             ),
-                        }
+                        },
                     )
+                )
+            except Exception as exc:
+                self._record_skipped_chunk(
+                    document,
+                    stage="metadata_prepare",
+                    error=str(exc),
+                    retry_attempted=False,
+                    vector_id=doc_id,
+                )
 
-            _ = collection.insert(rows)
-            collection.flush()
-            elapsed = time.time() - start_time
-            logger.info(
-                "Added {} documents to VectorStore in {:.2f}s",
-                len(documents),
-                elapsed,
+        return prepared_rows
+
+    def _embed_batch_documents_for_indexing(
+        self,
+        batch_ids: list[str],
+        batch_documents: list[Document],
+        raw_embedding_inputs: list[str],
+    ) -> list[tuple[str, Document, list[float], str]]:
+        batch_error: str | None = None
+        try:
+            embeddings = vector_embedding_service.embed_documents(raw_embedding_inputs)
+            if len(embeddings) != len(batch_documents):
+                raise RuntimeError(
+                    "Embedding service returned "
+                    f"{len(embeddings)} vectors for {len(batch_documents)} chunks"
+                )
+            return [
+                (doc_id, document, embedding, raw_text)
+                for doc_id, document, embedding, raw_text in zip(
+                    batch_ids,
+                    batch_documents,
+                    embeddings,
+                    raw_embedding_inputs,
+                    strict=True,
+                )
+            ]
+        except Exception as batch_exc:
+            batch_error = str(batch_exc)
+            logger.warning(
+                "Batch embedding failed for {} chunk(s); retrying individually: {}",
+                len(batch_documents),
+                batch_error,
             )
-            return ids
-        except Exception as exc:
-            logger.error(f"Failed to add documents: {exc}")
-            raise
+
+        embedded_documents: list[tuple[str, Document, list[float], str]] = []
+        for doc_id, document, raw_text in zip(
+            batch_ids,
+            batch_documents,
+            raw_embedding_inputs,
+            strict=True,
+        ):
+            embedded = self._embed_single_document_with_retry(
+                document,
+                raw_text,
+                batch_error=batch_error,
+                vector_id=doc_id,
+            )
+            if embedded is None:
+                continue
+            embedding, embedding_text = embedded
+            embedded_documents.append((doc_id, document, embedding, embedding_text))
+
+        return embedded_documents
+
+    def _embed_single_document_with_retry(
+        self,
+        document: Document,
+        raw_text: str,
+        *,
+        batch_error: str | None = None,
+        vector_id: str | None = None,
+    ) -> tuple[list[float], str] | None:
+        first_error = ""
+        try:
+            return vector_embedding_service.embed_documents([raw_text])[0], raw_text
+        except Exception as first_exc:
+            first_error = str(first_exc)
+            fallback_text = self._truncate_embedding_text(raw_text)
+            if self._is_embedding_input_limit_error(first_exc):
+                self._record_embedding_limit_hit(
+                    document,
+                    original_text=raw_text,
+                    fallback_text=fallback_text,
+                    provider_error=first_error,
+                )
+
+        try:
+            return vector_embedding_service.embed_documents([fallback_text])[0], fallback_text
+        except Exception as retry_exc:
+            self._record_skipped_chunk(
+                document,
+                stage="embedding",
+                error=str(retry_exc),
+                retry_attempted=True,
+                first_error=first_error,
+                batch_error=batch_error,
+                vector_id=vector_id,
+                original_embedding_chars=len(raw_text),
+                fallback_embedding_chars=len(fallback_text),
+            )
+            return None
+
+    def _insert_rows_with_retry(
+        self,
+        collection: Any,
+        prepared_rows: list[PreparedVectorRow],
+    ) -> list[str]:
+        if not prepared_rows:
+            return []
+
+        batch_error = ""
+        try:
+            _ = collection.insert([row for _, _, row in prepared_rows])
+            return [doc_id for doc_id, _, _ in prepared_rows]
+        except Exception as batch_exc:
+            batch_error = str(batch_exc)
+            logger.warning(
+                "Batch insert failed for {} chunk(s); retrying individually: {}",
+                len(prepared_rows),
+                batch_error,
+            )
+
+        inserted_ids: list[str] = []
+        for doc_id, document, row in prepared_rows:
+            try:
+                _ = collection.insert([row])
+                inserted_ids.append(doc_id)
+            except Exception as retry_exc:
+                self._record_skipped_chunk(
+                    document,
+                    stage="milvus_insert",
+                    error=str(retry_exc),
+                    retry_attempted=True,
+                    first_error=batch_error,
+                    vector_id=doc_id,
+                    metadata_size_bytes=self._metadata_size_bytes(row.get("metadata") or {}),
+                )
+
+        return inserted_ids
 
     @staticmethod
     def _build_document_id(document: Document) -> str:
@@ -334,6 +487,45 @@ class VectorStoreManager:
             ),
         }
 
+    def reset_skipped_chunk_report(
+        self,
+        path: str | Path | None = None,
+    ) -> None:
+        """Start a fresh report for chunks skipped after per-chunk retry failed."""
+        self.skipped_chunk_report_path = Path(path or SKIPPED_CHUNK_REPORT_PATH)
+        self.skipped_chunk_report_count = 0
+        try:
+            self.skipped_chunk_report_path.parent.mkdir(parents=True, exist_ok=True)
+            if self.skipped_chunk_report_path.exists():
+                self.skipped_chunk_report_path.unlink()
+        except OSError as exc:
+            logger.warning("Failed to reset skipped chunk report: {}", exc)
+
+    def append_skipped_chunk_report(
+        self,
+        path: str | Path | None = None,
+    ) -> None:
+        """Use an existing skipped chunk report without clearing it."""
+        self.skipped_chunk_report_path = Path(path or SKIPPED_CHUNK_REPORT_PATH)
+        try:
+            self.skipped_chunk_report_path.parent.mkdir(parents=True, exist_ok=True)
+        except OSError as exc:
+            logger.warning("Failed to prepare skipped chunk report: {}", exc)
+        self.skipped_chunk_report_count = self._count_report_entries(
+            self.skipped_chunk_report_path,
+        )
+
+    def skipped_chunk_report_summary(self) -> dict[str, Any]:
+        """Return the skip report location and skipped chunk count."""
+        return {
+            "path": self.skipped_chunk_report_path.as_posix(),
+            "count": self.skipped_chunk_report_count,
+            "count_note": (
+                "Count is the number of chunks skipped after per-chunk retry failed. "
+                "In append mode it includes entries from earlier script invocations."
+            ),
+        }
+
     def _record_embedding_limit_hit(
         self,
         document: Document,
@@ -375,6 +567,58 @@ class VectorStoreManager:
             self.embedding_limit_report_count += 1
         except OSError as exc:
             logger.warning("Failed to write embedding input limit report: {}", exc)
+
+    def _record_skipped_chunk(
+        self,
+        document: Document,
+        *,
+        stage: str,
+        error: str,
+        retry_attempted: bool,
+        first_error: str | None = None,
+        batch_error: str | None = None,
+        vector_id: str | None = None,
+        **extra: Any,
+    ) -> None:
+        metadata = document.metadata or {}
+        entry = {
+            "generated_at": datetime.now(UTC).isoformat(),
+            "skip_kind": "single_chunk_indexing_failed_after_retry",
+            "stage": stage,
+            "retry_attempted": retry_attempted,
+            "error": error,
+            "first_error": first_error,
+            "batch_error": batch_error,
+            "vector_id": vector_id,
+            "doc_id": metadata.get("doc_id"),
+            "doc_name": metadata.get("doc_name"),
+            "chunk_id": metadata.get("chunk_id"),
+            "retrieval_tier": metadata.get("retrieval_tier"),
+            "chunk_type": metadata.get("chunk_type"),
+            "title": metadata.get("title") or metadata.get("section_title"),
+            "section_path": metadata.get("section_path") or [],
+            "section_depth": len(metadata.get("section_path") or []),
+            "hierarchy": " > ".join(str(part) for part in metadata.get("section_path") or []),
+            "parent_chunk_id": metadata.get("parent_chunk_id"),
+            "source_file": metadata.get("source_file") or metadata.get("_source"),
+            "source_lines": metadata.get("source_lines"),
+            **extra,
+        }
+        logger.warning(
+            "Skipped chunk after retry: chunk_id={}, retrieval_tier={}, stage={}, error={}",
+            entry.get("chunk_id"),
+            entry.get("retrieval_tier"),
+            stage,
+            error,
+        )
+        try:
+            self.skipped_chunk_report_path.parent.mkdir(parents=True, exist_ok=True)
+            with self.skipped_chunk_report_path.open("a", encoding="utf-8") as handle:
+                handle.write(json.dumps(entry, ensure_ascii=False, default=str))
+                handle.write("\n")
+            self.skipped_chunk_report_count += 1
+        except OSError as exc:
+            logger.warning("Failed to write skipped chunk report: {}", exc)
 
     @staticmethod
     def _normalize_filter_values(
