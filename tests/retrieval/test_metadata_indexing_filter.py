@@ -389,6 +389,157 @@ def test_vector_store_compacts_large_text_fields_before_metadata_insert(monkeypa
     )
 
 
+def test_add_documents_skips_single_chunk_when_embedding_retry_fails(monkeypatch, tmp_path):
+    install_vector_store_dependencies(monkeypatch)
+    module = load_module(
+        monkeypatch,
+        "vector_store_manager_under_test_embedding_skip",
+        "app/services/vector_store_manager.py",
+    )
+
+    class FakeEmbeddingService:
+        def embed_documents(self, texts: list[str]):
+            if any("bad embedding input" in text for text in texts):
+                raise RuntimeError("embedding failed")
+            return [[float(len(text))] for text in texts]
+
+    class FakeCollection:
+        def __init__(self) -> None:
+            self.inserted: list[dict[str, object]] = []
+            self.flushed = False
+
+        def insert(self, rows: list[dict[str, object]]):
+            self.inserted.extend(rows)
+
+        def flush(self):
+            self.flushed = True
+
+    collection = FakeCollection()
+    monkeypatch.setattr(module, "vector_embedding_service", FakeEmbeddingService())
+    monkeypatch.setattr(
+        module,
+        "milvus_manager",
+        SimpleNamespace(connect=lambda: object(), get_collection=lambda: collection),
+    )
+    manager = module.VectorStoreManager()
+    report_path = tmp_path / "skipped_chunks.jsonl"
+    manager.reset_skipped_chunk_report(report_path)
+
+    inserted_ids = manager.add_documents(
+        [
+            DocumentStub(
+                "good content",
+                {
+                    "doc_id": "manual-en",
+                    "chunk_id": "chunk-good",
+                    "retrieval_tier": "primary",
+                    "chunk_type": "text",
+                    "section_path": ["Manual", "Good"],
+                    "index_text": "good embedding input",
+                },
+            ),
+            DocumentStub(
+                "bad content",
+                {
+                    "doc_id": "manual-en",
+                    "chunk_id": "chunk-bad",
+                    "retrieval_tier": "primary",
+                    "chunk_type": "text",
+                    "section_path": ["Manual", "Bad"],
+                    "index_text": "bad embedding input",
+                },
+            ),
+        ]
+    )
+
+    assert inserted_ids == ["chunk-good"]
+    assert [row["id"] for row in collection.inserted] == ["chunk-good"]
+    assert collection.flushed is True
+    assert manager.skipped_chunk_report_summary()["count"] == 1
+    entry = json.loads(report_path.read_text(encoding="utf-8"))
+    assert entry["chunk_id"] == "chunk-bad"
+    assert entry["retrieval_tier"] == "primary"
+    assert entry["stage"] == "embedding"
+    assert entry["retry_attempted"] is True
+
+
+def test_add_documents_retries_insert_and_skips_only_bad_row(monkeypatch, tmp_path):
+    install_vector_store_dependencies(monkeypatch)
+    module = load_module(
+        monkeypatch,
+        "vector_store_manager_under_test_insert_skip",
+        "app/services/vector_store_manager.py",
+    )
+
+    class FakeEmbeddingService:
+        def embed_documents(self, texts: list[str]):
+            return [[float(len(text))] for text in texts]
+
+    class FakeCollection:
+        def __init__(self) -> None:
+            self.inserted: list[dict[str, object]] = []
+            self.flushed = False
+
+        def insert(self, rows: list[dict[str, object]]):
+            if len(rows) > 1:
+                raise RuntimeError("batch insert failed")
+            if rows[0]["id"] == "chunk-bad":
+                raise RuntimeError("metadata length exceeds max length")
+            self.inserted.extend(rows)
+
+        def flush(self):
+            self.flushed = True
+
+    collection = FakeCollection()
+    monkeypatch.setattr(module, "vector_embedding_service", FakeEmbeddingService())
+    monkeypatch.setattr(
+        module,
+        "milvus_manager",
+        SimpleNamespace(connect=lambda: object(), get_collection=lambda: collection),
+    )
+    manager = module.VectorStoreManager()
+    report_path = tmp_path / "skipped_chunks.jsonl"
+    manager.reset_skipped_chunk_report(report_path)
+
+    inserted_ids = manager.add_documents(
+        [
+            DocumentStub(
+                "good content",
+                {
+                    "doc_id": "manual-en",
+                    "chunk_id": "chunk-good",
+                    "retrieval_tier": "primary",
+                    "chunk_type": "text",
+                    "section_path": ["Manual", "Good"],
+                    "index_text": "good embedding input",
+                },
+            ),
+            DocumentStub(
+                "bad content",
+                {
+                    "doc_id": "manual-en",
+                    "chunk_id": "chunk-bad",
+                    "retrieval_tier": "auxiliary",
+                    "chunk_type": "aux_navigation",
+                    "section_path": ["Manual", "Bad"],
+                    "index_text": "bad embedding input",
+                },
+            ),
+        ]
+    )
+
+    assert inserted_ids == ["chunk-good"]
+    assert [row["id"] for row in collection.inserted] == ["chunk-good"]
+    assert collection.flushed is True
+    assert manager.skipped_chunk_report_summary()["count"] == 1
+    entry = json.loads(report_path.read_text(encoding="utf-8"))
+    assert entry["chunk_id"] == "chunk-bad"
+    assert entry["retrieval_tier"] == "auxiliary"
+    assert entry["stage"] == "milvus_insert"
+    assert entry["retry_attempted"] is True
+    assert "metadata length exceeds max length" in entry["error"]
+
+
 def test_vector_search_methods_pass_language_to_filter_builder(monkeypatch):
     class FakeStoreManager:
         def __init__(self) -> None:
@@ -486,3 +637,66 @@ def test_chunk_documents_include_language_metadata_for_structured_and_legacy_rec
     )
 
     assert [document.metadata["language"] for document in documents] == ["en", "zh"]
+
+
+def test_index_script_builds_final_error_summary(monkeypatch, tmp_path):
+    install_module(monkeypatch, "app")
+    install_module(monkeypatch, "app.services")
+    install_module(
+        monkeypatch,
+        "app.services.vector_index_service",
+        vector_index_service=object(),
+    )
+    install_module(
+        monkeypatch,
+        "app.services.vector_store_manager",
+        vector_store_manager=object(),
+    )
+    module = load_module(
+        monkeypatch,
+        "index_manual_chunks_under_test_summary",
+        "scripts/index_manual_chunks.py",
+    )
+    skipped_report = tmp_path / "skipped.jsonl"
+    skipped_report.write_text(
+        json.dumps(
+            {
+                "doc_id": "manual-en",
+                "chunk_id": "chunk-bad",
+                "retrieval_tier": "primary",
+                "stage": "embedding",
+                "error": "retry failed",
+            },
+            ensure_ascii=False,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    embedding_report = tmp_path / "embedding.jsonl"
+    embedding_report.write_text(
+        json.dumps(
+            {
+                "doc_id": "manual-en",
+                "chunk_id": "chunk-long",
+                "retrieval_tier": "auxiliary",
+                "limit_kind": "provider_8192_token_limit_rejected_raw_input",
+            },
+            ensure_ascii=False,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    summary = module.build_final_error_summary(
+        failed_files={"bad-file.jsonl": "whole file failed"},
+        skipped_chunk_report=skipped_report,
+        embedding_limit_report=embedding_report,
+    )
+
+    assert summary["has_errors"] is True
+    assert summary["file_error_count"] == 1
+    assert summary["single_chunk_error_count"] == 1
+    assert summary["embedding_limit_fallback_count"] == 1
+    assert summary["file_errors"][0]["file"] == "bad-file.jsonl"
+    assert summary["single_chunk_errors"][0]["chunk_id"] == "chunk-bad"
+    assert summary["embedding_limit_fallbacks"][0]["chunk_id"] == "chunk-long"
