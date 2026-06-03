@@ -345,8 +345,20 @@ async def cmd_test(args):
     if not _ensure_server_running(api_url):
         sys.exit(1)
 
-    test_cases = _load_test_cases(input_csv)
+    test_cases = _load_test_cases(
+        input_csv,
+        start_id=args.start_id,
+        end_id=args.end_id,
+        limit=args.limit,
+    )
     print(f"\n📋 共加载 {len(test_cases)} 条测试问题")
+    if args.start_id is not None or args.end_id is not None or args.limit is not None:
+        print(
+            "🔎 题目范围: "
+            f"start_id={args.start_id if args.start_id is not None else '不限'}, "
+            f"end_id={args.end_id if args.end_id is not None else '不限'}, "
+            f"limit={args.limit if args.limit is not None else '不限'}"
+        )
     print(f"🔗 API: {api_url}")
     print(f"⚡ 并发: {max_workers}")
     print(f"⏱️  超时: {timeout}s")
@@ -382,7 +394,13 @@ async def cmd_test(args):
     print(f"   可上传至比赛评分系统")
 
 
-def _load_test_cases(csv_path: Path) -> list[dict]:
+def _load_test_cases(
+    csv_path: Path,
+    *,
+    start_id: int | None = None,
+    end_id: int | None = None,
+    limit: int | None = None,
+) -> list[dict]:
     """
     从 CSV 加载测试问题。
 
@@ -423,6 +441,13 @@ def _load_test_cases(csv_path: Path) -> list[dict]:
             except ValueError:
                 print(f"⚠️   第 {row_num} 行 id 非法 ('{raw_id}')，跳过")
                 continue
+
+            if start_id is not None and question_id < start_id:
+                continue
+            if end_id is not None and question_id > end_id:
+                continue
+            if limit is not None and len(test_cases) >= limit:
+                break
 
             # 解析问题文本
             question = row.get("question", "").strip()
@@ -873,8 +898,20 @@ def main():
     parser.add_argument("--token", default="", help="Bearer Token（默认）")
     parser.add_argument("--workers", type=int, default=1, help="并发数（默认: 1；可改 2/4/8 加速，但过大容易超时）")
     parser.add_argument("--timeout", type=int, default=30, help="单题超时秒数（默认: 30）")
+    parser.add_argument("--start-id", type=int, default=None, help="从指定题目 id 开始读取（包含该 id）")
+    parser.add_argument("--end-id", type=int, default=None, help="读取到指定题目 id 结束（包含该 id）")
+    parser.add_argument("--limit", type=int, default=None, help="最多读取多少条题目")
 
     args = parser.parse_args()
+
+    if args.start_id is not None and args.start_id < 1:
+        parser.error("--start-id 必须大于等于 1")
+    if args.end_id is not None and args.end_id < 1:
+        parser.error("--end-id 必须大于等于 1")
+    if args.limit is not None and args.limit < 1:
+        parser.error("--limit 必须大于等于 1")
+    if args.start_id is not None and args.end_id is not None and args.start_id > args.end_id:
+        parser.error("--start-id 不能大于 --end-id")
 
     # 确定操作模式
     mode = None

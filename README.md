@@ -220,6 +220,14 @@ index_type: HNSW
   --output data/submission.csv \
   --workers 1
 
+# 从指定题目开始跑，或只跑一段题目
+.venv/bin/python scripts/competition_eval.py --test \
+  --input data/question_public.csv \
+  --output data/submission_from_50.csv \
+  --start-id 50 \
+  --end-id 100 \
+  --workers 1
+
 # 确保 FastAPI/MCP 服务启动后再跑测试
 # 注意：不会启动 Milvus 容器，也不会重新入库
 .venv/bin/python scripts/competition_eval.py --run \
@@ -239,6 +247,38 @@ index_type: HNSW
 --run       确保服务启动后跑评测，不启动 Milvus 容器，不入库。
 --pipeline  执行 init + start + test，会重新入库，耗时较长。
 --stop      停止 FastAPI/MCP 服务，不停止 Milvus 容器。
+```
+
+题目范围参数：
+
+```text
+--start-id  从指定题目 id 开始读取，包含该 id。
+--end-id    读取到指定题目 id 结束，包含该 id。
+--limit     最多读取多少条题目。
+```
+
+这些参数按 CSV 里的 `id` 字段过滤，不按文件行号过滤。常见用法：
+
+```bash
+# 从第 50 题开始跑到文件末尾
+.venv/bin/python scripts/competition_eval.py --test \
+  --input data/question_public.csv \
+  --output data/submission_from_50.csv \
+  --start-id 50
+
+# 只跑 50 到 100 题
+.venv/bin/python scripts/competition_eval.py --test \
+  --input data/question_public.csv \
+  --output data/submission_50_100.csv \
+  --start-id 50 \
+  --end-id 100
+
+# 从第 50 题开始，只跑 20 条
+.venv/bin/python scripts/competition_eval.py --test \
+  --input data/question_public.csv \
+  --output data/submission_50_next20.csv \
+  --start-id 50 \
+  --limit 20
 ```
 
 并发建议：
