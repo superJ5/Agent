@@ -234,6 +234,14 @@ index_type: HNSW
   --input data/question_public.csv \
   --output data/submission.csv
 
+# 答辩演示：只跑少量题目，并打印 Agent/RAG 运行链路摘要
+.venv/bin/python scripts/competition_eval.py --run \
+  --input data/question_public.csv \
+  --output data/demo_submission.csv \
+  --limit 3 \
+  --workers 1 \
+  --show-chain
+
 # 第一次部署或需要重新入库时
 .venv/bin/python scripts/competition_eval.py --init
 ```
@@ -247,6 +255,23 @@ index_type: HNSW
 --run       确保服务启动后跑评测，不启动 Milvus 容器，不入库。
 --pipeline  执行 init + start + test，会重新入库，耗时较长。
 --stop      停止 FastAPI/MCP 服务，不停止 Milvus 容器。
+```
+
+演示参数：
+
+```text
+--show-chain  每题成功后打印 Agent/RAG 摘要链路，适合答辩或截图演示。
+```
+
+`--show-chain` 会自动使用单并发，避免并发请求导致链路摘要和题目输出交错。
+
+示例输出：
+
+```text
+✅ [ID=64] 12.4s | “使用吹风机时，人员需要佩戴哪些防护装备？”
+🔁 链路: CSV → /chat → Agent → RAG(vector+bm25+scan) → Qwen3-Rerank → Evidence → Answer
+📌 诊断: intent=general | stage=hybrid_search | reranker=Qwen3-Rerank
+📄 证据: manual_84d80d19: 0005(vector+bm25+scan), 0029(vector+bm25+scan), 0008(vector+bm25+scan)
 ```
 
 题目范围参数：
