@@ -661,12 +661,48 @@ async def _run_batch_test(
 
     semaphore = asyncio.Semaphore(max(1, max_workers))
 
-    tasks = [
-        _run_single_test(case, api_url, token, timeout, semaphore, show_chain)
+    # 创建独立 Task，便于后续取消/收集
+    task_objects = [
+        asyncio.create_task(
+            _run_single_test(case, api_url, token, timeout, semaphore, show_chain)
+        )
         for case in test_cases
     ]
 
-    results = await asyncio.gather(*tasks)
+    # 整体兜底超时：(每批 ≈ceil(n/workers)) × 单题超时 + 60s 缓冲
+    total_timeout = (len(test_cases) // max(1, max_workers) + 1) * timeout + 60
+
+    done, pending = await asyncio.wait(task_objects, timeout=total_timeout)
+
+    # 取消未完成的 Task
+    for t in pending:
+        t.cancel()
+
+    # 收集结果
+    results = []
+    for i, t in enumerate(task_objects):
+        if t in done:
+            try:
+                results.append(t.result())
+            except Exception as exc:
+                results.append({
+                    "id": test_cases[i]["id"],
+                    "ret": f"ERROR: {exc}",
+                    "success": False,
+                    "elapsed": 0,
+                    "session_id": test_cases[i]["session_id"],
+                })
+        else:
+            results.append({
+                "id": test_cases[i]["id"],
+                "ret": "ERROR: 整体测试超时",
+                "success": False,
+                "elapsed": total_timeout,
+                "session_id": test_cases[i]["session_id"],
+            })
+
+    if pending:
+        print(f"\n⚠️  整体测试超时（{total_timeout:.0f}s），{len(pending)} 道题未完成")
 
     # 按 id 排序
     results.sort(key=lambda x: x["id"])
