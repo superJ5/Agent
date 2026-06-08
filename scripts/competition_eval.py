@@ -37,7 +37,7 @@
 
 参数:
     --input     测试问题 CSV 路径（默认: data/test_questions.csv）
-    --output    提交答案 CSV 路径（默认: data/submission.csv）
+    --output    提交答案 CSV 路径（默认: data/submission_YYYYMMDDHHMM.csv，自动带时间戳）
     --api-url   API 地址（默认: http://localhost:9900/chat）
     --token     Bearer Token（默认: 从 .env 读取）
     --workers   并发数（默认: 1；想快一点可改成 2/4/8，但太大容易超时）
@@ -67,7 +67,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 # ── 默认路径 ───────────────────────────────────────────────────────────────
 DEFAULT_INPUT_CSV = PROJECT_ROOT / "data" / "test_questions.csv"
-DEFAULT_OUTPUT_CSV = PROJECT_ROOT / "data" / "submission.csv"
+DEFAULT_OUTPUT_CSV = PROJECT_ROOT / "data" / f"submission_{time.strftime('%Y%m%d%H%M')}.csv"
 DEFAULT_LOG_DIR = PROJECT_ROOT / "logs"
 
 # ── API 配置 ───────────────────────────────────────────────────────────────
