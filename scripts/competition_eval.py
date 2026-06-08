@@ -4,7 +4,7 @@
 功能:
     1. 读取测试问题 CSV（含问题、图片路径、会话ID）
     2. 逐条调用本地 /chat API 获取答案
-    3. 生成比赛要求的 submission.csv 提交文件
+    3. 生成比赛要求的 submission_时间戳.csv 提交文件
 
 用法:
     # 方式一：一键全流程（初始化 → 启动 → 测试 → 输出）
@@ -15,7 +15,7 @@
     # 如果 FastAPI/MCP 服务未运行，会尝试自动启动服务后再跑测试。
     # 但不会启动 Milvus 容器，也不会重新入库。
     # 适合 Milvus 容器和知识库已经准备好时使用。
-    .venv/bin/python scripts/competition_eval.py --run --input data/question_public.csv --output data/submission.csv
+    .venv/bin/python scripts/competition_eval.py --run --input data/question_public.csv
 
     # 方式三：分步执行
 
@@ -29,7 +29,7 @@
 
     # 第三步：批量测试（传入问题 CSV，输出答案 CSV）
     # 只跑评测；服务未运行会尝试 make start，但不会启动 Milvus 容器，也不会重新入库。
-    .venv/bin/python scripts/competition_eval.py --test --input questions.csv --output submission.csv
+    .venv/bin/python scripts/competition_eval.py --test --input questions.csv
 
     # 第四步：停止服务
     # 停止 FastAPI/MCP 服务，不停止 Milvus 容器。
@@ -37,14 +37,14 @@
 
 参数:
     --input     测试问题 CSV 路径（默认: data/test_questions.csv）
-    --output    提交答案 CSV 路径（默认: data/submission.csv）
+    --output    提交答案 CSV 路径或输出目录（默认: output/submission_时间戳.csv）
     --api-url   API 地址（默认: http://localhost:9900/chat）
     --token     Bearer Token（默认: 从 .env 读取）
     --workers   并发数（默认: 1；想快一点可改成 2/4/8，但太大容易超时）
     --timeout   单题超时秒数，文本 20s / 多模态 30s（默认: 30）
 
 运行指令参考：
-.venv/bin/python scripts/competition_eval.py --test --input data/question_public.csv --output data/submission.csv --workers 1
+.venv/bin/python scripts/competition_eval.py --test --input data/question_public.csv --workers 1
 """
 
 from __future__ import annotations
@@ -67,7 +67,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 # ── 默认路径 ───────────────────────────────────────────────────────────────
 DEFAULT_INPUT_CSV = PROJECT_ROOT / "data" / "test_questions.csv"
-DEFAULT_OUTPUT_CSV = PROJECT_ROOT / "data" / "submission.csv"
+DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "output"
 DEFAULT_LOG_DIR = PROJECT_ROOT / "logs"
 
 # ── API 配置 ───────────────────────────────────────────────────────────────
@@ -175,7 +175,7 @@ def cmd_init():
     print("\n下一步: 启动服务")
     print("  .venv/bin/python scripts/competition_eval.py --start")
     print("\n如果 Milvus 和知识库已经准备好，日常测试可直接运行:")
-    print("  .venv/bin/python scripts/competition_eval.py --test --input data/question_public.csv --output data/submission.csv")
+    print("  .venv/bin/python scripts/competition_eval.py --test --input data/question_public.csv")
 
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -329,7 +329,7 @@ def _ensure_server_running(api_url: str, max_wait: int = 60) -> bool:
 async def cmd_test(args):
     """读取测试 CSV → 调用 API → 生成提交 CSV"""
     input_csv = Path(args.input)
-    output_csv = Path(args.output)
+    output_csv = _resolve_output_csv(args.output)
     api_url = args.api_url
     token = args.token or _load_token_from_env()
     max_workers = max(1, args.workers)
@@ -520,6 +520,21 @@ def _image_to_base64(image_path: Path) -> str:
         encoded = base64.b64encode(f.read()).decode("utf-8")
 
     return f"data:{mime};base64,{encoded}"
+
+
+def _resolve_output_csv(raw_output: str | None) -> Path:
+    """Resolve output path, adding a timestamped filename when a directory is used."""
+    if raw_output:
+        output_path = Path(raw_output)
+        if output_path.suffix.lower() == ".csv":
+            return output_path
+        return output_path / _timestamped_submission_filename()
+
+    return DEFAULT_OUTPUT_DIR / _timestamped_submission_filename()
+
+
+def _timestamped_submission_filename() -> str:
+    return f"submission_{time.strftime('%Y%m%d_%H%M%S')}.csv"
 
 
 async def _run_single_test(
@@ -980,7 +995,7 @@ def main():
   .venv/bin/python scripts/competition_eval.py --pipeline
 
   # 方式二：一步到位测试。不会启动 Milvus 容器，也不会重新入库。
-  .venv/bin/python scripts/competition_eval.py --run --input data/question_public.csv --output data/submission.csv
+  .venv/bin/python scripts/competition_eval.py --run --input data/question_public.csv
 
   # 方式三：分步执行
   # --init 只在首次部署、删除 biz、chunk 更新或索引类型变更后需要跑。
@@ -990,20 +1005,20 @@ def main():
   .venv/bin/python scripts/competition_eval.py --start
 
   # --test 只跑评测；服务未运行会尝试 make start，不启动 Milvus 容器，不重新入库。
-  .venv/bin/python scripts/competition_eval.py --test --input data/test_questions.csv --output data/submission.csv
+  .venv/bin/python scripts/competition_eval.py --test --input data/test_questions.csv
 
   # --stop 停止 FastAPI/MCP 服务，不停止 Milvus 容器。
   .venv/bin/python scripts/competition_eval.py --stop
 
   # 并发数说明：
   # --workers 1 最稳，逐题跑；--workers 2/4/8 会更快，但接口压力更大，可能更容易超时。
-  .venv/bin/python scripts/competition_eval.py --test --input data/question_public.csv --output data/submission.csv --workers 1
+  .venv/bin/python scripts/competition_eval.py --test --input data/question_public.csv --workers 1
 
   # 指定 API 地址
   .venv/bin/python scripts/competition_eval.py --test --api-url http://192.168.1.100:9900/chat
 
   # 演示模式：额外打印每题 Agent/RAG 运行链路摘要
-  .venv/bin/python scripts/competition_eval.py --run --input data/question_public.csv --output data/demo_submission.csv --limit 3 --show-chain
+  .venv/bin/python scripts/competition_eval.py --run --input data/question_public.csv --limit 3 --show-chain
         """,
     )
 
@@ -1017,7 +1032,11 @@ def main():
 
     # 测试参数
     parser.add_argument("--input", default=str(DEFAULT_INPUT_CSV), help=f"测试问题 CSV 路径（默认: {DEFAULT_INPUT_CSV}）")
-    parser.add_argument("--output", default=str(DEFAULT_OUTPUT_CSV), help=f"提交答案 CSV 路径（默认: {DEFAULT_OUTPUT_CSV}）")
+    parser.add_argument(
+        "--output",
+        default=None,
+        help=f"提交答案 CSV 路径或输出目录（默认: {DEFAULT_OUTPUT_DIR}/submission_时间戳.csv）",
+    )
     parser.add_argument("--api-url", default=DEFAULT_API_URL, help=f"API 地址（默认: {DEFAULT_API_URL}）")
     parser.add_argument("--token", default="", help="Bearer Token（默认）")
     parser.add_argument("--workers", type=int, default=1, help="并发数（默认: 1；可改 2/4/8 加速，但过大容易超时）")
