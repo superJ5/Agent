@@ -552,7 +552,8 @@ async def _run_single_test(
     session_id = case["session_id"]
     start_time = time.time()
 
-    async with semaphore:
+    try:
+        async with semaphore:
         # 判断是否为多模态请求，选择合适的超时
         effective_timeout = timeout
         if images:
@@ -648,6 +649,17 @@ async def _run_single_test(
                 "session_id": session_id,
             }
 
+    except BaseException as exc:
+        elapsed = time.time() - start_time
+        print(f"   ❌ [ID={question_id}] 任务异常: [{type(exc).__name__}] {exc}")
+        return {
+            "id": question_id,
+            "ret": f"ERROR: [{type(exc).__name__}] {exc}",
+            "success": False,
+            "elapsed": elapsed,
+            "session_id": session_id,
+        }
+
 
 async def _run_batch_test(
     test_cases: list[dict],
@@ -700,10 +712,12 @@ async def _run_batch_test(
         if t in done:
             try:
                 results.append(t.result())
-            except Exception as exc:
+            except BaseException as exc:
+                cid = test_cases[i]["id"]
+                print(f"   ❌ [ID={cid}] Task 异常: [{type(exc).__name__}] {exc}")
                 results.append({
-                    "id": test_cases[i]["id"],
-                    "ret": f"ERROR: {exc}",
+                    "id": cid,
+                    "ret": f"ERROR: [{type(exc).__name__}] {exc}",
                     "success": False,
                     "elapsed": 0,
                     "session_id": test_cases[i]["session_id"],
