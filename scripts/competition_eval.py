@@ -554,100 +554,100 @@ async def _run_single_test(
 
     try:
         async with semaphore:
-        # 判断是否为多模态请求，选择合适的超时
-        effective_timeout = timeout
-        if images:
-            effective_timeout = max(timeout, API_TIMEOUT_MULTIMODAL)
+            # 判断是否为多模态请求，选择合适的超时
+            effective_timeout = timeout
+            if images:
+                effective_timeout = max(timeout, API_TIMEOUT_MULTIMODAL)
 
-        # 构建请求体
-        payload: dict[str, Any] = {
-            "question": question,
-            "session_id": session_id,
-        }
-        if images:
-            payload["images"] = images
+            # 构建请求体
+            payload: dict[str, Any] = {
+                "question": question,
+                "session_id": session_id,
+            }
+            if images:
+                payload["images"] = images
 
-        try:
-            async with httpx.AsyncClient(timeout=effective_timeout) as client:
-                headers = {
-                    "Content-Type": "application/json",
-                }
-                if token:
-                    headers["Authorization"] = f"Bearer {token}"
+            try:
+                async with httpx.AsyncClient(timeout=effective_timeout) as client:
+                    headers = {
+                        "Content-Type": "application/json",
+                    }
+                    if token:
+                        headers["Authorization"] = f"Bearer {token}"
 
-                # asyncio.wait_for 做硬性单题超时兜底
-                resp = await asyncio.wait_for(
-                    client.post(api_url, json=payload, headers=headers),
-                    timeout=effective_timeout,
-                )
-                resp.raise_for_status()
-                body = resp.json()
-
-                # 解析比赛标准响应
-                code = body.get("code", -1)
-                if code == 0:
-                    data = body.get("data", {}) or {}
-                    answer = data.get("answer", "")
-                    metadata = data.get("metadata")
-                    elapsed = time.time() - start_time
-                    print(
-                        f"   ✅ [ID={question_id}] {elapsed:.1f}s | "
-                        f"{_format_question_preview(question)}"
+                    # asyncio.wait_for 做硬性单题超时兜底
+                    resp = await asyncio.wait_for(
+                        client.post(api_url, json=payload, headers=headers),
+                        timeout=effective_timeout,
                     )
-                    if show_chain:
-                        _print_chain_summary(metadata)
-                    return {
-                        "id": question_id,
-                        "ret": answer,
-                        "success": True,
-                        "elapsed": elapsed,
-                        "session_id": session_id,
-                        "metadata": metadata,
-                    }
-                else:
-                    error_msg = body.get("msg", "未知错误")
-                    elapsed = time.time() - start_time
-                    print(f"   ❌ [ID={question_id}] API 返回错误: {error_msg}")
-                    return {
-                        "id": question_id,
-                        "ret": f"ERROR: {error_msg}",
-                        "success": False,
-                        "elapsed": elapsed,
-                        "session_id": session_id,
-                    }
+                    resp.raise_for_status()
+                    body = resp.json()
 
-        except httpx.TimeoutException:
-            elapsed = time.time() - start_time
-            print(f"   ❌ [ID={question_id}] 请求超时 ({elapsed:.1f}s)")
-            return {
-                "id": question_id,
-                "ret": "ERROR: 请求超时",
-                "success": False,
-                "elapsed": elapsed,
-                "session_id": session_id,
-            }
+                    # 解析比赛标准响应
+                    code = body.get("code", -1)
+                    if code == 0:
+                        data = body.get("data", {}) or {}
+                        answer = data.get("answer", "")
+                        metadata = data.get("metadata")
+                        elapsed = time.time() - start_time
+                        print(
+                            f"   ✅ [ID={question_id}] {elapsed:.1f}s | "
+                            f"{_format_question_preview(question)}"
+                        )
+                        if show_chain:
+                            _print_chain_summary(metadata)
+                        return {
+                            "id": question_id,
+                            "ret": answer,
+                            "success": True,
+                            "elapsed": elapsed,
+                            "session_id": session_id,
+                            "metadata": metadata,
+                        }
+                    else:
+                        error_msg = body.get("msg", "未知错误")
+                        elapsed = time.time() - start_time
+                        print(f"   ❌ [ID={question_id}] API 返回错误: {error_msg}")
+                        return {
+                            "id": question_id,
+                            "ret": f"ERROR: {error_msg}",
+                            "success": False,
+                            "elapsed": elapsed,
+                            "session_id": session_id,
+                        }
 
-        except asyncio.TimeoutError:
-            elapsed = time.time() - start_time
-            print(f"   ❌ [ID={question_id}] 单题超时 ({elapsed:.1f}s)")
-            return {
-                "id": question_id,
-                "ret": "ERROR: 单题超时",
-                "success": False,
-                "elapsed": elapsed,
-                "session_id": session_id,
-            }
+            except httpx.TimeoutException:
+                elapsed = time.time() - start_time
+                print(f"   ❌ [ID={question_id}] 请求超时 ({elapsed:.1f}s)")
+                return {
+                    "id": question_id,
+                    "ret": "ERROR: 请求超时",
+                    "success": False,
+                    "elapsed": elapsed,
+                    "session_id": session_id,
+                }
 
-        except Exception as exc:
-            elapsed = time.time() - start_time
-            print(f"   ❌ [ID={question_id}] 请求失败: {exc}")
-            return {
-                "id": question_id,
-                "ret": f"ERROR: {exc}",
-                "success": False,
-                "elapsed": elapsed,
-                "session_id": session_id,
-            }
+            except asyncio.TimeoutError:
+                elapsed = time.time() - start_time
+                print(f"   ❌ [ID={question_id}] 单题超时 ({elapsed:.1f}s)")
+                return {
+                    "id": question_id,
+                    "ret": "ERROR: 单题超时",
+                    "success": False,
+                    "elapsed": elapsed,
+                    "session_id": session_id,
+                }
+
+            except Exception as exc:
+                elapsed = time.time() - start_time
+                print(f"   ❌ [ID={question_id}] 请求失败: {exc}")
+                return {
+                    "id": question_id,
+                    "ret": f"ERROR: {exc}",
+                    "success": False,
+                    "elapsed": elapsed,
+                    "session_id": session_id,
+                }
 
     except BaseException as exc:
         elapsed = time.time() - start_time
