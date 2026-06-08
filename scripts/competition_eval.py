@@ -545,13 +545,14 @@ async def _run_single_test(
     """
     import httpx
 
-    async with semaphore:
-        start_time = time.time()
-        question_id = case["id"]
-        question = case["question"]
-        images = case["images"]
-        session_id = case["session_id"]
+    # 提前提取题目信息，确保超时时也能拿到
+    question_id = case["id"]
+    question = case["question"]
+    images = case["images"]
+    session_id = case["session_id"]
+    start_time = time.time()
 
+    async with semaphore:
         # 判断是否为多模态请求，选择合适的超时
         effective_timeout = timeout
         if images:
@@ -573,7 +574,11 @@ async def _run_single_test(
                 if token:
                     headers["Authorization"] = f"Bearer {token}"
 
-                resp = await client.post(api_url, json=payload, headers=headers)
+                # asyncio.wait_for 做硬性单题超时兜底
+                resp = await asyncio.wait_for(
+                    client.post(api_url, json=payload, headers=headers),
+                    timeout=effective_timeout,
+                )
                 resp.raise_for_status()
                 body = resp.json()
 
@@ -616,6 +621,17 @@ async def _run_single_test(
             return {
                 "id": question_id,
                 "ret": "ERROR: 请求超时",
+                "success": False,
+                "elapsed": elapsed,
+                "session_id": session_id,
+            }
+
+        except asyncio.TimeoutError:
+            elapsed = time.time() - start_time
+            print(f"   ❌ [ID={question_id}] 单题超时 ({elapsed:.1f}s)")
+            return {
+                "id": question_id,
+                "ret": "ERROR: 单题超时",
                 "success": False,
                 "elapsed": elapsed,
                 "session_id": session_id,
