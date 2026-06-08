@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import importlib
 import sys
 from types import SimpleNamespace
@@ -13,11 +14,14 @@ class FakeRagAgentService:
     def __init__(self) -> None:
         self.answer = "compat answer"
         self.metadata = None
+        self.delay_seconds = 0.0
         self.calls: list[tuple[str, str]] = []
         self.metadata_session_id: str | None = None
 
     async def query(self, question: str, session_id: str) -> str:
         self.calls.append((question, session_id))
+        if self.delay_seconds:
+            await asyncio.sleep(self.delay_seconds)
         return self.answer
 
     def get_last_retrieval_metadata(self, session_id: str):
@@ -180,3 +184,31 @@ def test_competition_chat_keeps_auth_and_question_validation(competition_client)
     assert missing_auth.status_code == 401
     assert invalid_auth.status_code == 401
     assert blank_question.status_code == 422
+
+
+def test_competition_chat_returns_fallback_on_agent_timeout(competition_client, monkeypatch):
+    client, service = competition_client
+    chat_module = sys.modules["app.api.chat"]
+    service.delay_seconds = 0.05
+
+    monkeypatch.setattr(chat_module, "COMPETITION_AGENT_TIMEOUT_SECONDS", 0.001)
+    monkeypatch.setattr(chat_module, "COMPETITION_FALLBACK_TIMEOUT_SECONDS", 0.05)
+    monkeypatch.setattr(
+        chat_module,
+        "_get_cached_retrieval_fallback_answer",
+        lambda: "根据已检索到的资料，简要结论如下：清洁说明: 清洁前请拔掉电源并等待设备冷却。",
+    )
+
+    response = client.post(
+        "/chat",
+        json={"question": "空气炸锅怎么清洁？", "session_id": "session-timeout"},
+        headers=auth_headers(),
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["code"] == 0
+    assert body["data"]["answer"].startswith("根据已检索到的资料")
+    assert "清洁前请拔掉电源" in body["data"]["answer"]
+    assert body["data"]["metadata"]["timeout"] is True
+    assert body["data"]["metadata"]["degraded"] is True

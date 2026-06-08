@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import asyncio
 import inspect
 import json
+import os
 import time
 import uuid
 from typing import Annotated, Any
@@ -35,6 +37,18 @@ memory_service: Any = _memory_service
 
 router = APIRouter()
 competition_router = APIRouter()
+
+def _float_env(name: str, default: float) -> float:
+    try:
+        return float(os.getenv(name, str(default)))
+    except ValueError:
+        return default
+
+
+COMPETITION_AGENT_TIMEOUT_SECONDS = _float_env("COMPETITION_AGENT_TIMEOUT_SECONDS", 26.0)
+COMPETITION_FALLBACK_TIMEOUT_SECONDS = _float_env("COMPETITION_FALLBACK_TIMEOUT_SECONDS", 2.5)
+FALLBACK_MAX_HITS = 3
+FALLBACK_MAX_CHARS_PER_HIT = 180
 
 
 def _resolve_session_id(session_id: str | None) -> str:
@@ -246,6 +260,137 @@ async def _query_rag_agent(
     return str(await rag_agent_service.query(question, **kwargs))
 
 
+async def _query_rag_agent_with_competition_deadline(
+    question: str,
+    *,
+    session_id: str,
+    images: list[str] | None,
+) -> tuple[str, dict[str, Any] | None, bool]:
+    try:
+        answer = await asyncio.wait_for(
+            _query_rag_agent(question, session_id=session_id, images=images),
+            timeout=COMPETITION_AGENT_TIMEOUT_SECONDS,
+        )
+        return answer, rag_agent_service.get_last_retrieval_metadata(session_id), False
+    except TimeoutError:
+        logger.warning(
+            "[会话 {}] 比赛标准对话接近 30s 限制，改用检索证据兜底返回",
+            session_id,
+        )
+        metadata = rag_agent_service.get_last_retrieval_metadata(session_id)
+        answer, fallback_metadata = await _build_timeout_fallback_answer(
+            question,
+            metadata=metadata,
+        )
+        return answer, fallback_metadata, True
+
+
+async def _build_timeout_fallback_answer(
+    question: str,
+    *,
+    metadata: dict[str, Any] | None,
+) -> tuple[str, dict[str, Any]]:
+    fallback_metadata = _mark_timeout_metadata(metadata)
+    cached_answer = await _wait_for_cached_retrieval_fallback_answer(
+        timeout=COMPETITION_FALLBACK_TIMEOUT_SECONDS,
+    )
+    if cached_answer:
+        return cached_answer, fallback_metadata
+
+    return (
+        "根据当前已完成的信息，暂时没有拿到足够可靠的资料来给出完整结论。",
+        fallback_metadata,
+    )
+
+
+async def _wait_for_cached_retrieval_fallback_answer(timeout: float) -> str | None:
+    deadline = time.monotonic() + max(timeout, 0.0)
+    while True:
+        answer = _get_cached_retrieval_fallback_answer()
+        if answer:
+            return answer
+        if time.monotonic() >= deadline:
+            return None
+        await asyncio.sleep(0.1)
+
+
+def _get_cached_retrieval_fallback_answer() -> str | None:
+    try:
+        from app.tools.knowledge_tool import get_last_retrieval_fallback_answer
+
+        return get_last_retrieval_fallback_answer()
+    except Exception as exc:
+        logger.debug(f"读取检索兜底答案失败，忽略: {exc}")
+        return None
+
+
+def _mark_timeout_metadata(metadata: dict[str, Any] | None) -> dict[str, Any]:
+    marked = dict(metadata or {})
+    warnings = [
+        str(item)
+        for item in (marked.get("warnings") or [])
+        if str(item).strip()
+    ]
+    timeout_warning = "competition_agent_timeout_fallback"
+    if timeout_warning not in warnings:
+        warnings.append(timeout_warning)
+
+    marked["timeout"] = True
+    marked["degraded"] = True
+    marked["warnings"] = warnings
+    return sanitize_summary_metadata(marked) or marked
+
+
+def _format_fallback_answer_from_hits(hits: list[Any]) -> str:
+    evidence_lines: list[str] = []
+    for hit in hits[:FALLBACK_MAX_HITS]:
+        text = _fallback_hit_text(hit)
+        if not text:
+            continue
+        title = _fallback_hit_title(hit)
+        if title:
+            evidence_lines.append(f"{title}: {text}")
+        else:
+            evidence_lines.append(text)
+
+    if not evidence_lines:
+        return "根据当前已完成的信息，暂时没有检索到足够可靠的资料来给出完整结论。"
+
+    return "根据已检索到的资料，简要结论如下：" + "；".join(evidence_lines)
+
+
+def _fallback_hit_text(hit: Any) -> str:
+    metadata = _fallback_hit_metadata(hit)
+    raw_text = (
+        getattr(hit, "content", None)
+        or metadata.get("text")
+        or metadata.get("content")
+        or metadata.get("summary")
+        or metadata.get("index_text")
+        or ""
+    )
+    text = " ".join(str(raw_text).split())
+    if len(text) > FALLBACK_MAX_CHARS_PER_HIT:
+        text = text[:FALLBACK_MAX_CHARS_PER_HIT].rstrip() + "..."
+    return text
+
+
+def _fallback_hit_title(hit: Any) -> str:
+    metadata = _fallback_hit_metadata(hit)
+    title = metadata.get("title") or metadata.get("section_title")
+    if title:
+        return str(title).strip()
+    section_path = metadata.get("section_path") or []
+    if isinstance(section_path, list):
+        return " > ".join(str(part).strip() for part in section_path if str(part).strip())
+    return ""
+
+
+def _fallback_hit_metadata(hit: Any) -> dict[str, Any]:
+    metadata = getattr(hit, "metadata", None)
+    return dict(metadata) if isinstance(metadata, dict) else {}
+
+
 @competition_router.post("/chat")
 async def competition_chat(
     request: ChatRequest,
@@ -282,7 +427,11 @@ async def competition_chat(
                 "images_count": len(request.images),
             },
         )
-        answer = await _query_rag_agent(
+        (
+            answer,
+            metadata,
+            used_timeout_fallback,
+        ) = await _query_rag_agent_with_competition_deadline(
             request.question,
             session_id=session_id,
             images=request.images,
@@ -294,10 +443,9 @@ async def competition_chat(
             metadata={
                 "source": "competition_chat",
                 "stream": False,
-                "status": "success",
+                "status": "timeout_fallback" if used_timeout_fallback else "success",
             },
         )
-        metadata = rag_agent_service.get_last_retrieval_metadata(session_id)
         logger.info(f"[会话 {session_id}] 比赛标准对话完成")
         return _competition_success_payload(answer, session_id, metadata=metadata)
     except HTTPException:
