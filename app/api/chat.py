@@ -21,6 +21,7 @@ from app.models.response import (
     SessionInfoResponse,
     sanitize_summary_metadata,
 )
+from app.services.competition_answer_formatter import format_answer_images
 from app.services.rag_agent_service import rag_agent_service
 
 _memory_service: Any
@@ -447,7 +448,8 @@ async def competition_chat(
             },
         )
         logger.info(f"[会话 {session_id}] 比赛标准对话完成")
-        return _competition_success_payload(answer, session_id, metadata=metadata)
+        formatted_answer = format_answer_images(answer)
+        return _competition_success_payload(formatted_answer, session_id, metadata=metadata)
     except HTTPException:
         raise
     except Exception as exc:
