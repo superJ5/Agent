@@ -188,9 +188,13 @@ class RagAgentService:
             2. 优先依据 retrieve_knowledge 返回的证据回答，不要在没有检索证据时直接猜测手册内容。
             3. 如果 retrieve_knowledge 没有找到可靠内容，要明确说明“当前检索到的信息不足”，而不是编造答案。
             4. 如果检索结果里带有图片标识（PIC）或配图信息，回答时要优先结合这些证据。
-            5. For manual-related English questions, call retrieve_knowledge first.
-            6. When calling retrieve_knowledge for English manual questions, pass a concise English search query.
-            7. Do not translate English questions into Chinese unless the user asks.
+            5. 调用 retrieve_knowledge 时，检索词必须与用户当前问题使用相同语言。
+            6. 用户问题包含中文字符时，必须使用中文检索词，禁止将问题或产品名称翻译成英文。
+            7. 用户问题不包含中文字符时，使用英文检索词，禁止翻译成中文。
+            8. 改写检索词时，必须保留问题中的产品名称、型号、专有名词和关键操作对象。
+            9. 只能压缩或补充同语言关键词，不得通过翻译改变检索语言。
+            10. 示例：中文问题“如何为蓝牙激光鼠标安装电池？”应检索“蓝牙激光鼠标 安装电池 电池仓”，不得检索“bluetooth laser mouse battery installation”。
+            11. 示例：英文问题“How do I install the mouse battery?”应检索“mouse battery installation battery compartment”，不得检索“鼠标 安装电池”。
 
             记忆使用规则:
             1. 当用户询问之前说过什么、历史偏好、项目长期背景、已讨论方案时，可以调用 memory_search 查询历史记忆。
