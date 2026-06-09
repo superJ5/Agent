@@ -607,6 +607,7 @@ async def _run_single_test(
                         _print_chain_summary(metadata)
                     return {
                         "id": question_id,
+                        "question": question,
                         "ret": answer,
                         "success": True,
                         "elapsed": elapsed,
@@ -619,6 +620,7 @@ async def _run_single_test(
                     print(f"   ❌ [ID={question_id}] API 返回错误: {error_msg}")
                     return {
                         "id": question_id,
+                        "question": question,
                         "ret": f"ERROR: {error_msg}",
                         "success": False,
                         "elapsed": elapsed,
@@ -630,6 +632,7 @@ async def _run_single_test(
             print(f"   ❌ [ID={question_id}] 请求超时 ({elapsed:.1f}s)")
             return {
                 "id": question_id,
+                "question": question,
                 "ret": "ERROR: 请求超时",
                 "success": False,
                 "elapsed": elapsed,
@@ -641,6 +644,7 @@ async def _run_single_test(
             print(f"   ❌ [ID={question_id}] 请求失败: {exc}")
             return {
                 "id": question_id,
+                "question": question,
                 "ret": f"ERROR: {exc}",
                 "success": False,
                 "elapsed": elapsed,
@@ -798,9 +802,9 @@ def _write_submission_csv(results: list[dict], output_path: Path):
     写入比赛提交文件 submission.csv。
 
     格式:
-        id,ret
-        1,回答内容...
-        2,回答内容...
+        id,question,ret
+        1,问题内容...,回答内容...
+        2,问题内容...,回答内容...
 
     Args:
         results: 测试结果列表
@@ -810,9 +814,9 @@ def _write_submission_csv(results: list[dict], output_path: Path):
 
     with open(output_path, "w", encoding="utf-8", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow(["id", "ret"])
+        writer.writerow(["id", "question", "ret"])
         for r in results:
-            writer.writerow([r["id"], r["ret"]])
+            writer.writerow([r["id"], r.get("question", ""), r["ret"]])
 
     print(f"📄 提交文件已保存: {output_path}")
 
