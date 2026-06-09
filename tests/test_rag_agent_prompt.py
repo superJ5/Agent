@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import importlib.util
 import sys
 from pathlib import Path
@@ -24,7 +25,7 @@ class FakeLogger:
 
 class FakeChatQwen:
     def __init__(self, *args, **kwargs) -> None:
-        return None
+        self.kwargs = kwargs
 
 
 class FakeMemorySaver:
@@ -170,3 +171,58 @@ def test_system_prompt_instructs_english_manual_retrieval(monkeypatch):
     assert "每张图片必须紧跟在它直接说明的步骤、部件或操作内容之后。" in prompt
     assert "不要将多张图片统一堆放在答案末尾。" in prompt
     assert "仅引用能够直接帮助理解当前问题的图片" in prompt
+
+
+def test_model_uses_low_temperature_for_stable_answers(monkeypatch):
+    module = load_rag_agent_service(monkeypatch)
+
+    assert module.rag_agent_service.model.kwargs["temperature"] == 0.2
+
+
+def test_customer_service_prompt_uses_conservative_service_style(monkeypatch):
+    module = load_rag_agent_service(monkeypatch)
+    prompt = module.rag_agent_service._build_effective_system_prompt(manual_rag_enabled=False)
+
+    assert "保留订单、照片、聊天记录等必要凭证" in prompt
+    assert "不承诺具体处理结果" in prompt
+    assert "不过度道歉，不重复用户问题" in prompt
+
+
+def test_initializes_separate_manual_and_customer_service_agents(monkeypatch):
+    module = load_rag_agent_service(monkeypatch)
+    created_tool_sets = []
+
+    def fake_create_agent(model, *, tools, checkpointer):
+        created_tool_sets.append(tools)
+        return SimpleNamespace()
+
+    monkeypatch.setattr(module, "create_agent", fake_create_agent)
+    service = module.RagAgentService()
+
+    asyncio.run(service._initialize_agent())
+
+    assert len(created_tool_sets) == 2
+    assert module.retrieve_knowledge in created_tool_sets[0]
+    assert module.retrieve_knowledge not in created_tool_sets[1]
+
+
+def test_query_selects_agent_using_local_router(monkeypatch):
+    module = load_rag_agent_service(monkeypatch)
+
+    class FakeAgent:
+        def __init__(self, answer: str) -> None:
+            self.answer = answer
+
+        async def ainvoke(self, **kwargs):
+            return {"messages": [FakeMessage(self.answer)]}
+
+    service = module.RagAgentService()
+    service.agent = FakeAgent("manual")
+    service.customer_service_agent = FakeAgent("customer")
+    service._agent_initialized = True
+
+    manual_answer = asyncio.run(service.query("如何给蓝牙激光鼠标安装电池？", "manual-session"))
+    customer_answer = asyncio.run(service.query("我的快递丢失了，怎么办？", "customer-session"))
+
+    assert manual_answer == "manual"
+    assert customer_answer == "customer"

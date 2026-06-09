@@ -27,6 +27,7 @@ from app.config import config
 from app.models.response import sanitize_summary_metadata
 from app.services.memory_service import memory_service
 from app.services.multimodal_message_builder import build_user_message
+from app.services.query_router import should_use_manual_rag
 from app.tools import get_current_time, memory_search, retrieve_knowledge
 
 EMPTY_IMAGE_ALT_RE = re.compile(r"!\[\]\(([^)]+)\)")
@@ -100,7 +101,7 @@ class RagAgentService:
             model=self.model_name,
             api_key=cast(Any, config.dashscope_api_key),
             base_url=config.dashscope_api_base,
-            temperature=0.7,
+            temperature=0.2,
             streaming=streaming,
         )
 
@@ -116,6 +117,7 @@ class RagAgentService:
 
         # Agent 初始化（会在异步方法中完成）
         self.agent = None
+        self.customer_service_agent = None
         self._agent_initialized = False
 
         logger.info(f"RAG Agent 服务初始化完成 (ChatQwen), model={self.model_name}, streaming={streaming}")
@@ -145,6 +147,11 @@ class RagAgentService:
         self.agent = create_agent(
             self.model,
             tools=all_tools,
+            checkpointer=self.checkpointer,
+        )
+        self.customer_service_agent = create_agent(
+            self.model,
+            tools=[memory_search, get_current_time],
             checkpointer=self.checkpointer,
         )
 
@@ -177,7 +184,7 @@ class RagAgentService:
             4. 如果工具无法提供足够信息，请诚实地告知用户
 
             RAG 使用规则:
-            1. 只要问题涉及说明书、手册、部件、操作步骤、保修、图片、OCR 或原文追溯，必须先调用 retrieve_knowledge 再回答。
+            1. 当前问题允许使用产品手册检索时，只要涉及说明书、手册、部件、操作步骤、保修、图片、OCR 或原文追溯，必须先调用 retrieve_knowledge 再回答。
             2. 优先依据 retrieve_knowledge 返回的证据回答，不要在没有检索证据时直接猜测手册内容。
             3. 如果 retrieve_knowledge 没有找到可靠内容，要明确说明“当前检索到的信息不足”，而不是编造答案。
             4. 如果检索结果里带有图片标识（PIC）或配图信息，回答时要优先结合这些证据。
@@ -220,13 +227,24 @@ class RagAgentService:
             + "- 图片顺序必须与回答内容和检索证据中的顺序一致。"
         )
 
-    def _build_effective_system_prompt(self) -> str:
+    def _build_effective_system_prompt(self, *, manual_rag_enabled: bool = True) -> str:
         """Build system prompt with optional long-term memory context."""
+        prompt = self.system_prompt
+        if not manual_rag_enabled:
+            prompt += (
+                "\n\n通用客服回答规则:\n"
+                "- 当前问题没有明确的产品手册依据，不使用产品手册检索。\n"
+                "- 不要编造具体平台政策、处理时限或赔偿标准；信息不足时说明需要联系平台客服确认。\n"
+                "- 先回应用户当前诉求，再给出简洁、可执行的处理步骤。\n"
+                "- 涉及退换货、投诉、物流或售后时，提醒用户保留订单、照片、聊天记录等必要凭证。\n"
+                "- 需要平台核实时，建议用户通过订单售后入口或人工客服提交，不承诺具体处理结果。\n"
+                "- 使用自然、简洁的客服语气，不使用“根据手册”等表述，不过度道歉，不重复用户问题。"
+            )
         long_term_memory = memory_service.load_long_term_memory()
         if not long_term_memory:
-            return self.system_prompt
+            return prompt
         return (
-            f"{self.system_prompt}\n\n"
+            f"{prompt}\n\n"
             "长期记忆上下文（来自 data/memory/MEMORY.md，仅作为稳定背景参考）:\n"
             f"{long_term_memory}"
         )
@@ -297,11 +315,20 @@ class RagAgentService:
             self._clear_last_retrieval_metadata()
 
             image_count = len(images or [])
+            manual_rag_enabled = should_use_manual_rag(question, has_images=image_count > 0)
             logger.info(f"[会话 {session_id}] RAG Agent 收到查询（非流式）: {question}, images={image_count}")
+            logger.info(
+                f"[会话 {session_id}] 查询分流: "
+                f"{'manual_rag' if manual_rag_enabled else 'customer_service'}"
+            )
 
             # 构建消息列表（系统提示 + 用户问题）
             messages = [
-                SystemMessage(content=self._build_effective_system_prompt()),
+                SystemMessage(
+                    content=self._build_effective_system_prompt(
+                        manual_rag_enabled=manual_rag_enabled
+                    )
+                ),
                 *self._build_persistent_history_messages(session_id, question),
                 build_user_message(question, images),
             ]
@@ -316,10 +343,11 @@ class RagAgentService:
                 }
             }
 
-            if self.agent is None:
+            selected_agent = self.agent if manual_rag_enabled else self.customer_service_agent
+            if selected_agent is None:
                 raise RuntimeError("Agent 未初始化")
 
-            result = await self.agent.ainvoke(
+            result = await selected_agent.ainvoke(
                 input=agent_input,
                 config=config_dict,
             )
@@ -419,11 +447,20 @@ class RagAgentService:
             self._clear_last_retrieval_metadata()
 
             image_count = len(images or [])
+            manual_rag_enabled = should_use_manual_rag(question, has_images=image_count > 0)
             logger.info(f"[会话 {session_id}] RAG Agent 收到查询（流式）: {question}, images={image_count}")
+            logger.info(
+                f"[会话 {session_id}] 查询分流: "
+                f"{'manual_rag' if manual_rag_enabled else 'customer_service'}"
+            )
 
             # 构建消息列表（系统提示 + 用户问题）
             messages = [
-                SystemMessage(content=self._build_effective_system_prompt()),
+                SystemMessage(
+                    content=self._build_effective_system_prompt(
+                        manual_rag_enabled=manual_rag_enabled
+                    )
+                ),
                 *self._build_persistent_history_messages(session_id, question),
                 build_user_message(question, images),
             ]
@@ -438,10 +475,11 @@ class RagAgentService:
                 }
             }
 
-            if self.agent is None:
+            selected_agent = self.agent if manual_rag_enabled else self.customer_service_agent
+            if selected_agent is None:
                 raise RuntimeError("Agent 未初始化")
 
-            async for token, metadata in self.agent.astream(
+            async for token, metadata in selected_agent.astream(
                 input=agent_input,
                 config=config_dict,
                 stream_mode="messages",
