@@ -209,10 +209,15 @@ class RagAgentService:
         """).strip()
         return (
             prompt
-            + "\n\nImage output rules:\n"
-            + "- If an answer cites an image, use markdown with the picture id as the alt text: "
-            + "![Manual01_5](data/manuals/raw/.../Manual01_5.jpg).\n"
-            + "- Never use an empty image placeholder like ![](path)."
+            + "\n\n图片输出规则:\n"
+            + "- 图片引用是唯一允许使用的 Markdown 格式。\n"
+            + "- 引用图片时，必须使用图片 ID 作为 Markdown 图片名称，例如："
+            + "![Manual01_5](data/manuals/raw/.../Manual01_5.jpg)。\n"
+            + "- 禁止使用空图片名称，例如 ![](path)。\n"
+            + "- 每张图片必须紧跟在它直接说明的步骤、部件或操作内容之后。\n"
+            + "- 不要将多张图片统一堆放在答案末尾。\n"
+            + "- 仅引用能够直接帮助理解当前问题的图片，不引用无关或作用重复的图片。\n"
+            + "- 图片顺序必须与回答内容和检索证据中的顺序一致。"
         )
 
     def _build_effective_system_prompt(self) -> str:
