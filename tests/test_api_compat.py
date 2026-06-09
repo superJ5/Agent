@@ -85,6 +85,30 @@ def test_competition_chat_omits_metadata_when_empty(competition_client):
     assert service.metadata_session_id == "session-a"
 
 
+def test_competition_chat_formats_markdown_images_for_api_response(competition_client):
+    client, service = competition_client
+    service.answer = (
+        "按下鼠标底部的配对按钮。\n"
+        "![Manual27_10](data/manuals/raw/蓝牙激光鼠标手册/images/Manual27_10.jpg)\n"
+        "按下USB蓝牙接收器底部的按钮。\n"
+        "![Manual27_11](data/manuals/raw/蓝牙激光鼠标手册/images/Manual27_11.jpg)"
+    )
+
+    response = client.post(
+        "/chat",
+        json={"question": "如何快速配对？", "session_id": "session-image"},
+        headers=auth_headers(),
+    )
+
+    assert response.status_code == 200
+    assert response.json()["data"]["answer"] == (
+        '"按下鼠标底部的配对按钮。\\n<PIC>\\n'
+        '按下USB蓝牙接收器底部的按钮。\\n<PIC>",'
+        '["Manual27_10", "Manual27_11"]'
+    )
+    assert service.answer.startswith("按下鼠标底部的配对按钮")
+
+
 def test_competition_chat_includes_only_summary_metadata(competition_client):
     client, service = competition_client
     service.metadata = {
