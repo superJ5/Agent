@@ -166,4 +166,7 @@ def test_system_prompt_instructs_english_manual_retrieval(monkeypatch):
     assert "For manual-related English questions, call retrieve_knowledge first." in prompt
     assert "pass a concise English search query" in prompt
     assert "Do not translate English questions into Chinese unless the user asks." in prompt
-    assert "Never use an empty image placeholder like ![](path)." in prompt
+    assert "禁止使用空图片名称，例如 ![](path)。" in prompt
+    assert "每张图片必须紧跟在它直接说明的步骤、部件或操作内容之后。" in prompt
+    assert "不要将多张图片统一堆放在答案末尾。" in prompt
+    assert "仅引用能够直接帮助理解当前问题的图片" in prompt
