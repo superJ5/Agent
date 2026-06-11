@@ -20,6 +20,16 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from app.services.rag_agent_service import rag_agent_service
 
+
+def _initialize_retrieval_dependencies() -> None:
+    """Mirror FastAPI startup for scripts that bypass app.main lifespan."""
+    from app.core.milvus_client import milvus_manager
+    from app.retrieval.bm25_provider import init_bm25_provider
+
+    milvus_manager.connect()
+    init_bm25_provider()
+
+
 async def run_e2e_test(query: str):
     session_id = str(uuid.uuid4())
     print(f"\n{'='*60}")
@@ -28,6 +38,7 @@ async def run_e2e_test(query: str):
 
     print("Agent is thinking and retrieving...\n")
     try:
+        _initialize_retrieval_dependencies()
         # Call the non-streaming method to get the final answer
         # The agent will internally call the tool 'retrieve_knowledge'
         answer = await rag_agent_service.query(query, session_id=session_id)

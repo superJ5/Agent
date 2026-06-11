@@ -1,0 +1,41 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%powershell内单条测试和日志处理脚本，注意设置路径
+单条chunk测试
+.\.venv\Scripts\python.exe scripts\test_e2e_rag.py "电钻充电灯闪烁是什么意思？"
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+测试日志分割调整脚本
+%%%%%%%%%%%%%%%%%%%%%调整脚本%%%%%%%%%%%%%%%%%%%%%
+.\.venv\Scripts\python.exe scripts\build_trace_review.py `
+  --input-dir E:\.codex\worktrees\3f3c\question `
+  --output-dir E:\.codex\worktrees\3f3c\question\single_review `
+  --pattern "*.jsonl"
+常用参数
+ --input-dir          输入 JSONL 单条文件目录
+--output-dir         输出审查报告目录
+--pattern            输入文件匹配规则，默认 retrieval_trace_last400_*.jsonl
+--max-channel-hits   每个召回通道展示多少条，默认 10
+--max-candidates     展示多少条合并候选，默认 20
+--max-rerank         展示多少条重排结果，默认 20 
+%%%%%%%%%%%%%%%%%%%%%%分割脚本%%%%%%%%%%%%%%%%%%%
+
+cd E:\.codex\worktrees\3f3c\ai_agent_competition
+
+.\.venv\Scripts\python.exe scripts\split_trace_jsonl.py `
+  "D:\xwechat_files\wxid_jvpa2jyuaybp22_53a8\msg\file\2026-06\retrieval_trace(1).jsonl" `
+  --output-dir E:\.codex\worktrees\3f3c\single `
+  --tail 400 `
+  --prefix retrieval_trace
+
+.\.venv\Scripts\python.exe scripts\split_trace_jsonl.py `
+  "D:\xwechat_files\wxid_jvpa2jyuaybp22_53a8\msg\file\2026-06\retrieval_trace(2).jsonl" `
+  --output-dir E:\.codex\worktrees\3f3c\question `
+  --prefix retrieval_trace
+
+
+source          原始 retrieval_trace.jsonl 文件路径，必填
+--output-dir    输出目录，默认 E:\.codex\worktrees\3f3c\single
+--tail N        只拆最后 N 条；不写则拆全部
+--prefix        输出文件名前缀，默认 retrieval_trace
+--encoding      源文件编码，默认 utf-8-sig
+--keep-existing 不删除同前缀旧文件
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
