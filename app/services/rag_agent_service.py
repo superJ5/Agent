@@ -27,6 +27,7 @@ from app.config import config
 from app.models.response import sanitize_summary_metadata
 from app.services.memory_service import memory_service
 from app.services.multimodal_message_builder import build_user_message
+from app.services.query_router import should_use_manual_rag
 from app.tools import get_current_time, memory_search, retrieve_knowledge
 
 EMPTY_IMAGE_ALT_RE = re.compile(r"!\[\]\(([^)]+)\)")
@@ -100,7 +101,7 @@ class RagAgentService:
             model=self.model_name,
             api_key=cast(Any, config.dashscope_api_key),
             base_url=config.dashscope_api_base,
-            temperature=0.7,
+            temperature=0.2,
             streaming=streaming,
         )
 
@@ -116,6 +117,7 @@ class RagAgentService:
 
         # Agent 初始化（会在异步方法中完成）
         self.agent = None
+        self.customer_service_agent = None
         self._agent_initialized = False
 
         logger.info(f"RAG Agent 服务初始化完成 (ChatQwen), model={self.model_name}, streaming={streaming}")
@@ -145,6 +147,11 @@ class RagAgentService:
         self.agent = create_agent(
             self.model,
             tools=all_tools,
+            checkpointer=self.checkpointer,
+        )
+        self.customer_service_agent = create_agent(
+            self.model,
+            tools=[memory_search, get_current_time],
             checkpointer=self.checkpointer,
         )
 
@@ -177,13 +184,17 @@ class RagAgentService:
             4. 如果工具无法提供足够信息，请诚实地告知用户
 
             RAG 使用规则:
-            1. 只要问题涉及说明书、手册、部件、操作步骤、保修、图片、OCR 或原文追溯，必须先调用 retrieve_knowledge 再回答。
+            1. 当前问题允许使用产品手册检索时，只要涉及说明书、手册、部件、操作步骤、保修、图片、OCR 或原文追溯，必须先调用 retrieve_knowledge 再回答。
             2. 优先依据 retrieve_knowledge 返回的证据回答，不要在没有检索证据时直接猜测手册内容。
             3. 如果 retrieve_knowledge 没有找到可靠内容，要明确说明“当前检索到的信息不足”，而不是编造答案。
             4. 如果检索结果里带有图片标识（PIC）或配图信息，回答时要优先结合这些证据。
-            5. For manual-related English questions, call retrieve_knowledge first.
-            6. When calling retrieve_knowledge for English manual questions, pass a concise English search query.
-            7. Do not translate English questions into Chinese unless the user asks.
+            5. 调用 retrieve_knowledge 时，检索词必须与用户当前问题使用相同语言。
+            6. 用户问题包含中文字符时，必须使用中文检索词，禁止将问题或产品名称翻译成英文。
+            7. 用户问题不包含中文字符时，使用英文检索词，禁止翻译成中文。
+            8. 改写检索词时，必须保留问题中的产品名称、型号、专有名词和关键操作对象。
+            9. 只能压缩或补充同语言关键词，不得通过翻译改变检索语言。
+            10. 示例：中文问题“如何为蓝牙激光鼠标安装电池？”应检索“蓝牙激光鼠标 安装电池 电池仓”，不得检索“bluetooth laser mouse battery installation”。
+            11. 示例：英文问题“How do I install the mouse battery?”应检索“mouse battery installation battery compartment”，不得检索“鼠标 安装电池”。
 
             记忆使用规则:
             1. 当用户询问之前说过什么、历史偏好、项目长期背景、已讨论方案时，可以调用 memory_search 查询历史记忆。
@@ -196,24 +207,48 @@ class RagAgentService:
             - 回答简洁明了，重点突出
             - 基于事实，不编造信息
             - 如有不确定的地方，明确说明
+            - 只回答用户明确询问的内容，不主动扩展其他方案或无关信息
+            - 除图片引用外，必须使用纯文本，不使用 Markdown 标题、粗体、斜体、引用、表格或分隔线
+            - 可以使用普通数字序号或短横线列表，但不要添加 Markdown 装饰
+            - 需要表达对比信息时逐行描述，不要使用表格
+            - 直接给出结论或操作步骤，省略“根据手册”“为您详细解答”等开场套话
+            - 不复述用户问题，不重复已经说明的内容，不在结尾主动提供额外帮助
+            - 简单问答通常控制在100至300字；操作步骤类回答通常控制在300至600字
+            - 长度限制是目标而非硬性截断；必要的安全警告、关键条件和图片引用必须保留
 
             请根据用户的问题，灵活使用可用工具，提供高质量的帮助。
         """).strip()
         return (
             prompt
-            + "\n\nImage output rules:\n"
-            + "- If an answer cites an image, use markdown with the picture id as the alt text: "
-            + "![Manual01_5](data/manuals/raw/.../Manual01_5.jpg).\n"
-            + "- Never use an empty image placeholder like ![](path)."
+            + "\n\n图片输出规则:\n"
+            + "- 图片引用是唯一允许使用的 Markdown 格式。\n"
+            + "- 引用图片时，必须使用图片 ID 作为 Markdown 图片名称，例如："
+            + "![Manual01_5](data/manuals/raw/.../Manual01_5.jpg)。\n"
+            + "- 禁止使用空图片名称，例如 ![](path)。\n"
+            + "- 每张图片必须紧跟在它直接说明的步骤、部件或操作内容之后。\n"
+            + "- 不要将多张图片统一堆放在答案末尾。\n"
+            + "- 仅引用能够直接帮助理解当前问题的图片，不引用无关或作用重复的图片。\n"
+            + "- 图片顺序必须与回答内容和检索证据中的顺序一致。"
         )
 
-    def _build_effective_system_prompt(self) -> str:
+    def _build_effective_system_prompt(self, *, manual_rag_enabled: bool = True) -> str:
         """Build system prompt with optional long-term memory context."""
+        prompt = self.system_prompt
+        if not manual_rag_enabled:
+            prompt += (
+                "\n\n通用客服回答规则:\n"
+                "- 当前问题没有明确的产品手册依据，不使用产品手册检索。\n"
+                "- 不要编造具体平台政策、处理时限或赔偿标准；信息不足时说明需要联系平台客服确认。\n"
+                "- 先回应用户当前诉求，再给出简洁、可执行的处理步骤。\n"
+                "- 涉及退换货、投诉、物流或售后时，提醒用户保留订单、照片、聊天记录等必要凭证。\n"
+                "- 需要平台核实时，建议用户通过订单售后入口或人工客服提交，不承诺具体处理结果。\n"
+                "- 使用自然、简洁的客服语气，不使用“根据手册”等表述，不过度道歉，不重复用户问题。"
+            )
         long_term_memory = memory_service.load_long_term_memory()
         if not long_term_memory:
-            return self.system_prompt
+            return prompt
         return (
-            f"{self.system_prompt}\n\n"
+            f"{prompt}\n\n"
             "长期记忆上下文（来自 data/memory/MEMORY.md，仅作为稳定背景参考）:\n"
             f"{long_term_memory}"
         )
@@ -284,11 +319,20 @@ class RagAgentService:
             self._clear_last_retrieval_metadata()
 
             image_count = len(images or [])
+            manual_rag_enabled = should_use_manual_rag(question, has_images=image_count > 0)
             logger.info(f"[会话 {session_id}] RAG Agent 收到查询（非流式）: {question}, images={image_count}")
+            logger.info(
+                f"[会话 {session_id}] 查询分流: "
+                f"{'manual_rag' if manual_rag_enabled else 'customer_service'}"
+            )
 
             # 构建消息列表（系统提示 + 用户问题）
             messages = [
-                SystemMessage(content=self._build_effective_system_prompt()),
+                SystemMessage(
+                    content=self._build_effective_system_prompt(
+                        manual_rag_enabled=manual_rag_enabled
+                    )
+                ),
                 *self._build_persistent_history_messages(session_id, question),
                 build_user_message(question, images),
             ]
@@ -303,10 +347,11 @@ class RagAgentService:
                 }
             }
 
-            if self.agent is None:
+            selected_agent = self.agent if manual_rag_enabled else self.customer_service_agent
+            if selected_agent is None:
                 raise RuntimeError("Agent 未初始化")
 
-            result = await self.agent.ainvoke(
+            result = await selected_agent.ainvoke(
                 input=agent_input,
                 config=config_dict,
             )
@@ -406,11 +451,20 @@ class RagAgentService:
             self._clear_last_retrieval_metadata()
 
             image_count = len(images or [])
+            manual_rag_enabled = should_use_manual_rag(question, has_images=image_count > 0)
             logger.info(f"[会话 {session_id}] RAG Agent 收到查询（流式）: {question}, images={image_count}")
+            logger.info(
+                f"[会话 {session_id}] 查询分流: "
+                f"{'manual_rag' if manual_rag_enabled else 'customer_service'}"
+            )
 
             # 构建消息列表（系统提示 + 用户问题）
             messages = [
-                SystemMessage(content=self._build_effective_system_prompt()),
+                SystemMessage(
+                    content=self._build_effective_system_prompt(
+                        manual_rag_enabled=manual_rag_enabled
+                    )
+                ),
                 *self._build_persistent_history_messages(session_id, question),
                 build_user_message(question, images),
             ]
@@ -425,10 +479,11 @@ class RagAgentService:
                 }
             }
 
-            if self.agent is None:
+            selected_agent = self.agent if manual_rag_enabled else self.customer_service_agent
+            if selected_agent is None:
                 raise RuntimeError("Agent 未初始化")
 
-            async for token, metadata in self.agent.astream(
+            async for token, metadata in selected_agent.astream(
                 input=agent_input,
                 config=config_dict,
                 stream_mode="messages",

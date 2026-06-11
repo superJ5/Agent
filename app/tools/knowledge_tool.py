@@ -78,6 +78,11 @@ _LAST_RETRIEVAL_METADATA: ContextVar[dict[str, Any] | None] = ContextVar(
     default=None,
 )
 _last_retrieval_metadata_fallback: dict[str, Any] | None = None
+_LAST_RETRIEVAL_FALLBACK_ANSWER: ContextVar[str | None] = ContextVar(
+    "last_retrieval_fallback_answer",
+    default=None,
+)
+_last_retrieval_fallback_answer_fallback: str | None = None
 PIC_ID_RE = re.compile(r"([A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+)", re.IGNORECASE)
 PROFILE_TERM_RE = re.compile(r"[A-Za-z][A-Za-z0-9+\-]{1,}|[\u4e00-\u9fff]{2,16}")
 PROFILE_SCAN_LIMIT = 6000
@@ -391,15 +396,30 @@ def set_last_retrieval_metadata(metadata: dict[str, Any] | None) -> None:
     _last_retrieval_metadata_fallback = dict(snapshot) if snapshot else None
 
 
+def set_last_retrieval_fallback_answer(answer: str | None) -> None:
+    """Store a compact evidence-based answer for request timeout fallback."""
+    global _last_retrieval_fallback_answer_fallback
+
+    snapshot = answer.strip() if isinstance(answer, str) and answer.strip() else None
+    _LAST_RETRIEVAL_FALLBACK_ANSWER.set(snapshot)
+    _last_retrieval_fallback_answer_fallback = snapshot
+
+
 def clear_last_retrieval_metadata() -> None:
     """Clear stale retrieval metadata before a new agent query starts."""
     set_last_retrieval_metadata(None)
+    set_last_retrieval_fallback_answer(None)
 
 
 def get_last_retrieval_metadata() -> dict[str, Any] | None:
     """Return a defensive copy of the latest Summary-level retrieval metadata."""
     metadata = _LAST_RETRIEVAL_METADATA.get() or _last_retrieval_metadata_fallback
     return dict(metadata) if metadata else None
+
+
+def get_last_retrieval_fallback_answer() -> str | None:
+    """Return the latest compact evidence answer for timeout fallback."""
+    return _LAST_RETRIEVAL_FALLBACK_ANSWER.get() or _last_retrieval_fallback_answer_fallback
 
 
 @dataclass(frozen=True)
@@ -582,6 +602,9 @@ def retrieve_knowledge(query: str) -> tuple[str, list[Document]]:
             return "没有找到相关信息。", []
 
         context = format_bundle(bundle, query=query)
+        set_last_retrieval_fallback_answer(
+            build_evidence_fallback_answer(bundle.all_hits)
+        )
         logger.info(
             "Retrieved {} documents, intent={}, stage={}",
             len(docs),
@@ -1975,6 +1998,24 @@ def format_search_results(results: Sequence[SearchResult]) -> str:
         parts.append("\n".join(block))
 
     return "\n\n".join(parts)
+
+
+def build_evidence_fallback_answer(results: Sequence[SearchResult]) -> str:
+    """Build a compact answer from retrieved evidence when the model times out."""
+    evidence_lines: list[str] = []
+    for result in results[:3]:
+        metadata = result.metadata or {}
+        title = str(metadata.get("title") or metadata.get("section_title") or "").strip()
+        text = " ".join(str(result.content or metadata.get("text") or "").split())
+        if not text:
+            continue
+        if len(text) > 180:
+            text = text[:180].rstrip() + "..."
+        evidence_lines.append(f"{title}: {text}" if title else text)
+
+    if not evidence_lines:
+        return "根据当前已完成的信息，暂时没有检索到足够可靠的资料来给出完整结论。"
+    return "根据已检索到的资料，简要结论如下：" + "；".join(evidence_lines)
 
 
 def normalize_text(text: str) -> str:

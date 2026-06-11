@@ -4,7 +4,7 @@
 功能:
     1. 读取测试问题 CSV（含问题、图片路径、会话ID）
     2. 逐条调用本地 /chat API 获取答案
-    3. 生成比赛要求的 submission.csv 提交文件
+    3. 生成比赛要求的 submission_时间戳.csv 提交文件
 
 用法:
     # 方式一：一键全流程（初始化 → 启动 → 测试 → 输出）
@@ -15,7 +15,7 @@
     # 如果 FastAPI/MCP 服务未运行，会尝试自动启动服务后再跑测试。
     # 但不会启动 Milvus 容器，也不会重新入库。
     # 适合 Milvus 容器和知识库已经准备好时使用。
-    .venv/bin/python scripts/competition_eval.py --run --input data/question_public.csv --output data/submission.csv
+    .venv/bin/python scripts/competition_eval.py --run --input data/question_public.csv
 
     # 方式三：分步执行
 
@@ -29,7 +29,7 @@
 
     # 第三步：批量测试（传入问题 CSV，输出答案 CSV）
     # 只跑评测；服务未运行会尝试 make start，但不会启动 Milvus 容器，也不会重新入库。
-    .venv/bin/python scripts/competition_eval.py --test --input questions.csv --output submission.csv
+    .venv/bin/python scripts/competition_eval.py --test --input questions.csv
 
     # 第四步：停止服务
     # 停止 FastAPI/MCP 服务，不停止 Milvus 容器。
@@ -37,14 +37,14 @@
 
 参数:
     --input     测试问题 CSV 路径（默认: data/test_questions.csv）
-    --output    提交答案 CSV 路径（默认: data/submission.csv）
+    --output    提交答案 CSV 路径或输出目录（默认: output/submission_时间戳.csv）
     --api-url   API 地址（默认: http://localhost:9900/chat）
     --token     Bearer Token（默认: 从 .env 读取）
     --workers   并发数（默认: 1；想快一点可改成 2/4/8，但太大容易超时）
     --timeout   单题超时秒数，文本 20s / 多模态 30s（默认: 30）
 
 运行指令参考：
-.venv/bin/python scripts/competition_eval.py --test --input data/question_public.csv --output data/submission.csv --workers 1
+.venv/bin/python scripts/competition_eval.py --test --input data/question_public.csv --workers 1
 """
 
 from __future__ import annotations
@@ -67,7 +67,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 # ── 默认路径 ───────────────────────────────────────────────────────────────
 DEFAULT_INPUT_CSV = PROJECT_ROOT / "data" / "test_questions.csv"
-DEFAULT_OUTPUT_CSV = PROJECT_ROOT / "data" / "submission.csv"
+DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "output"
 DEFAULT_LOG_DIR = PROJECT_ROOT / "logs"
 
 # ── API 配置 ───────────────────────────────────────────────────────────────
@@ -175,7 +175,7 @@ def cmd_init():
     print("\n下一步: 启动服务")
     print("  .venv/bin/python scripts/competition_eval.py --start")
     print("\n如果 Milvus 和知识库已经准备好，日常测试可直接运行:")
-    print("  .venv/bin/python scripts/competition_eval.py --test --input data/question_public.csv --output data/submission.csv")
+    print("  .venv/bin/python scripts/competition_eval.py --test --input data/question_public.csv")
 
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -329,11 +329,14 @@ def _ensure_server_running(api_url: str, max_wait: int = 60) -> bool:
 async def cmd_test(args):
     """读取测试 CSV → 调用 API → 生成提交 CSV"""
     input_csv = Path(args.input)
-    output_csv = Path(args.output)
+    output_csv = _resolve_output_csv(args.output)
     api_url = args.api_url
     token = args.token or _load_token_from_env()
     max_workers = max(1, args.workers)
     timeout = args.timeout
+    if args.show_chain and max_workers != 1:
+        print("ℹ️   --show-chain 为了保证链路摘要和题目一一对应，已自动使用 --workers 1。")
+        max_workers = 1
 
     # 读取测试问题
     if not input_csv.exists():
@@ -345,11 +348,25 @@ async def cmd_test(args):
     if not _ensure_server_running(api_url):
         sys.exit(1)
 
-    test_cases = _load_test_cases(input_csv)
+    test_cases = _load_test_cases(
+        input_csv,
+        start_id=args.start_id,
+        end_id=args.end_id,
+        limit=args.limit,
+    )
     print(f"\n📋 共加载 {len(test_cases)} 条测试问题")
+    if args.start_id is not None or args.end_id is not None or args.limit is not None:
+        print(
+            "🔎 题目范围: "
+            f"start_id={args.start_id if args.start_id is not None else '不限'}, "
+            f"end_id={args.end_id if args.end_id is not None else '不限'}, "
+            f"limit={args.limit if args.limit is not None else '不限'}"
+        )
     print(f"🔗 API: {api_url}")
     print(f"⚡ 并发: {max_workers}")
     print(f"⏱️  超时: {timeout}s")
+    if args.show_chain:
+        print("🔁 链路展示: 开启（打印每题 Agent/RAG 摘要链路）")
     print(f"💾 输出: 全部测试完成后写入 {output_csv}")
     print()
 
@@ -360,6 +377,7 @@ async def cmd_test(args):
         token=token,
         max_workers=max_workers,
         timeout=timeout,
+        show_chain=args.show_chain,
     )
 
     # 写入输出 CSV
@@ -382,7 +400,13 @@ async def cmd_test(args):
     print(f"   可上传至比赛评分系统")
 
 
-def _load_test_cases(csv_path: Path) -> list[dict]:
+def _load_test_cases(
+    csv_path: Path,
+    *,
+    start_id: int | None = None,
+    end_id: int | None = None,
+    limit: int | None = None,
+) -> list[dict]:
     """
     从 CSV 加载测试问题。
 
@@ -423,6 +447,13 @@ def _load_test_cases(csv_path: Path) -> list[dict]:
             except ValueError:
                 print(f"⚠️   第 {row_num} 行 id 非法 ('{raw_id}')，跳过")
                 continue
+
+            if start_id is not None and question_id < start_id:
+                continue
+            if end_id is not None and question_id > end_id:
+                continue
+            if limit is not None and len(test_cases) >= limit:
+                break
 
             # 解析问题文本
             question = row.get("question", "").strip()
@@ -491,12 +522,28 @@ def _image_to_base64(image_path: Path) -> str:
     return f"data:{mime};base64,{encoded}"
 
 
+def _resolve_output_csv(raw_output: str | None) -> Path:
+    """Resolve output path, adding a timestamped filename when a directory is used."""
+    if raw_output:
+        output_path = Path(raw_output)
+        if output_path.suffix.lower() == ".csv":
+            return output_path
+        return output_path / _timestamped_submission_filename()
+
+    return DEFAULT_OUTPUT_DIR / _timestamped_submission_filename()
+
+
+def _timestamped_submission_filename() -> str:
+    return f"submission_{time.strftime('%Y%m%d_%H%M%S')}.csv"
+
+
 async def _run_single_test(
     case: dict,
     api_url: str,
     token: str,
     timeout: int,
     semaphore: asyncio.Semaphore,
+    show_chain: bool = False,
 ) -> dict:
     """
     调用 /chat API 测试单条问题。
@@ -548,15 +595,24 @@ async def _run_single_test(
                 # 解析比赛标准响应
                 code = body.get("code", -1)
                 if code == 0:
-                    answer = body.get("data", {}).get("answer", "")
+                    data = body.get("data", {}) or {}
+                    answer = data.get("answer", "")
+                    metadata = data.get("metadata")
                     elapsed = time.time() - start_time
-                    print(f"   ✅ [ID={question_id}] {elapsed:.1f}s | {question[:40]}...")
+                    print(
+                        f"   ✅ [ID={question_id}] {elapsed:.1f}s | "
+                        f"{_format_question_preview(question)}"
+                    )
+                    if show_chain:
+                        _print_chain_summary(metadata)
                     return {
                         "id": question_id,
+                        "question": question,
                         "ret": answer,
                         "success": True,
                         "elapsed": elapsed,
                         "session_id": session_id,
+                        "metadata": metadata,
                     }
                 else:
                     error_msg = body.get("msg", "未知错误")
@@ -564,6 +620,7 @@ async def _run_single_test(
                     print(f"   ❌ [ID={question_id}] API 返回错误: {error_msg}")
                     return {
                         "id": question_id,
+                        "question": question,
                         "ret": f"ERROR: {error_msg}",
                         "success": False,
                         "elapsed": elapsed,
@@ -575,6 +632,7 @@ async def _run_single_test(
             print(f"   ❌ [ID={question_id}] 请求超时 ({elapsed:.1f}s)")
             return {
                 "id": question_id,
+                "question": question,
                 "ret": "ERROR: 请求超时",
                 "success": False,
                 "elapsed": elapsed,
@@ -586,6 +644,7 @@ async def _run_single_test(
             print(f"   ❌ [ID={question_id}] 请求失败: {exc}")
             return {
                 "id": question_id,
+                "question": question,
                 "ret": f"ERROR: {exc}",
                 "success": False,
                 "elapsed": elapsed,
@@ -599,6 +658,7 @@ async def _run_batch_test(
     token: str,
     max_workers: int,
     timeout: int,
+    show_chain: bool = False,
 ) -> list[dict]:
     """
     批量运行测试用例。
@@ -621,7 +681,7 @@ async def _run_batch_test(
     semaphore = asyncio.Semaphore(max(1, max_workers))
 
     tasks = [
-        _run_single_test(case, api_url, token, timeout, semaphore)
+        _run_single_test(case, api_url, token, timeout, semaphore, show_chain)
         for case in test_cases
     ]
 
@@ -632,14 +692,119 @@ async def _run_batch_test(
     return results
 
 
+def _print_chain_summary(metadata: Any) -> None:
+    """Print a compact, PPT-friendly execution-chain summary from API metadata."""
+    if not isinstance(metadata, dict) or not metadata:
+        print("      🔁 链路: CSV → /chat → Agent → Answer")
+        print("      📌 诊断: 未返回检索 metadata，可查看 logs/retrieval_trace.jsonl")
+        print()
+        return
+
+    channels = _format_list(metadata.get("recall_channels"))
+    reranker = _format_reranker(metadata)
+    top_hits = _format_top_hits(metadata.get("top_hits"))
+    intent = _format_value(metadata.get("intent"))
+    stage = _format_value(metadata.get("retrieval_stage"))
+    warnings = _format_list(metadata.get("warnings"))
+
+    retrieval_node = channels if channels != "none" else "retrieve_knowledge"
+    print(
+        "      🔁 链路: CSV → /chat → Agent → "
+        f"RAG({retrieval_node}) → {reranker} → Evidence → Answer"
+    )
+    print(f"      📌 诊断: intent={intent} | stage={stage} | reranker={reranker}")
+    print(f"      📄 证据: {top_hits}")
+    if warnings != "none":
+        print(f"      ⚠️  warning: {warnings}")
+    print()
+
+
+def _format_reranker(metadata: dict[str, Any]) -> str:
+    provider = str(metadata.get("reranker_provider") or "").strip()
+    fallback = bool(metadata.get("reranker_fallback"))
+    timeout = bool(metadata.get("timeout"))
+
+    if not provider:
+        label = "rerank"
+    elif provider.lower() == "dashscope":
+        label = "Qwen3-Rerank"
+    elif provider.lower() == "lexical":
+        label = "Lexical-Rerank"
+    else:
+        label = provider
+
+    suffixes: list[str] = []
+    if fallback:
+        suffixes.append("fallback")
+    if timeout:
+        suffixes.append("timeout")
+    if suffixes:
+        return f"{label}({','.join(suffixes)})"
+    return label
+
+
+def _format_top_hits(value: Any, limit: int = 3) -> str:
+    if not isinstance(value, list) or not value:
+        return "none"
+
+    groups: dict[str, list[str]] = {}
+    for item in value[:limit]:
+        if not isinstance(item, dict):
+            continue
+        chunk_id = str(item.get("chunk_id") or "").strip()
+        if not chunk_id:
+            continue
+        doc_id, short_id = _split_chunk_id(chunk_id)
+        channels = _format_list(item.get("channels"))
+        label = f"{short_id}({channels})" if channels != "none" else short_id
+        groups.setdefault(doc_id, []).append(label)
+    if not groups:
+        return "none"
+    return " | ".join(
+        f"{doc_id}: {', '.join(chunk_labels)}"
+        for doc_id, chunk_labels in groups.items()
+    )
+
+
+def _split_chunk_id(chunk_id: str) -> tuple[str, str]:
+    """Split chunk id into a readable document prefix and short chunk suffix."""
+    prefix, sep, suffix = chunk_id.rpartition("_")
+    if sep and suffix.isdigit():
+        return prefix, suffix
+    return chunk_id, ""
+
+
+def _format_question_preview(question: str, limit: int = 36) -> str:
+    """Return a clean, single-line question preview for terminal screenshots."""
+    text = " ".join(str(question or "").split()).strip()
+    text = text.strip("\"'“”")
+    if len(text) > limit:
+        text = text[:limit].rstrip() + "..."
+    return f"“{text}”"
+
+
+def _format_list(value: Any) -> str:
+    if isinstance(value, (list, tuple, set)):
+        items = [str(item).strip() for item in value if str(item).strip()]
+        return "+".join(items) if items else "none"
+    if isinstance(value, str) and value.strip():
+        return value.strip()
+    return "none"
+
+
+def _format_value(value: Any) -> str:
+    text = str(value or "").strip()
+    return text or "none"
+
+
 def _write_submission_csv(results: list[dict], output_path: Path):
     """
     写入比赛提交文件 submission.csv。
 
     格式:
-        id,ret
-        1,回答内容...
-        2,回答内容...
+        id,question,ret
+        1,问题内容...,回答内容...
+        2,问题内容...,回答内容...
 
     Args:
         results: 测试结果列表
@@ -649,9 +814,9 @@ def _write_submission_csv(results: list[dict], output_path: Path):
 
     with open(output_path, "w", encoding="utf-8", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow(["id", "ret"])
+        writer.writerow(["id", "question", "ret"])
         for r in results:
-            writer.writerow([r["id"], r["ret"]])
+            writer.writerow([r["id"], r.get("question", ""), r["ret"]])
 
     print(f"📄 提交文件已保存: {output_path}")
 
@@ -834,7 +999,7 @@ def main():
   .venv/bin/python scripts/competition_eval.py --pipeline
 
   # 方式二：一步到位测试。不会启动 Milvus 容器，也不会重新入库。
-  .venv/bin/python scripts/competition_eval.py --run --input data/question_public.csv --output data/submission.csv
+  .venv/bin/python scripts/competition_eval.py --run --input data/question_public.csv
 
   # 方式三：分步执行
   # --init 只在首次部署、删除 biz、chunk 更新或索引类型变更后需要跑。
@@ -844,17 +1009,20 @@ def main():
   .venv/bin/python scripts/competition_eval.py --start
 
   # --test 只跑评测；服务未运行会尝试 make start，不启动 Milvus 容器，不重新入库。
-  .venv/bin/python scripts/competition_eval.py --test --input data/test_questions.csv --output data/submission.csv
+  .venv/bin/python scripts/competition_eval.py --test --input data/test_questions.csv
 
   # --stop 停止 FastAPI/MCP 服务，不停止 Milvus 容器。
   .venv/bin/python scripts/competition_eval.py --stop
 
   # 并发数说明：
   # --workers 1 最稳，逐题跑；--workers 2/4/8 会更快，但接口压力更大，可能更容易超时。
-  .venv/bin/python scripts/competition_eval.py --test --input data/question_public.csv --output data/submission.csv --workers 1
+  .venv/bin/python scripts/competition_eval.py --test --input data/question_public.csv --workers 1
 
   # 指定 API 地址
   .venv/bin/python scripts/competition_eval.py --test --api-url http://192.168.1.100:9900/chat
+
+  # 演示模式：额外打印每题 Agent/RAG 运行链路摘要
+  .venv/bin/python scripts/competition_eval.py --run --input data/question_public.csv --limit 3 --show-chain
         """,
     )
 
@@ -868,13 +1036,30 @@ def main():
 
     # 测试参数
     parser.add_argument("--input", default=str(DEFAULT_INPUT_CSV), help=f"测试问题 CSV 路径（默认: {DEFAULT_INPUT_CSV}）")
-    parser.add_argument("--output", default=str(DEFAULT_OUTPUT_CSV), help=f"提交答案 CSV 路径（默认: {DEFAULT_OUTPUT_CSV}）")
+    parser.add_argument(
+        "--output",
+        default=None,
+        help=f"提交答案 CSV 路径或输出目录（默认: {DEFAULT_OUTPUT_DIR}/submission_时间戳.csv）",
+    )
     parser.add_argument("--api-url", default=DEFAULT_API_URL, help=f"API 地址（默认: {DEFAULT_API_URL}）")
     parser.add_argument("--token", default="", help="Bearer Token（默认）")
     parser.add_argument("--workers", type=int, default=1, help="并发数（默认: 1；可改 2/4/8 加速，但过大容易超时）")
     parser.add_argument("--timeout", type=int, default=30, help="单题超时秒数（默认: 30）")
+    parser.add_argument("--start-id", type=int, default=None, help="从指定题目 id 开始读取（包含该 id）")
+    parser.add_argument("--end-id", type=int, default=None, help="读取到指定题目 id 结束（包含该 id）")
+    parser.add_argument("--limit", type=int, default=None, help="最多读取多少条题目")
+    parser.add_argument("--show-chain", action="store_true", help="打印每题 Agent/RAG 运行链路摘要，适合答辩演示截图")
 
     args = parser.parse_args()
+
+    if args.start_id is not None and args.start_id < 1:
+        parser.error("--start-id 必须大于等于 1")
+    if args.end_id is not None and args.end_id < 1:
+        parser.error("--end-id 必须大于等于 1")
+    if args.limit is not None and args.limit < 1:
+        parser.error("--limit 必须大于等于 1")
+    if args.start_id is not None and args.end_id is not None and args.start_id > args.end_id:
+        parser.error("--start-id 不能大于 --end-id")
 
     # 确定操作模式
     mode = None
