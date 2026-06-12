@@ -111,7 +111,6 @@ def load_rag_agent_service(monkeypatch):
         make_module(
             "app.tools",
             get_current_time=lambda: None,
-            memory_search=lambda query: "",
             retrieve_knowledge=lambda query: ("", []),
         ),
     )

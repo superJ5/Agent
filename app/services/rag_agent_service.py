@@ -30,7 +30,7 @@ from app.models.response import sanitize_summary_metadata
 from app.services.memory_service import memory_service
 from app.services.multimodal_message_builder import build_user_message
 from app.services.query_router import should_use_manual_rag
-from app.tools import get_current_time, memory_search, retrieve_knowledge
+from app.tools import get_current_time, retrieve_knowledge
 
 try:
     from app.services.long_term_memory_service import (
@@ -167,7 +167,7 @@ class RagAgentService:
         )
 
         # 定义基础工具
-        self.tools = [retrieve_knowledge, memory_search, get_current_time]
+        self.tools = [retrieve_knowledge, get_current_time]
 
         # MCP 客户端（延迟初始化，使用全局管理）
         self.mcp_tools: list = []
@@ -215,7 +215,7 @@ class RagAgentService:
         )
         self.customer_service_agent = create_agent(
             self.model,
-            tools=[memory_search, get_current_time],
+            tools=[get_current_time],
             checkpointer=self.checkpointer,
         )
 
@@ -261,7 +261,7 @@ class RagAgentService:
             11. 示例：英文问题“How do I install the mouse battery?”应检索“mouse battery installation battery compartment”，不得检索“鼠标 安装电池”。
 
             记忆使用规则:
-            1. 当前旧版 daily/MEMORY.md 记忆已停用，不要依赖 memory_search 获取历史偏好或项目背景。
+            1. 当前旧版 daily/MEMORY.md 记忆工具已移除，不要使用工具获取历史偏好或项目背景。
             2. 原始 session JSONL 只做日志和后续记忆更新原材料，不会直接进入当前回答上下文。
             3. 历史信息不足时，要明确说明未找到足够历史信息。
 

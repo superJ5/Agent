@@ -9,7 +9,7 @@
 第四层：Long-term Memory，跨 session 稳定记忆
 ```
 
-旧版 `daily/*.md`、`MEMORY.md`、`memory_search` 记忆检索已经从运行时停用。现在 `session_id` 不再表示“把整段历史原文塞给模型”，而是表示“当前请求属于哪个会话桶”，用于写原始日志、读取 Session State、读取短期记忆、检索长期记忆，并在回答后更新上下文记忆。
+旧版 `daily/*.md`、`MEMORY.md`、`memory_search` 记忆检索已经从运行时移除。现在 `session_id` 不再表示“把整段历史原文塞给模型”，而是表示“当前请求属于哪个会话桶”，用于写原始日志、读取 Session State、读取短期记忆、检索长期记忆，并在回答后更新上下文记忆。
 
 ## 1. 总体思路
 
