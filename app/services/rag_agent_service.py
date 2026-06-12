@@ -4,7 +4,9 @@
 支持真正的流式输出和更好的模型适配。
 """
 
+import asyncio
 import re
+import uuid
 from collections.abc import AsyncGenerator, Sequence
 from typing import Annotated, Any, cast
 
@@ -29,6 +31,65 @@ from app.services.memory_service import memory_service
 from app.services.multimodal_message_builder import build_user_message
 from app.services.query_router import should_use_manual_rag
 from app.tools import get_current_time, memory_search, retrieve_knowledge
+
+try:
+    from app.services.long_term_memory_service import (
+        long_term_memory_service as _long_term_memory_service,
+    )
+except Exception:  # pragma: no cover - keeps lightweight tests importable with stubs.
+    class _NoopLongTermMemoryService:
+        def build_context_block(self, **kwargs: Any) -> tuple[str, list[dict[str, Any]]]:
+            return "", []
+
+        async def update_after_turn(self, **kwargs: Any) -> None:
+            return None
+
+    _long_term_memory_service = _NoopLongTermMemoryService()
+
+long_term_memory_service = _long_term_memory_service
+
+try:
+    from app.services.session_state_service import (
+        session_state_service as _session_state_service,
+    )
+except Exception:  # pragma: no cover - keeps lightweight tests importable with stubs.
+    class _NoopSessionStateService:
+        def build_context_block(self, session_id: str) -> str:
+            return ""
+
+        async def update_after_turn(self, **kwargs: Any) -> None:
+            return None
+
+    _session_state_service = _NoopSessionStateService()
+
+session_state_service = _session_state_service
+
+try:
+    from app.services.short_term_memory_service import (
+        short_term_memory_service as _short_term_memory_service,
+    )
+except Exception:  # pragma: no cover - keeps lightweight tests importable with stubs.
+    class _NoopShortTermMemoryService:
+        def load_memory(self, session_id: str) -> str:
+            return ""
+
+        def load_recent_dialogue(
+            self,
+            session_id: str,
+            *,
+            current_question: str | None = None,
+        ) -> list[dict[str, Any]]:
+            return []
+
+        def format_dialogue(self, records: list[dict[str, Any]]) -> str:
+            return ""
+
+        async def update_after_turn(self, **kwargs: Any) -> None:
+            return None
+
+    _short_term_memory_service = _NoopShortTermMemoryService()
+
+short_term_memory_service = _short_term_memory_service
 
 EMPTY_IMAGE_ALT_RE = re.compile(r"!\[\]\(([^)]+)\)")
 PIC_ID_IN_PATH_RE = re.compile(r"([A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+)")
@@ -119,6 +180,9 @@ class RagAgentService:
         self.agent = None
         self.customer_service_agent = None
         self._agent_initialized = False
+        self._memory_update_tasks: set[asyncio.Task[Any]] = set()
+        self._session_state_update_tasks: set[asyncio.Task[Any]] = set()
+        self._long_term_memory_update_tasks: set[asyncio.Task[Any]] = set()
 
         logger.info(f"RAG Agent 服务初始化完成 (ChatQwen), model={self.model_name}, streaming={streaming}")
 
@@ -197,10 +261,9 @@ class RagAgentService:
             11. 示例：英文问题“How do I install the mouse battery?”应检索“mouse battery installation battery compartment”，不得检索“鼠标 安装电池”。
 
             记忆使用规则:
-            1. 当用户询问之前说过什么、历史偏好、项目长期背景、已讨论方案时，可以调用 memory_search 查询历史记忆。
-            2. MEMORY.md 会直接进入系统提示词，memory_search 只查询整理后的每日记忆 daily，不查询 MEMORY.md 或其他会话原始聊天记录。
-            3. 当前会话上下文由 MemorySaver 或当前 session 的最近 N 条 JSONL 历史自动提供，不需要用 memory_search 查询。
-            4. 历史记忆只作为上下文参考；如果记忆不足，要明确说明未找到足够历史信息。
+            1. 当前旧版 daily/MEMORY.md 记忆已停用，不要依赖 memory_search 获取历史偏好或项目背景。
+            2. 原始 session JSONL 只做日志和后续记忆更新原材料，不会直接进入当前回答上下文。
+            3. 历史信息不足时，要明确说明未找到足够历史信息。
 
             回答要求:
             - 保持友好、专业的语气
@@ -232,7 +295,7 @@ class RagAgentService:
         )
 
     def _build_effective_system_prompt(self, *, manual_rag_enabled: bool = True) -> str:
-        """Build system prompt with optional long-term memory context."""
+        """Build system prompt without legacy daily/MEMORY.md injection."""
         prompt = self.system_prompt
         if not manual_rag_enabled:
             prompt += (
@@ -244,47 +307,263 @@ class RagAgentService:
                 "- 需要平台核实时，建议用户通过订单售后入口或人工客服提交，不承诺具体处理结果。\n"
                 "- 使用自然、简洁的客服语气，不使用“根据手册”等表述，不过度道歉，不重复用户问题。"
             )
-        long_term_memory = memory_service.load_long_term_memory()
-        if not long_term_memory:
-            return prompt
-        return (
-            f"{prompt}\n\n"
-            "长期记忆上下文（来自 data/memory/MEMORY.md，仅作为稳定背景参考）:\n"
-            f"{long_term_memory}"
-        )
+        return prompt
 
     def _build_persistent_history_messages(
         self,
         session_id: str,
         current_question: str,
     ) -> list[BaseMessage]:
-        """Load recent JSONL history when LangGraph has no in-memory checkpoint."""
-        if self._has_session_checkpoint(session_id):
-            return []
+        """Legacy raw-message context injection is disabled.
 
-        recent_records = memory_service.load_recent_messages(
-            session_id,
-            limit=config.memory_recent_limit,
-            exclude_latest_user_content=current_question,
-        )
-        messages: list[BaseMessage] = []
-        for record in recent_records:
-            role = record.get("role")
-            content = str(record.get("content") or "").strip()
-            if not content:
-                continue
-            if role == "user":
-                messages.append(HumanMessage(content=content))
-            elif role == "assistant":
-                messages.append(AIMessage(content=content))
+        Raw JSONL remains the source of truth for auditing and future memory
+        updaters, but it should not be inserted into Agent context directly.
+        """
+        _ = (session_id, current_question)
+        return []
 
-        if messages:
-            logger.info(
-                "[会话 {}] 从持久记忆恢复最近 {} 条历史消息",
+    def _build_short_term_context_messages(
+        self,
+        session_id: str,
+        current_question: str,
+    ) -> tuple[list[BaseMessage], list[dict[str, Any]]]:
+        """Build short-term semantic memory context for the current request."""
+        try:
+            memory = short_term_memory_service.load_memory(session_id)
+            recent_dialogue = short_term_memory_service.load_recent_dialogue(
                 session_id,
-                len(messages),
+                current_question=current_question,
             )
-        return messages
+            recent_text = short_term_memory_service.format_dialogue(recent_dialogue)
+        except Exception as exc:
+            logger.warning("[会话 {}] 构造短期记忆上下文失败: {}", session_id, exc)
+            return [], []
+
+        sections: list[str] = []
+        if memory:
+            sections.append("【短期语义记忆】\n" + memory)
+        if recent_text:
+            sections.append("【最近 1-3 轮原始对话】\n" + recent_text)
+        if not sections:
+            return [], recent_dialogue
+
+        content = (
+            "以下是当前 session 的短期上下文，只作为续接当前任务的参考；"
+            "如与当前用户问题冲突，以当前用户问题为准。\n\n"
+            + "\n\n".join(sections)
+        )
+        return [SystemMessage(content=content)], recent_dialogue
+
+    def _build_session_state_context_messages(self, session_id: str) -> list[BaseMessage]:
+        """Build structured session-state context for the current request."""
+        try:
+            context = session_state_service.build_context_block(session_id)
+        except Exception as exc:
+            logger.warning("[会话 {}] 构造 Session State 上下文失败: {}", session_id, exc)
+            return []
+        if not context:
+            return []
+        return [SystemMessage(content=context)]
+
+    def _build_long_term_context_messages(
+        self,
+        *,
+        session_id: str,
+        question: str,
+        session_state_messages: list[BaseMessage],
+        short_term_messages: list[BaseMessage],
+    ) -> tuple[list[BaseMessage], list[dict[str, Any]]]:
+        """Build relevant long-term memory context for the current request."""
+        try:
+            session_state_context = "\n\n".join(str(message.content) for message in session_state_messages)
+            short_term_context = "\n\n".join(str(message.content) for message in short_term_messages)
+            context, memories = long_term_memory_service.build_context_block(
+                question=question,
+                session_id=session_id,
+                session_state_context=session_state_context,
+                short_term_context=short_term_context,
+            )
+        except Exception as exc:
+            logger.warning("[会话 {}] 构造长期记忆上下文失败: {}", session_id, exc)
+            return [], []
+        if not context:
+            return [], memories
+        return [SystemMessage(content=context)], memories
+
+    async def _update_short_term_memory_after_turn(
+        self,
+        *,
+        session_id: str,
+        question: str,
+        answer: str,
+        prior_dialogue: list[dict[str, Any]],
+    ) -> None:
+        try:
+            await short_term_memory_service.update_after_turn(
+                session_id=session_id,
+                user_message=question,
+                assistant_message=answer,
+                prior_dialogue=prior_dialogue,
+            )
+        except Exception as exc:
+            logger.warning("[会话 {}] 短期记忆更新异常，已忽略: {}", session_id, exc)
+
+    def _schedule_short_term_memory_update(
+        self,
+        *,
+        session_id: str,
+        question: str,
+        answer: str,
+        prior_dialogue: list[dict[str, Any]],
+    ) -> None:
+        """Schedule memory update without delaying the user-facing answer."""
+        if not str(answer or "").strip():
+            return
+        try:
+            task = asyncio.create_task(
+                self._update_short_term_memory_after_turn(
+                    session_id=session_id,
+                    question=question,
+                    answer=answer,
+                    prior_dialogue=prior_dialogue,
+                )
+            )
+            self._memory_update_tasks.add(task)
+            task.add_done_callback(self._memory_update_tasks.discard)
+        except RuntimeError:
+            logger.warning("[会话 {}] 无可用事件循环，跳过短期记忆后台更新", session_id)
+
+    async def _update_session_state_after_turn(
+        self,
+        *,
+        session_id: str,
+        question: str,
+        answer: str,
+        prior_dialogue: list[dict[str, Any]],
+    ) -> None:
+        try:
+            await session_state_service.update_after_turn(
+                session_id=session_id,
+                user_message=question,
+                assistant_message=answer,
+                prior_dialogue=prior_dialogue,
+            )
+        except Exception as exc:
+            logger.warning("[会话 {}] Session State 更新异常，已忽略: {}", session_id, exc)
+
+    def _schedule_session_state_update(
+        self,
+        *,
+        session_id: str,
+        question: str,
+        answer: str,
+        prior_dialogue: list[dict[str, Any]],
+    ) -> None:
+        """Schedule session-state update without delaying the answer."""
+        if not str(answer or "").strip():
+            return
+        try:
+            task = asyncio.create_task(
+                self._update_session_state_after_turn(
+                    session_id=session_id,
+                    question=question,
+                    answer=answer,
+                    prior_dialogue=prior_dialogue,
+                )
+            )
+            self._session_state_update_tasks.add(task)
+            task.add_done_callback(self._session_state_update_tasks.discard)
+        except RuntimeError:
+            logger.warning("[会话 {}] 无可用事件循环，跳过 Session State 后台更新", session_id)
+
+    async def _update_long_term_memory_after_turn(
+        self,
+        *,
+        session_id: str,
+        question: str,
+        answer: str,
+        prior_dialogue: list[dict[str, Any]],
+        retrieved_memories: list[dict[str, Any]],
+        session_state_messages: list[BaseMessage],
+        short_term_messages: list[BaseMessage],
+    ) -> None:
+        try:
+            await long_term_memory_service.update_after_turn(
+                session_id=session_id,
+                user_message=question,
+                assistant_message=answer,
+                session_state_context="\n\n".join(str(message.content) for message in session_state_messages),
+                short_term_memory="\n\n".join(str(message.content) for message in short_term_messages),
+                prior_dialogue=prior_dialogue,
+                retrieved_memories=retrieved_memories,
+            )
+        except Exception as exc:
+            logger.warning("[会话 {}] 长期记忆更新异常，已忽略: {}", session_id, exc)
+
+    def _schedule_long_term_memory_update(
+        self,
+        *,
+        session_id: str,
+        question: str,
+        answer: str,
+        prior_dialogue: list[dict[str, Any]],
+        retrieved_memories: list[dict[str, Any]],
+        session_state_messages: list[BaseMessage],
+        short_term_messages: list[BaseMessage],
+    ) -> None:
+        """Schedule long-term memory update without delaying the answer."""
+        if not str(answer or "").strip():
+            return
+        try:
+            task = asyncio.create_task(
+                self._update_long_term_memory_after_turn(
+                    session_id=session_id,
+                    question=question,
+                    answer=answer,
+                    prior_dialogue=prior_dialogue,
+                    retrieved_memories=retrieved_memories,
+                    session_state_messages=session_state_messages,
+                    short_term_messages=short_term_messages,
+                )
+            )
+            self._long_term_memory_update_tasks.add(task)
+            task.add_done_callback(self._long_term_memory_update_tasks.discard)
+        except RuntimeError:
+            logger.warning("[会话 {}] 无可用事件循环，跳过长期记忆后台更新", session_id)
+
+    def _schedule_context_memory_updates(
+        self,
+        *,
+        session_id: str,
+        question: str,
+        answer: str,
+        prior_dialogue: list[dict[str, Any]],
+        retrieved_memories: list[dict[str, Any]],
+        session_state_messages: list[BaseMessage],
+        short_term_messages: list[BaseMessage],
+    ) -> None:
+        """Schedule all context-memory updates for one completed turn."""
+        self._schedule_short_term_memory_update(
+            session_id=session_id,
+            question=question,
+            answer=answer,
+            prior_dialogue=prior_dialogue,
+        )
+        self._schedule_long_term_memory_update(
+            session_id=session_id,
+            question=question,
+            answer=answer,
+            prior_dialogue=prior_dialogue,
+            retrieved_memories=retrieved_memories,
+            session_state_messages=session_state_messages,
+            short_term_messages=short_term_messages,
+        )
+        self._schedule_session_state_update(
+            session_id=session_id,
+            question=question,
+            answer=answer,
+            prior_dialogue=prior_dialogue,
+        )
 
     def _has_session_checkpoint(self, session_id: str) -> bool:
         """Return whether MemorySaver already has state for this session."""
@@ -325,6 +604,17 @@ class RagAgentService:
                 f"[会话 {session_id}] 查询分流: "
                 f"{'manual_rag' if manual_rag_enabled else 'customer_service'}"
             )
+            short_term_messages, prior_dialogue = self._build_short_term_context_messages(
+                session_id,
+                question,
+            )
+            session_state_messages = self._build_session_state_context_messages(session_id)
+            long_term_messages, retrieved_long_term_memories = self._build_long_term_context_messages(
+                session_id=session_id,
+                question=question,
+                session_state_messages=session_state_messages,
+                short_term_messages=short_term_messages,
+            )
 
             # 构建消息列表（系统提示 + 用户问题）
             messages = [
@@ -333,6 +623,9 @@ class RagAgentService:
                         manual_rag_enabled=manual_rag_enabled
                     )
                 ),
+                *long_term_messages,
+                *session_state_messages,
+                *short_term_messages,
                 *self._build_persistent_history_messages(session_id, question),
                 build_user_message(question, images),
             ]
@@ -343,7 +636,7 @@ class RagAgentService:
             # 配置 thread_id（用于会话持久化）
             config_dict = {
                 "configurable": {
-                    "thread_id": session_id
+                    "thread_id": self._request_thread_id(session_id)
                 }
             }
 
@@ -371,7 +664,17 @@ class RagAgentService:
                     logger.info(f"[会话 {session_id}] Agent 调用了工具: {tool_names}")
 
                 logger.info(f"[会话 {session_id}] RAG Agent 查询完成（非流式）")
-                return self._ensure_image_placeholders(str(answer))
+                answer_text = self._ensure_image_placeholders(str(answer))
+                self._schedule_context_memory_updates(
+                    session_id=session_id,
+                    question=question,
+                    answer=answer_text,
+                    prior_dialogue=prior_dialogue,
+                    retrieved_memories=retrieved_long_term_memories,
+                    session_state_messages=session_state_messages,
+                    short_term_messages=short_term_messages,
+                )
+                return answer_text
 
             logger.warning(f"[会话 {session_id}] Agent 返回结果为空")
             return ""
@@ -457,6 +760,17 @@ class RagAgentService:
                 f"[会话 {session_id}] 查询分流: "
                 f"{'manual_rag' if manual_rag_enabled else 'customer_service'}"
             )
+            short_term_messages, prior_dialogue = self._build_short_term_context_messages(
+                session_id,
+                question,
+            )
+            session_state_messages = self._build_session_state_context_messages(session_id)
+            long_term_messages, retrieved_long_term_memories = self._build_long_term_context_messages(
+                session_id=session_id,
+                question=question,
+                session_state_messages=session_state_messages,
+                short_term_messages=short_term_messages,
+            )
 
             # 构建消息列表（系统提示 + 用户问题）
             messages = [
@@ -465,6 +779,9 @@ class RagAgentService:
                         manual_rag_enabled=manual_rag_enabled
                     )
                 ),
+                *long_term_messages,
+                *session_state_messages,
+                *short_term_messages,
                 *self._build_persistent_history_messages(session_id, question),
                 build_user_message(question, images),
             ]
@@ -475,7 +792,7 @@ class RagAgentService:
             # 配置 thread_id（用于会话持久化）
             config_dict = {
                 "configurable": {
-                    "thread_id": session_id
+                    "thread_id": self._request_thread_id(session_id)
                 }
             }
 
@@ -483,6 +800,7 @@ class RagAgentService:
             if selected_agent is None:
                 raise RuntimeError("Agent 未初始化")
 
+            answer_parts: list[str] = []
             async for token, metadata in selected_agent.astream(
                 input=agent_input,
                 config=config_dict,
@@ -499,6 +817,7 @@ class RagAgentService:
                             if isinstance(block, dict) and block.get('type') == 'text':
                                 text_content = block.get('text', '')
                                 if text_content:
+                                    answer_parts.append(text_content)
                                     yield {
                                         "type": "content",
                                         "data": text_content,
@@ -506,6 +825,15 @@ class RagAgentService:
                                     }
 
             logger.info(f"[会话 {session_id}] RAG Agent 查询完成（流式）")
+            self._schedule_context_memory_updates(
+                session_id=session_id,
+                question=question,
+                answer="".join(answer_parts),
+                prior_dialogue=prior_dialogue,
+                retrieved_memories=retrieved_long_term_memories,
+                session_state_messages=session_state_messages,
+                short_term_messages=short_term_messages,
+            )
             yield {"type": "complete"}
 
         except Exception as e:
@@ -527,55 +855,18 @@ class RagAgentService:
             list: 消息历史列表 [{"role": "user|assistant", "content": "...", "timestamp": "..."}]
         """
         try:
-            # 使用 checkpointer 的 get 方法获取最新的检查点
-            config = {"configurable": {"thread_id": session_id}}
-
-            # 获取该 thread 的最新检查点
-            checkpoint_tuple = cast(Any, self.checkpointer).get(cast(Any, config))
-
-            if not checkpoint_tuple:
-                logger.info(f"获取会话历史: {session_id}, 消息数量: 0")
-                return []
-
-            # checkpoint_tuple 可能是命名元组或普通元组，安全地提取 checkpoint
-            # 通常第一个元素是 checkpoint 数据
-            if hasattr(checkpoint_tuple, "checkpoint"):
-                checkpoint_data = cast(Any, checkpoint_tuple).checkpoint
-            else:
-                # 如果是普通元组，第一个元素是 checkpoint
-                checkpoint_data = checkpoint_tuple[0] if checkpoint_tuple else {}
-
-            # 从检查点中提取消息
-            messages = cast(Any, checkpoint_data).get("channel_values", {}).get(
-                "messages",
-                [],
-            )
-
-            # 转换为前端需要的格式
             history = []
-            for msg in messages:
-                # 跳过系统消息
-                if isinstance(msg, SystemMessage):
-                    continue
-
-                role = "user" if isinstance(msg, HumanMessage) else "assistant"
-                content = msg.content if hasattr(msg, 'content') else str(msg)
-
-                # 提取时间戳（如果有的话）
-                timestamp = getattr(msg, 'timestamp', None)
-                if timestamp:
-                    history.append({
-                        "role": role,
-                        "content": content,
-                        "timestamp": timestamp
-                    })
-                else:
-                    from datetime import datetime
-                    history.append({
-                        "role": role,
-                        "content": content,
-                        "timestamp": datetime.now().isoformat()
-                    })
+            for record in memory_service.load_recent_messages(
+                session_id,
+                limit=config.memory_recent_limit,
+            ):
+                history.append(
+                    {
+                        "role": str(record.get("role") or ""),
+                        "content": str(record.get("content") or ""),
+                        "timestamp": str(record.get("timestamp") or ""),
+                    }
+                )
 
             logger.info(f"获取会话历史: {session_id}, 消息数量: {len(history)}")
             return history
@@ -604,6 +895,11 @@ class RagAgentService:
         except Exception as e:
             logger.error(f"清空会话历史失败: {session_id}, 错误: {e}")
             return False
+
+    @staticmethod
+    def _request_thread_id(session_id: str) -> str:
+        """Use a fresh LangGraph thread so raw prior messages are not replayed."""
+        return f"{session_id}__request_{uuid.uuid4().hex}"
 
     async def cleanup(self):
         """清理资源"""

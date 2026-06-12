@@ -229,3 +229,96 @@ def test_query_selects_agent_using_local_router(monkeypatch):
 
     assert manual_answer == "manual"
     assert customer_answer == "customer"
+
+
+def test_query_injects_and_updates_short_term_memory(monkeypatch):
+    module = load_rag_agent_service(monkeypatch)
+
+    class FakeShortTermMemoryService:
+        def __init__(self) -> None:
+            self.updated_payload = None
+
+        def load_memory(self, session_id: str) -> str:
+            assert session_id == "memory-session"
+            return "目标：定位支付接口变慢原因。"
+
+        def load_recent_dialogue(self, session_id: str, *, current_question: str | None = None):
+            assert session_id == "memory-session"
+            assert current_question == "下一步查什么？"
+            return [
+                {"role": "user", "content": "接口 22:10 后变慢"},
+                {"role": "assistant", "content": "先排查数据库慢查询"},
+            ]
+
+        def format_dialogue(self, records):
+            return "\n".join(
+                f"{item['role']}: {item['content']}"
+                for item in records
+            )
+
+        async def update_after_turn(self, **kwargs):
+            self.updated_payload = kwargs
+
+    class FakeSessionStateService:
+        def build_context_block(self, session_id: str) -> str:
+            assert session_id == "memory-session"
+            return (
+                "【当前会话状态】\n"
+                "目标：定位支付接口变慢原因\n"
+                "当前假设：\n"
+                "- 第三方回调超时可能导致接口变慢"
+            )
+
+    class FakeLongTermMemoryService:
+        def build_context_block(self, **kwargs):
+            assert kwargs["session_id"] == "memory-session"
+            assert kwargs["question"] == "下一步查什么？"
+            return (
+                "【长期记忆】\n- 用户喜欢直接给排查步骤",
+                [{"memory_id": "ltm-test", "content": "用户喜欢直接给排查步骤"}],
+            )
+
+    class FakeAgent:
+        def __init__(self) -> None:
+            self.messages = []
+
+        async def ainvoke(self, **kwargs):
+            self.messages = kwargs["input"]["messages"]
+            return {"messages": [FakeMessage("继续检查回调超时。")]}
+
+    fake_memory = FakeShortTermMemoryService()
+    fake_agent = FakeAgent()
+    monkeypatch.setattr(module, "short_term_memory_service", fake_memory)
+    monkeypatch.setattr(module, "session_state_service", FakeSessionStateService())
+    monkeypatch.setattr(module, "long_term_memory_service", FakeLongTermMemoryService())
+
+    service = module.RagAgentService()
+    service.agent = fake_agent
+    service.customer_service_agent = fake_agent
+    service._agent_initialized = True
+    scheduled_payload = {}
+    monkeypatch.setattr(
+        service,
+        "_schedule_context_memory_updates",
+        lambda **kwargs: scheduled_payload.update(kwargs),
+    )
+
+    answer = asyncio.run(service.query("下一步查什么？", "memory-session"))
+
+    assert answer == "继续检查回调超时。"
+    context_text = "\n".join(str(message.content) for message in fake_agent.messages)
+    assert "【长期记忆】" in context_text
+    assert "用户喜欢直接给排查步骤" in context_text
+    assert "【当前会话状态】" in context_text
+    assert "第三方回调超时可能导致接口变慢" in context_text
+    assert "【短期语义记忆】" in context_text
+    assert "目标：定位支付接口变慢原因。" in context_text
+    assert "【最近 1-3 轮原始对话】" in context_text
+    assert "接口 22:10 后变慢" in context_text
+    assert context_text.index("【长期记忆】") < context_text.index("【当前会话状态】")
+    assert context_text.index("【当前会话状态】") < context_text.index("【短期语义记忆】")
+    assert scheduled_payload["session_id"] == "memory-session"
+    assert scheduled_payload["question"] == "下一步查什么？"
+    assert scheduled_payload["answer"] == "继续检查回调超时。"
+    assert scheduled_payload["prior_dialogue"][0]["content"] == "接口 22:10 后变慢"
+    assert scheduled_payload["retrieved_memories"][0]["memory_id"] == "ltm-test"

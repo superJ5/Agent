@@ -64,9 +64,9 @@
    stream 流式返回
    ```
 
-2. [记忆系统改造方案](./memory_system_proposal.md)
+2. [上下文记忆系统](./context_memory_system.md)
 
-   放后续如果想把当前项目改成类似 OpenClaw 记忆系统的设计方案。
+   说明当前已经接入的原始 Session 日志层和短期语义记忆层。
 
 ## 当前系统一句话
 

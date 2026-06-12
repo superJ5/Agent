@@ -94,27 +94,7 @@ uploads
 python scripts/index_manual_chunks.py
 ```
 
-## 4. 记忆 daily 入库
-
-记忆系统的 daily 总结是另一条单独路径：
-
-```text
-data/memory/daily/*.md
-```
-
-入库命令：
-
-```bash
-python scripts/index_memory.py --rebuild
-```
-
-总结并顺便入库：
-
-```bash
-python scripts/summarize_memory.py --date YYYY-MM-DD --index
-```
-
-## 5. 简单结论
+## 4. 简单结论
 
 ```text
 手册知识库主线：
@@ -122,7 +102,4 @@ data/manuals/chunks/*.jsonl → scripts/index_manual_chunks.py → Milvus biz
 
 临时上传/旧入口：
 aiops-docs/*.md → /api/upload → uploads/ → Milvus biz
-
-记忆系统：
-data/memory/daily/*.md → scripts/index_memory.py → Milvus memory
 ```

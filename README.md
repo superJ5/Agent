@@ -366,6 +366,10 @@ COMPETITION_FALLBACK_TIMEOUT_SECONDS=2.5 \
 | 比赛标准对话 | POST | `/chat` | 比赛评测接口 |
 | 普通对话 | POST | `/api/chat` | 旧版对话接口 |
 | 流式对话 | POST | `/api/chat_stream` | SSE 流式输出 |
+| 原始会话历史 | GET | `/api/chat/session/{session_id}` | 查看 session JSONL 最近记录 |
+| 短期语义记忆 | GET | `/api/chat/session/{session_id}/short-term-memory` | 查看当前 session 的短期记忆 |
+| 当前会话状态 | GET | `/api/chat/session/{session_id}/session-state` | 查看当前 session 的结构化任务状态 |
+| 长期记忆 | GET | `/api/chat/memory/long-term` | 查看 Milvus 中的长期记忆 |
 | AIOps 诊断 | POST | `/api/aiops` | 自动故障诊断 |
 | 手册入库 | POST | `/api/index_manual_chunks` | 手册 chunks 入库 |
 | 健康检查 | GET | `/health` | 服务状态 |
@@ -377,6 +381,97 @@ curl -X POST "http://localhost:9900/chat" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $API_BEARER_TOKEN" \
   -d '{"question":"空调滤网怎么清洁？","session_id":"test-session"}'
+```
+
+### 记忆系统接口
+
+当前已接入四层上下文记忆：
+
+```text
+原始会话日志：data/memory/sessions/<session_id>.jsonl
+短期语义记忆：data/memory/short_term/<session_id>.md
+当前会话状态：data/memory/session_state/<session_id>.json
+长期记忆：Milvus collection long_term_memory
+```
+
+带 `session_id` 调用 `/chat` 时，系统会自动写入原始会话日志。回答前会检索长期记忆，并读取结构化 Session State、短期语义记忆和最近 1-3 轮原始对话作为上下文；回答结束后会后台更新短期语义记忆、Session State 和长期记忆。
+
+查看原始会话历史：
+
+```bash
+curl "http://localhost:9900/api/chat/session/test-session"
+```
+
+查看短期语义记忆：
+
+```bash
+curl "http://localhost:9900/api/chat/session/test-session/short-term-memory"
+```
+
+返回示例：
+
+```json
+{
+  "session_id": "test-session",
+  "exists": true,
+  "content": "目标：...\n关键事实：..."
+}
+```
+
+查看当前会话状态：
+
+```bash
+curl "http://localhost:9900/api/chat/session/test-session/session-state"
+```
+
+返回示例：
+
+```json
+{
+  "session_id": "test-session",
+  "exists": true,
+  "state": {
+    "session_id": "test-session",
+    "goal": "定位支付接口变慢原因",
+    "confirmed_facts": ["22:10 后 /api/pay P95 从 300ms 升到 3.8s"],
+    "current_hypothesis": ["第三方支付回调超时可能导致接口变慢"],
+    "rejected_hypotheses": ["数据库慢查询导致接口变慢"],
+    "next_actions": ["检查 v2.3.1 是否改动回调重试逻辑"],
+    "user_constraints": [],
+    "updated_at": "2026-06-12T00:00:00+00:00"
+  }
+}
+```
+
+查看长期记忆：
+
+```bash
+curl "http://localhost:9900/api/chat/memory/long-term"
+```
+
+返回示例：
+
+```json
+{
+  "user_id": "default",
+  "count": 1,
+  "memories": [
+    {
+      "memory_id": "ltm_xxx",
+      "type": "preference",
+      "content": "用户喜欢用大白话解释技术问题",
+      "confidence": 0.95,
+      "status": "active",
+      "expires_at": null
+    }
+  ]
+}
+```
+
+更完整的上下文记忆设计说明见：
+
+```text
+docs/context_memory_system.md
 ```
 
 ## 常用 Make 命令
