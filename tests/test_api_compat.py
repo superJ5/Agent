@@ -39,9 +39,58 @@ def competition_client(monkeypatch):
         config=SimpleNamespace(api_bearer_token="secret-token", debug=False)
     )
     service_module = SimpleNamespace(rag_agent_service=service)
+    short_term_module = SimpleNamespace(
+        short_term_memory_service=SimpleNamespace(
+            load_memory=lambda session_id: (
+                "目标：测试短期记忆" if session_id == "session-memory" else ""
+            )
+        )
+    )
+    session_state_module = SimpleNamespace(
+        session_state_service=SimpleNamespace(
+            load_state=lambda session_id: (
+                SimpleNamespace(
+                    model_dump=lambda: {
+                        "session_id": "session-state",
+                        "goal": "定位支付接口变慢原因",
+                        "confirmed_facts": ["22:10 后 P95 升高"],
+                        "current_hypothesis": ["第三方回调超时可能导致变慢"],
+                        "rejected_hypotheses": ["数据库慢查询导致变慢"],
+                        "next_actions": ["检查回调重试逻辑"],
+                        "user_constraints": [],
+                        "updated_at": "2026-06-12T00:00:00+00:00",
+                    }
+                )
+                if session_id == "session-state"
+                else None
+            )
+        )
+    )
+    long_term_module = SimpleNamespace(
+        long_term_memory_service=SimpleNamespace(
+            list_memories=lambda user_id="default", include_inactive=False, limit=100: [
+                {
+                    "memory_id": "ltm-test",
+                    "user_id": user_id,
+                    "type": "preference",
+                    "content": "用户喜欢大白话解释技术问题",
+                    "evidence": "用户明确表达了讲解偏好",
+                    "confidence": 0.95,
+                    "status": "active",
+                    "source_session_id": "session-memory",
+                    "created_at": "2026-06-12T00:00:00+00:00",
+                    "updated_at": "2026-06-12T00:00:00+00:00",
+                    "expires_at": None,
+                }
+            ]
+        )
+    )
 
     monkeypatch.setitem(sys.modules, "app.config", config_module)
     monkeypatch.setitem(sys.modules, "app.services.rag_agent_service", service_module)
+    monkeypatch.setitem(sys.modules, "app.services.short_term_memory_service", short_term_module)
+    monkeypatch.setitem(sys.modules, "app.services.session_state_service", session_state_module)
+    monkeypatch.setitem(sys.modules, "app.services.long_term_memory_service", long_term_module)
     sys.modules.pop("app.api.chat", None)
 
     chat_module = importlib.import_module("app.api.chat")
@@ -49,6 +98,7 @@ def competition_client(monkeypatch):
 
     app = FastAPI()
     app.include_router(chat_module.competition_router)
+    app.include_router(chat_module.router, prefix="/api")
     with TestClient(app) as client:
         yield client, service
 
@@ -236,3 +286,74 @@ def test_competition_chat_returns_fallback_on_agent_timeout(competition_client, 
     assert "清洁前请拔掉电源" in body["data"]["answer"]
     assert body["data"]["metadata"]["timeout"] is True
     assert body["data"]["metadata"]["degraded"] is True
+
+
+def test_short_term_memory_debug_endpoint(competition_client):
+    client, _ = competition_client
+
+    response = client.get("/api/chat/session/session-memory/short-term-memory")
+
+    assert response.status_code == 200
+    assert response.json() == {
+        "session_id": "session-memory",
+        "exists": True,
+        "content": "目标：测试短期记忆",
+    }
+
+
+def test_session_state_debug_endpoint(competition_client):
+    client, _ = competition_client
+
+    response = client.get("/api/chat/session/session-state/session-state")
+
+    assert response.status_code == 200
+    assert response.json() == {
+        "session_id": "session-state",
+        "exists": True,
+        "state": {
+            "session_id": "session-state",
+            "goal": "定位支付接口变慢原因",
+            "confirmed_facts": ["22:10 后 P95 升高"],
+            "current_hypothesis": ["第三方回调超时可能导致变慢"],
+            "rejected_hypotheses": ["数据库慢查询导致变慢"],
+            "next_actions": ["检查回调重试逻辑"],
+            "user_constraints": [],
+            "updated_at": "2026-06-12T00:00:00+00:00",
+        },
+    }
+
+    missing = client.get("/api/chat/session/missing/short-term-memory")
+
+    assert missing.status_code == 200
+    assert missing.json() == {
+        "session_id": "missing",
+        "exists": False,
+        "content": "",
+    }
+
+
+def test_long_term_memory_debug_endpoint(competition_client):
+    client, _ = competition_client
+
+    response = client.get("/api/chat/memory/long-term")
+
+    assert response.status_code == 200
+    assert response.json() == {
+        "user_id": "default",
+        "count": 1,
+        "memories": [
+            {
+                "memory_id": "ltm-test",
+                "user_id": "default",
+                "type": "preference",
+                "content": "用户喜欢大白话解释技术问题",
+                "evidence": "用户明确表达了讲解偏好",
+                "confidence": 0.95,
+                "status": "active",
+                "source_session_id": "session-memory",
+                "created_at": "2026-06-12T00:00:00+00:00",
+                "updated_at": "2026-06-12T00:00:00+00:00",
+                "expires_at": None,
+            }
+        ],
+    }

@@ -18,7 +18,10 @@ from app.config import config
 from app.models.request import ChatRequest, ClearRequest
 from app.models.response import (
     ApiResponse,
+    LongTermMemoryListResponse,
     SessionInfoResponse,
+    SessionStateResponse,
+    ShortTermMemoryResponse,
     sanitize_summary_metadata,
 )
 from app.services.competition_answer_formatter import format_answer_images
@@ -35,6 +38,48 @@ except Exception:  # pragma: no cover - keeps API compatibility tests importable
     _memory_service = _NoopMemoryService()
 
 memory_service: Any = _memory_service
+
+_short_term_memory_service: Any
+try:
+    from app.services.short_term_memory_service import (
+        short_term_memory_service as _short_term_memory_service,
+    )
+except Exception:  # pragma: no cover - keeps API compatibility tests importable with stubs.
+    class _NoopShortTermMemoryService:
+        def load_memory(self, *args: Any, **kwargs: Any) -> str:
+            return ""
+
+    _short_term_memory_service = _NoopShortTermMemoryService()
+
+short_term_memory_service: Any = _short_term_memory_service
+
+_session_state_service: Any
+try:
+    from app.services.session_state_service import (
+        session_state_service as _session_state_service,
+    )
+except Exception:  # pragma: no cover - keeps API compatibility tests importable with stubs.
+    class _NoopSessionStateService:
+        def load_state(self, *args: Any, **kwargs: Any) -> None:
+            return None
+
+    _session_state_service = _NoopSessionStateService()
+
+session_state_service: Any = _session_state_service
+
+_long_term_memory_service: Any
+try:
+    from app.services.long_term_memory_service import (
+        long_term_memory_service as _long_term_memory_service,
+    )
+except Exception:  # pragma: no cover - keeps API compatibility tests importable with stubs.
+    class _NoopLongTermMemoryService:
+        def list_memories(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+            return []
+
+    _long_term_memory_service = _NoopLongTermMemoryService()
+
+long_term_memory_service: Any = _long_term_memory_service
 
 router = APIRouter()
 competition_router = APIRouter()
@@ -582,4 +627,64 @@ async def get_session_info(session_id: str) -> SessionInfoResponse:
 
     except Exception as exc:
         logger.error(f"获取会话信息错误: {exc}")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@router.get(
+    "/chat/session/{session_id}/short-term-memory",
+    response_model=ShortTermMemoryResponse,
+)
+async def get_short_term_memory(session_id: str) -> ShortTermMemoryResponse:
+    """查询当前 session 的短期语义记忆。"""
+    try:
+        content = str(short_term_memory_service.load_memory(session_id) or "")
+        return ShortTermMemoryResponse(
+            session_id=session_id,
+            exists=bool(content.strip()),
+            content=content,
+        )
+    except Exception as exc:
+        logger.error(f"获取短期语义记忆错误: {exc}")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@router.get(
+    "/chat/session/{session_id}/session-state",
+    response_model=SessionStateResponse,
+)
+async def get_session_state(session_id: str) -> SessionStateResponse:
+    """查询当前 session 的结构化状态。"""
+    try:
+        state = session_state_service.load_state(session_id)
+        state_payload = state.model_dump() if hasattr(state, "model_dump") else state
+        return SessionStateResponse(
+            session_id=session_id,
+            exists=state is not None,
+            state=state_payload if isinstance(state_payload, dict) else None,
+        )
+    except Exception as exc:
+        logger.error(f"获取 Session State 错误: {exc}")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@router.get("/chat/memory/long-term", response_model=LongTermMemoryListResponse)
+async def list_long_term_memory(
+    user_id: str = "default",
+    include_inactive: bool = False,
+    limit: int = 100,
+) -> LongTermMemoryListResponse:
+    """查询长期记忆列表。"""
+    try:
+        memories = long_term_memory_service.list_memories(
+            user_id=user_id,
+            include_inactive=include_inactive,
+            limit=limit,
+        )
+        return LongTermMemoryListResponse(
+            user_id=user_id,
+            count=len(memories),
+            memories=memories,
+        )
+    except Exception as exc:
+        logger.error(f"获取长期记忆错误: {exc}")
         raise HTTPException(status_code=500, detail=str(exc)) from exc

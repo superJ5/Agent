@@ -98,6 +98,30 @@ class SessionInfoResponse(BaseModel):
     history: list[dict[str, str]] = Field(..., description="历史消息列表")
 
 
+class ShortTermMemoryResponse(BaseModel):
+    """短期语义记忆响应。"""
+
+    session_id: str = Field(..., description="会话 ID")
+    exists: bool = Field(..., description="短期记忆文件是否存在且非空")
+    content: str = Field(..., description="短期语义记忆 Markdown 内容")
+
+
+class SessionStateResponse(BaseModel):
+    """结构化会话状态响应。"""
+
+    session_id: str = Field(..., description="会话 ID")
+    exists: bool = Field(..., description="Session State 文件是否存在且有效")
+    state: dict[str, Any] | None = Field(None, description="结构化 Session State")
+
+
+class LongTermMemoryListResponse(BaseModel):
+    """长期记忆列表响应。"""
+
+    user_id: str = Field(..., description="用户 ID")
+    count: int = Field(..., description="返回记忆数量")
+    memories: list[dict[str, Any]] = Field(default_factory=list, description="长期记忆条目")
+
+
 class ApiResponse(BaseModel):
     """通用 API 响应。"""
 

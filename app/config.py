@@ -62,6 +62,13 @@ class Settings(BaseSettings):
     memory_daily_max_chars: int = 5000
     memory_summary_input_max_chars: int = 20000
     memory_summary_model: str = ""
+    short_term_memory_model: str = ""
+    session_state_model: str = ""
+    long_term_memory_model: str = ""
+    long_term_memory_collection_name: str = "long_term_memory"
+    long_term_memory_top_k: int = 5
+    long_term_memory_min_confidence: float = 0.7
+    long_term_memory_min_relevance: float = 0.2
 
     # Chunking
     chunk_max_size: int = 800
