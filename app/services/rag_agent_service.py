@@ -329,6 +329,9 @@ class RagAgentService:
         current_question: str,
     ) -> tuple[list[BaseMessage], list[dict[str, Any]]]:
         """Build short-term semantic memory context for the current request."""
+        if not config.memory_enabled:
+            return [], []
+
         try:
             memory = short_term_memory_service.load_memory(session_id)
             recent_dialogue = short_term_memory_service.load_recent_dialogue(
@@ -357,6 +360,9 @@ class RagAgentService:
 
     def _build_session_state_context_messages(self, session_id: str) -> list[BaseMessage]:
         """Build structured session-state context for the current request."""
+        if not config.memory_enabled:
+            return []
+
         try:
             context = session_state_service.build_context_block(session_id)
         except Exception as exc:
@@ -375,6 +381,9 @@ class RagAgentService:
         short_term_messages: list[BaseMessage],
     ) -> tuple[list[BaseMessage], list[dict[str, Any]]]:
         """Build relevant long-term memory context for the current request."""
+        if not config.memory_enabled:
+            return [], []
+
         try:
             session_state_context = "\n\n".join(str(message.content) for message in session_state_messages)
             short_term_context = "\n\n".join(str(message.content) for message in short_term_messages)
@@ -544,6 +553,10 @@ class RagAgentService:
         short_term_messages: list[BaseMessage],
     ) -> None:
         """Schedule all context-memory updates for one completed turn."""
+        if not config.memory_enabled:
+            logger.debug("[会话 {}] 跳过上下文记忆更新: MEMORY_ENABLED=false", session_id)
+            return
+
         self._schedule_short_term_memory_update(
             session_id=session_id,
             question=question,

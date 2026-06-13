@@ -77,6 +77,7 @@ def load_rag_agent_service(monkeypatch):
                 rag_model="fake-model",
                 dashscope_api_key="fake-key",
                 dashscope_api_base="https://example.test",
+                memory_enabled=True,
                 memory_recent_limit=3,
             ),
         ),
@@ -321,3 +322,45 @@ def test_query_injects_and_updates_short_term_memory(monkeypatch):
     assert scheduled_payload["answer"] == "继续检查回调超时。"
     assert scheduled_payload["prior_dialogue"][0]["content"] == "接口 22:10 后变慢"
     assert scheduled_payload["retrieved_memories"][0]["memory_id"] == "ltm-test"
+
+
+def test_memory_enabled_false_skips_context_memory(monkeypatch):
+    module = load_rag_agent_service(monkeypatch)
+    module.config.memory_enabled = False
+
+    class DisabledMemoryService:
+        def load_memory(self, *args, **kwargs):
+            raise AssertionError("memory should not be read")
+
+        def load_recent_dialogue(self, *args, **kwargs):
+            raise AssertionError("recent dialogue should not be read")
+
+        def build_context_block(self, *args, **kwargs):
+            raise AssertionError("context memory should not be read")
+
+    class FakeAgent:
+        def __init__(self) -> None:
+            self.messages = []
+
+        async def ainvoke(self, **kwargs):
+            self.messages = kwargs["input"]["messages"]
+            return {"messages": [FakeMessage("无记忆回答")]}
+
+    fake_agent = FakeAgent()
+    monkeypatch.setattr(module, "short_term_memory_service", DisabledMemoryService())
+    monkeypatch.setattr(module, "session_state_service", DisabledMemoryService())
+    monkeypatch.setattr(module, "long_term_memory_service", DisabledMemoryService())
+
+    service = module.RagAgentService()
+    service.agent = fake_agent
+    service.customer_service_agent = fake_agent
+    service._agent_initialized = True
+
+    answer = asyncio.run(service.query("下一步查什么？", "memory-off-session"))
+
+    assert answer == "无记忆回答"
+    context_text = "\n".join(str(message.content) for message in fake_agent.messages)
+    assert "【长期记忆】" not in context_text
+    assert "【当前会话状态】" not in context_text
+    assert "【短期语义记忆】" not in context_text
+    assert "【最近 1-3 轮原始对话】" not in context_text

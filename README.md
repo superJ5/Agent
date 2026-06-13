@@ -398,6 +398,15 @@ Milvus 里通常会同时存在多个 collection。当前项目里，`biz` 用�
 
 带 `session_id` 调用 `/chat` 时，系统会自动写入原始会话日志。回答前会检索长期记忆，并读取结构化 Session State、短期语义记忆和最近 1-3 轮原始对话作为上下文；回答结束后会后台更新短期语义记忆、Session State 和长期记忆。
 
+记忆开关：
+
+```env
+MEMORY_ENABLED=true
+MEMORY_WRITE_ENABLED=true
+```
+
+`MEMORY_ENABLED=false` 会关闭整个业务记忆系统的读取、上下文注入和写入，包括原始会话日志、短期语义记忆、Session State 和长期记忆。`MEMORY_WRITE_ENABLED=false` 只关闭写入/更新，已有记忆仍可能被读取并注入上下文。
+
 查看原始会话历史：
 
 ```bash

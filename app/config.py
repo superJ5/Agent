@@ -54,6 +54,7 @@ class Settings(BaseSettings):
     rag_scan_candidate_limit: int = 4096
 
     # Memory
+    memory_enabled: bool = True
     memory_write_enabled: bool = True
     memory_root: str = "data/memory"
     memory_recent_limit: int = 10

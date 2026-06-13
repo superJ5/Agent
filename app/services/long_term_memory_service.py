@@ -87,6 +87,9 @@ class LongTermMemoryService:
         user_id: str = "default",
     ) -> tuple[str, list[dict[str, Any]]]:
         """Retrieve and render relevant long-term memories for one answer."""
+        if not config.memory_enabled:
+            return "", []
+
         memories = self.retrieve_relevant_memories(
             question=question,
             session_state_context=session_state_context,
@@ -116,6 +119,9 @@ class LongTermMemoryService:
         top_k: int | None = None,
     ) -> list[dict[str, Any]]:
         """Search Milvus, filter inactive/expired/low-confidence memories."""
+        if not config.memory_enabled:
+            return []
+
         query = self._build_retrieval_query(
             question=question,
             session_state_context=session_state_context,
@@ -179,6 +185,9 @@ class LongTermMemoryService:
         user_id: str = "default",
     ) -> None:
         """Update long-term memory after one completed turn."""
+        if not config.memory_enabled:
+            logger.debug("跳过长期记忆写入: MEMORY_ENABLED=false")
+            return
         if not config.memory_write_enabled:
             logger.debug("跳过长期记忆写入: MEMORY_WRITE_ENABLED=false")
             return
@@ -218,6 +227,9 @@ class LongTermMemoryService:
         limit: int = 100,
     ) -> list[dict[str, Any]]:
         """List long-term memories for debugging."""
+        if not config.memory_enabled:
+            return []
+
         try:
             collection = self.ensure_collection()
             rows = collection.query(

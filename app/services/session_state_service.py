@@ -57,6 +57,9 @@ class SessionStateService:
 
     def load_state(self, session_id: str) -> SessionState | None:
         """Load current session state if it exists and has meaningful content."""
+        if not config.memory_enabled:
+            return None
+
         path = self._state_file(session_id)
         if not path.exists():
             return None
@@ -95,6 +98,9 @@ class SessionStateService:
         prior_dialogue: list[dict[str, Any]] | None = None,
     ) -> None:
         """Update state after one completed turn."""
+        if not config.memory_enabled:
+            logger.debug("跳过 Session State 写入: MEMORY_ENABLED=false")
+            return
         if not config.memory_write_enabled:
             logger.debug("跳过 Session State 写入: MEMORY_WRITE_ENABLED=false")
             return

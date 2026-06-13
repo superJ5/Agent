@@ -37,6 +37,9 @@ class MemoryService:
         metadata: dict[str, Any] | None = None,
     ) -> None:
         """Append one chat message to ``sessions/<session_id>.jsonl``."""
+        if not config.memory_enabled:
+            logger.debug("跳过会话记忆写入: MEMORY_ENABLED=false")
+            return
         if not config.memory_write_enabled:
             logger.debug("跳过会话记忆写入: MEMORY_WRITE_ENABLED=false")
             return
@@ -68,6 +71,9 @@ class MemoryService:
         exclude_latest_user_content: str | None = None,
     ) -> list[dict[str, Any]]:
         """Load recent user/assistant messages from a session JSONL file."""
+        if not config.memory_enabled:
+            return []
+
         session_file = self._session_file(session_id)
         if not session_file.exists():
             return []
