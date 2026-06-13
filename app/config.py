@@ -57,11 +57,6 @@ class Settings(BaseSettings):
     memory_write_enabled: bool = True
     memory_root: str = "data/memory"
     memory_recent_limit: int = 10
-    memory_collection_name: str = "memory"
-    memory_search_top_k: int = 5
-    memory_daily_max_chars: int = 5000
-    memory_summary_input_max_chars: int = 20000
-    memory_summary_model: str = ""
     short_term_memory_model: str = ""
     session_state_model: str = ""
     long_term_memory_model: str = ""

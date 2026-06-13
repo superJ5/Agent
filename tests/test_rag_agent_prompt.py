@@ -92,7 +92,6 @@ def load_rag_agent_service(monkeypatch):
         make_module(
             "app.services.memory_service",
             memory_service=SimpleNamespace(
-                load_long_term_memory=lambda: "",
                 load_recent_messages=lambda *args, **kwargs: [],
             ),
         ),

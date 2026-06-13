@@ -9,7 +9,7 @@
 第四层：Long-term Memory，跨 session 稳定记忆
 ```
 
-旧版 `daily/*.md`、`MEMORY.md`、`memory_search` 记忆检索已经从运行时移除。现在 `session_id` 不再表示“把整段历史原文塞给模型”，而是表示“当前请求属于哪个会话桶”，用于写原始日志、读取 Session State、读取短期记忆、检索长期记忆，并在回答后更新上下文记忆。
+旧版 `daily/*.md`、`MEMORY.md`、`memory_search` 记忆检索已经移除。现在 `session_id` 不再表示“把整段历史原文塞给模型”，而是表示“当前请求属于哪个会话桶”，用于写原始日志、读取 Session State、读取短期记忆、检索长期记忆，并在回答后更新上下文记忆。
 
 ## 1. 总体思路
 
@@ -910,7 +910,7 @@ curl -X POST "http://127.0.0.1:9900/chat" \
 
 ```text
 原始 session 日志保留。
-旧 daily/MEMORY.md 运行时停用。
+旧 daily/MEMORY.md 记忆链路已移除。
 回答前注入短期语义记忆。
 回答前注入最近 1-3 轮原始对话。
 回答后后台更新短期语义记忆。
