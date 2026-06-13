@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from collections.abc import Iterable, Mapping
+from contextvars import ContextVar, Token
 from dataclasses import is_dataclass
 from pathlib import Path
 from types import SimpleNamespace
@@ -56,6 +57,10 @@ except Exception:  # pragma: no cover
 
 
 TRACE_LOG_PATH = Path("logs/retrieval_trace.jsonl")
+_CURRENT_CHAT_TRACE_CONTEXT: ContextVar[dict[str, Any] | None] = ContextVar(
+    "current_chat_trace_context",
+    default=None,
+)
 
 _CHANNEL_ORDER = ("vector", "bm25", "scan")
 _SCORE_FIELDS = ("reranker_score", "lexical_score", "score")
@@ -72,6 +77,31 @@ _SUMMARY_METADATA_KEYS = (
     "top_hits",
     "warnings",
 )
+
+
+def set_trace_chat_context(
+    *,
+    question: str,
+    session_id: str,
+) -> Token[dict[str, Any] | None]:
+    """Attach the current /chat request details to retrieval traces."""
+    return _CURRENT_CHAT_TRACE_CONTEXT.set(
+        {
+            "question": str(question or ""),
+            "session_id": str(session_id or ""),
+        }
+    )
+
+
+def reset_trace_chat_context(token: Token[dict[str, Any] | None]) -> None:
+    """Restore the previous trace context after a /chat request finishes."""
+    _CURRENT_CHAT_TRACE_CONTEXT.reset(token)
+
+
+def get_trace_chat_context() -> dict[str, Any] | None:
+    """Return the current /chat request context for trace enrichment."""
+    context = _CURRENT_CHAT_TRACE_CONTEXT.get()
+    return dict(context) if isinstance(context, dict) else None
 
 
 def build_summary_metadata(
@@ -271,6 +301,12 @@ def _ensure_trace_dict(diagnostics: Any) -> dict[str, Any]:
 def _trace_payload(diagnostics: Any) -> dict[str, Any]:
     safe_trace = _json_safe(_ensure_trace_dict(diagnostics))
     trace: dict[str, Any] = safe_trace if isinstance(safe_trace, dict) else {"events": safe_trace}
+
+    chat_context = get_trace_chat_context()
+    if chat_context:
+        for key, value in chat_context.items():
+            if value:
+                trace.setdefault(key, value)
 
     request_id = _read_field(diagnostics, "request_id")
     if request_id:

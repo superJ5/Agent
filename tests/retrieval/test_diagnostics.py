@@ -320,5 +320,37 @@ def test_write_trace_if_enabled_appends_jsonl_when_debug_enabled(
     }
 
 
+def test_write_trace_if_enabled_includes_current_chat_context(
+    diagnostics_module, monkeypatch, tmp_path
+):
+    trace_path = tmp_path / "retrieval_trace.jsonl"
+    diagnostics = SimpleNamespace(
+        request_id="req-chat",
+        trace={"query": "吹风机 安全要点"},
+        warnings=[],
+    )
+
+    monkeypatch.setattr(diagnostics_module, "config", SimpleNamespace(debug=True))
+    monkeypatch.setattr(diagnostics_module, "TRACE_LOG_PATH", trace_path)
+
+    token = diagnostics_module.set_trace_chat_context(
+        question="操作吹风机时，人员需要注意哪些安全要点？",
+        session_id="kf_session_test",
+    )
+    try:
+        diagnostics_module.write_trace_if_enabled(diagnostics)
+    finally:
+        diagnostics_module.reset_trace_chat_context(token)
+
+    lines = trace_path.read_text(encoding="utf-8").splitlines()
+    assert len(lines) == 1
+    assert json.loads(lines[0]) == {
+        "request_id": "req-chat",
+        "query": "吹风机 安全要点",
+        "question": "操作吹风机时，人员需要注意哪些安全要点？",
+        "session_id": "kf_session_test",
+    }
+
+
 def test_module_exposes_retrieval_diagnostics_name(diagnostics_module):
     assert diagnostics_module.RetrievalDiagnostics is not None

@@ -27,6 +27,7 @@ from typing_extensions import TypedDict
 from app.agent.mcp_client import get_mcp_client_with_retry
 from app.config import config
 from app.models.response import sanitize_summary_metadata
+from app.retrieval.diagnostics import reset_trace_chat_context, set_trace_chat_context
 from app.services.memory_service import memory_service
 from app.services.multimodal_message_builder import build_user_message
 from app.services.query_router import should_use_manual_rag
@@ -254,11 +255,16 @@ class RagAgentService:
             4. 如果检索结果里带有图片标识（PIC）或配图信息，回答时要优先结合这些证据。
             5. 调用 retrieve_knowledge 时，检索词必须与用户当前问题使用相同语言。
             6. 用户问题包含中文字符时，必须使用中文检索词，禁止将问题或产品名称翻译成英文。
-            7. 用户问题不包含中文字符时，使用英文检索词，禁止翻译成中文。
-            8. 可以将用户问题适当拆分为同语言关键词，但只能使用用户原问题中已经出现的词、短语、型号、产品名和操作对象。
-            9. 禁止扩写、联想、同义词替换、概念泛化、补充隐含条件或添加用户原问题中没有出现的检索词。
-            10. 示例：中文问题“如何为蓝牙激光鼠标安装电池？”可检索“蓝牙激光鼠标 安装 电池”，不得加入原问题中没有出现的额外词，也不得检索“bluetooth laser mouse battery installation”。
-            11. 示例：英文问题“How do I install the mouse battery?”可检索“How install mouse battery”或“mouse install battery”，不得加入原问题中没有出现的额外词，也不得检索“鼠标 安装电池”。
+            7. 用户问题不包含中文字符时，使用英文检索词，且必须使用英文检索词，禁止翻译成中文。
+            8. 不得通过翻译改变检索语言。
+            9. 检索词必须保留用户问题中的核心产品名、型号、部件名和操作对象，避免检索到其他产品。
+            10. 可以在同一语言内补充手册常见同义词、标准术语或章节词，以提高召回，但不得改变用户意图。
+            11. 中文同义补充示例：“附件”可补充“随附配件、包装清单、随机附件”；“关闭”可补充“停机、关机”；“部件”可补充“组成、产品概述、零件名称”。
+            12. 英文同义补充示例：“components”可补充“parts、package contents、what's in the box”；“turn off”可补充“stop、shut down、power off”；“set up”可补充“install、configure、prepare”。
+            13. 中文问题“如何为蓝牙激光鼠标安装电池？”可检索“蓝牙激光鼠标 安装电池 电池仓”，不得检索“bluetooth laser mouse battery installation”。
+            14. 英文问题“How do I install the mouse battery?”可检索“mouse battery installation battery compartment”，不得检索“鼠标 安装电池”。
+            15. 多次检索时，第二次应针对缺失信息补充检索，不要重复同一个 query。
+            16. 检索结果不足时，先基于已有可靠证据回答能确定的部分，再说明未检索到的部分；不要只输出兜底句。
 
             记忆使用规则:
             1. 当前旧版 daily/MEMORY.md 记忆工具已移除，不要使用工具获取历史偏好或项目背景。
@@ -592,6 +598,10 @@ class RagAgentService:
         Returns:
             str: 完整答案
         """
+        trace_context_token = set_trace_chat_context(
+            question=question,
+            session_id=session_id,
+        )
         try:
             await self._initialize_agent()
             self._last_retrieval_metadata_by_session[session_id] = None
@@ -682,6 +692,8 @@ class RagAgentService:
         except Exception as e:
             logger.error(f"[会话 {session_id}] RAG Agent 查询失败（非流式）: {e}")
             raise
+        finally:
+            reset_trace_chat_context(trace_context_token)
 
     def get_last_retrieval_metadata(self, session_id: str) -> dict[str, Any] | None:
         """Return the latest Summary-level retrieval diagnostics for one session."""
@@ -749,6 +761,10 @@ class RagAgentService:
                 - type: "content" | "tool_call" | "complete" | "error"
                 - data: 具体内容
         """
+        trace_context_token = set_trace_chat_context(
+            question=question,
+            session_id=session_id,
+        )
         try:
             await self._initialize_agent()
             self._clear_last_retrieval_metadata()
@@ -843,6 +859,8 @@ class RagAgentService:
                 "data": str(e)
             }
             raise
+        finally:
+            reset_trace_chat_context(trace_context_token)
 
     def get_session_history(self, session_id: str) -> list:
         """

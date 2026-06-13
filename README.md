@@ -394,6 +394,8 @@ curl -X POST "http://localhost:9900/chat" \
 长期记忆：Milvus collection long_term_memory
 ```
 
+Milvus 里通常会同时存在多个 collection。当前项目里，`biz` 用于手册/知识库检索，`long_term_memory` 用于长期记忆；它们不是两个数据库，而是同一个 Milvus 服务里的两张向量表。
+
 带 `session_id` 调用 `/chat` 时，系统会自动写入原始会话日志。回答前会检索长期记忆，并读取结构化 Session State、短期语义记忆和最近 1-3 轮原始对话作为上下文；回答结束后会后台更新短期语义记忆、Session State 和长期记忆。
 
 查看原始会话历史：
@@ -467,6 +469,27 @@ curl "http://localhost:9900/api/chat/memory/long-term"
   ]
 }
 ```
+
+清空长期记忆：
+
+```bash
+.venv/bin/python - <<'PY'
+from pymilvus import utility
+from app.core.milvus_client import milvus_manager
+from app.services.long_term_memory_service import long_term_memory_service
+
+milvus_manager.connect()
+name = long_term_memory_service.collection_name
+if utility.has_collection(name):
+    utility.drop_collection(name)
+    print(f"已删除 collection: {name}")
+else:
+    print(f"collection 不存在: {name}")
+milvus_manager.close()
+PY
+```
+
+删除后不用手动重建。下次正常对话触发长期记忆检索或写入时，系统会自动重新创建 `long_term_memory` collection。
 
 更完整的上下文记忆设计说明见：
 
