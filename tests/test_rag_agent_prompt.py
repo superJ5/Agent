@@ -165,9 +165,10 @@ def test_system_prompt_preserves_query_language_for_manual_retrieval(monkeypatch
     assert "检索词必须与用户当前问题使用相同语言" in prompt
     assert "用户问题包含中文字符时，必须使用中文检索词" in prompt
     assert "用户问题不包含中文字符时，使用英文检索词" in prompt
-    assert "不得通过翻译改变检索语言" in prompt
-    assert "蓝牙激光鼠标 安装电池 电池仓" in prompt
-    assert "mouse battery installation battery compartment" in prompt
+    assert "只能使用用户原问题中已经出现的词、短语、型号、产品名和操作对象" in prompt
+    assert "禁止扩写、联想、同义词替换、概念泛化" in prompt
+    assert "蓝牙激光鼠标 安装 电池" in prompt
+    assert "mouse install battery" in prompt
     assert "禁止使用空图片名称，例如 ![](path)。" in prompt
     assert "每张图片必须紧跟在它直接说明的步骤、部件或操作内容之后。" in prompt
     assert "不要将多张图片统一堆放在答案末尾。" in prompt
