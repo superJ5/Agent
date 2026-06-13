@@ -255,10 +255,10 @@ class RagAgentService:
             5. 调用 retrieve_knowledge 时，检索词必须与用户当前问题使用相同语言。
             6. 用户问题包含中文字符时，必须使用中文检索词，禁止将问题或产品名称翻译成英文。
             7. 用户问题不包含中文字符时，使用英文检索词，禁止翻译成中文。
-            8. 改写检索词时，必须保留问题中的产品名称、型号、专有名词和关键操作对象。
-            9. 只能压缩或补充同语言关键词，不得通过翻译改变检索语言。
-            10. 示例：中文问题“如何为蓝牙激光鼠标安装电池？”应检索“蓝牙激光鼠标 安装电池 电池仓”，不得检索“bluetooth laser mouse battery installation”。
-            11. 示例：英文问题“How do I install the mouse battery?”应检索“mouse battery installation battery compartment”，不得检索“鼠标 安装电池”。
+            8. 可以将用户问题适当拆分为同语言关键词，但只能使用用户原问题中已经出现的词、短语、型号、产品名和操作对象。
+            9. 禁止扩写、联想、同义词替换、概念泛化、补充隐含条件或添加用户原问题中没有出现的检索词。
+            10. 示例：中文问题“如何为蓝牙激光鼠标安装电池？”可检索“蓝牙激光鼠标 安装 电池”，不得加入原问题中没有出现的额外词，也不得检索“bluetooth laser mouse battery installation”。
+            11. 示例：英文问题“How do I install the mouse battery?”可检索“How install mouse battery”或“mouse install battery”，不得加入原问题中没有出现的额外词，也不得检索“鼠标 安装电池”。
 
             记忆使用规则:
             1. 当前旧版 daily/MEMORY.md 记忆工具已移除，不要使用工具获取历史偏好或项目背景。
