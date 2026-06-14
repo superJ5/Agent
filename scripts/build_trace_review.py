@@ -78,7 +78,22 @@ def read_trace(path: Path) -> dict[str, Any]:
     if not text:
         return {}
     line = next((item for item in text.splitlines() if item.strip()), "{}")
-    return json.loads(line)
+    trace = json.loads(line)
+    return normalize_trace(trace)
+
+
+def normalize_trace(trace: Any) -> dict[str, Any]:
+    if not isinstance(trace, Mapping):
+        return {}
+    for key in ("trace", "retrieval_trace"):
+        nested = trace.get(key)
+        if isinstance(nested, Mapping):
+            merged = dict(nested)
+            for passthrough_key in ("question", "session_id", "request_id"):
+                if passthrough_key not in merged and passthrough_key in trace:
+                    merged[passthrough_key] = trace[passthrough_key]
+            return merged
+    return dict(trace)
 
 
 def build_summary_row(index: int, source_path: Path, review_name: str, trace: Mapping[str, Any]) -> dict[str, Any]:
@@ -87,6 +102,7 @@ def build_summary_row(index: int, source_path: Path, review_name: str, trace: Ma
     reranker = as_mapping(trace.get("reranker"))
     primary_hits = as_sequence(trace.get("evidence_primary_hits"))
     support_hits = as_sequence(trace.get("evidence_support_hits"))
+    recall_candidates = trace_recall_candidates(trace, recall)
     warnings = as_sequence(trace.get("warnings"))
 
     return {
@@ -94,18 +110,21 @@ def build_summary_row(index: int, source_path: Path, review_name: str, trace: Ma
         "source_file": source_path.name,
         "review_file": f"items/{review_name}",
         "request_id": str(trace.get("request_id") or ""),
+        "session_id": str(trace.get("session_id") or ""),
+        "question": str(trace.get("question") or ""),
         "query": str(trace.get("query") or ""),
         "language": str(trace.get("language") or ""),
         "vector_count": len(as_sequence(channels.get("vector"))),
         "bm25_count": len(as_sequence(channels.get("bm25"))),
         "scan_count": len(as_sequence(channels.get("scan"))),
-        "candidate_count": len(as_sequence(recall.get("recall_candidates"))),
+        "candidate_count": len(recall_candidates),
         "reranker_provider": str(reranker.get("provider") or ""),
         "reranker_model": str(reranker.get("model") or ""),
         "reranker_fallback": str(reranker.get("fallback_used") or False),
         "reranker_input": value_or_blank(reranker.get("input_count")),
         "primary_count": len(primary_hits),
         "support_count": len(support_hits),
+        "big_support_count": len(as_sequence(trace.get("big_support_expanded_hits"))),
         "image_count": image_count(trace),
         "warnings": "; ".join(str(item) for item in warnings),
     }
@@ -123,17 +142,18 @@ def render_index(rows: Sequence[Mapping[str, Any]], input_dir: Path, output_dir:
         "",
         "## 汇总表",
         "",
-        "| # | Review | Query | Lang | Vector | BM25 | Scan | Candidates | Reranker | Fallback | Primary | Support | Warnings |",
-        "|---:|---|---|---|---:|---:|---:|---:|---|---|---:|---:|---|",
+        "| # | Review | Question | Query | Lang | Vector | BM25 | Scan | Candidates | Reranker | Fallback | Primary | Support | BigSupport | Warnings |",
+        "|---:|---|---|---|---|---:|---:|---:|---:|---|---|---:|---:|---:|---|",
     ]
     for row in rows:
         lines.append(
-            "| {index} | [{source_file}]({review_file}) | {query} | {language} | {vector_count} | "
+            "| {index} | [{source_file}]({review_file}) | {question} | {query} | {language} | {vector_count} | "
             "{bm25_count} | {scan_count} | {candidate_count} | {reranker_provider} | "
-            "{reranker_fallback} | {primary_count} | {support_count} | {warnings} |".format(
+            "{reranker_fallback} | {primary_count} | {support_count} | {big_support_count} | {warnings} |".format(
                 index=row["index"],
                 source_file=escape_md(str(row["source_file"])),
                 review_file=str(row["review_file"]).replace("\\", "/"),
+                question=escape_md(shorten(str(row["question"]), 80)),
                 query=escape_md(shorten(str(row["query"]), 80)),
                 language=escape_md(str(row["language"])),
                 vector_count=row["vector_count"],
@@ -144,6 +164,7 @@ def render_index(rows: Sequence[Mapping[str, Any]], input_dir: Path, output_dir:
                 reranker_fallback=escape_md(str(row["reranker_fallback"])),
                 primary_count=row["primary_count"],
                 support_count=row["support_count"],
+                big_support_count=row["big_support_count"],
                 warnings=escape_md(shorten(str(row["warnings"]), 80)),
             )
         )
@@ -152,7 +173,7 @@ def render_index(rows: Sequence[Mapping[str, Any]], input_dir: Path, output_dir:
             "",
             "## 文件说明",
             "",
-            "- `items/trace_001.md` 到 `items/trace_400.md`：每条 trace 的详细审查页。",
+            f"- `items/trace_001.md` 到 `items/trace_{len(rows):03d}.md`：每条 trace 的详细审查页。",
             "- `summary.csv`：同样的汇总数据，方便导入 Excel 或飞书表格。",
             "- `warnings.md`：只列出带 warning 的 trace。",
         ]
@@ -171,13 +192,14 @@ def render_warnings(rows: Sequence[Mapping[str, Any]]) -> str:
 
     lines.extend(
         [
-            "| # | Review | Query | Warnings |",
-            "|---:|---|---|---|",
+            "| # | Review | Question | Query | Warnings |",
+            "|---:|---|---|---|---|",
         ]
     )
     for row in rows:
         lines.append(
             f"| {row['index']} | [{escape_md(str(row['source_file']))}]({row['review_file']}) | "
+            f"{escape_md(shorten(str(row['question']), 80))} | "
             f"{escape_md(shorten(str(row['query']), 80))} | {escape_md(str(row['warnings']))} |"
         )
     return "\n".join(lines) + "\n"
@@ -205,6 +227,8 @@ def render_trace_review(
             [
                 ("source_file", source_path.name),
                 ("request_id", trace.get("request_id")),
+                ("session_id", trace.get("session_id")),
+                ("question", trace.get("question")),
                 ("query", trace.get("query")),
                 ("language", trace.get("language")),
                 ("warnings", "; ".join(str(item) for item in as_sequence(trace.get("warnings")))),
@@ -221,7 +245,7 @@ def render_trace_review(
         "",
         render_channel_hits(recall, max_channel_hits),
         "",
-        render_recall_candidates(recall, max_candidates),
+        render_recall_candidates(trace, recall, max_candidates),
         "",
         "## 4. Reranker 重排",
         "",
@@ -332,8 +356,8 @@ def render_channel_hits(recall: Mapping[str, Any], max_channel_hits: int) -> str
     return "\n".join(lines).rstrip()
 
 
-def render_recall_candidates(recall: Mapping[str, Any], max_candidates: int) -> str:
-    candidates = as_sequence(recall.get("recall_candidates"))[:max_candidates]
+def render_recall_candidates(trace: Mapping[str, Any], recall: Mapping[str, Any], max_candidates: int) -> str:
+    candidates = trace_recall_candidates(trace, recall)[:max_candidates]
     rows = []
     for rank, candidate in enumerate(map(as_mapping, candidates), 1):
         result = as_mapping(candidate.get("result"))
@@ -404,6 +428,12 @@ def render_evidence(trace: Mapping[str, Any]) -> str:
     support_parent_request = trace.get("support_parent_request")
     support_parent_ids = trace.get("support_parent_ids")
     support_parent_hits = trace.get("support_parent_hits")
+    big_support_parent_ids = trace.get("big_support_parent_ids")
+    big_support_descendant_count = trace.get("big_support_descendant_count")
+    big_support_expanded_hits = as_sequence(trace.get("big_support_expanded_hits"))
+    big_support_rerank = as_mapping(trace.get("big_support_rerank"))
+    big_support_selected_parent_ids = trace.get("big_support_selected_parent_ids")
+    big_support_selected_parent_hits = trace.get("big_support_selected_parent_hits")
 
     lines = [
         "### Primary Hits",
@@ -459,7 +489,112 @@ def render_evidence(trace: Mapping[str, Any]) -> str:
             ),
         ]
     )
+    if any(
+        value not in (None, "", [], {})
+        for value in (
+            big_support_parent_ids,
+            big_support_descendant_count,
+            big_support_expanded_hits,
+            big_support_rerank,
+            big_support_selected_parent_ids,
+            big_support_selected_parent_hits,
+        )
+    ):
+        lines.extend(
+            [
+                "",
+                "### Big Support Trace",
+                "",
+                markdown_kv_table(
+                    [
+                        ("big_support_parent_ids", compact_json(big_support_parent_ids)),
+                        ("big_support_descendant_count", compact_json(big_support_descendant_count)),
+                        ("big_support_selected_parent_ids", compact_json(big_support_selected_parent_ids)),
+                    ]
+                ),
+                "",
+                "#### Big Support Expanded Hits",
+                "",
+                render_big_support_expanded_hits(big_support_expanded_hits),
+            ]
+        )
+        if big_support_selected_parent_hits:
+            lines.extend(
+                [
+                    "",
+                    "#### Selected Support Parents",
+                    "",
+                    render_result_table(as_sequence(big_support_selected_parent_hits), include_rank=True),
+                ]
+            )
+        if big_support_rerank:
+            lines.extend(
+                [
+                    "",
+                    "#### Big Support Rerank",
+                    "",
+                    render_big_support_rerank(big_support_rerank),
+                ]
+            )
     return "\n".join(lines)
+
+
+def render_big_support_expanded_hits(expanded_hits: Sequence[Any]) -> str:
+    rows = []
+    for item in map(as_mapping, expanded_hits):
+        rows.append(
+            [
+                item.get("parent_id"),
+                value_or_blank(item.get("descendant_count")),
+                value_or_blank(item.get("max_candidates")),
+                value_or_blank(item.get("truncated")),
+                ", ".join(
+                    str(as_mapping(result).get("chunk_id") or as_mapping(result).get("id"))
+                    for result in as_sequence(item.get("selected"))
+                ),
+                ", ".join(
+                    str(as_mapping(result).get("chunk_id") or as_mapping(result).get("id"))
+                    for result in as_sequence(item.get("direct_support_parents"))
+                ),
+            ]
+        )
+    return markdown_table(
+        [
+            "parent_id",
+            "descendant_count",
+            "max_candidates",
+            "truncated",
+            "selected_primary_chunks",
+            "direct_support_parents",
+        ],
+        rows,
+    )
+
+
+def render_big_support_rerank(big_support_rerank: Mapping[str, Any]) -> str:
+    lines = []
+    for parent_id, rerank_info in big_support_rerank.items():
+        info = as_mapping(rerank_info)
+        lines.extend(
+            [
+                f"##### Parent `{parent_id}`",
+                "",
+                markdown_kv_table(
+                    [
+                        ("provider", info.get("provider")),
+                        ("model", info.get("model")),
+                        ("fallback_used", info.get("fallback_used")),
+                        ("input_count", info.get("input_count")),
+                        ("top_n", info.get("top_n")),
+                        ("timeout_ms", info.get("timeout_ms")),
+                    ]
+                ),
+                "",
+                render_rank_table(as_sequence(info.get("post_rank"))),
+                "",
+            ]
+        )
+    return "\n".join(lines).rstrip()
 
 
 def render_result_table(results: Sequence[Any], *, include_rank: bool = False) -> str:
@@ -620,6 +755,13 @@ def as_sequence(value: Any) -> list[Any]:
     if isinstance(value, tuple):
         return list(value)
     return []
+
+
+def trace_recall_candidates(trace: Mapping[str, Any], recall: Mapping[str, Any]) -> list[Any]:
+    candidates = as_sequence(recall.get("recall_candidates"))
+    if candidates:
+        return candidates
+    return as_sequence(trace.get("recall_candidates"))
 
 
 def image_count(trace: Mapping[str, Any]) -> int:

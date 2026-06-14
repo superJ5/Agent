@@ -87,6 +87,13 @@ _ENGLISH_STOP_WORDS = {
     "so",
     "then",
 } - _ENGLISH_PRESERVED_TERMS
+_ENGLISH_IRREGULAR_FORMS = {
+    "children": "child",
+    "feet": "foot",
+    "men": "man",
+    "teeth": "tooth",
+    "women": "woman",
+}
 
 
 class BM25Index(Protocol):
@@ -274,11 +281,51 @@ def _detect_language(text: str) -> str:
 
 
 def _english_tokens(text: str) -> list[str]:
-    return [
-        token
-        for token in re.findall(r"[A-Za-z0-9]+", text.lower())
-        if token and token not in _ENGLISH_STOP_WORDS
-    ]
+    tokens: list[str] = []
+    for token in re.findall(r"[A-Za-z0-9]+", text.lower()):
+        if not token or token in _ENGLISH_STOP_WORDS:
+            continue
+        tokens.extend(_english_token_forms(token))
+    return tokens
+
+
+def _english_token_forms(token: str) -> list[str]:
+    """Return BM25 lexical forms for light English morphology matching."""
+    forms = [token]
+    if token in _ENGLISH_PRESERVED_TERMS:
+        return forms
+
+    normalized = _normalise_english_token(token)
+    if normalized and normalized != token and normalized not in forms:
+        forms.append(normalized)
+    return forms
+
+
+def _normalise_english_token(token: str) -> str:
+    if token in _ENGLISH_IRREGULAR_FORMS:
+        return _ENGLISH_IRREGULAR_FORMS[token]
+    if len(token) <= 3 or token.isdigit():
+        return token
+
+    if token.endswith("ies") and len(token) > 4:
+        return token[:-3] + "y"
+    if token.endswith("ing") and len(token) > 5:
+        return _normalise_english_suffix_stem(token[:-3])
+    if token.endswith("ied") and len(token) > 4:
+        return token[:-3] + "y"
+    if token.endswith("ed") and len(token) > 4:
+        return _normalise_english_suffix_stem(token[:-2])
+    if token.endswith(("sses", "xes", "zes", "ches", "shes")) and len(token) > 4:
+        return token[:-2]
+    if token.endswith("s") and len(token) > 3:
+        return token[:-1]
+    return token
+
+
+def _normalise_english_suffix_stem(stem: str) -> str:
+    if len(stem) > 2 and stem[-1] == stem[-2] and stem[-1] not in "aeiou":
+        return stem[:-1]
+    return stem
 
 
 def _string_parts(value: object) -> list[str]:
