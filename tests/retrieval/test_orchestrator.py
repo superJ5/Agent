@@ -230,6 +230,65 @@ def test_retrieve_runs_pipeline_from_config_and_writes_summary_metadata(monkeypa
     assert trace_calls[0].trace["query_understanding"]["language"] == "en"
 
 
+def test_retrieve_uses_original_question_for_rerank_only(monkeypatch):
+    orchestrator, schemas, _ = load_orchestrator_module()
+    result = Result("result-1", content="content", metadata={"chunk_id": "chunk-1"})
+    candidate = schemas.RecallCandidate.from_search_result(result, recall_channel="vector")
+    analysis = schemas.QueryAnalysis(query="search terms", strategy="none", language="en")
+    seen = {}
+
+    def analyze_query(query, options, diagnostics):
+        seen["analyze_query"] = query
+        return analysis
+
+    def recall_candidates(query, used_analysis, options, diagnostics):
+        seen["recall_query"] = query
+        return [candidate]
+
+    def rerank_candidates(query, candidates, options, diagnostics):
+        seen["rerank_query"] = query
+        return schemas.RerankResult(candidates=list(candidates), provider="model")
+
+    def build_retrieval_bundle(
+        query,
+        used_analysis,
+        rerank_result,
+        options,
+        diagnostics,
+        *,
+        rerank_query=None,
+    ):
+        seen["evidence_query"] = query
+        seen["evidence_rerank_query"] = rerank_query
+        return schemas.RetrievalBundle(
+            intent="general",
+            retrieval_stage="hybrid_search",
+            hits=[result],
+            metadata={"query": query},
+        )
+
+    monkeypatch.setattr(orchestrator, "analyze_query", analyze_query)
+    monkeypatch.setattr(orchestrator, "recall_candidates", recall_candidates)
+    monkeypatch.setattr(orchestrator, "rerank_candidates", rerank_candidates)
+    monkeypatch.setattr(orchestrator, "build_retrieval_bundle", build_retrieval_bundle)
+    monkeypatch.setattr(orchestrator, "write_trace_if_enabled", lambda diagnostics: None)
+
+    bundle = orchestrator.retrieve(
+        "search terms",
+        schemas.RetrievalOptions(),
+        rerank_query="How do I start my jetski in different situations?",
+    )
+
+    assert bundle.metadata["query"] == "search terms"
+    assert seen == {
+        "analyze_query": "search terms",
+        "recall_query": "search terms",
+        "rerank_query": "How do I start my jetski in different situations?",
+        "evidence_query": "search terms",
+        "evidence_rerank_query": "How do I start my jetski in different situations?",
+    }
+
+
 def test_query_understanding_exception_degrades_to_none(monkeypatch):
     orchestrator, schemas, _ = load_orchestrator_module()
     captured = {}

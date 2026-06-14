@@ -61,8 +61,11 @@ def build_retrieval_bundle(
     rerank_result: RerankResult,
     options: RetrievalOptions,
     diagnostics: RetrievalDiagnostics,
+    *,
+    rerank_query: str | None = None,
 ) -> RetrievalBundle:
     """Build the final retrieval bundle from reranked candidates."""
+    effective_rerank_query = str(rerank_query or "").strip() or query
     top_k = safe_top_k(options)
     top_candidates = list((_read_field(rerank_result, "candidates", []) or [])[:top_k])
     primary_hits = [_read_field(candidate, "result") for candidate in top_candidates]
@@ -81,6 +84,7 @@ def build_retrieval_bundle(
         diagnostics,
         language=language,
         query=query,
+        rerank_query=effective_rerank_query,
         options=options,
     )
     intent = _read_field(analysis, "primary_intent") or "general"
@@ -119,6 +123,7 @@ def fetch_parent_support_hits(
     diagnostics: RetrievalDiagnostics,
     language: str | None = None,
     query: str | None = None,
+    rerank_query: str | None = None,
     options: RetrievalOptions | None = None,
     expand_big_support: bool = True,
 ) -> list[SearchResult]:
@@ -197,6 +202,7 @@ def fetch_parent_support_hits(
         expand_big_support_parent(
             parent,
             query=query,
+            rerank_query=rerank_query,
             options=options,
             diagnostics=diagnostics,
             language=language,
@@ -281,6 +287,7 @@ def expand_big_support_parent(
     parent: SearchResult,
     *,
     query: str,
+    rerank_query: str | None = None,
     options: RetrievalOptions,
     diagnostics: RetrievalDiagnostics,
     language: str | None,
@@ -306,7 +313,7 @@ def expand_big_support_parent(
         descendant_count[parent_id] = len(descendants)
 
     selected_descendants = select_big_support_descendants(
-        query=query,
+        query=str(rerank_query or "").strip() or query,
         descendants=descendants,
         options=options,
         diagnostics=diagnostics,

@@ -29,16 +29,35 @@ except Exception:  # pragma: no cover
     config = SimpleNamespace()
 
 
-def retrieve(query: str, options: RetrievalOptions | None = None) -> RetrievalBundle:
+def retrieve(
+    query: str,
+    options: RetrievalOptions | None = None,
+    *,
+    rerank_query: str | None = None,
+) -> RetrievalBundle:
     """Run query understanding, recall, reranking, and evidence organization."""
     resolved_options = options or load_retrieval_options_from_config()
     diagnostics = RetrievalDiagnostics(request_id=new_request_id())
     _initialize_trace(diagnostics, query, resolved_options)
+    effective_rerank_query = _resolve_rerank_query(query, rerank_query)
+    diagnostics.trace["rerank_query"] = effective_rerank_query
 
     analysis = _run_query_understanding(query, resolved_options, diagnostics)
     candidates = _run_recall(query, analysis, resolved_options, diagnostics)
-    rerank_result = _run_reranker(query, candidates, resolved_options, diagnostics)
-    bundle = _run_evidence(query, analysis, rerank_result, resolved_options, diagnostics)
+    rerank_result = _run_reranker(
+        effective_rerank_query,
+        candidates,
+        resolved_options,
+        diagnostics,
+    )
+    bundle = _run_evidence(
+        query,
+        analysis,
+        rerank_result,
+        resolved_options,
+        diagnostics,
+        rerank_query=effective_rerank_query,
+    )
 
     _finalize_metadata(bundle, diagnostics, analysis, rerank_result)
     _write_trace(diagnostics)
@@ -133,8 +152,19 @@ def _run_evidence(
     rerank_result: RerankResult,
     options: RetrievalOptions,
     diagnostics: RetrievalDiagnostics,
+    *,
+    rerank_query: str | None = None,
 ) -> RetrievalBundle:
     try:
+        if rerank_query and rerank_query != query:
+            return build_retrieval_bundle(
+                query,
+                analysis,
+                rerank_result,
+                options,
+                diagnostics,
+                rerank_query=rerank_query,
+            )
         return build_retrieval_bundle(query, analysis, rerank_result, options, diagnostics)
     except Exception as exc:
         message = f"evidence organization failed: {exc}"
@@ -227,6 +257,11 @@ def _detect_language(query: str) -> str:
 def _normalize_language(value: Any) -> str | None:
     normalized = str(value or "").strip().lower()
     return normalized if normalized in {"en", "zh"} else None
+
+
+def _resolve_rerank_query(query: str, rerank_query: str | None) -> str:
+    normalized = str(rerank_query or "").strip()
+    return normalized or str(query or "")
 
 
 def _safe_top_k(options: RetrievalOptions) -> int:

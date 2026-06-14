@@ -339,3 +339,37 @@ def test_retrieve_knowledge_still_returns_context_and_documents(monkeypatch):
     assert docs[0].page_content == "primary text"
     assert docs[0].metadata["chunk_id"] == "chunk-1"
     assert module.get_last_retrieval_metadata()["intent"] == "procedure"
+
+
+def test_retrieve_knowledge_passes_original_question_as_rerank_query(monkeypatch):
+    hit = Result("hit-1", "primary text", 0.9, {"chunk_id": "chunk-1"})
+    bundle = Bundle(
+        intent="procedure",
+        retrieval_stage="hybrid_search",
+        hits=[hit],
+        metadata=make_summary_metadata(),
+    )
+    module, orchestrator = load_knowledge_tool(monkeypatch, bundle)
+    calls = []
+
+    def retrieve(query, *, rerank_query=None):
+        calls.append((query, rerank_query))
+        return bundle
+
+    orchestrator.retrieve = retrieve
+    monkeypatch.setattr(
+        module,
+        "get_trace_chat_context",
+        lambda: {"question": "How to start my jetski in different situations?"},
+    )
+
+    context, docs = module.retrieve_knowledge("jetski start different situations")
+
+    assert calls == [
+        (
+            "jetski start different situations",
+            "How to start my jetski in different situations?",
+        )
+    ]
+    assert context == "context::jetski start different situations::procedure::1"
+    assert len(docs) == 1
