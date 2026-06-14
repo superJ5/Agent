@@ -20,6 +20,13 @@ from app.config import config
 from app.models.response import sanitize_summary_metadata
 from app.services.vector_search_service import SearchResult, vector_search_service
 
+get_trace_chat_context: Any
+try:
+    from app.retrieval.diagnostics import get_trace_chat_context
+except Exception:  # pragma: no cover - keeps standalone tool tests importable.
+    def get_trace_chat_context() -> dict[str, Any] | None:
+        return None
+
 retrieval_orchestrator: Any = None
 try:
     from app.retrieval import orchestrator as retrieval_orchestrator
@@ -593,7 +600,7 @@ def retrieve_knowledge(query: str) -> tuple[str, list[Document]]:
     clear_last_retrieval_metadata()
     try:
         logger.info("Knowledge retrieval called: query='{}'", query)
-        bundle = routed_retrieve(query)
+        bundle = routed_retrieve(query, rerank_query=_current_original_question())
         set_last_retrieval_metadata(bundle.metadata)
         docs = [search_result_to_document(result) for result in bundle.all_hits]
 
@@ -618,11 +625,14 @@ def retrieve_knowledge(query: str) -> tuple[str, list[Document]]:
         return f"检索知识时发生错误: {str(exc)}", []
 
 
-def routed_retrieve(query: str) -> RetrievalBundle:
+def routed_retrieve(query: str, *, rerank_query: str | None = None) -> RetrievalBundle:
     """Run the modular retrieval pipeline, falling back to the legacy path."""
     if retrieval_orchestrator is not None:
         try:
-            bundle = retrieval_orchestrator.retrieve(query)
+            if rerank_query:
+                bundle = retrieval_orchestrator.retrieve(query, rerank_query=rerank_query)
+            else:
+                bundle = retrieval_orchestrator.retrieve(query)
             set_last_retrieval_metadata(bundle.metadata)
             return cast(RetrievalBundle, bundle)
         except Exception as exc:
@@ -638,6 +648,15 @@ def routed_retrieve(query: str) -> RetrievalBundle:
     fallback_bundle = _legacy_routed_retrieve(query)
     set_last_retrieval_metadata(fallback_bundle.metadata)
     return fallback_bundle
+
+
+def _current_original_question() -> str | None:
+    """Return the current user question attached by the chat layer, if any."""
+    context = get_trace_chat_context()
+    if not isinstance(context, dict):
+        return None
+    question = str(context.get("question") or "").strip()
+    return question or None
 
 
 def legacy_routed_retrieve(query: str) -> RetrievalBundle:

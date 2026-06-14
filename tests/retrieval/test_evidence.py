@@ -409,8 +409,11 @@ def test_big_support_expands_top_primary_descendants_and_direct_support_parent()
     service.parents = [big_parent, support_parent]
     service.children = [support_parent, direct_primary, primary_a, primary_b, primary_c]
 
+    seen = {}
+
     def fake_rerank(query, candidates, options, diagnostics):
-        del query, options
+        del options
+        seen["big_support_rerank_query"] = query
         diagnostics.trace["reranker"] = {"provider": "fake"}
         by_id = {candidate.chunk_id: candidate for candidate in candidates}
         return schemas.RerankResult(
@@ -433,6 +436,7 @@ def test_big_support_expands_top_primary_descendants_and_direct_support_parent()
         ),
         options=SimpleNamespace(top_k=1),
         diagnostics=diagnostics,
+        rerank_query="original user question",
     )
 
     assert bundle.hits == [primary]
@@ -466,6 +470,7 @@ def test_big_support_expands_top_primary_descendants_and_direct_support_parent()
     assert diagnostics.trace["big_support_expanded_hits"][0]["selected"][0][
         "chunk_id"
     ] == "primary-b"
+    assert seen["big_support_rerank_query"] == "original user question"
 
 
 def test_big_support_descendant_collection_caps_at_one_hundred_primary_chunks():
