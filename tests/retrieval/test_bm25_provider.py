@@ -47,7 +47,7 @@ def test_english_tokenizer_removes_stop_words_and_keeps_required_terms() -> None
     assert provider._tokenize(  # noqa: SLF001
         "What should not be washed?",
         language="en",
-    ) == ["not", "washed"]
+    ) == ["not", "washed", "wash"]
     assert provider._tokenize(  # noqa: SLF001
         "use set run turn change check open close start stop",
         language="en",
@@ -62,6 +62,32 @@ def test_english_tokenizer_removes_stop_words_and_keeps_required_terms() -> None
         "close",
         "start",
         "stop",
+    ]
+
+
+def test_english_tokenizer_adds_light_morphology_forms() -> None:
+    provider = make_provider()
+
+    assert provider._tokenize(  # noqa: SLF001
+        "steps cleaning cleaned cleans batteries boxes connected connecting",
+        language="en",
+    ) == [
+        "steps",
+        "step",
+        "cleaning",
+        "clean",
+        "cleaned",
+        "clean",
+        "cleans",
+        "clean",
+        "batteries",
+        "battery",
+        "boxes",
+        "box",
+        "connected",
+        "connect",
+        "connecting",
+        "connect",
     ]
 
 
@@ -107,6 +133,35 @@ def test_build_and_search_returns_positive_bm25_hits() -> None:
     assert results[0] is docs[0]
     assert results[0].score == 2.0
     assert provider.document_count == 3
+
+
+def test_english_bm25_matches_morphology_variants() -> None:
+    provider = make_provider()
+    docs = [
+        Result(
+            "cleaning",
+            "cleaning the snowmobile",
+            metadata={"language": "en", "retrieval_tier": "primary"},
+        ),
+        Result(
+            "batteries",
+            "replace batteries in the tracker",
+            metadata={"language": "en", "retrieval_tier": "primary"},
+        ),
+        Result(
+            "unrelated",
+            "install the regulator",
+            metadata={"language": "en", "retrieval_tier": "primary"},
+        ),
+    ]
+
+    provider.build_index(docs)
+
+    clean_results = provider.search("clean snowmobile", top_k=5, language="en")
+    battery_results = provider.search("battery tracker", top_k=5, language="en")
+
+    assert [result.id for result in clean_results] == ["cleaning"]
+    assert [result.id for result in battery_results] == ["batteries"]
 
 
 def test_search_filters_by_doc_id() -> None:
