@@ -326,6 +326,7 @@ async def _query_rag_agent_with_competition_deadline(
         metadata = rag_agent_service.get_last_retrieval_metadata(session_id)
         answer, fallback_metadata = await _build_timeout_fallback_answer(
             question,
+            session_id=session_id,
             metadata=metadata,
         )
         return answer, fallback_metadata, True
@@ -334,14 +335,19 @@ async def _query_rag_agent_with_competition_deadline(
 async def _build_timeout_fallback_answer(
     question: str,
     *,
+    session_id: str,
     metadata: dict[str, Any] | None,
 ) -> tuple[str, dict[str, Any]]:
     fallback_metadata = _mark_timeout_metadata(metadata)
-    cached_answer = await _wait_for_cached_retrieval_fallback_answer(
-        timeout=COMPETITION_FALLBACK_TIMEOUT_SECONDS,
-    )
-    if cached_answer:
-        return cached_answer, fallback_metadata
+    try:
+        cached_answer = await _wait_for_cached_retrieval_fallback_answer(
+            session_id,
+            timeout=COMPETITION_FALLBACK_TIMEOUT_SECONDS,
+        )
+        if cached_answer:
+            return cached_answer, fallback_metadata
+    finally:
+        _clear_cached_retrieval_fallback_answer(session_id)
 
     return (
         "根据当前已完成的信息，暂时没有拿到足够可靠的资料来给出完整结论。",
@@ -349,10 +355,14 @@ async def _build_timeout_fallback_answer(
     )
 
 
-async def _wait_for_cached_retrieval_fallback_answer(timeout: float) -> str | None:
+async def _wait_for_cached_retrieval_fallback_answer(
+    session_id: str,
+    *,
+    timeout: float,
+) -> str | None:
     deadline = time.monotonic() + max(timeout, 0.0)
     while True:
-        answer = _get_cached_retrieval_fallback_answer()
+        answer = _get_cached_retrieval_fallback_answer(session_id)
         if answer:
             return answer
         if time.monotonic() >= deadline:
@@ -360,14 +370,23 @@ async def _wait_for_cached_retrieval_fallback_answer(timeout: float) -> str | No
         await asyncio.sleep(0.1)
 
 
-def _get_cached_retrieval_fallback_answer() -> str | None:
+def _get_cached_retrieval_fallback_answer(session_id: str) -> str | None:
     try:
         from app.tools.knowledge_tool import get_last_retrieval_fallback_answer
 
-        return get_last_retrieval_fallback_answer()
+        return get_last_retrieval_fallback_answer(session_id=session_id)
     except Exception as exc:
         logger.debug(f"读取检索兜底答案失败，忽略: {exc}")
         return None
+
+
+def _clear_cached_retrieval_fallback_answer(session_id: str) -> None:
+    try:
+        from app.tools.knowledge_tool import set_last_retrieval_fallback_answer
+
+        set_last_retrieval_fallback_answer(None, session_id=session_id)
+    except Exception as exc:
+        logger.debug(f"清理检索兜底答案失败，忽略: {exc}")
 
 
 def _mark_timeout_metadata(metadata: dict[str, Any] | None) -> dict[str, Any]:

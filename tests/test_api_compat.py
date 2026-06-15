@@ -264,13 +264,18 @@ def test_competition_chat_returns_fallback_on_agent_timeout(competition_client, 
     client, service = competition_client
     chat_module = sys.modules["app.api.chat"]
     service.delay_seconds = 0.05
+    requested_sessions = []
 
     monkeypatch.setattr(chat_module, "COMPETITION_AGENT_TIMEOUT_SECONDS", 0.001)
     monkeypatch.setattr(chat_module, "COMPETITION_FALLBACK_TIMEOUT_SECONDS", 0.05)
+    monkeypatch.setattr(chat_module, "_clear_cached_retrieval_fallback_answer", lambda _: None)
     monkeypatch.setattr(
         chat_module,
         "_get_cached_retrieval_fallback_answer",
-        lambda: "根据已检索到的资料，简要结论如下：清洁说明: 清洁前请拔掉电源并等待设备冷却。",
+        lambda session_id: (
+            requested_sessions.append(session_id)
+            or "根据已检索到的资料，简要结论如下：清洁说明: 清洁前请拔掉电源并等待设备冷却。"
+        ),
     )
 
     response = client.post(
@@ -286,6 +291,7 @@ def test_competition_chat_returns_fallback_on_agent_timeout(competition_client, 
     assert "清洁前请拔掉电源" in body["data"]["answer"]
     assert body["data"]["metadata"]["timeout"] is True
     assert body["data"]["metadata"]["degraded"] is True
+    assert requested_sessions == ["session-timeout"]
 
 
 def test_short_term_memory_debug_endpoint(competition_client):
