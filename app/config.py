@@ -52,6 +52,8 @@ class Settings(BaseSettings):
     rag_reranker_top_n: int = 32
     rag_enable_scan_fallback: bool = True
     rag_scan_candidate_limit: int = 4096
+    rag_retrieve_max_calls_per_query: int = 4
+    rag_retrieve_ready_free_calls: int = 2
 
     # Memory
     memory_enabled: bool = True

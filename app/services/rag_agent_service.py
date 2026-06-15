@@ -714,6 +714,38 @@ class RagAgentService:
         finally:
             reset_trace_chat_context(trace_context_token)
 
+    async def answer_from_retrieved_evidence(
+        self,
+        question: str,
+        evidence_context: str,
+    ) -> str:
+        """Generate a timeout fallback answer from already retrieved evidence only."""
+        from textwrap import dedent
+
+        prompt = dedent("""
+            You are a product manual question-answering assistant.
+            Answer only from the retrieved evidence provided by the system.
+            Do not call tools. Do not ask for more retrieval. Do not add facts outside the evidence.
+            If the evidence is insufficient, say that the currently retrieved information is insufficient.
+            Answer in the same language as the user's question.
+            Keep the answer concise and preserve necessary safety warnings, limits, model names, units, and image markdown references.
+            Except for image markdown references, use plain text without Markdown headings, tables, blockquotes, bold, or italic formatting.
+        """).strip()
+
+        user_content = (
+            "User question:\n"
+            f"{question}\n\n"
+            "Retrieved evidence for this same request:\n"
+            f"{evidence_context}"
+        )
+        response = await self.model.ainvoke(
+            [
+                SystemMessage(content=prompt),
+                HumanMessage(content=user_content),
+            ]
+        )
+        return str(getattr(response, "content", response) or "").strip()
+
     def get_last_retrieval_metadata(self, session_id: str) -> dict[str, Any] | None:
         """Return the latest Summary-level retrieval diagnostics for one session."""
         metadata = self._last_retrieval_metadata_by_session.get(session_id)
@@ -736,7 +768,10 @@ class RagAgentService:
         try:
             from app.tools.knowledge_tool import clear_last_retrieval_metadata
 
-            clear_last_retrieval_metadata(session_id=session_id)
+            clear_last_retrieval_metadata(
+                session_id=session_id,
+                reset_retrieval_state=True,
+            )
         except Exception as exc:
             logger.debug(f"清理检索诊断摘要失败，忽略 metadata 扩展: {exc}")
 

@@ -90,8 +90,30 @@ _LAST_RETRIEVAL_FALLBACK_ANSWER: ContextVar[str | None] = ContextVar(
     "last_retrieval_fallback_answer",
     default=None,
 )
+
+
+@dataclass
+class _RetrievalEvidenceCacheEntry:
+    question: str
+    context: str
+    docs: list[Document]
+    metadata: dict[str, Any] | None
+
+
+@dataclass
+class _RetrievalCallState:
+    session_id: str | None
+    question: str
+    call_count: int = 0
+    evidence_ready: bool = False
+
+
 _retrieval_fallback_answers_by_session: dict[str, str] = {}
 _retrieval_fallback_answers_lock = Lock()
+_retrieval_evidence_by_key: dict[str, _RetrievalEvidenceCacheEntry] = {}
+_retrieval_evidence_by_session: dict[str, _RetrievalEvidenceCacheEntry] = {}
+_retrieval_call_states: dict[str, _RetrievalCallState] = {}
+_retrieval_state_lock = Lock()
 MAX_SESSION_FALLBACK_ANSWERS = 2048
 PIC_ID_RE = re.compile(r"([A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+)", re.IGNORECASE)
 PROFILE_TERM_RE = re.compile(r"[A-Za-z][A-Za-z0-9+\-]{1,}|[\u4e00-\u9fff]{2,16}")
@@ -428,10 +450,16 @@ def set_last_retrieval_fallback_answer(
             _retrieval_fallback_answers_by_session.pop(normalized_session_id, None)
 
 
-def clear_last_retrieval_metadata(*, session_id: str | None = None) -> None:
+def clear_last_retrieval_metadata(
+    *,
+    session_id: str | None = None,
+    reset_retrieval_state: bool = False,
+) -> None:
     """Clear stale retrieval metadata before a new agent query starts."""
     set_last_retrieval_metadata(None)
     set_last_retrieval_fallback_answer(None, session_id=session_id)
+    if reset_retrieval_state:
+        clear_retrieval_request_state(session_id=session_id)
 
 
 def get_last_retrieval_metadata() -> dict[str, Any] | None:
@@ -449,9 +477,106 @@ def get_last_retrieval_fallback_answer(*, session_id: str | None = None) -> str 
     return _LAST_RETRIEVAL_FALLBACK_ANSWER.get()
 
 
+def set_last_retrieval_evidence_context(
+    context: str | None,
+    *,
+    session_id: str | None = None,
+    question: str | None = None,
+    docs: list[Document] | None = None,
+    metadata: dict[str, Any] | None = None,
+) -> None:
+    """Store the complete evidence context for the current request timeout fallback."""
+    normalized_session_id = _normalize_session_id(session_id)
+    normalized_question = _normalize_question(question)
+    if not context or not normalized_question:
+        return
+
+    entry = _RetrievalEvidenceCacheEntry(
+        question=normalized_question,
+        context=str(context),
+        docs=list(docs or []),
+        metadata=dict(metadata) if isinstance(metadata, dict) else None,
+    )
+    key = _retrieval_state_key(normalized_session_id, normalized_question)
+    with _retrieval_state_lock:
+        _retrieval_evidence_by_key[key] = entry
+        if normalized_session_id:
+            _retrieval_evidence_by_session[normalized_session_id] = entry
+        _trim_retrieval_state_locked()
+
+
+def get_last_retrieval_evidence_context(
+    *,
+    session_id: str | None = None,
+    question: str | None = None,
+) -> str | None:
+    """Return the complete evidence context cached for this request only."""
+    entry = _get_retrieval_evidence_entry(session_id=session_id, question=question)
+    return entry.context if entry else None
+
+
+def clear_retrieval_request_state(*, session_id: str | None = None) -> None:
+    """Clear per-request retrieval call counters and full evidence caches."""
+    normalized_session_id = _normalize_session_id(session_id)
+    with _retrieval_state_lock:
+        if not normalized_session_id:
+            _retrieval_evidence_by_key.clear()
+            _retrieval_evidence_by_session.clear()
+            _retrieval_call_states.clear()
+            return
+
+        stale_keys = [
+            key
+            for key, state in _retrieval_call_states.items()
+            if state.session_id == normalized_session_id
+        ]
+        for key in stale_keys:
+            _retrieval_call_states.pop(key, None)
+            _retrieval_evidence_by_key.pop(key, None)
+        _retrieval_evidence_by_session.pop(normalized_session_id, None)
+
+
 def _normalize_session_id(session_id: str | None) -> str | None:
     normalized = str(session_id or "").strip()
     return normalized or None
+
+
+def _normalize_question(question: str | None) -> str:
+    return str(question or "").strip()
+
+
+def _retrieval_state_key(session_id: str | None, question: str) -> str:
+    return f"{session_id or '__no_session__'}\0{question}"
+
+
+def _get_retrieval_evidence_entry(
+    *,
+    session_id: str | None = None,
+    question: str | None = None,
+) -> _RetrievalEvidenceCacheEntry | None:
+    normalized_session_id = _normalize_session_id(session_id)
+    normalized_question = _normalize_question(question)
+    with _retrieval_state_lock:
+        if normalized_session_id and normalized_question:
+            entry = _retrieval_evidence_by_key.get(
+                _retrieval_state_key(normalized_session_id, normalized_question)
+            )
+            if entry and entry.question == normalized_question:
+                return entry
+        if normalized_session_id:
+            entry = _retrieval_evidence_by_session.get(normalized_session_id)
+            if entry and (not normalized_question or entry.question == normalized_question):
+                return entry
+    return None
+
+
+def _trim_retrieval_state_locked() -> None:
+    while len(_retrieval_call_states) > MAX_SESSION_FALLBACK_ANSWERS:
+        oldest_key = next(iter(_retrieval_call_states))
+        state = _retrieval_call_states.pop(oldest_key, None)
+        _retrieval_evidence_by_key.pop(oldest_key, None)
+        if state and state.session_id:
+            _retrieval_evidence_by_session.pop(state.session_id, None)
 
 
 @dataclass(frozen=True)
@@ -619,14 +744,159 @@ def resolve_chunk_types(
     return deduped or None
 
 
+def _begin_retrieval_tool_call(query: str) -> dict[str, Any]:
+    session_id = _current_session_id()
+    rerank_query = _current_original_question()
+    question = rerank_query or str(query or "").strip()
+    key = _retrieval_state_key(session_id, question)
+    max_calls = _positive_int_config("rag_retrieve_max_calls_per_query", 4)
+    ready_free_calls = _non_negative_int_config("rag_retrieve_ready_free_calls", 2)
+
+    with _retrieval_state_lock:
+        state = _retrieval_call_states.get(key)
+        if state is None:
+            state = _RetrievalCallState(session_id=session_id, question=question)
+            _retrieval_call_states[key] = state
+
+        state.call_count += 1
+        blocked_reason = ""
+        if state.call_count > max_calls:
+            blocked_reason = "retrieve_knowledge_max_calls_reached"
+        elif state.evidence_ready and state.call_count > ready_free_calls:
+            blocked_reason = "retrieve_knowledge_evidence_ready"
+
+        entry = _retrieval_evidence_by_key.get(key)
+        if entry is None and session_id:
+            entry = _retrieval_evidence_by_session.get(session_id)
+            if entry and entry.question != question:
+                entry = None
+        _trim_retrieval_state_locked()
+
+    return {
+        "blocked": bool(blocked_reason),
+        "reason": blocked_reason,
+        "entry": entry,
+        "session_id": session_id,
+        "question": question,
+        "rerank_query": rerank_query,
+        "call_count": state.call_count,
+        "max_calls": max_calls,
+        "ready_free_calls": ready_free_calls,
+    }
+
+
+def _blocked_retrieval_tool_response(gate: dict[str, Any]) -> tuple[str, list[Document]]:
+    entry = cast(_RetrievalEvidenceCacheEntry | None, gate.get("entry"))
+    reason = str(gate.get("reason") or "retrieve_knowledge_blocked")
+    call_count = int(gate.get("call_count") or 0)
+    max_calls = int(gate.get("max_calls") or 0)
+    ready_free_calls = int(gate.get("ready_free_calls") or 0)
+
+    metadata = _metadata_with_retrieve_gate_warning(
+        entry.metadata if entry else None,
+        reason=reason,
+        call_count=call_count,
+        max_calls=max_calls,
+        ready_free_calls=ready_free_calls,
+    )
+    set_last_retrieval_metadata(metadata)
+
+    if entry and entry.context:
+        logger.info(
+            "Blocked repeated retrieve_knowledge call: reason={}, call_count={}, max_calls={}, ready_free_calls={}",
+            reason,
+            call_count,
+            max_calls,
+            ready_free_calls,
+        )
+        instruction = (
+            "[Retrieval call limit]\n"
+            "The current request already has retrieved evidence. "
+            "Do not call retrieve_knowledge again. Answer using the evidence below.\n\n"
+        )
+        return instruction + entry.context, list(entry.docs)
+
+    return (
+        "[Retrieval call limit]\n"
+        "The current request reached the retrieve_knowledge call limit, "
+        "and no complete evidence has been cached for this request. "
+        "Answer that the currently retrieved information is insufficient.",
+        [],
+    )
+
+
+def _bundle_has_retrieval_evidence(bundle: RetrievalBundle) -> bool:
+    return bool(getattr(bundle, "hits", None) or getattr(bundle, "support_hits", None))
+
+
+def _mark_retrieval_evidence_ready(
+    *,
+    session_id: str | None,
+    question: str,
+) -> None:
+    key = _retrieval_state_key(session_id, question)
+    with _retrieval_state_lock:
+        state = _retrieval_call_states.get(key)
+        if state is None:
+            state = _RetrievalCallState(session_id=session_id, question=question)
+            _retrieval_call_states[key] = state
+        state.evidence_ready = True
+
+
+def _metadata_with_retrieve_gate_warning(
+    metadata: dict[str, Any] | None,
+    *,
+    reason: str,
+    call_count: int,
+    max_calls: int,
+    ready_free_calls: int,
+) -> dict[str, Any]:
+    marked = dict(metadata or {})
+    warnings = [
+        str(item)
+        for item in (marked.get("warnings") or [])
+        if str(item).strip()
+    ]
+    if reason not in warnings:
+        warnings.append(reason)
+    marked["warnings"] = warnings
+    marked["degraded"] = True
+    marked["retrieve_knowledge_call_count"] = call_count
+    marked["retrieve_knowledge_max_calls"] = max_calls
+    marked["retrieve_knowledge_ready_free_calls"] = ready_free_calls
+    return sanitize_summary_metadata(marked) or marked
+
+
+def _positive_int_config(name: str, default: int) -> int:
+    try:
+        value = int(getattr(config, name, default))
+    except (TypeError, ValueError):
+        return default
+    return value if value > 0 else default
+
+
+def _non_negative_int_config(name: str, default: int) -> int:
+    try:
+        value = int(getattr(config, name, default))
+    except (TypeError, ValueError):
+        return default
+    return value if value >= 0 else default
+
+
 @tool(response_format="content_and_artifact")
 def retrieve_knowledge(query: str) -> tuple[str, list[Document]]:
     """Retrieve relevant manual knowledge for a user query."""
-    session_id = _current_session_id()
+    gate = _begin_retrieval_tool_call(query)
+    if gate["blocked"]:
+        return _blocked_retrieval_tool_response(gate)
+
+    session_id = cast(str | None, gate["session_id"])
+    original_question = cast(str, gate["question"])
+    rerank_query = cast(str | None, gate.get("rerank_query"))
     clear_last_retrieval_metadata(session_id=session_id)
     try:
         logger.info("Knowledge retrieval called: query='{}'", query)
-        bundle = routed_retrieve(query, rerank_query=_current_original_question())
+        bundle = routed_retrieve(query, rerank_query=rerank_query)
         set_last_retrieval_metadata(bundle.metadata)
         docs = [search_result_to_document(result) for result in bundle.all_hits]
 
@@ -635,6 +905,18 @@ def retrieve_knowledge(query: str) -> tuple[str, list[Document]]:
             return "没有找到相关信息。", []
 
         context = format_bundle(bundle, query=query)
+        if _bundle_has_retrieval_evidence(bundle):
+            _mark_retrieval_evidence_ready(
+                session_id=session_id,
+                question=original_question,
+            )
+            set_last_retrieval_evidence_context(
+                context,
+                session_id=session_id,
+                question=original_question,
+                docs=docs,
+                metadata=bundle.metadata,
+            )
         set_last_retrieval_fallback_answer(
             build_evidence_fallback_answer(bundle.all_hits),
             session_id=session_id,

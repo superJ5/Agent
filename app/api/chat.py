@@ -339,15 +339,47 @@ async def _build_timeout_fallback_answer(
     metadata: dict[str, Any] | None,
 ) -> tuple[str, dict[str, Any]]:
     fallback_metadata = _mark_timeout_metadata(metadata)
+    deadline = time.monotonic() + max(COMPETITION_FALLBACK_TIMEOUT_SECONDS, 0.0)
     try:
-        cached_answer = await _wait_for_cached_retrieval_fallback_answer(
+        evidence_context = await _wait_for_cached_retrieval_evidence_context(
             session_id,
-            timeout=COMPETITION_FALLBACK_TIMEOUT_SECONDS,
+            question=question,
+            timeout=_remaining_timeout(deadline),
         )
+        if evidence_context:
+            try:
+                evidence_answer = await asyncio.wait_for(
+                    rag_agent_service.answer_from_retrieved_evidence(
+                        question,
+                        evidence_context,
+                    ),
+                    timeout=_remaining_timeout(deadline),
+                )
+                if evidence_answer and evidence_answer.strip():
+                    return evidence_answer.strip(), fallback_metadata
+            except TimeoutError:
+                logger.warning(
+                    "[会话 {}] 完整 evidence 兜底回答超时，降级为简要证据拼接",
+                    session_id,
+                )
+            except Exception as exc:
+                logger.warning(
+                    "[会话 {}] 完整 evidence 兜底回答失败，降级为简要证据拼接: {}",
+                    session_id,
+                    exc,
+                )
+
+        cached_answer = _get_cached_retrieval_fallback_answer(session_id)
+        if not cached_answer and _remaining_timeout(deadline) > 0:
+            cached_answer = await _wait_for_cached_retrieval_fallback_answer(
+                session_id,
+                timeout=_remaining_timeout(deadline),
+            )
         if cached_answer:
             return cached_answer, fallback_metadata
     finally:
         _clear_cached_retrieval_fallback_answer(session_id)
+        _clear_cached_retrieval_evidence_context(session_id)
 
     return (
         "根据当前已完成的信息，暂时没有拿到足够可靠的资料来给出完整结论。",
@@ -370,6 +402,29 @@ async def _wait_for_cached_retrieval_fallback_answer(
         await asyncio.sleep(0.1)
 
 
+async def _wait_for_cached_retrieval_evidence_context(
+    session_id: str,
+    *,
+    question: str,
+    timeout: float,
+) -> str | None:
+    deadline = time.monotonic() + max(timeout, 0.0)
+    while True:
+        context = _get_cached_retrieval_evidence_context(
+            session_id,
+            question=question,
+        )
+        if context:
+            return context
+        if time.monotonic() >= deadline:
+            return None
+        await asyncio.sleep(0.1)
+
+
+def _remaining_timeout(deadline: float) -> float:
+    return max(deadline - time.monotonic(), 0.0)
+
+
 def _get_cached_retrieval_fallback_answer(session_id: str) -> str | None:
     try:
         from app.tools.knowledge_tool import get_last_retrieval_fallback_answer
@@ -380,6 +435,23 @@ def _get_cached_retrieval_fallback_answer(session_id: str) -> str | None:
         return None
 
 
+def _get_cached_retrieval_evidence_context(
+    session_id: str,
+    *,
+    question: str,
+) -> str | None:
+    try:
+        from app.tools.knowledge_tool import get_last_retrieval_evidence_context
+
+        return get_last_retrieval_evidence_context(
+            session_id=session_id,
+            question=question,
+        )
+    except Exception as exc:
+        logger.debug(f"读取完整检索 evidence 失败，忽略: {exc}")
+        return None
+
+
 def _clear_cached_retrieval_fallback_answer(session_id: str) -> None:
     try:
         from app.tools.knowledge_tool import set_last_retrieval_fallback_answer
@@ -387,6 +459,15 @@ def _clear_cached_retrieval_fallback_answer(session_id: str) -> None:
         set_last_retrieval_fallback_answer(None, session_id=session_id)
     except Exception as exc:
         logger.debug(f"清理检索兜底答案失败，忽略: {exc}")
+
+
+def _clear_cached_retrieval_evidence_context(session_id: str) -> None:
+    try:
+        from app.tools.knowledge_tool import clear_retrieval_request_state
+
+        clear_retrieval_request_state(session_id=session_id)
+    except Exception as exc:
+        logger.debug(f"清理完整检索 evidence 失败，忽略: {exc}")
 
 
 def _mark_timeout_metadata(metadata: dict[str, Any] | None) -> dict[str, Any]:

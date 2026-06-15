@@ -375,6 +375,53 @@ def test_retrieve_knowledge_passes_original_question_as_rerank_query(monkeypatch
     assert len(docs) == 1
 
 
+def test_retrieve_knowledge_blocks_repeated_calls_after_evidence_ready(monkeypatch):
+    hit = Result("hit-1", "primary text", 0.9, {"chunk_id": "chunk-1"})
+    bundle = Bundle(
+        intent="procedure",
+        retrieval_stage="hybrid_search",
+        hits=[hit],
+        metadata=make_summary_metadata(),
+    )
+    module, orchestrator = load_knowledge_tool(monkeypatch, bundle)
+    module.config.rag_retrieve_max_calls_per_query = 4
+    module.config.rag_retrieve_ready_free_calls = 2
+    calls = []
+
+    def retrieve(query, *, rerank_query=None):
+        calls.append((query, rerank_query))
+        return bundle
+
+    orchestrator.retrieve = retrieve
+    monkeypatch.setattr(
+        module,
+        "get_trace_chat_context",
+        lambda: {"session_id": "session-1", "question": "original question"},
+    )
+
+    first_context, first_docs = module.retrieve_knowledge("query one")
+    second_context, second_docs = module.retrieve_knowledge("query two")
+    third_context, third_docs = module.retrieve_knowledge("query three")
+
+    assert calls == [
+        ("query one", "original question"),
+        ("query two", "original question"),
+    ]
+    assert first_context == "context::query one::procedure::1"
+    assert second_context == "context::query two::procedure::1"
+    assert "[Retrieval call limit]" in third_context
+    assert "context::query two::procedure::1" in third_context
+    assert len(first_docs) == len(second_docs) == len(third_docs) == 1
+    assert module.get_last_retrieval_evidence_context(
+        session_id="session-1",
+        question="original question",
+    ) == "context::query two::procedure::1"
+    assert module.get_last_retrieval_evidence_context(
+        session_id="session-1",
+        question="another question",
+    ) is None
+
+
 def test_retrieval_fallback_answers_are_isolated_by_session(monkeypatch):
     module, _ = load_knowledge_tool(monkeypatch, Bundle())
 
