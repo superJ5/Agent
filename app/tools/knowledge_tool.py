@@ -10,6 +10,7 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from functools import lru_cache
 from pathlib import Path
+from threading import Lock
 from typing import Any, cast
 
 from langchain_core.documents import Document
@@ -89,7 +90,9 @@ _LAST_RETRIEVAL_FALLBACK_ANSWER: ContextVar[str | None] = ContextVar(
     "last_retrieval_fallback_answer",
     default=None,
 )
-_last_retrieval_fallback_answer_fallback: str | None = None
+_retrieval_fallback_answers_by_session: dict[str, str] = {}
+_retrieval_fallback_answers_lock = Lock()
+MAX_SESSION_FALLBACK_ANSWERS = 2048
 PIC_ID_RE = re.compile(r"([A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+)", re.IGNORECASE)
 PROFILE_TERM_RE = re.compile(r"[A-Za-z][A-Za-z0-9+\-]{1,}|[\u4e00-\u9fff]{2,16}")
 PROFILE_SCAN_LIMIT = 6000
@@ -403,19 +406,32 @@ def set_last_retrieval_metadata(metadata: dict[str, Any] | None) -> None:
     _last_retrieval_metadata_fallback = dict(snapshot) if snapshot else None
 
 
-def set_last_retrieval_fallback_answer(answer: str | None) -> None:
+def set_last_retrieval_fallback_answer(
+    answer: str | None,
+    *,
+    session_id: str | None = None,
+) -> None:
     """Store a compact evidence-based answer for request timeout fallback."""
-    global _last_retrieval_fallback_answer_fallback
-
     snapshot = answer.strip() if isinstance(answer, str) and answer.strip() else None
     _LAST_RETRIEVAL_FALLBACK_ANSWER.set(snapshot)
-    _last_retrieval_fallback_answer_fallback = snapshot
+    normalized_session_id = _normalize_session_id(session_id)
+    if not normalized_session_id:
+        return
+    with _retrieval_fallback_answers_lock:
+        if snapshot:
+            _retrieval_fallback_answers_by_session.pop(normalized_session_id, None)
+            _retrieval_fallback_answers_by_session[normalized_session_id] = snapshot
+            while len(_retrieval_fallback_answers_by_session) > MAX_SESSION_FALLBACK_ANSWERS:
+                oldest_session_id = next(iter(_retrieval_fallback_answers_by_session))
+                _retrieval_fallback_answers_by_session.pop(oldest_session_id, None)
+        else:
+            _retrieval_fallback_answers_by_session.pop(normalized_session_id, None)
 
 
-def clear_last_retrieval_metadata() -> None:
+def clear_last_retrieval_metadata(*, session_id: str | None = None) -> None:
     """Clear stale retrieval metadata before a new agent query starts."""
     set_last_retrieval_metadata(None)
-    set_last_retrieval_fallback_answer(None)
+    set_last_retrieval_fallback_answer(None, session_id=session_id)
 
 
 def get_last_retrieval_metadata() -> dict[str, Any] | None:
@@ -424,9 +440,18 @@ def get_last_retrieval_metadata() -> dict[str, Any] | None:
     return dict(metadata) if metadata else None
 
 
-def get_last_retrieval_fallback_answer() -> str | None:
+def get_last_retrieval_fallback_answer(*, session_id: str | None = None) -> str | None:
     """Return the latest compact evidence answer for timeout fallback."""
-    return _LAST_RETRIEVAL_FALLBACK_ANSWER.get() or _last_retrieval_fallback_answer_fallback
+    normalized_session_id = _normalize_session_id(session_id)
+    if normalized_session_id:
+        with _retrieval_fallback_answers_lock:
+            return _retrieval_fallback_answers_by_session.get(normalized_session_id)
+    return _LAST_RETRIEVAL_FALLBACK_ANSWER.get()
+
+
+def _normalize_session_id(session_id: str | None) -> str | None:
+    normalized = str(session_id or "").strip()
+    return normalized or None
 
 
 @dataclass(frozen=True)
@@ -597,7 +622,8 @@ def resolve_chunk_types(
 @tool(response_format="content_and_artifact")
 def retrieve_knowledge(query: str) -> tuple[str, list[Document]]:
     """Retrieve relevant manual knowledge for a user query."""
-    clear_last_retrieval_metadata()
+    session_id = _current_session_id()
+    clear_last_retrieval_metadata(session_id=session_id)
     try:
         logger.info("Knowledge retrieval called: query='{}'", query)
         bundle = routed_retrieve(query, rerank_query=_current_original_question())
@@ -610,7 +636,8 @@ def retrieve_knowledge(query: str) -> tuple[str, list[Document]]:
 
         context = format_bundle(bundle, query=query)
         set_last_retrieval_fallback_answer(
-            build_evidence_fallback_answer(bundle.all_hits)
+            build_evidence_fallback_answer(bundle.all_hits),
+            session_id=session_id,
         )
         logger.info(
             "Retrieved {} documents, intent={}, stage={}",
@@ -620,7 +647,7 @@ def retrieve_knowledge(query: str) -> tuple[str, list[Document]]:
         )
         return context, docs
     except Exception as exc:
-        clear_last_retrieval_metadata()
+        clear_last_retrieval_metadata(session_id=session_id)
         logger.error(f"Knowledge retrieval failed: {exc}")
         return f"检索知识时发生错误: {str(exc)}", []
 
@@ -657,6 +684,14 @@ def _current_original_question() -> str | None:
         return None
     question = str(context.get("question") or "").strip()
     return question or None
+
+
+def _current_session_id() -> str | None:
+    """Return the session id attached by the chat layer, if any."""
+    context = get_trace_chat_context()
+    if not isinstance(context, dict):
+        return None
+    return _normalize_session_id(context.get("session_id"))
 
 
 def legacy_routed_retrieve(query: str) -> RetrievalBundle:

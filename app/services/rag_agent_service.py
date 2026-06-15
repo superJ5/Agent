@@ -624,7 +624,7 @@ class RagAgentService:
         try:
             await self._initialize_agent()
             self._last_retrieval_metadata_by_session[session_id] = None
-            self._clear_last_retrieval_metadata()
+            self._clear_last_retrieval_metadata(session_id)
 
             image_count = len(images or [])
             manual_rag_enabled = should_use_manual_rag(question, has_images=image_count > 0)
@@ -732,11 +732,11 @@ class RagAgentService:
         return sanitize_summary_metadata(metadata)
 
     @staticmethod
-    def _clear_last_retrieval_metadata() -> None:
+    def _clear_last_retrieval_metadata(session_id: str) -> None:
         try:
             from app.tools.knowledge_tool import clear_last_retrieval_metadata
 
-            clear_last_retrieval_metadata()
+            clear_last_retrieval_metadata(session_id=session_id)
         except Exception as exc:
             logger.debug(f"清理检索诊断摘要失败，忽略 metadata 扩展: {exc}")
 
@@ -786,7 +786,7 @@ class RagAgentService:
         )
         try:
             await self._initialize_agent()
-            self._clear_last_retrieval_metadata()
+            self._clear_last_retrieval_metadata(session_id)
 
             image_count = len(images or [])
             manual_rag_enabled = should_use_manual_rag(question, has_images=image_count > 0)

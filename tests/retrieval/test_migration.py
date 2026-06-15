@@ -373,3 +373,18 @@ def test_retrieve_knowledge_passes_original_question_as_rerank_query(monkeypatch
     ]
     assert context == "context::jetski start different situations::procedure::1"
     assert len(docs) == 1
+
+
+def test_retrieval_fallback_answers_are_isolated_by_session(monkeypatch):
+    module, _ = load_knowledge_tool(monkeypatch, Bundle())
+
+    module.set_last_retrieval_fallback_answer("answer-a", session_id="session-a")
+    module.set_last_retrieval_fallback_answer("answer-b", session_id="session-b")
+
+    assert module.get_last_retrieval_fallback_answer(session_id="session-a") == "answer-a"
+    assert module.get_last_retrieval_fallback_answer(session_id="session-b") == "answer-b"
+
+    module.clear_last_retrieval_metadata(session_id="session-a")
+
+    assert module.get_last_retrieval_fallback_answer(session_id="session-a") is None
+    assert module.get_last_retrieval_fallback_answer(session_id="session-b") == "answer-b"
