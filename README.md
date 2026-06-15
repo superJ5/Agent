@@ -108,6 +108,12 @@ make stop
 data/manuals/chunks/*.jsonl
 ```
 
+先保证容器服务是开启状态：
+
+```bash
+make up
+```
+
 入库命令：
 
 ```bash
