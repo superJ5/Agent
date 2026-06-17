@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import uuid
 from collections.abc import Iterable, Mapping
 from contextvars import ContextVar, Token
 from dataclasses import is_dataclass
@@ -89,6 +90,7 @@ def set_trace_chat_context(
         {
             "question": str(question or ""),
             "session_id": str(session_id or ""),
+            "chat_request_id": uuid.uuid4().hex,
         }
     )
 
@@ -102,6 +104,18 @@ def get_trace_chat_context() -> dict[str, Any] | None:
     """Return the current /chat request context for trace enrichment."""
     context = _CURRENT_CHAT_TRACE_CONTEXT.get()
     return dict(context) if isinstance(context, dict) else None
+
+
+def update_trace_chat_context(**updates: Any) -> None:
+    """Update the current chat trace context in-place for one retrieval call."""
+    context = _CURRENT_CHAT_TRACE_CONTEXT.get()
+    if not isinstance(context, dict):
+        return
+    for key, value in updates.items():
+        if value is None:
+            context.pop(key, None)
+        else:
+            context[key] = value
 
 
 def build_summary_metadata(

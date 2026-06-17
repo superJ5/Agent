@@ -246,7 +246,7 @@ def load_knowledge_tool(monkeypatch, bundle: Bundle | None = None):
     return module, orchestrator
 
 
-def test_routed_retrieve_prioritizes_new_orchestrator_and_sets_summary_metadata(monkeypatch):
+def test_routed_retrieve_prioritizes_new_orchestrator(monkeypatch):
     hit = Result("hit-1", "primary text", 0.9, {"chunk_id": "chunk-1"})
     bundle = Bundle(
         intent="procedure",
@@ -260,25 +260,7 @@ def test_routed_retrieve_prioritizes_new_orchestrator_and_sets_summary_metadata(
 
     assert returned is bundle
     assert orchestrator.calls == ["install battery"]
-    metadata = module.get_last_retrieval_metadata()
-    assert metadata == {
-        "intent": "procedure",
-        "doc_id": "manual-1",
-        "retrieval_stage": "hybrid_search",
-        "intent_strategy": "hybrid",
-        "recall_channels": ["vector"],
-        "reranker_provider": "lexical",
-        "reranker_fallback": False,
-        "timeout": False,
-        "degraded": False,
-        "top_hits": [
-            {"chunk_id": "chunk-1", "score": 0.9, "channels": ["vector"]}
-        ],
-        "warnings": [],
-    }
-    assert "trace" not in metadata
-    assert "request_id" not in metadata
-    assert "query" not in metadata
+    assert returned.metadata == make_summary_metadata()
 
 
 def test_routed_retrieve_falls_back_to_legacy_when_orchestrator_fails(monkeypatch):
@@ -313,13 +295,11 @@ def test_routed_retrieve_falls_back_to_legacy_when_orchestrator_fails(monkeypatc
     assert orchestrator.calls == ["fallback question"]
     assert legacy_calls == ["fallback question"]
     assert legacy_bundle.warnings == ["orchestrator fallback: orchestrator down"]
-    metadata = module.get_last_retrieval_metadata()
-    assert metadata["intent"] == "general"
-    assert metadata["retrieval_stage"] == "legacy_stage"
-    assert metadata["intent_strategy"] == "legacy_routed"
-    assert metadata["degraded"] is True
-    assert metadata["warnings"] == ["orchestrator fallback: orchestrator down"]
-    assert "trace" not in metadata
+    assert legacy_bundle.metadata["intent"] == "general"
+    assert legacy_bundle.metadata["retrieval_stage"] == "legacy_stage"
+    assert legacy_bundle.metadata["intent_strategy"] == "legacy_routed"
+    assert legacy_bundle.metadata["degraded"] is True
+    assert legacy_bundle.metadata["warnings"] == ["orchestrator fallback: orchestrator down"]
 
 
 def test_retrieve_knowledge_still_returns_context_and_documents(monkeypatch):
@@ -338,7 +318,6 @@ def test_retrieve_knowledge_still_returns_context_and_documents(monkeypatch):
     assert len(docs) == 1
     assert docs[0].page_content == "primary text"
     assert docs[0].metadata["chunk_id"] == "chunk-1"
-    assert module.get_last_retrieval_metadata()["intent"] == "procedure"
 
 
 def test_retrieve_knowledge_passes_original_question_as_rerank_query(monkeypatch):
@@ -375,6 +354,72 @@ def test_retrieve_knowledge_passes_original_question_as_rerank_query(monkeypatch
     assert len(docs) == 1
 
 
+def test_retrieve_knowledge_limits_calls_per_request(monkeypatch):
+    module, orchestrator = load_knowledge_tool(monkeypatch, Bundle())
+    calls = []
+
+    def retrieve(query, *, rerank_query=None):
+        calls.append(query)
+        hit = Result(
+            f"hit-{query}",
+            f"primary text for {query}",
+            0.9,
+            {"chunk_id": f"chunk-{query}"},
+        )
+        bundle = Bundle(
+            intent="procedure",
+            retrieval_stage="hybrid_search",
+            hits=[hit],
+            metadata=make_summary_metadata(),
+        )
+        return bundle
+
+    orchestrator.retrieve = retrieve
+    trace_context = {
+        "question": "How do I install the battery?",
+        "session_id": "session-limit",
+        "chat_request_id": "chat-request-limit",
+    }
+    monkeypatch.setattr(
+        module,
+        "get_trace_chat_context",
+        lambda: dict(trace_context),
+    )
+    monkeypatch.setattr(
+        module,
+        "update_trace_chat_context",
+        lambda **updates: trace_context.update(updates),
+    )
+
+    for index in range(module.MAX_RETRIEVE_KNOWLEDGE_CALLS_PER_REQUEST):
+        tool_context, docs = module.retrieve_knowledge(f"query-{index}")
+        assert tool_context == f"context::query-{index}::procedure::1"
+        assert len(docs) == 1
+
+    fallback_answer = module.get_last_retrieval_fallback_answer(session_id="session-limit")
+    assert fallback_answer is not None
+    assert "primary text for query-0" in fallback_answer
+    assert "primary text for query-1" in fallback_answer
+    assert "primary text for query-2" in fallback_answer
+    assert trace_context["rag_call_index"] == 3
+    assert trace_context["rag_query"] == "query-2"
+    assert trace_context["rag_call_limit"] == module.MAX_RETRIEVE_KNOWLEDGE_CALLS_PER_REQUEST
+
+    tool_context, docs = module.retrieve_knowledge("query-over-limit")
+
+    assert "调用次数上限" in tool_context
+    assert "基于前面已经返回的检索证据直接组织最终答案" in tool_context
+    assert docs == []
+    assert calls == ["query-0", "query-1", "query-2"]
+
+    module.reset_retrieval_call_count(session_id="session-limit")
+    tool_context, docs = module.retrieve_knowledge("query-after-reset")
+
+    assert tool_context == "context::query-after-reset::procedure::1"
+    assert len(docs) == 1
+    assert calls == ["query-0", "query-1", "query-2", "query-after-reset"]
+
+
 def test_retrieval_fallback_answers_are_isolated_by_session(monkeypatch):
     module, _ = load_knowledge_tool(monkeypatch, Bundle())
 
@@ -384,7 +429,7 @@ def test_retrieval_fallback_answers_are_isolated_by_session(monkeypatch):
     assert module.get_last_retrieval_fallback_answer(session_id="session-a") == "answer-a"
     assert module.get_last_retrieval_fallback_answer(session_id="session-b") == "answer-b"
 
-    module.clear_last_retrieval_metadata(session_id="session-a")
+    module.reset_retrieval_request_state(session_id="session-a")
 
     assert module.get_last_retrieval_fallback_answer(session_id="session-a") is None
     assert module.get_last_retrieval_fallback_answer(session_id="session-b") == "answer-b"

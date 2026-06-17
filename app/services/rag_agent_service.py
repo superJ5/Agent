@@ -26,7 +26,6 @@ from typing_extensions import TypedDict
 
 from app.agent.mcp_client import get_mcp_client_with_retry
 from app.config import config
-from app.models.response import sanitize_summary_metadata
 from app.retrieval.diagnostics import reset_trace_chat_context, set_trace_chat_context
 from app.services.memory_service import memory_service
 from app.services.multimodal_message_builder import build_user_message
@@ -172,7 +171,6 @@ class RagAgentService:
 
         # MCP 客户端（延迟初始化，使用全局管理）
         self.mcp_tools: list = []
-        self._last_retrieval_metadata_by_session: dict[str, dict[str, Any] | None] = {}
 
         # 创建内存检查点（用于会话管理）
         self.checkpointer = MemorySaver()
@@ -263,13 +261,15 @@ class RagAgentService:
             12. retrieve_knowledge 返回的证据包含【主命中】和【补充上下文】两部分。
                 优先参考【主命中】，但【补充上下文】同样可能包含问题的正确答案或
                 必要的补充信息，不可忽略。
-            13. 逐条阅读所有证据内容，将每条证据的实际内容与用户问题进行比对，
+            13. 每轮请求最多调用 3 次 retrieve_knowledge；如果工具提示已达到调用次数上限，
+                必须停止继续检索，基于已经返回的证据直接组织最终答案。
+            14. 逐条阅读所有证据内容，将每条证据的实际内容与用户问题进行比对，
                 找出真正与问题对应的段落；单条证据中不相关的部分不纳入回答。
-            14. 比对完所有证据后，判断对用户问题的覆盖程度：
+            15. 比对完所有证据后，判断对用户问题的覆盖程度：
                 - 完全覆盖：正常回答
                 - 部分覆盖：回答有据可依的部分，对未覆盖的部分明确说明信息不足
                 - 未覆盖：直接说明未检索到相关信息，不得用不相关内容拼凑回答
-            15. 引用证据内容时，严格保留原文中的设备名称、型号、单位、限定条件等
+            16. 引用证据内容时，严格保留原文中的设备名称、型号、单位、限定条件等
                 事实性表述，不得为了贴合用户问题而替换或改写
 
             记忆使用规则:
@@ -623,8 +623,7 @@ class RagAgentService:
         )
         try:
             await self._initialize_agent()
-            self._last_retrieval_metadata_by_session[session_id] = None
-            self._clear_last_retrieval_metadata(session_id)
+            self._reset_retrieval_request_state(session_id)
 
             image_count = len(images or [])
             manual_rag_enabled = should_use_manual_rag(question, has_images=image_count > 0)
@@ -677,9 +676,6 @@ class RagAgentService:
                 input=agent_input,
                 config=config_dict,
             )
-            self._last_retrieval_metadata_by_session[session_id] = (
-                self._read_last_retrieval_metadata()
-            )
 
             # 提取最终答案
             messages_result = result.get("messages", [])
@@ -714,31 +710,14 @@ class RagAgentService:
         finally:
             reset_trace_chat_context(trace_context_token)
 
-    def get_last_retrieval_metadata(self, session_id: str) -> dict[str, Any] | None:
-        """Return the latest Summary-level retrieval diagnostics for one session."""
-        metadata = self._last_retrieval_metadata_by_session.get(session_id)
-        return dict(metadata) if metadata else None
-
     @staticmethod
-    def _read_last_retrieval_metadata() -> dict[str, Any] | None:
+    def _reset_retrieval_request_state(session_id: str) -> None:
         try:
-            from app.tools.knowledge_tool import get_last_retrieval_metadata
+            from app.tools.knowledge_tool import reset_retrieval_request_state
 
-            metadata = get_last_retrieval_metadata()
+            reset_retrieval_request_state(session_id=session_id, reset_call_count=True)
         except Exception as exc:
-            logger.debug(f"读取检索诊断摘要失败，忽略 metadata 扩展: {exc}")
-            return None
-
-        return sanitize_summary_metadata(metadata)
-
-    @staticmethod
-    def _clear_last_retrieval_metadata(session_id: str) -> None:
-        try:
-            from app.tools.knowledge_tool import clear_last_retrieval_metadata
-
-            clear_last_retrieval_metadata(session_id=session_id)
-        except Exception as exc:
-            logger.debug(f"清理检索诊断摘要失败，忽略 metadata 扩展: {exc}")
+            logger.debug(f"清理检索请求状态失败，忽略: {exc}")
 
     @staticmethod
     def _ensure_image_placeholders(answer: str) -> str:
@@ -786,7 +765,7 @@ class RagAgentService:
         )
         try:
             await self._initialize_agent()
-            self._clear_last_retrieval_metadata(session_id)
+            self._reset_retrieval_request_state(session_id)
 
             image_count = len(images or [])
             manual_rag_enabled = should_use_manual_rag(question, has_images=image_count > 0)

@@ -22,7 +22,6 @@ from app.models.response import (
     SessionInfoResponse,
     SessionStateResponse,
     ShortTermMemoryResponse,
-    sanitize_summary_metadata,
 )
 from app.services.competition_answer_formatter import format_answer_images
 from app.services.rag_agent_service import rag_agent_service
@@ -128,7 +127,6 @@ def _require_bearer_token(authorization: str | None) -> None:
 def _competition_success_payload(
     answer: str,
     session_id: str,
-    metadata: dict[str, Any] | None = None,
 ) -> dict:
     data: dict[str, Any] = {
         "answer": answer,
@@ -308,48 +306,41 @@ async def _query_rag_agent_with_competition_deadline(
     *,
     session_id: str,
     images: list[str] | None,
-) -> tuple[str, dict[str, Any] | None, bool]:
+) -> tuple[str, bool]:
     try:
         answer = await asyncio.wait_for(
             _query_rag_agent(question, session_id=session_id, images=images),
             timeout=COMPETITION_AGENT_TIMEOUT_SECONDS,
         )
-        return answer, rag_agent_service.get_last_retrieval_metadata(session_id), False
+        return answer, False
     except TimeoutError:
         logger.warning(
             "[会话 {}] 比赛标准对话接近 30s 限制，改用检索证据兜底返回",
             session_id,
         )
-        metadata = rag_agent_service.get_last_retrieval_metadata(session_id)
-        answer, fallback_metadata = await _build_timeout_fallback_answer(
+        answer = await _build_timeout_fallback_answer(
             question,
             session_id=session_id,
-            metadata=metadata,
         )
-        return answer, fallback_metadata, True
+        return answer, True
 
 
 async def _build_timeout_fallback_answer(
     question: str,
     *,
     session_id: str,
-    metadata: dict[str, Any] | None,
-) -> tuple[str, dict[str, Any]]:
-    fallback_metadata = _mark_timeout_metadata(metadata)
+) -> str:
     try:
         cached_answer = await _wait_for_cached_retrieval_fallback_answer(
             session_id,
             timeout=COMPETITION_FALLBACK_TIMEOUT_SECONDS,
         )
         if cached_answer:
-            return cached_answer, fallback_metadata
+            return cached_answer
     finally:
         _clear_cached_retrieval_fallback_answer(session_id)
 
-    return (
-        "根据当前已完成的信息，暂时没有拿到足够可靠的资料来给出完整结论。",
-        fallback_metadata,
-    )
+    return "根据当前已完成的信息，暂时没有拿到足够可靠的资料来给出完整结论。"
 
 
 async def _wait_for_cached_retrieval_fallback_answer(
@@ -384,23 +375,6 @@ def _clear_cached_retrieval_fallback_answer(session_id: str) -> None:
         set_last_retrieval_fallback_answer(None, session_id=session_id)
     except Exception as exc:
         logger.debug(f"清理检索兜底答案失败，忽略: {exc}")
-
-
-def _mark_timeout_metadata(metadata: dict[str, Any] | None) -> dict[str, Any]:
-    marked = dict(metadata or {})
-    warnings = [
-        str(item)
-        for item in (marked.get("warnings") or [])
-        if str(item).strip()
-    ]
-    timeout_warning = "competition_agent_timeout_fallback"
-    if timeout_warning not in warnings:
-        warnings.append(timeout_warning)
-
-    marked["timeout"] = True
-    marked["degraded"] = True
-    marked["warnings"] = warnings
-    return sanitize_summary_metadata(marked) or marked
 
 
 def _format_fallback_answer_from_hits(hits: list[Any]) -> str:
@@ -491,7 +465,6 @@ async def competition_chat(
         )
         (
             answer,
-            metadata,
             used_timeout_fallback,
         ) = await _query_rag_agent_with_competition_deadline(
             request.question,
@@ -510,7 +483,7 @@ async def competition_chat(
         )
         logger.info(f"[会话 {session_id}] 比赛标准对话完成")
         formatted_answer = format_answer_images(answer)
-        return _competition_success_payload(formatted_answer, session_id, metadata=metadata)
+        return _competition_success_payload(formatted_answer, session_id)
     except HTTPException:
         raise
     except Exception as exc:
