@@ -420,6 +420,41 @@ def test_retrieve_knowledge_limits_calls_per_request(monkeypatch):
     assert calls == ["query-0", "query-1", "query-2", "query-after-reset"]
 
 
+def test_retrieve_knowledge_blocks_new_calls_after_time_budget(monkeypatch):
+    module, orchestrator = load_knowledge_tool(monkeypatch, Bundle())
+    calls = []
+
+    def retrieve(query, *, rerank_query=None):
+        calls.append(query)
+        return Bundle()
+
+    orchestrator.retrieve = retrieve
+    trace_context = {
+        "question": "How do I install the battery?",
+        "session_id": "session-time-budget",
+        "chat_request_id": "chat-request-time-budget",
+        "chat_started_monotonic": 100.0,
+    }
+    monkeypatch.setattr(module, "get_trace_chat_context", lambda: dict(trace_context))
+    monkeypatch.setattr(
+        module,
+        "update_trace_chat_context",
+        lambda **updates: trace_context.update(
+            {key: value for key, value in updates.items() if value is not None}
+        ),
+    )
+    monkeypatch.setattr(module.time, "monotonic", lambda: 115.0)
+
+    tool_context, docs = module.retrieve_knowledge("battery install")
+
+    assert "检索时间预算" in tool_context
+    assert "基于前面已经返回的检索证据直接组织最终答案" in tool_context
+    assert docs == []
+    assert calls == []
+    assert trace_context["rag_block_reason"] == "time_budget"
+    assert trace_context["rag_elapsed_seconds"] == 15.0
+
+
 def test_retrieval_fallback_answers_are_isolated_by_session(monkeypatch):
     module, _ = load_knowledge_tool(monkeypatch, Bundle())
 
