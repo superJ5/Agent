@@ -622,7 +622,6 @@ class RagAgentService:
             session_id=session_id,
         )
         try:
-            await self._initialize_agent()
             self._reset_retrieval_request_state(session_id)
 
             image_count = len(images or [])
@@ -657,6 +656,25 @@ class RagAgentService:
                 *self._build_persistent_history_messages(session_id, question),
                 build_user_message(question, images),
             ]
+
+            if not manual_rag_enabled:
+                response = await self.model.ainvoke(messages)
+                answer_text = self._ensure_image_placeholders(
+                    self._message_text(response)
+                )
+                logger.info(f"[会话 {session_id}] 客服直连 LLM 查询完成（非流式）")
+                self._schedule_context_memory_updates(
+                    session_id=session_id,
+                    question=question,
+                    answer=answer_text,
+                    prior_dialogue=prior_dialogue,
+                    retrieved_memories=retrieved_long_term_memories,
+                    session_state_messages=session_state_messages,
+                    short_term_messages=short_term_messages,
+                )
+                return answer_text
+
+            await self._initialize_agent()
 
             # 构建 Agent 输入
             agent_input = {"messages": messages}
@@ -709,6 +727,23 @@ class RagAgentService:
             raise
         finally:
             reset_trace_chat_context(trace_context_token)
+
+    @staticmethod
+    def _message_text(message: Any) -> str:
+        content = getattr(message, "content", message)
+        if isinstance(content, str):
+            return content
+        if isinstance(content, list):
+            parts: list[str] = []
+            for block in content:
+                if isinstance(block, str):
+                    parts.append(block)
+                elif isinstance(block, dict):
+                    text = block.get("text")
+                    if isinstance(text, str):
+                        parts.append(text)
+            return "".join(parts)
+        return str(content)
 
     @staticmethod
     def _reset_retrieval_request_state(session_id: str) -> None:
@@ -764,7 +799,6 @@ class RagAgentService:
             session_id=session_id,
         )
         try:
-            await self._initialize_agent()
             self._reset_retrieval_request_state(session_id)
 
             image_count = len(images or [])
@@ -799,6 +833,33 @@ class RagAgentService:
                 *self._build_persistent_history_messages(session_id, question),
                 build_user_message(question, images),
             ]
+
+            if not manual_rag_enabled:
+                answer_parts: list[str] = []
+                async for token in self.model.astream(messages):
+                    text_content = self._message_text(token)
+                    if text_content:
+                        answer_parts.append(text_content)
+                        yield {
+                            "type": "content",
+                            "data": text_content,
+                            "node": "customer_service_llm",
+                        }
+
+                logger.info(f"[会话 {session_id}] 客服直连 LLM 查询完成（流式）")
+                self._schedule_context_memory_updates(
+                    session_id=session_id,
+                    question=question,
+                    answer="".join(answer_parts),
+                    prior_dialogue=prior_dialogue,
+                    retrieved_memories=retrieved_long_term_memories,
+                    session_state_messages=session_state_messages,
+                    short_term_messages=short_term_messages,
+                )
+                yield {"type": "complete"}
+                return
+
+            await self._initialize_agent()
 
             # 构建 Agent 输入
             agent_input = {"messages": messages}
