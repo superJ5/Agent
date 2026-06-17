@@ -177,7 +177,6 @@ def _build_blocked_case_result(case: QueryCase, exc: Exception) -> dict[str, Any
         "query": case.query,
         "session_id": str(uuid.uuid4()),
         "answer": None,
-        "metadata": None,
         "duration_ms": 0,
         "status": "blocked",
         "error": f"{type(exc).__name__}: {exc}",
@@ -200,7 +199,6 @@ async def run_case(case: QueryCase, rag_agent_service: Any) -> dict[str, Any]:
         status = "failed"
         error = f"{type(exc).__name__}: {exc}"
 
-    metadata = _get_metadata_safely(rag_agent_service, session_id)
     duration_ms = round((time.perf_counter() - started_at) * 1000)
 
     result: dict[str, Any] = {
@@ -208,7 +206,6 @@ async def run_case(case: QueryCase, rag_agent_service: Any) -> dict[str, Any]:
         "query": case.query,
         "session_id": session_id,
         "answer": answer,
-        "metadata": metadata,
         "duration_ms": duration_ms,
         "status": status,
         "error": error,
@@ -216,14 +213,6 @@ async def run_case(case: QueryCase, rag_agent_service: Any) -> dict[str, Any]:
     if case.doc_id is not None:
         result["doc_id"] = case.doc_id
     return result
-
-
-def _get_metadata_safely(rag_agent_service: Any, session_id: str) -> dict[str, Any] | None:
-    try:
-        metadata = rag_agent_service.get_last_retrieval_metadata(session_id)
-    except Exception:
-        return None
-    return metadata if isinstance(metadata, dict) else None
 
 
 def build_report(results: list[dict[str, Any]], json_path: Path, markdown_path: Path) -> dict[str, Any]:
@@ -323,15 +312,6 @@ def _format_case_markdown(case: dict[str, Any]) -> list[str]:
     if case.get("error"):
         lines.extend(["", "### Error", "", _fenced_text(case["error"])])
 
-    lines.extend(
-        [
-            "",
-            "### Metadata",
-            "",
-            _fenced_text(json.dumps(case.get("metadata"), ensure_ascii=False, indent=2, default=str), "json"),
-            "",
-        ]
-    )
     return lines
 
 

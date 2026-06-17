@@ -344,7 +344,15 @@ def test_write_trace_if_enabled_includes_current_chat_context(
 
     lines = trace_path.read_text(encoding="utf-8").splitlines()
     assert len(lines) == 1
-    assert json.loads(lines[0]) == {
+    payload = json.loads(lines[0])
+    assert payload["request_id"] == "req-chat"
+    assert payload["query"] == "吹风机 安全要点"
+    assert payload["question"] == "操作吹风机时，人员需要注意哪些安全要点？"
+    assert payload["session_id"] == "kf_session_test"
+    assert isinstance(payload["chat_request_id"], str)
+    assert payload["chat_request_id"]
+    payload.pop("chat_request_id")
+    assert payload == {
         "request_id": "req-chat",
         "query": "吹风机 安全要点",
         "question": "操作吹风机时，人员需要注意哪些安全要点？",

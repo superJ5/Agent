@@ -22,10 +22,14 @@ from app.models.response import sanitize_summary_metadata
 from app.services.vector_search_service import SearchResult, vector_search_service
 
 get_trace_chat_context: Any
+update_trace_chat_context: Any
 try:
-    from app.retrieval.diagnostics import get_trace_chat_context
+    from app.retrieval.diagnostics import get_trace_chat_context, update_trace_chat_context
 except Exception:  # pragma: no cover - keeps standalone tool tests importable.
     def get_trace_chat_context() -> dict[str, Any] | None:
+        return None
+
+    def update_trace_chat_context(**updates: Any) -> None:
         return None
 
 retrieval_orchestrator: Any = None
@@ -81,18 +85,25 @@ EVIDENCE_SCHEMA_VERSION = "retrieval_evidence_v1"
 LEGACY_INTENT_STRATEGY = "legacy_routed"
 LEGACY_RERANKER_PROVIDER = "lexical"
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-_LAST_RETRIEVAL_METADATA: ContextVar[dict[str, Any] | None] = ContextVar(
-    "last_retrieval_metadata",
-    default=None,
-)
-_last_retrieval_metadata_fallback: dict[str, Any] | None = None
 _LAST_RETRIEVAL_FALLBACK_ANSWER: ContextVar[str | None] = ContextVar(
     "last_retrieval_fallback_answer",
     default=None,
 )
+_LAST_RETRIEVAL_FALLBACK_HITS: ContextVar[list[SearchResult] | None] = ContextVar(
+    "last_retrieval_fallback_hits",
+    default=None,
+)
+_RETRIEVAL_CALL_COUNT: ContextVar[int] = ContextVar(
+    "retrieval_call_count",
+    default=0,
+)
 _retrieval_fallback_answers_by_session: dict[str, str] = {}
+_retrieval_fallback_hits_by_session: dict[str, list[SearchResult]] = {}
+_retrieval_call_counts_by_request: dict[str, int] = {}
 _retrieval_fallback_answers_lock = Lock()
 MAX_SESSION_FALLBACK_ANSWERS = 2048
+MAX_RETRIEVE_KNOWLEDGE_CALLS_PER_REQUEST = 3
+FALLBACK_MAX_EVIDENCE_HITS = 9
 PIC_ID_RE = re.compile(r"([A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+)", re.IGNORECASE)
 PROFILE_TERM_RE = re.compile(r"[A-Za-z][A-Za-z0-9+\-]{1,}|[\u4e00-\u9fff]{2,16}")
 PROFILE_SCAN_LIMIT = 6000
@@ -396,16 +407,6 @@ class RetrievalBundle:
         return combined
 
 
-def set_last_retrieval_metadata(metadata: dict[str, Any] | None) -> None:
-    """Store the latest Summary-level retrieval metadata for the current tool call."""
-    global _last_retrieval_metadata_fallback
-
-    sanitized = sanitize_summary_metadata(metadata)
-    snapshot = dict(sanitized) if sanitized else None
-    _LAST_RETRIEVAL_METADATA.set(snapshot)
-    _last_retrieval_metadata_fallback = dict(snapshot) if snapshot else None
-
-
 def set_last_retrieval_fallback_answer(
     answer: str | None,
     *,
@@ -428,16 +429,114 @@ def set_last_retrieval_fallback_answer(
             _retrieval_fallback_answers_by_session.pop(normalized_session_id, None)
 
 
-def clear_last_retrieval_metadata(*, session_id: str | None = None) -> None:
-    """Clear stale retrieval metadata before a new agent query starts."""
-    set_last_retrieval_metadata(None)
-    set_last_retrieval_fallback_answer(None, session_id=session_id)
+def append_retrieval_fallback_hits(
+    results: Sequence[SearchResult],
+    *,
+    session_id: str | None = None,
+) -> str | None:
+    """Accumulate retrieval hits for the timeout fallback answer."""
+    hits = list(results)
+    if not hits:
+        return get_last_retrieval_fallback_answer(session_id=session_id)
+
+    normalized_session_id = _normalize_session_id(session_id)
+    if normalized_session_id:
+        with _retrieval_fallback_answers_lock:
+            existing = _retrieval_fallback_hits_by_session.get(normalized_session_id, [])
+            merged = _dedupe_fallback_hits([*existing, *hits])
+            _retrieval_fallback_hits_by_session.pop(normalized_session_id, None)
+            _retrieval_fallback_hits_by_session[normalized_session_id] = merged
+            while len(_retrieval_fallback_hits_by_session) > MAX_SESSION_FALLBACK_ANSWERS:
+                oldest_session_id = next(iter(_retrieval_fallback_hits_by_session))
+                _retrieval_fallback_hits_by_session.pop(oldest_session_id, None)
+                _retrieval_fallback_answers_by_session.pop(oldest_session_id, None)
+            answer = build_evidence_fallback_answer(merged)
+        set_last_retrieval_fallback_answer(answer, session_id=session_id)
+        return answer
+
+    existing = _LAST_RETRIEVAL_FALLBACK_HITS.get() or []
+    merged = _dedupe_fallback_hits([*existing, *hits])
+    _LAST_RETRIEVAL_FALLBACK_HITS.set(merged)
+    answer = build_evidence_fallback_answer(merged)
+    set_last_retrieval_fallback_answer(answer)
+    return answer
 
 
-def get_last_retrieval_metadata() -> dict[str, Any] | None:
-    """Return a defensive copy of the latest Summary-level retrieval metadata."""
-    metadata = _LAST_RETRIEVAL_METADATA.get() or _last_retrieval_metadata_fallback
-    return dict(metadata) if metadata else None
+def _dedupe_fallback_hits(results: Sequence[SearchResult]) -> list[SearchResult]:
+    deduped: list[SearchResult] = []
+    seen: set[str] = set()
+    for result in results:
+        metadata = getattr(result, "metadata", None) or {}
+        key = str(metadata.get("chunk_id") or getattr(result, "id", "") or id(result))
+        if key in seen:
+            continue
+        seen.add(key)
+        deduped.append(result)
+    return deduped
+
+
+def reset_retrieval_request_state(
+    *,
+    session_id: str | None = None,
+    reset_call_count: bool = False,
+    clear_fallback: bool = True,
+) -> None:
+    """Clear per-request retrieval state before a new agent query starts."""
+    if clear_fallback:
+        set_last_retrieval_fallback_answer(None, session_id=session_id)
+        _LAST_RETRIEVAL_FALLBACK_HITS.set(None)
+        normalized_session_id = _normalize_session_id(session_id)
+        if normalized_session_id:
+            with _retrieval_fallback_answers_lock:
+                _retrieval_fallback_hits_by_session.pop(normalized_session_id, None)
+    if reset_call_count:
+        reset_retrieval_call_count(session_id=session_id)
+
+
+def reset_retrieval_call_count(*, session_id: str | None = None) -> None:
+    """Reset per-request retrieve_knowledge call accounting."""
+    _RETRIEVAL_CALL_COUNT.set(0)
+    request_key = _current_retrieval_call_key(session_id)
+    if not request_key:
+        return
+    with _retrieval_fallback_answers_lock:
+        _retrieval_call_counts_by_request.pop(request_key, None)
+
+
+def _increment_retrieval_call_count(session_id: str | None) -> int:
+    request_key = _current_retrieval_call_key(session_id)
+    if request_key:
+        with _retrieval_fallback_answers_lock:
+            count = _retrieval_call_counts_by_request.get(request_key, 0) + 1
+            _retrieval_call_counts_by_request.pop(request_key, None)
+            _retrieval_call_counts_by_request[request_key] = count
+            while len(_retrieval_call_counts_by_request) > MAX_SESSION_FALLBACK_ANSWERS:
+                oldest_request_key = next(iter(_retrieval_call_counts_by_request))
+                _retrieval_call_counts_by_request.pop(oldest_request_key, None)
+            return count
+
+    count = _RETRIEVAL_CALL_COUNT.get() + 1
+    _RETRIEVAL_CALL_COUNT.set(count)
+    return count
+
+
+def _current_retrieval_call_key(session_id: str | None = None) -> str | None:
+    context = get_trace_chat_context()
+    if isinstance(context, dict):
+        chat_request_id = str(context.get("chat_request_id") or "").strip()
+        if chat_request_id:
+            return f"chat_request:{chat_request_id}"
+    normalized_session_id = _normalize_session_id(session_id)
+    return f"session:{normalized_session_id}" if normalized_session_id else None
+
+
+def _rag_call_limit_message(call_count: int) -> str:
+    return (
+        "retrieve_knowledge 已达到本轮请求的调用次数上限"
+        f"（最多 {MAX_RETRIEVE_KNOWLEDGE_CALLS_PER_REQUEST} 次，当前第 {call_count} 次）。"
+        "请停止继续调用 retrieve_knowledge，基于前面已经返回的检索证据直接组织最终答案；"
+        "如果已有证据不足，请明确说明当前检索到的信息不足。"
+    )
 
 
 def get_last_retrieval_fallback_answer(*, session_id: str | None = None) -> str | None:
@@ -623,11 +722,25 @@ def resolve_chunk_types(
 def retrieve_knowledge(query: str) -> tuple[str, list[Document]]:
     """Retrieve relevant manual knowledge for a user query."""
     session_id = _current_session_id()
-    clear_last_retrieval_metadata(session_id=session_id)
+    call_count = _increment_retrieval_call_count(session_id)
+    if call_count > MAX_RETRIEVE_KNOWLEDGE_CALLS_PER_REQUEST:
+        logger.warning(
+            "retrieve_knowledge call limit reached: session_id={}, call_count={}, query='{}'",
+            session_id,
+            call_count,
+            query,
+        )
+        return _rag_call_limit_message(call_count), []
+
+    reset_retrieval_request_state(session_id=session_id, clear_fallback=False)
     try:
         logger.info("Knowledge retrieval called: query='{}'", query)
+        update_trace_chat_context(
+            rag_call_index=call_count,
+            rag_query=str(query or ""),
+            rag_call_limit=MAX_RETRIEVE_KNOWLEDGE_CALLS_PER_REQUEST,
+        )
         bundle = routed_retrieve(query, rerank_query=_current_original_question())
-        set_last_retrieval_metadata(bundle.metadata)
         docs = [search_result_to_document(result) for result in bundle.all_hits]
 
         if not docs:
@@ -635,10 +748,7 @@ def retrieve_knowledge(query: str) -> tuple[str, list[Document]]:
             return "没有找到相关信息。", []
 
         context = format_bundle(bundle, query=query)
-        set_last_retrieval_fallback_answer(
-            build_evidence_fallback_answer(bundle.all_hits),
-            session_id=session_id,
-        )
+        append_retrieval_fallback_hits(bundle.all_hits, session_id=session_id)
         logger.info(
             "Retrieved {} documents, intent={}, stage={}",
             len(docs),
@@ -647,7 +757,7 @@ def retrieve_knowledge(query: str) -> tuple[str, list[Document]]:
         )
         return context, docs
     except Exception as exc:
-        clear_last_retrieval_metadata(session_id=session_id)
+        reset_retrieval_request_state(session_id=session_id, clear_fallback=False)
         logger.error(f"Knowledge retrieval failed: {exc}")
         return f"检索知识时发生错误: {str(exc)}", []
 
@@ -660,7 +770,6 @@ def routed_retrieve(query: str, *, rerank_query: str | None = None) -> Retrieval
                 bundle = retrieval_orchestrator.retrieve(query, rerank_query=rerank_query)
             else:
                 bundle = retrieval_orchestrator.retrieve(query)
-            set_last_retrieval_metadata(bundle.metadata)
             return cast(RetrievalBundle, bundle)
         except Exception as exc:
             logger.warning(
@@ -669,11 +778,9 @@ def routed_retrieve(query: str, *, rerank_query: str | None = None) -> Retrieval
             )
             fallback_bundle = _legacy_routed_retrieve(query)
             _mark_legacy_fallback_metadata(fallback_bundle, exc)
-            set_last_retrieval_metadata(fallback_bundle.metadata)
             return fallback_bundle
 
     fallback_bundle = _legacy_routed_retrieve(query)
-    set_last_retrieval_metadata(fallback_bundle.metadata)
     return fallback_bundle
 
 
@@ -2057,7 +2164,7 @@ def format_search_results(results: Sequence[SearchResult]) -> str:
 def build_evidence_fallback_answer(results: Sequence[SearchResult]) -> str:
     """Build a compact answer from retrieved evidence when the model times out."""
     evidence_lines: list[str] = []
-    for result in results[:3]:
+    for result in results[:FALLBACK_MAX_EVIDENCE_HITS]:
         metadata = result.metadata or {}
         title = str(metadata.get("title") or metadata.get("section_title") or "").strip()
         text = " ".join(str(result.content or metadata.get("text") or "").split())

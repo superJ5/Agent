@@ -13,20 +13,14 @@ from fastapi.testclient import TestClient
 class FakeRagAgentService:
     def __init__(self) -> None:
         self.answer = "compat answer"
-        self.metadata = None
         self.delay_seconds = 0.0
         self.calls: list[tuple[str, str]] = []
-        self.metadata_session_id: str | None = None
 
     async def query(self, question: str, session_id: str) -> str:
         self.calls.append((question, session_id))
         if self.delay_seconds:
             await asyncio.sleep(self.delay_seconds)
         return self.answer
-
-    def get_last_retrieval_metadata(self, session_id: str):
-        self.metadata_session_id = session_id
-        return self.metadata
 
     async def query_stream(self, question: str, session_id: str):
         yield {"type": "complete", "data": None}
@@ -111,7 +105,6 @@ def auth_headers() -> dict[str, str]:
 
 def test_competition_chat_omits_metadata_when_empty(competition_client):
     client, service = competition_client
-    service.metadata = {}
 
     response = client.post(
         "/chat",
@@ -132,7 +125,6 @@ def test_competition_chat_omits_metadata_when_empty(competition_client):
     }
     assert "metadata" not in body["data"]
     assert service.calls == [("hello", "session-a")]
-    assert service.metadata_session_id == "session-a"
 
 
 def test_competition_chat_formats_markdown_images_for_api_response(competition_client):
@@ -161,30 +153,6 @@ def test_competition_chat_formats_markdown_images_for_api_response(competition_c
 
 def test_competition_chat_omits_metadata_even_when_available(competition_client):
     client, service = competition_client
-    service.metadata = {
-        "intent": "procedure",
-        "doc_id": "manual-1",
-        "retrieval_stage": "hybrid_search",
-        "intent_strategy": "hybrid",
-        "recall_channels": ["vector", "bm25"],
-        "reranker_provider": "lexical",
-        "reranker_fallback": True,
-        "timeout": False,
-        "degraded": True,
-        "top_hits": [
-            {
-                "chunk_id": "chunk-1",
-                "score": 0.91,
-                "channels": ["vector"],
-                "trace": {"raw_score": 123},
-            }
-        ],
-        "warnings": ["fallback used"],
-        "trace": {"raw_query": "secret"},
-        "request_id": "retrieval-secret",
-        "query": "secret",
-        "diagnostics": {"raw_candidates": []},
-    }
 
     response = client.post(
         "/chat",
