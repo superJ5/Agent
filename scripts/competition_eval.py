@@ -53,7 +53,6 @@ import argparse
 import asyncio
 import base64
 import csv
-import json
 import os
 import subprocess
 import sys
@@ -334,9 +333,6 @@ async def cmd_test(args):
     token = args.token or _load_token_from_env()
     max_workers = max(1, args.workers)
     timeout = args.timeout
-    if args.show_chain and max_workers != 1:
-        print("ℹ️   --show-chain 为了保证链路摘要和题目一一对应，已自动使用 --workers 1。")
-        max_workers = 1
 
     # 读取测试问题
     if not input_csv.exists():
@@ -365,8 +361,6 @@ async def cmd_test(args):
     print(f"🔗 API: {api_url}")
     print(f"⚡ 并发: {max_workers}")
     print(f"⏱️  超时: {timeout}s")
-    if args.show_chain:
-        print("🔁 链路展示: 开启（打印每题 Agent/RAG 摘要链路）")
     print(f"💾 输出: 全部测试完成后写入 {output_csv}")
     print()
 
@@ -377,7 +371,6 @@ async def cmd_test(args):
         token=token,
         max_workers=max_workers,
         timeout=timeout,
-        show_chain=args.show_chain,
     )
 
     # 写入输出 CSV
@@ -543,7 +536,6 @@ async def _run_single_test(
     token: str,
     timeout: int,
     semaphore: asyncio.Semaphore,
-    show_chain: bool = False,
 ) -> dict:
     """
     调用 /chat API 测试单条问题。
@@ -597,14 +589,11 @@ async def _run_single_test(
                 if code == 0:
                     data = body.get("data", {}) or {}
                     answer = data.get("answer", "")
-                    metadata = data.get("metadata")
                     elapsed = time.time() - start_time
                     print(
                         f"   ✅ [ID={question_id}] {elapsed:.1f}s | "
                         f"{_format_question_preview(question)}"
                     )
-                    if show_chain:
-                        _print_chain_summary(metadata)
                     return {
                         "id": question_id,
                         "question": question,
@@ -612,7 +601,6 @@ async def _run_single_test(
                         "success": True,
                         "elapsed": elapsed,
                         "session_id": session_id,
-                        "metadata": metadata,
                     }
                 else:
                     error_msg = body.get("msg", "未知错误")
@@ -658,7 +646,6 @@ async def _run_batch_test(
     token: str,
     max_workers: int,
     timeout: int,
-    show_chain: bool = False,
 ) -> list[dict]:
     """
     批量运行测试用例。
@@ -681,7 +668,7 @@ async def _run_batch_test(
     semaphore = asyncio.Semaphore(max(1, max_workers))
 
     tasks = [
-        _run_single_test(case, api_url, token, timeout, semaphore, show_chain)
+        _run_single_test(case, api_url, token, timeout, semaphore)
         for case in test_cases
     ]
 
@@ -692,88 +679,6 @@ async def _run_batch_test(
     return results
 
 
-def _print_chain_summary(metadata: Any) -> None:
-    """Print a compact, PPT-friendly execution-chain summary from API metadata."""
-    if not isinstance(metadata, dict) or not metadata:
-        print("      🔁 链路: CSV → /chat → Agent → Answer")
-        print("      📌 诊断: 未返回检索 metadata，可查看 logs/retrieval_trace.jsonl")
-        print()
-        return
-
-    channels = _format_list(metadata.get("recall_channels"))
-    reranker = _format_reranker(metadata)
-    top_hits = _format_top_hits(metadata.get("top_hits"))
-    intent = _format_value(metadata.get("intent"))
-    stage = _format_value(metadata.get("retrieval_stage"))
-    warnings = _format_list(metadata.get("warnings"))
-
-    retrieval_node = channels if channels != "none" else "retrieve_knowledge"
-    print(
-        "      🔁 链路: CSV → /chat → Agent → "
-        f"RAG({retrieval_node}) → {reranker} → Evidence → Answer"
-    )
-    print(f"      📌 诊断: intent={intent} | stage={stage} | reranker={reranker}")
-    print(f"      📄 证据: {top_hits}")
-    if warnings != "none":
-        print(f"      ⚠️  warning: {warnings}")
-    print()
-
-
-def _format_reranker(metadata: dict[str, Any]) -> str:
-    provider = str(metadata.get("reranker_provider") or "").strip()
-    fallback = bool(metadata.get("reranker_fallback"))
-    timeout = bool(metadata.get("timeout"))
-
-    if not provider:
-        label = "rerank"
-    elif provider.lower() == "dashscope":
-        label = "Qwen3-Rerank"
-    elif provider.lower() == "lexical":
-        label = "Lexical-Rerank"
-    else:
-        label = provider
-
-    suffixes: list[str] = []
-    if fallback:
-        suffixes.append("fallback")
-    if timeout:
-        suffixes.append("timeout")
-    if suffixes:
-        return f"{label}({','.join(suffixes)})"
-    return label
-
-
-def _format_top_hits(value: Any, limit: int = 3) -> str:
-    if not isinstance(value, list) or not value:
-        return "none"
-
-    groups: dict[str, list[str]] = {}
-    for item in value[:limit]:
-        if not isinstance(item, dict):
-            continue
-        chunk_id = str(item.get("chunk_id") or "").strip()
-        if not chunk_id:
-            continue
-        doc_id, short_id = _split_chunk_id(chunk_id)
-        channels = _format_list(item.get("channels"))
-        label = f"{short_id}({channels})" if channels != "none" else short_id
-        groups.setdefault(doc_id, []).append(label)
-    if not groups:
-        return "none"
-    return " | ".join(
-        f"{doc_id}: {', '.join(chunk_labels)}"
-        for doc_id, chunk_labels in groups.items()
-    )
-
-
-def _split_chunk_id(chunk_id: str) -> tuple[str, str]:
-    """Split chunk id into a readable document prefix and short chunk suffix."""
-    prefix, sep, suffix = chunk_id.rpartition("_")
-    if sep and suffix.isdigit():
-        return prefix, suffix
-    return chunk_id, ""
-
-
 def _format_question_preview(question: str, limit: int = 36) -> str:
     """Return a clean, single-line question preview for terminal screenshots."""
     text = " ".join(str(question or "").split()).strip()
@@ -781,20 +686,6 @@ def _format_question_preview(question: str, limit: int = 36) -> str:
     if len(text) > limit:
         text = text[:limit].rstrip() + "..."
     return f"“{text}”"
-
-
-def _format_list(value: Any) -> str:
-    if isinstance(value, (list, tuple, set)):
-        items = [str(item).strip() for item in value if str(item).strip()]
-        return "+".join(items) if items else "none"
-    if isinstance(value, str) and value.strip():
-        return value.strip()
-    return "none"
-
-
-def _format_value(value: Any) -> str:
-    text = str(value or "").strip()
-    return text or "none"
 
 
 def _write_submission_csv(results: list[dict], output_path: Path):
@@ -1021,8 +912,6 @@ def main():
   # 指定 API 地址
   .venv/bin/python scripts/competition_eval.py --test --api-url http://192.168.1.100:9900/chat
 
-  # 演示模式：额外打印每题 Agent/RAG 运行链路摘要
-  .venv/bin/python scripts/competition_eval.py --run --input data/question_public.csv --limit 3 --show-chain
         """,
     )
 
@@ -1048,7 +937,6 @@ def main():
     parser.add_argument("--start-id", type=int, default=None, help="从指定题目 id 开始读取（包含该 id）")
     parser.add_argument("--end-id", type=int, default=None, help="读取到指定题目 id 结束（包含该 id）")
     parser.add_argument("--limit", type=int, default=None, help="最多读取多少条题目")
-    parser.add_argument("--show-chain", action="store_true", help="打印每题 Agent/RAG 运行链路摘要，适合答辩演示截图")
 
     args = parser.parse_args()
 
