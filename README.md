@@ -260,53 +260,6 @@ index_type: HNSW
 --output data/my_submission.csv：按指定文件名写入，已有文件会被覆盖。
 ```
 
-超时参数与服务端兜底：
-
-```text
---timeout 30  客户端等待单题 `/chat` 响应的最长时间，默认 30 秒。
-```
-
-`--timeout` 是评测脚本这一侧的外层保护，防止接口卡死时脚本一直等待。正常情况下，服务端会先于它主动收口：比赛 `/chat` 接口默认最多等待 Agent 完整回答 26 秒；如果还没有完整答案，会再等待最多 2.5 秒读取本次检索已经缓存好的证据答案，并返回“根据已检索到的资料……”形式的兜底回答。这样总耗时通常控制在 30 秒以内。
-
-时间层级：
-
-```text
-服务端 Agent 完整回答窗口：26s
-服务端证据兜底窗口：2.5s
-评测脚本客户端超时：30s
-```
-
-因此，`--timeout 30` 不会和服务端 26 秒机制冲突；它只是最后一层保险。只有服务端进程异常、网络异常或兜底也未能按时返回时，脚本才会写出 `ERROR: 请求超时`。
-
-如需临时压测兜底逻辑，可用环境变量启动一个测试服务，例如：
-
-```bash
-COMPETITION_AGENT_TIMEOUT_SECONDS=10 \
-COMPETITION_FALLBACK_TIMEOUT_SECONDS=2.5 \
-.venv/bin/python -m uvicorn app.main:app --host 0.0.0.0 --port 9901
-```
-
-再让评测脚本请求测试端口：
-
-```bash
-.venv/bin/python scripts/competition_eval.py --test \
-  --api-url http://localhost:9901/chat \
-  --input data/question_public.csv \
-  --output output \
-  --workers 1 \
-  --timeout 30 \
-  --limit 3
-```
-
-示例输出：
-
-```text
-✅ [ID=64] 12.4s | “使用吹风机时，人员需要佩戴哪些防护装备？”
-🔁 链路: CSV → /chat → Agent → RAG(vector+bm25+scan) → Qwen3-Rerank → Evidence → Answer
-📌 诊断: intent=general | stage=hybrid_search | reranker=Qwen3-Rerank
-📄 证据: manual_84d80d19: 0005(vector+bm25+scan), 0029(vector+bm25+scan), 0008(vector+bm25+scan)
-```
-
 题目范围参数：
 
 ```text

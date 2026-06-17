@@ -41,7 +41,6 @@
     --api-url   API 地址（默认: http://localhost:9900/chat）
     --token     Bearer Token（默认: 从 .env 读取）
     --workers   并发数（默认: 1；想快一点可改成 2/4/8，但太大容易超时）
-    --timeout   单题超时秒数，文本 20s / 多模态 30s（默认: 30）
 
 运行指令参考：
 .venv/bin/python scripts/competition_eval.py --test --input data/question_public.csv --workers 1
@@ -71,8 +70,6 @@ DEFAULT_LOG_DIR = PROJECT_ROOT / "logs"
 
 # ── API 配置 ───────────────────────────────────────────────────────────────
 DEFAULT_API_URL = "http://localhost:9900/chat"
-API_TIMEOUT_TEXT = 20       # 纯文本请求超时（秒）
-API_TIMEOUT_MULTIMODAL = 30  # 多模态请求超时（秒）
 
 
 def _reexec_in_venv_if_needed() -> None:
@@ -332,7 +329,6 @@ async def cmd_test(args):
     api_url = args.api_url
     token = args.token or _load_token_from_env()
     max_workers = max(1, args.workers)
-    timeout = args.timeout
 
     # 读取测试问题
     if not input_csv.exists():
@@ -360,7 +356,6 @@ async def cmd_test(args):
         )
     print(f"🔗 API: {api_url}")
     print(f"⚡ 并发: {max_workers}")
-    print(f"⏱️  超时: {timeout}s")
     print(f"💾 输出: 全部测试完成后写入 {output_csv}")
     print()
 
@@ -370,7 +365,6 @@ async def cmd_test(args):
         api_url=api_url,
         token=token,
         max_workers=max_workers,
-        timeout=timeout,
     )
 
     # 写入输出 CSV
@@ -534,7 +528,6 @@ async def _run_single_test(
     case: dict,
     api_url: str,
     token: str,
-    timeout: int,
     semaphore: asyncio.Semaphore,
 ) -> dict:
     """
@@ -544,7 +537,6 @@ async def _run_single_test(
         case: 测试用例
         api_url: API 地址
         token: Bearer Token
-        timeout: 超时秒数
         semaphore: 并发信号量
 
     Returns:
@@ -559,11 +551,6 @@ async def _run_single_test(
         images = case["images"]
         session_id = case["session_id"]
 
-        # 判断是否为多模态请求，选择合适的超时
-        effective_timeout = timeout
-        if images:
-            effective_timeout = max(timeout, API_TIMEOUT_MULTIMODAL)
-
         # 构建请求体
         payload: dict[str, Any] = {
             "question": question,
@@ -573,7 +560,7 @@ async def _run_single_test(
             payload["images"] = images
 
         try:
-            async with httpx.AsyncClient(timeout=effective_timeout) as client:
+            async with httpx.AsyncClient(timeout=None) as client:
                 headers = {
                     "Content-Type": "application/json",
                 }
@@ -615,18 +602,6 @@ async def _run_single_test(
                         "session_id": session_id,
                     }
 
-        except httpx.TimeoutException:
-            elapsed = time.time() - start_time
-            print(f"   ❌ [ID={question_id}] 请求超时 ({elapsed:.1f}s)")
-            return {
-                "id": question_id,
-                "question": question,
-                "ret": "ERROR: 请求超时",
-                "success": False,
-                "elapsed": elapsed,
-                "session_id": session_id,
-            }
-
         except Exception as exc:
             elapsed = time.time() - start_time
             print(f"   ❌ [ID={question_id}] 请求失败: {exc}")
@@ -645,7 +620,6 @@ async def _run_batch_test(
     api_url: str,
     token: str,
     max_workers: int,
-    timeout: int,
 ) -> list[dict]:
     """
     批量运行测试用例。
@@ -655,7 +629,6 @@ async def _run_batch_test(
         api_url: API 地址
         token: Bearer Token
         max_workers: 最大并发数
-        timeout: 超时秒数
 
     Returns:
         list[dict]: 测试结果列表
@@ -668,7 +641,7 @@ async def _run_batch_test(
     semaphore = asyncio.Semaphore(max(1, max_workers))
 
     tasks = [
-        _run_single_test(case, api_url, token, timeout, semaphore)
+        _run_single_test(case, api_url, token, semaphore)
         for case in test_cases
     ]
 
@@ -933,7 +906,6 @@ def main():
     parser.add_argument("--api-url", default=DEFAULT_API_URL, help=f"API 地址（默认: {DEFAULT_API_URL}）")
     parser.add_argument("--token", default="", help="Bearer Token（默认）")
     parser.add_argument("--workers", type=int, default=1, help="并发数（默认: 1；可改 2/4/8 加速，但过大容易超时）")
-    parser.add_argument("--timeout", type=int, default=30, help="单题超时秒数（默认: 30）")
     parser.add_argument("--start-id", type=int, default=None, help="从指定题目 id 开始读取（包含该 id）")
     parser.add_argument("--end-id", type=int, default=None, help="读取到指定题目 id 结束（包含该 id）")
     parser.add_argument("--limit", type=int, default=None, help="最多读取多少条题目")
