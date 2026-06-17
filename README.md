@@ -237,13 +237,6 @@ index_type: HNSW
 .venv/bin/python scripts/competition_eval.py --run \
   --input data/question_public.csv
 
-# 答辩演示：只跑少量题目，并打印 Agent/RAG 运行链路摘要
-.venv/bin/python scripts/competition_eval.py --run \
-  --input data/question_public.csv \
-  --limit 3 \
-  --workers 1 \
-  --show-chain
-
 # 第一次部署或需要重新入库时
 .venv/bin/python scripts/competition_eval.py --init
 ```
@@ -266,14 +259,6 @@ index_type: HNSW
 --output output：写入 output/submission_YYYYMMDD_HHMMSS.csv。
 --output data/my_submission.csv：按指定文件名写入，已有文件会被覆盖。
 ```
-
-演示参数：
-
-```text
---show-chain  每题成功后打印 Agent/RAG 摘要链路，适合答辩或截图演示。
-```
-
-`--show-chain` 会自动使用单并发，避免并发请求导致链路摘要和题目输出交错。
 
 超时参数与服务端兜底：
 

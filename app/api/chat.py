@@ -135,9 +135,6 @@ def _competition_success_payload(
         "session_id": session_id,
         "timestamp": int(time.time()),
     }
-    safe_metadata = sanitize_summary_metadata(metadata)
-    if safe_metadata:
-        data["metadata"] = safe_metadata
 
     return {
         "code": 0,

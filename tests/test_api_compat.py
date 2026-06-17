@@ -159,7 +159,7 @@ def test_competition_chat_formats_markdown_images_for_api_response(competition_c
     assert service.answer.startswith("按下鼠标底部的配对按钮")
 
 
-def test_competition_chat_includes_only_summary_metadata(competition_client):
+def test_competition_chat_omits_metadata_even_when_available(competition_client):
     client, service = competition_client
     service.metadata = {
         "intent": "procedure",
@@ -197,24 +197,7 @@ def test_competition_chat_includes_only_summary_metadata(competition_client):
     assert body["data"]["answer"] == "compat answer"
     assert body["data"]["session_id"] == "session-b"
     assert body["data"]["timestamp"] == 1710000000
-    assert body["data"]["metadata"] == {
-        "intent": "procedure",
-        "doc_id": "manual-1",
-        "retrieval_stage": "hybrid_search",
-        "intent_strategy": "hybrid",
-        "recall_channels": ["vector", "bm25"],
-        "reranker_provider": "lexical",
-        "reranker_fallback": True,
-        "timeout": False,
-        "degraded": True,
-        "top_hits": [
-            {"chunk_id": "chunk-1", "score": 0.91, "channels": ["vector"]}
-        ],
-        "warnings": ["fallback used"],
-    }
-    assert "trace" not in body["data"]["metadata"]
-    assert "request_id" not in body["data"]["metadata"]
-    assert "query" not in body["data"]["metadata"]
+    assert "metadata" not in body["data"]
 
 
 def test_competition_chat_accepts_legacy_request_aliases_and_images(competition_client):
@@ -289,8 +272,7 @@ def test_competition_chat_returns_fallback_on_agent_timeout(competition_client, 
     assert body["code"] == 0
     assert body["data"]["answer"].startswith("根据已检索到的资料")
     assert "清洁前请拔掉电源" in body["data"]["answer"]
-    assert body["data"]["metadata"]["timeout"] is True
-    assert body["data"]["metadata"]["degraded"] is True
+    assert "metadata" not in body["data"]
     assert requested_sessions == ["session-timeout"]
 
 

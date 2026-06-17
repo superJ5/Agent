@@ -79,7 +79,6 @@ class CompetitionChatData(BaseModel):
     answer: str = Field(..., description="智能体回答")
     session_id: str = Field(..., description="会话 ID")
     timestamp: int = Field(..., description="响应时间戳（秒）")
-    metadata: dict[str, Any] | None = Field(None, description="可选检索诊断摘要")
 
 
 class CompetitionChatResponse(BaseModel):
