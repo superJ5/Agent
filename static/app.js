@@ -63,20 +63,69 @@ class SuperBizAgentApp {
     // 安全地渲染 Markdown
     renderMarkdown(content) {
         if (!content) return '';
+        const renderContent = this.normalizeManualImages(content);
         
         // 检查 marked 是否可用
         if (typeof marked === 'undefined') {
             console.warn('marked 库未加载，使用纯文本显示');
-            return this.escapeHtml(content);
+            return this.escapeHtml(renderContent);
         }
         
         try {
-            const html = marked.parse(content);
+            const html = marked.parse(renderContent);
             return html;
         } catch (e) {
             console.error('Markdown 渲染失败:', e);
-            return this.escapeHtml(content);
+            return this.escapeHtml(renderContent);
         }
+    }
+
+    // 将手册图片占位和本地路径转换为前端可访问的图片接口
+    normalizeManualImages(content) {
+        const text = String(content || '');
+        const withPicTags = text.replace(
+            /<PIC:([A-Za-z0-9_.-]+)>/g,
+            (_, imageId) => `![${imageId}](${this.manualImageUrl(imageId)})`
+        );
+
+        return withPicTags.replace(
+            /!\[([^\]]*)\]\(([^)]+)\)/g,
+            (match, altText, imagePath) => {
+                const trimmedPath = String(imagePath || '').trim();
+                if (this.isExternalOrResolvedImage(trimmedPath)) {
+                    return match;
+                }
+
+                const imageId = this.resolveManualImageId(altText, trimmedPath);
+                if (!imageId) {
+                    return match;
+                }
+                return `![${imageId}](${this.manualImageUrl(imageId)})`;
+            }
+        );
+    }
+
+    isExternalOrResolvedImage(imagePath) {
+        return /^(https?:|data:image\/|\/api\/manual-images\/)/i.test(imagePath);
+    }
+
+    resolveManualImageId(altText, imagePath) {
+        const cleanAlt = String(altText || '').trim();
+        if (/^[A-Za-z0-9_.-]+$/.test(cleanAlt)) {
+            return cleanAlt;
+        }
+
+        const normalizedPath = String(imagePath || '')
+            .split('?', 1)[0]
+            .split('#', 1)[0]
+            .replace(/\\/g, '/');
+        const filename = normalizedPath.split('/').pop() || '';
+        const stem = filename.replace(/\.(png|jpe?g|webp)$/i, '');
+        return /^[A-Za-z0-9_.-]+$/.test(stem) ? stem : '';
+    }
+
+    manualImageUrl(imageId) {
+        return `/api/manual-images/${encodeURIComponent(imageId)}`;
     }
 
     // 高亮代码块
