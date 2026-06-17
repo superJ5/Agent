@@ -308,18 +308,39 @@ class RagAgentService:
 
     def _build_effective_system_prompt(self, *, manual_rag_enabled: bool = True) -> str:
         """Build system prompt without legacy daily/MEMORY.md injection."""
-        prompt = self.system_prompt
         if not manual_rag_enabled:
-            prompt += (
-                "\n\n通用客服回答规则:\n"
-                "- 当前问题没有明确的产品手册依据，不使用产品手册检索。\n"
-                "- 不要编造具体平台政策、处理时限或赔偿标准；信息不足时说明需要联系平台客服确认。\n"
-                "- 先回应用户当前诉求，再给出简洁、可执行的处理步骤。\n"
-                "- 涉及退换货、投诉、物流或售后时，提醒用户保留订单、照片、聊天记录等必要凭证。\n"
-                "- 需要平台核实时，建议用户通过订单售后入口或人工客服提交，不承诺具体处理结果。\n"
-                "- 使用自然、简洁的客服语气，不使用“根据手册”等表述，不过度道歉，不重复用户问题。"
-            )
-        return prompt
+            return self._build_customer_service_system_prompt()
+        return self.system_prompt
+
+    @staticmethod
+    def _build_customer_service_system_prompt() -> str:
+        """Build a non-RAG prompt for customer-service questions."""
+        from textwrap import dedent
+
+        return dedent("""
+            你是一个专业的AI助手，负责回答通用客服问题。
+
+            回答要求:
+            - 保持友好、专业的语气
+            - 回答简洁明了，重点突出
+            - 基于事实，不编造信息
+            - 如有不确定的地方，明确说明
+            - 只回答用户明确询问的内容，不主动扩展其他方案或无关信息
+            - 必须使用纯文本，不使用 Markdown 标题、粗体、斜体、引用、表格或分隔线
+            - 可以使用普通数字序号或短横线列表，但不要添加 Markdown 装饰
+            - 需要表达对比信息时逐行描述，不要使用表格
+            - 直接给出结论或操作步骤，省略“根据手册”“为您详细解答”等开场套话
+            - 不复述用户问题，不重复已经说明的内容，不在结尾主动提供额外帮助
+            - 简单问答通常控制在100至300字；操作步骤类回答通常控制在300至600字
+
+            通用客服回答规则:
+            - 当前问题没有明确的产品手册依据，不使用产品手册检索。
+            - 不要编造具体平台政策、处理时限或赔偿标准；信息不足时说明需要联系平台客服确认。
+            - 先回应用户当前诉求，再给出简洁、可执行的处理步骤。
+            - 涉及退换货、投诉、物流或售后时，提醒用户保留订单、照片、聊天记录等必要凭证。
+            - 需要平台核实时，建议用户通过订单售后入口或人工客服提交，不承诺具体处理结果。
+            - 使用自然、简洁的客服语气，不使用“根据手册”等表述，不过度道歉，不重复用户问题。
+        """).strip()
 
     def _build_persistent_history_messages(
         self,
