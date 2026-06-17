@@ -783,7 +783,7 @@ MEMORY_WRITE_ENABLED=true
 或者临时启动：
 
 ```bash
-.venv/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 9900
+.venv/bin/python -m uvicorn app.main:app --host 0.0.0.0 --port 9900
 ```
 
 读取 token：

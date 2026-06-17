@@ -339,7 +339,7 @@ start-api:
 	else \
 		echo "$(YELLOW)📦 正在启动 FastAPI 服务（后台运行）...$(NC)"; \
 		mkdir -p $(LOG_DIR); \
-		nohup env -u ALL_PROXY -u all_proxy .venv/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 9900 > $(SERVER_LOG) 2>&1 & \
+		nohup env -u ALL_PROXY -u all_proxy .venv/bin/python -m uvicorn app.main:app --host 0.0.0.0 --port 9900 > $(SERVER_LOG) 2>&1 & \
 		echo $$! > $(SERVER_PID); \
 		echo "$(GREEN)✅ FastAPI 服务启动命令已执行$(NC)"; \
 		echo "$(YELLOW)   PID: $$(cat $(SERVER_PID))$(NC)"; \
