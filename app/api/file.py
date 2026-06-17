@@ -3,8 +3,12 @@
 from pathlib import Path
 
 from fastapi import APIRouter, File, HTTPException, UploadFile
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
 
+from app.services.manual_image_service import (
+    ManualImageNotFoundError,
+    resolve_manual_image_path,
+)
 from app.services.vector_index_service import vector_index_service
 from loguru import logger
 
@@ -16,6 +20,16 @@ UPLOAD_DIR = Path("./uploads")
 ALLOWED_EXTENSIONS = ["txt", "md"]
 # 单个文件支持最大大小
 MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB
+
+
+@router.get("/manual-images/{image_id}")
+async def get_manual_image(image_id: str):
+    """Return a manual image by picture id for the web chat UI."""
+    try:
+        image_path = resolve_manual_image_path(image_id)
+    except ManualImageNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    return FileResponse(image_path)
 
 
 @router.post("/upload")
