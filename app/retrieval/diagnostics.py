@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import time
 import uuid
 from collections.abc import Iterable, Mapping
 from contextvars import ContextVar, Token
@@ -91,6 +92,7 @@ def set_trace_chat_context(
             "question": str(question or ""),
             "session_id": str(session_id or ""),
             "chat_request_id": uuid.uuid4().hex,
+            "chat_started_monotonic": time.monotonic(),
         }
     )
 
@@ -107,15 +109,17 @@ def get_trace_chat_context() -> dict[str, Any] | None:
 
 
 def update_trace_chat_context(**updates: Any) -> None:
-    """Update the current chat trace context in-place for one retrieval call."""
+    """Attach retrieval-call details to the current task's trace context."""
     context = _CURRENT_CHAT_TRACE_CONTEXT.get()
     if not isinstance(context, dict):
         return
+    updated = dict(context)
     for key, value in updates.items():
         if value is None:
-            context.pop(key, None)
+            updated.pop(key, None)
         else:
-            context[key] = value
+            updated[key] = value
+    _CURRENT_CHAT_TRACE_CONTEXT.set(updated)
 
 
 def build_summary_metadata(
@@ -319,6 +323,8 @@ def _trace_payload(diagnostics: Any) -> dict[str, Any]:
     chat_context = get_trace_chat_context()
     if chat_context:
         for key, value in chat_context.items():
+            if key == "chat_started_monotonic":
+                continue
             if value:
                 trace.setdefault(key, value)
 

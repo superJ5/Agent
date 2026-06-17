@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+import time
 from collections import Counter
 from collections.abc import Iterable, Sequence
 from contextvars import ContextVar
@@ -103,6 +104,7 @@ _retrieval_call_counts_by_request: dict[str, int] = {}
 _retrieval_fallback_answers_lock = Lock()
 MAX_SESSION_FALLBACK_ANSWERS = 2048
 MAX_RETRIEVE_KNOWLEDGE_CALLS_PER_REQUEST = 3
+RAG_NEW_CALL_DEADLINE_SECONDS = 14.0
 FALLBACK_MAX_EVIDENCE_HITS = 9
 PIC_ID_RE = re.compile(r"([A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+)", re.IGNORECASE)
 PROFILE_TERM_RE = re.compile(r"[A-Za-z][A-Za-z0-9+\-]{1,}|[\u4e00-\u9fff]{2,16}")
@@ -539,6 +541,26 @@ def _rag_call_limit_message(call_count: int) -> str:
     )
 
 
+def _rag_time_budget_message(elapsed_seconds: float) -> str:
+    return (
+        "retrieve_knowledge 已达到本轮请求的检索时间预算"
+        f"（最多 {RAG_NEW_CALL_DEADLINE_SECONDS:.0f} 秒，当前约 {elapsed_seconds:.1f} 秒）。"
+        "请停止继续调用 retrieve_knowledge，基于前面已经返回的检索证据直接组织最终答案；"
+        "如果已有证据不足，请明确说明当前检索到的信息不足。"
+    )
+
+
+def _current_chat_elapsed_seconds() -> float | None:
+    context = get_trace_chat_context()
+    if not isinstance(context, dict):
+        return None
+    started_at = context.get("chat_started_monotonic")
+    try:
+        return max(0.0, time.monotonic() - float(started_at))
+    except (TypeError, ValueError):
+        return None
+
+
 def get_last_retrieval_fallback_answer(*, session_id: str | None = None) -> str | None:
     """Return the latest compact evidence answer for timeout fallback."""
     normalized_session_id = _normalize_session_id(session_id)
@@ -723,6 +745,7 @@ def retrieve_knowledge(query: str) -> tuple[str, list[Document]]:
     """Retrieve relevant manual knowledge for a user query."""
     session_id = _current_session_id()
     call_count = _increment_retrieval_call_count(session_id)
+    elapsed_seconds = _current_chat_elapsed_seconds()
     if call_count > MAX_RETRIEVE_KNOWLEDGE_CALLS_PER_REQUEST:
         logger.warning(
             "retrieve_knowledge call limit reached: session_id={}, call_count={}, query='{}'",
@@ -731,6 +754,23 @@ def retrieve_knowledge(query: str) -> tuple[str, list[Document]]:
             query,
         )
         return _rag_call_limit_message(call_count), []
+    if elapsed_seconds is not None and elapsed_seconds >= RAG_NEW_CALL_DEADLINE_SECONDS:
+        logger.warning(
+            "retrieve_knowledge time budget reached: session_id={}, call_count={}, elapsed={:.3f}s, query='{}'",
+            session_id,
+            call_count,
+            elapsed_seconds,
+            query,
+        )
+        update_trace_chat_context(
+            rag_call_index=call_count,
+            rag_query=str(query or ""),
+            rag_call_limit=MAX_RETRIEVE_KNOWLEDGE_CALLS_PER_REQUEST,
+            rag_elapsed_seconds=round(elapsed_seconds, 3),
+            rag_call_deadline_seconds=RAG_NEW_CALL_DEADLINE_SECONDS,
+            rag_block_reason="time_budget",
+        )
+        return _rag_time_budget_message(elapsed_seconds), []
 
     reset_retrieval_request_state(session_id=session_id, clear_fallback=False)
     try:
@@ -739,6 +779,11 @@ def retrieve_knowledge(query: str) -> tuple[str, list[Document]]:
             rag_call_index=call_count,
             rag_query=str(query or ""),
             rag_call_limit=MAX_RETRIEVE_KNOWLEDGE_CALLS_PER_REQUEST,
+            rag_elapsed_seconds=round(elapsed_seconds, 3)
+            if elapsed_seconds is not None
+            else None,
+            rag_call_deadline_seconds=RAG_NEW_CALL_DEADLINE_SECONDS,
+            rag_block_reason=None,
         )
         bundle = routed_retrieve(query, rerank_query=_current_original_question())
         docs = [search_result_to_document(result) for result in bundle.all_hits]
