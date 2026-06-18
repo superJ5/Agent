@@ -27,6 +27,9 @@ class FakeChatQwen:
     def __init__(self, *args, **kwargs) -> None:
         self.kwargs = kwargs
 
+    async def ainvoke(self, messages):
+        return FakeMessage("customer")
+
 
 class FakeMemorySaver:
     def get(self, *args, **kwargs):
@@ -37,9 +40,28 @@ class FakeMemorySaver:
 
 
 class FakeMessage:
-    def __init__(self, content: str = "", id: str | None = None) -> None:
+    def __init__(
+        self,
+        content: str = "",
+        id: str | None = None,
+        tool_calls=None,
+        **kwargs,
+    ) -> None:
         self.content = content
         self.id = id
+        self.tool_calls = tool_calls or []
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+
+
+class FakeToolMessage(FakeMessage):
+    pass
+
+
+class FakeAgentMiddleware:
+    @classmethod
+    def __class_getitem__(cls, item):
+        return cls
 
 
 def make_module(name: str, **attrs) -> ModuleType:
@@ -121,6 +143,11 @@ def load_rag_agent_service(monkeypatch):
     )
     monkeypatch.setitem(
         sys.modules,
+        "langchain.agents.middleware",
+        make_module("langchain.agents.middleware", AgentMiddleware=FakeAgentMiddleware),
+    )
+    monkeypatch.setitem(
+        sys.modules,
         "langchain_core.messages",
         make_module(
             "langchain_core.messages",
@@ -129,6 +156,7 @@ def load_rag_agent_service(monkeypatch):
             HumanMessage=FakeMessage,
             RemoveMessage=FakeMessage,
             SystemMessage=FakeMessage,
+            ToolMessage=FakeToolMessage,
         ),
     )
     monkeypatch.setitem(sys.modules, "langchain_qwq", make_module("langchain_qwq", ChatQwen=FakeChatQwen))
@@ -193,10 +221,10 @@ def test_customer_service_prompt_uses_conservative_service_style(monkeypatch):
 
 def test_initializes_separate_manual_and_customer_service_agents(monkeypatch):
     module = load_rag_agent_service(monkeypatch)
-    created_tool_sets = []
+    created_agents = []
 
-    def fake_create_agent(model, *, tools, checkpointer):
-        created_tool_sets.append(tools)
+    def fake_create_agent(model, *, tools, checkpointer, middleware=()):
+        created_agents.append({"tools": tools, "middleware": middleware})
         return SimpleNamespace()
 
     monkeypatch.setattr(module, "create_agent", fake_create_agent)
@@ -204,9 +232,61 @@ def test_initializes_separate_manual_and_customer_service_agents(monkeypatch):
 
     asyncio.run(service._initialize_agent())
 
-    assert len(created_tool_sets) == 2
-    assert module.retrieve_knowledge in created_tool_sets[0]
-    assert module.retrieve_knowledge not in created_tool_sets[1]
+    assert len(created_agents) == 2
+    assert module.retrieve_knowledge in created_agents[0]["tools"]
+    assert module.retrieve_knowledge not in created_agents[1]["tools"]
+    assert len(created_agents[0]["middleware"]) == 1
+    assert isinstance(
+        created_agents[0]["middleware"][0],
+        module.LatestRetrievalOnlyMiddleware,
+    )
+    assert created_agents[1]["middleware"] == ()
+
+
+def test_latest_retrieval_middleware_keeps_only_newest_rag_result(monkeypatch):
+    module = load_rag_agent_service(monkeypatch)
+    middleware = module.LatestRetrievalOnlyMiddleware()
+    messages = [
+        module.SystemMessage(content="system"),
+        module.HumanMessage(content="question"),
+        module.AIMessage(
+            content="",
+            tool_calls=[{"id": "call-old", "name": "retrieve_knowledge"}],
+        ),
+        module.ToolMessage(
+            content="old rag result",
+            name="retrieve_knowledge",
+            tool_call_id="call-old",
+        ),
+        module.AIMessage(
+            content="",
+            tool_calls=[{"id": "call-new", "name": "retrieve_knowledge"}],
+        ),
+        module.ToolMessage(
+            content="new rag result",
+            name="retrieve_knowledge",
+            tool_call_id="call-new",
+        ),
+    ]
+
+    update = middleware.before_model({"messages": messages}, runtime=None)
+
+    assert update is not None
+    updated_messages = update["messages"][1:]
+    assert all(
+        getattr(message, "content", "") != "old rag result"
+        for message in updated_messages
+    )
+    assert any(
+        getattr(message, "content", "") == "new rag result"
+        for message in updated_messages
+    )
+    assert not any(
+        getattr(message, "tool_calls", None) == [
+            {"id": "call-old", "name": "retrieve_knowledge"}
+        ]
+        for message in updated_messages
+    )
 
 
 def test_query_selects_agent_using_local_router(monkeypatch):
@@ -291,6 +371,7 @@ def test_query_injects_and_updates_short_term_memory(monkeypatch):
     monkeypatch.setattr(module, "short_term_memory_service", fake_memory)
     monkeypatch.setattr(module, "session_state_service", FakeSessionStateService())
     monkeypatch.setattr(module, "long_term_memory_service", FakeLongTermMemoryService())
+    monkeypatch.setattr(module, "should_use_manual_rag", lambda *args, **kwargs: True)
 
     service = module.RagAgentService()
     service.agent = fake_agent
@@ -350,6 +431,7 @@ def test_memory_enabled_false_skips_context_memory(monkeypatch):
     monkeypatch.setattr(module, "short_term_memory_service", DisabledMemoryService())
     monkeypatch.setattr(module, "session_state_service", DisabledMemoryService())
     monkeypatch.setattr(module, "long_term_memory_service", DisabledMemoryService())
+    monkeypatch.setattr(module, "should_use_manual_rag", lambda *args, **kwargs: True)
 
     service = module.RagAgentService()
     service.agent = fake_agent

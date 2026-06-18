@@ -11,12 +11,14 @@ from collections.abc import AsyncGenerator, Sequence
 from typing import Annotated, Any, cast
 
 from langchain.agents import create_agent
+from langchain.agents.middleware import AgentMiddleware
 from langchain_core.messages import (
     AIMessage,
     BaseMessage,
     HumanMessage,
     RemoveMessage,
     SystemMessage,
+    ToolMessage,
 )
 from langchain_qwq import ChatQwen
 from langgraph.checkpoint.memory import MemorySaver
@@ -93,6 +95,7 @@ short_term_memory_service = _short_term_memory_service
 
 EMPTY_IMAGE_ALT_RE = re.compile(r"!\[\]\(([^)]+)\)")
 PIC_ID_IN_PATH_RE = re.compile(r"([A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+)")
+RETRIEVE_KNOWLEDGE_TOOL_NAME = "retrieve_knowledge"
 
 # 阿里千问大模型和langchain集成参考： https://docs.langchain.com/oss/python/integrations/chat/qwen
 # 注意：需要配置环境变量 DASHSCOPE_API_BASE=https://dashscope.aliyuncs.com/compatible-mode/v1 否则默认访问的是新加坡站点
@@ -102,6 +105,97 @@ PIC_ID_IN_PATH_RE = re.compile(r"([A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+)")
 class AgentState(TypedDict):
     """Agent 状态"""
     messages: Annotated[Sequence[BaseMessage], add_messages]
+
+
+def _replace_messages(new_messages: Sequence[BaseMessage]) -> dict[str, list[BaseMessage]]:
+    return {"messages": [RemoveMessage(id=REMOVE_ALL_MESSAGES), *new_messages]}
+
+
+def _tool_call_id(tool_call: Any) -> str | None:
+    if isinstance(tool_call, dict):
+        value = tool_call.get("id")
+    else:
+        value = getattr(tool_call, "id", None)
+    return str(value) if value else None
+
+
+def _tool_call_name(tool_call: Any) -> str | None:
+    if isinstance(tool_call, dict):
+        value = tool_call.get("name")
+    else:
+        value = getattr(tool_call, "name", None)
+    return str(value) if value else None
+
+
+def _is_retrieve_tool_message(
+    message: BaseMessage,
+    retrieve_tool_call_ids: set[str],
+) -> bool:
+    if not isinstance(message, ToolMessage):
+        return False
+    if getattr(message, "name", None) == RETRIEVE_KNOWLEDGE_TOOL_NAME:
+        return True
+    tool_call_id = getattr(message, "tool_call_id", None)
+    return bool(tool_call_id and str(tool_call_id) in retrieve_tool_call_ids)
+
+
+class LatestRetrievalOnlyMiddleware(AgentMiddleware[AgentState, Any]):
+    """Keep only the latest retrieve_knowledge result in model context."""
+
+    def before_model(self, state: AgentState, runtime: Any) -> dict[str, Any] | None:
+        _ = runtime
+        messages = list(state.get("messages", []))
+        retrieve_tool_call_ids: set[str] = set()
+        retrieve_tool_message_indexes: list[int] = []
+
+        for index, message in enumerate(messages):
+            if isinstance(message, AIMessage):
+                for tool_call in getattr(message, "tool_calls", []) or []:
+                    if _tool_call_name(tool_call) != RETRIEVE_KNOWLEDGE_TOOL_NAME:
+                        continue
+                    tool_call_id = _tool_call_id(tool_call)
+                    if tool_call_id:
+                        retrieve_tool_call_ids.add(tool_call_id)
+
+            if _is_retrieve_tool_message(message, retrieve_tool_call_ids):
+                retrieve_tool_message_indexes.append(index)
+
+        if len(retrieve_tool_message_indexes) <= 1:
+            return None
+
+        latest_retrieve_tool_index = retrieve_tool_message_indexes[-1]
+        stale_tool_call_ids = {
+            str(getattr(messages[index], "tool_call_id", ""))
+            for index in retrieve_tool_message_indexes[:-1]
+            if getattr(messages[index], "tool_call_id", None)
+        }
+        stale_message_indexes = set(retrieve_tool_message_indexes[:-1])
+
+        for index, message in enumerate(messages):
+            if not isinstance(message, AIMessage):
+                continue
+            message_tool_calls = getattr(message, "tool_calls", []) or []
+            message_retrieve_ids = {
+                tool_call_id
+                for tool_call in message_tool_calls
+                if _tool_call_name(tool_call) == RETRIEVE_KNOWLEDGE_TOOL_NAME
+                for tool_call_id in [_tool_call_id(tool_call)]
+                if tool_call_id
+            }
+            if message_retrieve_ids and message_retrieve_ids <= stale_tool_call_ids:
+                stale_message_indexes.add(index)
+
+        filtered_messages = [
+            message
+            for index, message in enumerate(messages)
+            if index not in stale_message_indexes or index == latest_retrieve_tool_index
+        ]
+        logger.debug(
+            "RAG 工具上下文已压缩为最新一次: {} -> {} 条消息",
+            len(messages),
+            len(filtered_messages),
+        )
+        return _replace_messages(filtered_messages)
 
 
 def trim_messages_middleware(state: AgentState) -> dict[str, Any] | None:
@@ -136,12 +230,7 @@ def trim_messages_middleware(state: AgentState) -> dict[str, Any] | None:
 
     logger.debug(f"修剪消息历史: {len(messages)} -> {len(new_messages)} 条")
 
-    return {
-        "messages": [
-            RemoveMessage(id=REMOVE_ALL_MESSAGES),
-            *new_messages
-        ]
-    }
+    return _replace_messages(new_messages)
 
 
 class RagAgentService:
@@ -210,6 +299,7 @@ class RagAgentService:
         self.agent = create_agent(
             self.model,
             tools=all_tools,
+            middleware=[LatestRetrievalOnlyMiddleware()],
             checkpointer=self.checkpointer,
         )
         self.customer_service_agent = create_agent(
@@ -262,7 +352,7 @@ class RagAgentService:
                 优先参考【主命中】，但【补充上下文】同样可能包含问题的正确答案或
                 必要的补充信息，不可忽略。
             13. 每轮请求最多调用 3 次 retrieve_knowledge；如果工具提示已达到调用次数上限，
-                必须停止继续检索，基于已经返回的证据直接组织最终答案。
+                必须停止继续检索，基于最新一次已经返回的证据直接组织最终答案。
             14. 逐条阅读所有证据内容，将每条证据的实际内容与用户问题进行比对，
                 找出真正与问题对应的段落；单条证据中不相关的部分不纳入回答。
             15. 比对完所有证据后，判断对用户问题的覆盖程度：
