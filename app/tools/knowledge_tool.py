@@ -436,30 +436,27 @@ def append_retrieval_fallback_hits(
     *,
     session_id: str | None = None,
 ) -> str | None:
-    """Accumulate retrieval hits for the timeout fallback answer."""
+    """Store the latest retrieval hits for the timeout fallback answer."""
     hits = list(results)
     if not hits:
         return get_last_retrieval_fallback_answer(session_id=session_id)
+    latest_hits = _dedupe_fallback_hits(hits)
 
     normalized_session_id = _normalize_session_id(session_id)
     if normalized_session_id:
         with _retrieval_fallback_answers_lock:
-            existing = _retrieval_fallback_hits_by_session.get(normalized_session_id, [])
-            merged = _dedupe_fallback_hits([*existing, *hits])
             _retrieval_fallback_hits_by_session.pop(normalized_session_id, None)
-            _retrieval_fallback_hits_by_session[normalized_session_id] = merged
+            _retrieval_fallback_hits_by_session[normalized_session_id] = latest_hits
             while len(_retrieval_fallback_hits_by_session) > MAX_SESSION_FALLBACK_ANSWERS:
                 oldest_session_id = next(iter(_retrieval_fallback_hits_by_session))
                 _retrieval_fallback_hits_by_session.pop(oldest_session_id, None)
                 _retrieval_fallback_answers_by_session.pop(oldest_session_id, None)
-            answer = build_evidence_fallback_answer(merged)
+            answer = build_evidence_fallback_answer(latest_hits)
         set_last_retrieval_fallback_answer(answer, session_id=session_id)
         return answer
 
-    existing = _LAST_RETRIEVAL_FALLBACK_HITS.get() or []
-    merged = _dedupe_fallback_hits([*existing, *hits])
-    _LAST_RETRIEVAL_FALLBACK_HITS.set(merged)
-    answer = build_evidence_fallback_answer(merged)
+    _LAST_RETRIEVAL_FALLBACK_HITS.set(latest_hits)
+    answer = build_evidence_fallback_answer(latest_hits)
     set_last_retrieval_fallback_answer(answer)
     return answer
 
@@ -536,7 +533,7 @@ def _rag_call_limit_message(call_count: int) -> str:
     return (
         "retrieve_knowledge 已达到本轮请求的调用次数上限"
         f"（最多 {MAX_RETRIEVE_KNOWLEDGE_CALLS_PER_REQUEST} 次，当前第 {call_count} 次）。"
-        "请停止继续调用 retrieve_knowledge，基于前面已经返回的检索证据直接组织最终答案；"
+        "请停止继续调用 retrieve_knowledge，基于最新一次已经返回的检索证据直接组织最终答案；"
         "如果已有证据不足，请明确说明当前检索到的信息不足。"
     )
 
@@ -545,7 +542,7 @@ def _rag_time_budget_message(elapsed_seconds: float) -> str:
     return (
         "retrieve_knowledge 已达到本轮请求的检索时间预算"
         f"（最多 {RAG_NEW_CALL_DEADLINE_SECONDS:.0f} 秒，当前约 {elapsed_seconds:.1f} 秒）。"
-        "请停止继续调用 retrieve_knowledge，基于前面已经返回的检索证据直接组织最终答案；"
+        "请停止继续调用 retrieve_knowledge，基于最新一次已经返回的检索证据直接组织最终答案；"
         "如果已有证据不足，请明确说明当前检索到的信息不足。"
     )
 

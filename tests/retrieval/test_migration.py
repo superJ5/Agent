@@ -398,9 +398,9 @@ def test_retrieve_knowledge_limits_calls_per_request(monkeypatch):
 
     fallback_answer = module.get_last_retrieval_fallback_answer(session_id="session-limit")
     assert fallback_answer is not None
-    assert "primary text for query-0" in fallback_answer
-    assert "primary text for query-1" in fallback_answer
     assert "primary text for query-2" in fallback_answer
+    assert "primary text for query-0" not in fallback_answer
+    assert "primary text for query-1" not in fallback_answer
     assert trace_context["rag_call_index"] == 3
     assert trace_context["rag_query"] == "query-2"
     assert trace_context["rag_call_limit"] == module.MAX_RETRIEVE_KNOWLEDGE_CALLS_PER_REQUEST
@@ -408,7 +408,7 @@ def test_retrieve_knowledge_limits_calls_per_request(monkeypatch):
     tool_context, docs = module.retrieve_knowledge("query-over-limit")
 
     assert "调用次数上限" in tool_context
-    assert "基于前面已经返回的检索证据直接组织最终答案" in tool_context
+    assert "基于最新一次已经返回的检索证据直接组织最终答案" in tool_context
     assert docs == []
     assert calls == ["query-0", "query-1", "query-2"]
 
@@ -448,7 +448,7 @@ def test_retrieve_knowledge_blocks_new_calls_after_time_budget(monkeypatch):
     tool_context, docs = module.retrieve_knowledge("battery install")
 
     assert "检索时间预算" in tool_context
-    assert "基于前面已经返回的检索证据直接组织最终答案" in tool_context
+    assert "基于最新一次已经返回的检索证据直接组织最终答案" in tool_context
     assert docs == []
     assert calls == []
     assert trace_context["rag_block_reason"] == "time_budget"
