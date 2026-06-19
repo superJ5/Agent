@@ -17,16 +17,31 @@ class FakeRagAgentService:
         self.delay_seconds = 0.0
         self.calls: list[tuple[str, str]] = []
         self.models: list[str | None] = []
+        self.dashscope_api_keys: list[str | None] = []
 
-    async def query(self, question: str, session_id: str, model: str | None = None) -> str:
+    async def query(
+        self,
+        question: str,
+        session_id: str,
+        model: str | None = None,
+        dashscope_api_key: str | None = None,
+    ) -> str:
         self.calls.append((question, session_id))
         self.models.append(model)
+        self.dashscope_api_keys.append(dashscope_api_key)
         if self.delay_seconds:
             await asyncio.sleep(self.delay_seconds)
         return self.answer
 
-    async def query_stream(self, question: str, session_id: str, model: str | None = None):
+    async def query_stream(
+        self,
+        question: str,
+        session_id: str,
+        model: str | None = None,
+        dashscope_api_key: str | None = None,
+    ):
         self.models.append(model)
+        self.dashscope_api_keys.append(dashscope_api_key)
         yield {"type": "complete", "data": None}
 
 
@@ -212,6 +227,27 @@ def test_competition_chat_passes_optional_model_to_agent(competition_client):
     assert response.json()["data"]["answer"] == "compat answer"
     assert service.calls == [("这张图是什么？", "model-session")]
     assert service.models == ["qwen-vl-plus"]
+
+
+def test_competition_chat_passes_optional_dashscope_api_key_to_agent(competition_client):
+    client, service = competition_client
+
+    response = client.post(
+        "/chat",
+        json={
+            "question": "这张图是什么？",
+            "session_id": "judge-key-session",
+            "model": "qwen-vl-plus",
+            "dashscope_api_key": "sk-judge-test",
+        },
+        headers=auth_headers(),
+    )
+
+    assert response.status_code == 200
+    assert response.json()["data"]["answer"] == "compat answer"
+    assert service.calls == [("这张图是什么？", "judge-key-session")]
+    assert service.models == ["qwen-vl-plus"]
+    assert service.dashscope_api_keys == ["sk-judge-test"]
 
 
 def test_competition_chat_accepts_raw_base64_images(competition_client):

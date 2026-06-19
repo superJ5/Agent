@@ -76,6 +76,11 @@ class ChatRequest(BaseModel):
         max_length=100,
         description="本次请求使用的模型名；不传则使用 .env 中的默认模型",
     )
+    dashscope_api_key: str | None = Field(
+        default=None,
+        max_length=300,
+        description="本次请求使用的 DashScope API Key；不传则使用服务端 .env 配置",
+    )
 
     @field_validator("question")
     @classmethod
@@ -138,6 +143,18 @@ class ChatRequest(BaseModel):
             return None
         if any(char.isspace() for char in normalized):
             raise ValueError("model 不能包含空白字符")
+        return normalized
+
+    @field_validator("dashscope_api_key")
+    @classmethod
+    def validate_dashscope_api_key(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        normalized = value.strip()
+        if not normalized:
+            return None
+        if any(char.isspace() for char in normalized):
+            raise ValueError("dashscope_api_key 不能包含空白字符")
         return normalized
 
     @classmethod
