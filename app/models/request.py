@@ -17,6 +17,25 @@ ALLOWED_IMAGE_PREFIXES = (
 )
 MAX_IMAGE_COUNT = 3
 MAX_IMAGE_BYTES = 5 * 1024 * 1024
+IMAGE_FORMAT_PREFIXES = {
+    "png": "data:image/png;base64,",
+    "jpeg": "data:image/jpeg;base64,",
+    "webp": "data:image/webp;base64,",
+}
+
+
+def _detect_image_prefix(image_bytes: bytes) -> str | None:
+    if image_bytes.startswith(b"\x89PNG\r\n\x1a\n"):
+        return IMAGE_FORMAT_PREFIXES["png"]
+    if image_bytes.startswith(b"\xff\xd8\xff"):
+        return IMAGE_FORMAT_PREFIXES["jpeg"]
+    if (
+        len(image_bytes) >= 12
+        and image_bytes.startswith(b"RIFF")
+        and image_bytes[8:12] == b"WEBP"
+    ):
+        return IMAGE_FORMAT_PREFIXES["webp"]
+    return None
 
 
 class ChatRequest(BaseModel):
@@ -52,6 +71,11 @@ class ChatRequest(BaseModel):
         default=False,
         description="是否流式返回",
     )
+    model: str | None = Field(
+        default=None,
+        max_length=100,
+        description="本次请求使用的模型名；不传则使用 .env 中的默认模型",
+    )
 
     @field_validator("question")
     @classmethod
@@ -73,12 +97,19 @@ class ChatRequest(BaseModel):
             normalized = image.strip()
             if not normalized:
                 raise ValueError("images 中不允许空字符串")
-            if not normalized.startswith(ALLOWED_IMAGE_PREFIXES):
-                raise ValueError(
-                    "图片必须使用 data:image/{png|jpg|jpeg|webp};base64,... 格式"
-                )
+            prefix = next(
+                (
+                    allowed_prefix
+                    for allowed_prefix in ALLOWED_IMAGE_PREFIXES
+                    if normalized.startswith(allowed_prefix)
+                ),
+                None,
+            )
+            if prefix:
+                encoded = normalized.split(",", 1)[1]
+            else:
+                encoded = normalized
 
-            _, encoded = normalized.split(",", 1)
             try:
                 decoded = base64.b64decode(encoded, validate=True)
             except (binascii.Error, ValueError) as exc:
@@ -87,9 +118,27 @@ class ChatRequest(BaseModel):
             if len(decoded) > MAX_IMAGE_BYTES:
                 raise ValueError("images 中每张图片不能超过 5MB")
 
+            if not prefix:
+                prefix = _detect_image_prefix(decoded)
+                if not prefix:
+                    raise ValueError("无法识别裸 Base64 图片类型，仅支持 png、jpg/jpeg、webp")
+                normalized = f"{prefix}{encoded}"
+
             normalized_images.append(normalized)
 
         return normalized_images
+
+    @field_validator("model")
+    @classmethod
+    def validate_model(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        normalized = value.strip()
+        if not normalized:
+            return None
+        if any(char.isspace() for char in normalized):
+            raise ValueError("model 不能包含空白字符")
+        return normalized
 
     @classmethod
     def from_legacy_payload(cls, payload: dict[str, Any]) -> "ChatRequest":

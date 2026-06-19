@@ -315,6 +315,39 @@ class RagAgentService:
             tool_names = [tool.name if hasattr(tool, "name") else str(tool) for tool in all_tools]
             logger.info(f"可用工具列表: {', '.join(tool_names)}")
 
+    def _model_for_request(self, model: str | None = None) -> ChatQwen:
+        """Return the default model or a temporary model for this request."""
+        requested_model = str(model or "").strip()
+        if not requested_model or requested_model == self.model_name:
+            return self.model
+
+        logger.info("本次请求使用覆盖模型: {}", requested_model)
+        return ChatQwen(
+            model=requested_model,
+            api_key=cast(Any, config.dashscope_api_key),
+            base_url=config.dashscope_api_base,
+            temperature=0.2,
+            streaming=self.streaming,
+        )
+
+    async def _agent_for_request(self, model: str | None = None):
+        """Return the default RAG agent or a temporary agent bound to model."""
+        requested_model = str(model or "").strip()
+        if not requested_model or requested_model == self.model_name:
+            await self._initialize_agent()
+            if self.agent is None:
+                raise RuntimeError("Agent 未初始化")
+            return self.agent
+
+        await self._initialize_agent()
+        all_tools = self.tools + self.mcp_tools
+        return create_agent(
+            self._model_for_request(requested_model),
+            tools=all_tools,
+            middleware=[LatestRetrievalOnlyMiddleware()],
+            checkpointer=self.checkpointer,
+        )
+
     def _build_system_prompt(self) -> str:
         """
         构建系统提示词
@@ -716,6 +749,7 @@ class RagAgentService:
         question: str,
         session_id: str,
         images: list[str] | None = None,
+        model: str | None = None,
     ) -> str:
         """
         非流式处理用户问题（一次性返回完整答案）
@@ -724,6 +758,7 @@ class RagAgentService:
             question: 用户问题
             session_id: 会话ID（作为 thread_id）
             images: Base64 图片列表
+            model: 本次请求覆盖模型；为空时使用默认模型
 
         Returns:
             str: 完整答案
@@ -737,7 +772,10 @@ class RagAgentService:
 
             image_count = len(images or [])
             manual_rag_enabled = should_use_manual_rag(question, has_images=image_count > 0)
-            logger.info(f"[会话 {session_id}] RAG Agent 收到查询（非流式）: {question}, images={image_count}")
+            logger.info(
+                f"[会话 {session_id}] RAG Agent 收到查询（非流式）: "
+                f"{question}, images={image_count}, model={model or self.model_name}"
+            )
             logger.info(
                 f"[会话 {session_id}] 查询分流: "
                 f"{'manual_rag' if manual_rag_enabled else 'customer_service'}"
@@ -769,7 +807,8 @@ class RagAgentService:
             ]
 
             if not manual_rag_enabled:
-                response = await self.model.ainvoke(messages)
+                request_model = self._model_for_request(model)
+                response = await request_model.ainvoke(messages)
                 answer_text = self._ensure_image_placeholders(
                     self._message_text(response)
                 )
@@ -785,8 +824,6 @@ class RagAgentService:
                 )
                 return answer_text
 
-            await self._initialize_agent()
-
             # 构建 Agent 输入
             agent_input = {"messages": messages}
 
@@ -797,9 +834,7 @@ class RagAgentService:
                 }
             }
 
-            selected_agent = self.agent if manual_rag_enabled else self.customer_service_agent
-            if selected_agent is None:
-                raise RuntimeError("Agent 未初始化")
+            selected_agent = await self._agent_for_request(model)
 
             result = await selected_agent.ainvoke(
                 input=agent_input,
@@ -891,6 +926,7 @@ class RagAgentService:
         question: str,
         session_id: str,
         images: list[str] | None = None,
+        model: str | None = None,
     ) -> AsyncGenerator[dict[str, Any], None]:
         """
         流式处理用户问题（逐步返回答案片段）
@@ -899,6 +935,7 @@ class RagAgentService:
             question: 用户问题
             session_id: 会话ID（作为 thread_id）
             images: Base64 图片列表
+            model: 本次请求覆盖模型；为空时使用默认模型
 
         Yields:
             Dict[str, Any]: 包含流式数据的字典
@@ -914,7 +951,10 @@ class RagAgentService:
 
             image_count = len(images or [])
             manual_rag_enabled = should_use_manual_rag(question, has_images=image_count > 0)
-            logger.info(f"[会话 {session_id}] RAG Agent 收到查询（流式）: {question}, images={image_count}")
+            logger.info(
+                f"[会话 {session_id}] RAG Agent 收到查询（流式）: "
+                f"{question}, images={image_count}, model={model or self.model_name}"
+            )
             logger.info(
                 f"[会话 {session_id}] 查询分流: "
                 f"{'manual_rag' if manual_rag_enabled else 'customer_service'}"
@@ -946,8 +986,9 @@ class RagAgentService:
             ]
 
             if not manual_rag_enabled:
+                request_model = self._model_for_request(model)
                 answer_parts: list[str] = []
-                async for token in self.model.astream(messages):
+                async for token in request_model.astream(messages):
                     text_content = self._message_text(token)
                     if text_content:
                         answer_parts.append(text_content)
@@ -970,8 +1011,6 @@ class RagAgentService:
                 yield {"type": "complete"}
                 return
 
-            await self._initialize_agent()
-
             # 构建 Agent 输入
             agent_input = {"messages": messages}
 
@@ -982,9 +1021,7 @@ class RagAgentService:
                 }
             }
 
-            selected_agent = self.agent if manual_rag_enabled else self.customer_service_agent
-            if selected_agent is None:
-                raise RuntimeError("Agent 未初始化")
+            selected_agent = await self._agent_for_request(model)
 
             answer_parts: list[str] = []
             async for token, metadata in selected_agent.astream(

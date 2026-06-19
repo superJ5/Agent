@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import base64
 import importlib
 import sys
 from types import SimpleNamespace
@@ -15,14 +16,17 @@ class FakeRagAgentService:
         self.answer = "compat answer"
         self.delay_seconds = 0.0
         self.calls: list[tuple[str, str]] = []
+        self.models: list[str | None] = []
 
-    async def query(self, question: str, session_id: str) -> str:
+    async def query(self, question: str, session_id: str, model: str | None = None) -> str:
         self.calls.append((question, session_id))
+        self.models.append(model)
         if self.delay_seconds:
             await asyncio.sleep(self.delay_seconds)
         return self.answer
 
-    async def query_stream(self, question: str, session_id: str):
+    async def query_stream(self, question: str, session_id: str, model: str | None = None):
+        self.models.append(model)
         yield {"type": "complete", "data": None}
 
 
@@ -189,6 +193,51 @@ def test_competition_chat_accepts_legacy_request_aliases_and_images(competition_
     assert body["data"]["session_id"] == "legacy-session"
     assert body["data"]["timestamp"] == 1710000000
     assert service.calls == [("legacy question", "legacy-session")]
+
+
+def test_competition_chat_passes_optional_model_to_agent(competition_client):
+    client, service = competition_client
+
+    response = client.post(
+        "/chat",
+        json={
+            "question": "这张图是什么？",
+            "session_id": "model-session",
+            "model": "qwen-vl-plus",
+        },
+        headers=auth_headers(),
+    )
+
+    assert response.status_code == 200
+    assert response.json()["data"]["answer"] == "compat answer"
+    assert service.calls == [("这张图是什么？", "model-session")]
+    assert service.models == ["qwen-vl-plus"]
+
+
+def test_competition_chat_accepts_raw_base64_images(competition_client):
+    client, service = competition_client
+    raw_png = base64.b64encode(
+        b"\x89PNG\r\n\x1a\n"
+        b"\x00\x00\x00\rIHDR"
+        b"\x00\x00\x00\x0b\x00\x00\x00\x0b"
+        b"\x08\x02\x00\x00\x00"
+        b"\x00\x00\x00\x00"
+    ).decode("ascii")
+
+    response = client.post(
+        "/chat",
+        json={
+            "question": "这张图是什么？",
+            "session_id": "raw-image-session",
+            "images": [raw_png],
+            "model": "qwen-vl-plus",
+        },
+        headers=auth_headers(),
+    )
+
+    assert response.status_code == 200
+    assert response.json()["data"]["answer"] == "compat answer"
+    assert service.calls == [("这张图是什么？", "raw-image-session")]
 
 
 def test_competition_chat_keeps_auth_and_question_validation(competition_client):

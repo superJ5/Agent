@@ -157,6 +157,7 @@ def _build_stream_response(
     question: str,
     session_id: str,
     images: list[str] | None = None,
+    model: str | None = None,
     source: str = "chat_stream",
 ) -> EventSourceResponse:
     async def event_generator():
@@ -170,12 +171,15 @@ def _build_stream_response(
                 "source": source,
                 "stream": True,
                 "images_count": len(images or []),
+                "model": model,
             },
         )
         try:
             query_stream_kwargs: dict[str, Any] = {"session_id": session_id}
             if _call_accepts_keyword(rag_agent_service.query_stream, "images"):
                 query_stream_kwargs["images"] = images
+            if _call_accepts_keyword(rag_agent_service.query_stream, "model"):
+                query_stream_kwargs["model"] = model
             async for chunk in rag_agent_service.query_stream(question, **query_stream_kwargs):
                 chunk_type = chunk.get("type", "unknown")
                 chunk_data = chunk.get("data", None)
@@ -289,15 +293,22 @@ def _call_accepts_keyword(callable_obj: Any, keyword: str) -> bool:
     )
 
 
+def _default_chat_model_name() -> str:
+    return str(getattr(config, "rag_model", None) or getattr(config, "dashscope_model", "") or "")
+
+
 async def _query_rag_agent(
     question: str,
     *,
     session_id: str,
     images: list[str] | None,
+    model: str | None,
 ) -> str:
     kwargs: dict[str, Any] = {"session_id": session_id}
     if _call_accepts_keyword(rag_agent_service.query, "images"):
         kwargs["images"] = images
+    if _call_accepts_keyword(rag_agent_service.query, "model"):
+        kwargs["model"] = model
     return str(await rag_agent_service.query(question, **kwargs))
 
 
@@ -306,10 +317,11 @@ async def _query_rag_agent_with_competition_deadline(
     *,
     session_id: str,
     images: list[str] | None,
+    model: str | None,
 ) -> tuple[str, bool]:
     try:
         answer = await asyncio.wait_for(
-            _query_rag_agent(question, session_id=session_id, images=images),
+            _query_rag_agent(question, session_id=session_id, images=images, model=model),
             timeout=COMPETITION_AGENT_TIMEOUT_SECONDS,
         )
         return answer, False
@@ -437,11 +449,12 @@ async def competition_chat(
 
     session_id = _resolve_session_id(request.session_id)
     logger.info(
-        "[会话 {}] 收到比赛标准对话请求: question='{}', images={}, stream={}",
+        "[会话 {}] 收到比赛标准对话请求: question='{}', images={}, stream={}, model={}",
         session_id,
         request.question,
         len(request.images),
         request.stream,
+        request.model or _default_chat_model_name(),
     )
 
     if request.stream:
@@ -449,6 +462,7 @@ async def competition_chat(
             request.question,
             session_id,
             request.images,
+            request.model,
             source="competition_chat",
         )
 
@@ -461,6 +475,7 @@ async def competition_chat(
                 "source": "competition_chat",
                 "stream": False,
                 "images_count": len(request.images),
+                "model": request.model,
             },
         )
         (
@@ -470,6 +485,7 @@ async def competition_chat(
             request.question,
             session_id=session_id,
             images=request.images,
+            model=request.model,
         )
         memory_service.append_message(
             session_id,
@@ -517,12 +533,14 @@ async def chat(request: ChatRequest):
                 "source": "legacy_chat",
                 "stream": False,
                 "images_count": len(request.images),
+                "model": request.model,
             },
         )
         answer = await _query_rag_agent(
             request.question,
             session_id=session_id,
             images=request.images,
+            model=request.model,
         )
         memory_service.append_message(
             session_id,
@@ -580,6 +598,7 @@ async def chat_stream(request: ChatRequest):
         request.question,
         session_id,
         request.images,
+        request.model,
         source="legacy_chat_stream",
     )
 
