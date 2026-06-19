@@ -13,12 +13,12 @@ POST http://123.56.142.146:9900/chat
 4. 流式输出：stream=true，返回 SSE 流式数据。
 5. 多轮会话：传入相同 session_id，可作为同一轮会话标识。
 6. 指定模型：传 model；不传时使用服务端默认模型。
-7. 调用方模型 Key：传 dashscope_api_key，评委使用自己的 DashScope API Key。
+7. 调用方模型 Key：传 dashscope_api_key，评委使用自己的阿里云 DashScope API Key。
 
 二、最完整 curl 测试命令
 
 SERVICE_BEARER_TOKEN="123456"
-DASHSCOPE_API_KEY="<评委自己的 DashScope API Key>"
+DASHSCOPE_API_KEY="<评委自己的阿里云 DashScope API Key>"
 IMAGE_BASE64="<图片 Base64；不测图片时删除 images 字段即可>"
 
 curl -X POST "http://123.56.142.146:9900/chat" \
@@ -43,17 +43,17 @@ curl -X POST "http://123.56.142.146:9900/chat" \
 5. SERVICE_BEARER_TOKEN 当前评审值固定为：123456
 
 评委需要按测试需求填写的部分：
-1. DASHSCOPE_API_KEY：评委自己的 DashScope API Key。
+1. DASHSCOPE_API_KEY：评委自己的阿里云 DashScope API Key。
 2. question：要问智能体的问题。
 3. session_id：会话 ID，可自定义；同一会话连续提问时保持相同。
 4. stream：false 表示一次性返回完整答案；true 表示流式返回。
-5. model：本次请求使用的模型。文本可用 qwen3.7-max；图片理解建议用 qwen-vl-plus 或 qwen-vl-max。
+5. model：本次请求使用的模型。文本可用 qwen3.7-max；图片理解要用多模态模型 qwen-vl-plus 或 qwen-vl-max。
 6. images：图片 Base64 数组。只测文本时可以删除整个 images 字段。
 
 四、请求字段说明
 
 question：必填，字符串，用户问题。
-dashscope_api_key：必填，字符串，评委自己的 DashScope API Key。
+dashscope_api_key：必填，字符串，评委自己的阿里云 DashScope API Key。
 session_id：选填，字符串，会话 ID。
 stream：选填，布尔值，默认 false。
 model：选填，字符串，不传时使用服务端 .env 默认模型。
@@ -123,7 +123,7 @@ data: {"type":"done","data":null}
 1. 文本问答，非流式
 
 SERVICE_BEARER_TOKEN="123456"
-DASHSCOPE_API_KEY="<评委自己的 DashScope API Key>"
+DASHSCOPE_API_KEY="<评委自己的阿里云 DashScope API Key>"
 
 curl -X POST "http://123.56.142.146:9900/chat" \
   -H "Content-Type: application/json" \
@@ -139,7 +139,7 @@ curl -X POST "http://123.56.142.146:9900/chat" \
 2. 文本问答，流式
 
 SERVICE_BEARER_TOKEN="123456"
-DASHSCOPE_API_KEY="<评委自己的 DashScope API Key>"
+DASHSCOPE_API_KEY="<评委自己的阿里云 DashScope API Key>"
 
 curl -N -X POST "http://123.56.142.146:9900/chat" \
   -H "Content-Type: application/json" \
@@ -155,7 +155,7 @@ curl -N -X POST "http://123.56.142.146:9900/chat" \
 3. 图片问答，Data URL Base64
 
 SERVICE_BEARER_TOKEN="123456"
-DASHSCOPE_API_KEY="<评委自己的 DashScope API Key>"
+DASHSCOPE_API_KEY="<评委自己的阿里云 DashScope API Key>"
 IMAGE_BASE64="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQ..."
 
 curl -X POST "http://123.56.142.146:9900/chat" \
@@ -181,7 +181,7 @@ request.json 示例：
   "session_id": "judge-image-002",
   "stream": false,
   "model": "qwen-vl-plus",
-  "dashscope_api_key": "<评委自己的 DashScope API Key>",
+  "dashscope_api_key": "<评委自己的阿里云 DashScope API Key>",
   "images": [
     "/9j/4AAQSkZJRgABAQ..."
   ]
@@ -210,59 +210,31 @@ curl -X GET "http://123.56.142.146:9900/health"
 
 curl -I "http://123.56.142.146:9900/docs"
 
-3. 兼容普通对话接口
-
-作用：旧版非流式对话接口，主要保留兼容；评审推荐使用 /chat。
-
-curl -X POST "http://123.56.142.146:9900/api/chat" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer 123456" \
-  -d "{
-    \"question\": \"你好，请用一句话介绍你自己。\",
-    \"session_id\": \"judge-legacy-001\",
-    \"model\": \"qwen3.7-max\",
-    \"dashscope_api_key\": \"<评委自己的 DashScope API Key>\"
-  }"
-
-4. 兼容流式对话接口
-
-作用：旧版 SSE 流式对话接口，主要保留兼容；评审推荐使用 /chat 并设置 stream=true。
-
-curl -N -X POST "http://123.56.142.146:9900/api/chat_stream" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer 123456" \
-  -d "{
-    \"question\": \"你好，请用一句话介绍你自己。\",
-    \"session_id\": \"judge-legacy-stream-001\",
-    \"model\": \"qwen3.7-max\",
-    \"dashscope_api_key\": \"<评委自己的 DashScope API Key>\"
-  }"
-
-5. 查看会话历史
+3. 查看会话历史
 
 作用：按 session_id 查看最近会话记录。若服务端关闭记忆功能，可能返回空列表。
 
 curl -X GET "http://123.56.142.146:9900/api/chat/session/judge-text-001"
 
-6. 查看短期记忆
+4. 查看短期记忆
 
 作用：查看指定 session_id 的短期语义记忆。若服务端关闭记忆功能，可能返回不存在或空内容。
 
 curl -X GET "http://123.56.142.146:9900/api/chat/session/judge-text-001/short-term-memory"
 
-7. 查看会话状态
+5. 查看会话状态
 
 作用：查看指定 session_id 的结构化会话状态。若服务端关闭记忆功能，可能返回不存在或空内容。
 
 curl -X GET "http://123.56.142.146:9900/api/chat/session/judge-text-001/session-state"
 
-8. 查看长期记忆
+6. 查看长期记忆
 
 作用：查看长期记忆列表，limit 控制返回数量。若服务端关闭记忆功能，可能返回空列表。
 
 curl -X GET "http://123.56.142.146:9900/api/chat/memory/long-term?limit=3"
 
-9. 获取手册图片
+7. 获取手册图片
 
 作用：按 image_id 获取系统中已索引的手册图片。
 
