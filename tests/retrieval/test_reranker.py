@@ -330,7 +330,7 @@ def test_create_reranker_exposes_reserved_entries_and_rejects_unknown():
         reranker.create_reranker("unknown")
 
 
-def test_dashscope_provider_posts_index_text_and_records_scores(monkeypatch):
+def test_dashscope_provider_posts_text_and_records_scores(monkeypatch):
     candidates = [
         make_candidate("first", text="raw first", index_text="index first"),
         make_candidate("second", text="raw second", index_text="index second"),
@@ -372,7 +372,7 @@ def test_dashscope_provider_posts_index_text_and_records_scores(monkeypatch):
     assert calls[0]["payload"] == {
         "model": "qwen3-rerank",
         "query": "query",
-        "documents": ["index first", "index second"],
+        "documents": ["raw first", "raw second"],
         "top_n": 2,
     }
     assert [candidate.chunk_id for candidate in result.candidates] == [

@@ -1578,7 +1578,6 @@ def lexical_score(
     title = str(metadata.get("title") or metadata.get("section_title") or "")
     section_path = metadata.get("section_path") or []
     section_path_text = " > ".join(str(part) for part in section_path) if isinstance(section_path, list) else str(section_path)
-    index_text = str(metadata.get("index_text") or "")
     text = str(metadata.get("text") or result.content or "")
     chunk_type = str(metadata.get("chunk_type") or "")
     retrieval_tier = str(metadata.get("retrieval_tier") or "")
@@ -1597,12 +1596,11 @@ def lexical_score(
     pic_text = " ".join(str(pic_id) for pic_id in pic_ids)
     hay_title = normalize_text(title)
     hay_section = normalize_text(section_path_text)
-    hay_index = normalize_text(index_text)
     hay_text = normalize_text(text)
     hay_pics = normalize_text(pic_text)
     hay_note = normalize_text(source_issue_note)
     hay_heading = hay_title + hay_section
-    hay_all = hay_heading + hay_index + hay_text + hay_pics + hay_note
+    hay_all = hay_heading + hay_text + hay_pics + hay_note
 
     score = (1.0 / (1.0 + max(float(result.score), 0.0))) * 10.0
 
@@ -1611,7 +1609,7 @@ def lexical_score(
         normalized_pic = normalize_text(pic_id)
         if normalized_pic in hay_pics:
             score += 120
-        if normalized_pic in hay_title or normalized_pic in hay_index or normalized_pic in hay_text:
+        if normalized_pic in hay_title or normalized_pic in hay_text:
             score += 80
 
     normalized_query = normalize_text(original_query)
@@ -1626,10 +1624,8 @@ def lexical_score(
             score += 28
         if normalized_term in hay_section:
             score += 24
-        if normalized_term in hay_index:
-            score += 14
         if normalized_term in hay_text:
-            score += 8
+            score += 14
         if normalized_term in hay_pics:
             score += 14
         if normalized_term in hay_note:
@@ -1639,7 +1635,7 @@ def lexical_score(
         normalized_group = [normalize_text(term) for term in group if normalize_text(term)]
         if any(term in hay_heading for term in normalized_group):
             score += 55
-        elif any(term in hay_index or term in hay_text for term in normalized_group):
+        elif any(term in hay_text for term in normalized_group):
             score += 30
         else:
             score -= 60
@@ -1667,14 +1663,14 @@ def lexical_score(
             score += 16
         for marker in ("安装", "设置", "使用", "步骤", "切换", "更换", "拆卸", "调节"):
             normalized_marker = normalize_text(marker)
-            if normalized_marker in hay_title or normalized_marker in hay_index:
+            if normalized_marker in hay_title or normalized_marker in hay_text:
                 score += 8
         if "safety" in chunk_families:
             score -= 30
     elif intent == "component":
         for marker in ("部件", "接口", "指示灯", "位置", "按键", "按钮", "追踪灯", "状态", "红色", "白色", "蓝色"):
             normalized_marker = normalize_text(marker)
-            if normalized_marker in hay_title or normalized_marker in hay_index:
+            if normalized_marker in hay_title or normalized_marker in hay_text:
                 score += 6
         if "safety" in chunk_families or "troubleshooting" in chunk_families:
             score -= 14
@@ -1683,9 +1679,9 @@ def lexical_score(
             score += 35
         for marker in ("保修", "条款", "声明", "政策", "责任", "法规"):
             normalized_marker = normalize_text(marker)
-            if normalized_marker in hay_title or normalized_marker in hay_index:
+            if normalized_marker in hay_title or normalized_marker in hay_text:
                 score += 8
-        if chunk_type != "legal_clause" and "保修" not in hay_title + hay_section + hay_index + hay_text:
+        if chunk_type != "legal_clause" and "保修" not in hay_title + hay_section + hay_text:
             score -= 30
     elif intent == "safety":
         type_name = chunk_type.lower()

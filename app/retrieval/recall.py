@@ -799,7 +799,6 @@ def _simple_lexical_score(
             str(getattr(result, "content", "") or ""),
             str(metadata.get("text") or ""),
             str(metadata.get("title") or metadata.get("section_title") or ""),
-            str(metadata.get("index_text") or ""),
             " ".join(str(item) for item in metadata.get("section_path") or []),
         ]
     ).lower()
