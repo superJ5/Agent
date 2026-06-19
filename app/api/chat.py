@@ -158,6 +158,7 @@ def _build_stream_response(
     session_id: str,
     images: list[str] | None = None,
     model: str | None = None,
+    dashscope_api_key: str | None = None,
     source: str = "chat_stream",
 ) -> EventSourceResponse:
     async def event_generator():
@@ -172,6 +173,7 @@ def _build_stream_response(
                 "stream": True,
                 "images_count": len(images or []),
                 "model": model,
+                "dashscope_api_key_provided": bool(dashscope_api_key),
             },
         )
         try:
@@ -180,6 +182,8 @@ def _build_stream_response(
                 query_stream_kwargs["images"] = images
             if _call_accepts_keyword(rag_agent_service.query_stream, "model"):
                 query_stream_kwargs["model"] = model
+            if _call_accepts_keyword(rag_agent_service.query_stream, "dashscope_api_key"):
+                query_stream_kwargs["dashscope_api_key"] = dashscope_api_key
             async for chunk in rag_agent_service.query_stream(question, **query_stream_kwargs):
                 chunk_type = chunk.get("type", "unknown")
                 chunk_data = chunk.get("data", None)
@@ -303,12 +307,15 @@ async def _query_rag_agent(
     session_id: str,
     images: list[str] | None,
     model: str | None,
+    dashscope_api_key: str | None,
 ) -> str:
     kwargs: dict[str, Any] = {"session_id": session_id}
     if _call_accepts_keyword(rag_agent_service.query, "images"):
         kwargs["images"] = images
     if _call_accepts_keyword(rag_agent_service.query, "model"):
         kwargs["model"] = model
+    if _call_accepts_keyword(rag_agent_service.query, "dashscope_api_key"):
+        kwargs["dashscope_api_key"] = dashscope_api_key
     return str(await rag_agent_service.query(question, **kwargs))
 
 
@@ -318,10 +325,17 @@ async def _query_rag_agent_with_competition_deadline(
     session_id: str,
     images: list[str] | None,
     model: str | None,
+    dashscope_api_key: str | None,
 ) -> tuple[str, bool]:
     try:
         answer = await asyncio.wait_for(
-            _query_rag_agent(question, session_id=session_id, images=images, model=model),
+            _query_rag_agent(
+                question,
+                session_id=session_id,
+                images=images,
+                model=model,
+                dashscope_api_key=dashscope_api_key,
+            ),
             timeout=COMPETITION_AGENT_TIMEOUT_SECONDS,
         )
         return answer, False
@@ -449,12 +463,13 @@ async def competition_chat(
 
     session_id = _resolve_session_id(request.session_id)
     logger.info(
-        "[会话 {}] 收到比赛标准对话请求: question='{}', images={}, stream={}, model={}",
+        "[会话 {}] 收到比赛标准对话请求: question='{}', images={}, stream={}, model={}, dashscope_api_key_provided={}",
         session_id,
         request.question,
         len(request.images),
         request.stream,
         request.model or _default_chat_model_name(),
+        bool(request.dashscope_api_key),
     )
 
     if request.stream:
@@ -463,6 +478,7 @@ async def competition_chat(
             session_id,
             request.images,
             request.model,
+            request.dashscope_api_key,
             source="competition_chat",
         )
 
@@ -476,6 +492,7 @@ async def competition_chat(
                 "stream": False,
                 "images_count": len(request.images),
                 "model": request.model,
+                "dashscope_api_key_provided": bool(request.dashscope_api_key),
             },
         )
         (
@@ -486,6 +503,7 @@ async def competition_chat(
             session_id=session_id,
             images=request.images,
             model=request.model,
+            dashscope_api_key=request.dashscope_api_key,
         )
         memory_service.append_message(
             session_id,
@@ -534,6 +552,7 @@ async def chat(request: ChatRequest):
                 "stream": False,
                 "images_count": len(request.images),
                 "model": request.model,
+                "dashscope_api_key_provided": bool(request.dashscope_api_key),
             },
         )
         answer = await _query_rag_agent(
@@ -541,6 +560,7 @@ async def chat(request: ChatRequest):
             session_id=session_id,
             images=request.images,
             model=request.model,
+            dashscope_api_key=request.dashscope_api_key,
         )
         memory_service.append_message(
             session_id,
@@ -599,6 +619,7 @@ async def chat_stream(request: ChatRequest):
         session_id,
         request.images,
         request.model,
+        request.dashscope_api_key,
         source="legacy_chat_stream",
     )
 
