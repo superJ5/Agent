@@ -16,6 +16,7 @@ from typing import Any
 from loguru import logger
 
 from app.config import config
+from app.core.request_context import is_memory_enabled
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -37,7 +38,7 @@ class MemoryService:
         metadata: dict[str, Any] | None = None,
     ) -> None:
         """Append one chat message to ``sessions/<session_id>.jsonl``."""
-        if not config.memory_enabled:
+        if not is_memory_enabled():
             logger.debug("跳过会话记忆写入: MEMORY_ENABLED=false")
             return
         if not config.memory_write_enabled:
@@ -71,7 +72,7 @@ class MemoryService:
         exclude_latest_user_content: str | None = None,
     ) -> list[dict[str, Any]]:
         """Load recent user/assistant messages from a session JSONL file."""
-        if not config.memory_enabled:
+        if not is_memory_enabled():
             return []
 
         session_file = self._session_file(session_id)

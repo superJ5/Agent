@@ -10,11 +10,12 @@ import time
 import uuid
 from typing import Annotated, Any
 
-from fastapi import APIRouter, Header, HTTPException, status
+from fastapi import APIRouter, Header, HTTPException, Query, status
 from loguru import logger
 from sse_starlette.sse import EventSourceResponse
 
 from app.config import config
+from app.core.request_context import memory_enabled_override
 from app.models.request import ChatRequest, ClearRequest
 from app.models.response import (
     ApiResponse,
@@ -159,9 +160,10 @@ def _build_stream_response(
     images: list[str] | None = None,
     model: str | None = None,
     dashscope_api_key: str | None = None,
+    memory_enabled: bool | None = None,
     source: str = "chat_stream",
 ) -> EventSourceResponse:
-    async def event_generator():
+    async def event_generator_impl():
         answer_parts: list[str] = []
         assistant_logged = False
         memory_service.append_message(
@@ -282,6 +284,11 @@ def _build_stream_response(
                     ensure_ascii=False,
                 ),
             }
+
+    async def event_generator():
+        with memory_enabled_override(memory_enabled):
+            async for event in event_generator_impl():
+                yield event
 
     return EventSourceResponse(event_generator())
 
@@ -479,10 +486,13 @@ async def competition_chat(
             request.images,
             request.model,
             request.dashscope_api_key,
+            request.memory_enabled,
             source="competition_chat",
         )
 
+    memory_context = memory_enabled_override(request.memory_enabled)
     try:
+        memory_context.__enter__()
         memory_service.append_message(
             session_id,
             "user",
@@ -493,6 +503,7 @@ async def competition_chat(
                 "images_count": len(request.images),
                 "model": request.model,
                 "dashscope_api_key_provided": bool(request.dashscope_api_key),
+                "memory_enabled_override": request.memory_enabled,
             },
         )
         (
@@ -534,6 +545,8 @@ async def competition_chat(
             },
         )
         return _competition_error_payload(str(exc), session_id)
+    finally:
+        memory_context.__exit__(None, None, None)
 
 
 @router.post("/chat")
@@ -542,36 +555,38 @@ async def chat(request: ChatRequest):
     session_id = _resolve_session_id(request.session_id)
 
     try:
-        logger.info(f"[会话 {session_id}] 收到快速对话请求: {request.question}")
-        memory_service.append_message(
-            session_id,
-            "user",
-            request.question,
-            metadata={
-                "source": "legacy_chat",
-                "stream": False,
-                "images_count": len(request.images),
-                "model": request.model,
-                "dashscope_api_key_provided": bool(request.dashscope_api_key),
-            },
-        )
-        answer = await _query_rag_agent(
-            request.question,
-            session_id=session_id,
-            images=request.images,
-            model=request.model,
-            dashscope_api_key=request.dashscope_api_key,
-        )
-        memory_service.append_message(
-            session_id,
-            "assistant",
-            answer,
-            metadata={
-                "source": "legacy_chat",
-                "stream": False,
-                "status": "success",
-            },
-        )
+        with memory_enabled_override(request.memory_enabled):
+            logger.info(f"[会话 {session_id}] 收到快速对话请求: {request.question}")
+            memory_service.append_message(
+                session_id,
+                "user",
+                request.question,
+                metadata={
+                    "source": "legacy_chat",
+                    "stream": False,
+                    "images_count": len(request.images),
+                    "model": request.model,
+                    "dashscope_api_key_provided": bool(request.dashscope_api_key),
+                    "memory_enabled_override": request.memory_enabled,
+                },
+            )
+            answer = await _query_rag_agent(
+                request.question,
+                session_id=session_id,
+                images=request.images,
+                model=request.model,
+                dashscope_api_key=request.dashscope_api_key,
+            )
+            memory_service.append_message(
+                session_id,
+                "assistant",
+                answer,
+                metadata={
+                    "source": "legacy_chat",
+                    "stream": False,
+                    "status": "success",
+                },
+            )
 
         logger.info(f"[会话 {session_id}] 快速对话完成")
 
@@ -620,6 +635,7 @@ async def chat_stream(request: ChatRequest):
         request.images,
         request.model,
         request.dashscope_api_key,
+        request.memory_enabled,
         source="legacy_chat_stream",
     )
 
@@ -643,10 +659,14 @@ async def clear_session(request: ClearRequest):
 
 
 @router.get("/chat/session/{session_id}", response_model=SessionInfoResponse)
-async def get_session_info(session_id: str) -> SessionInfoResponse:
+async def get_session_info(
+    session_id: str,
+    memory_enabled: bool | None = Query(default=None),
+) -> SessionInfoResponse:
     """查询会话历史。"""
     try:
-        history = rag_agent_service.get_session_history(session_id)
+        with memory_enabled_override(memory_enabled):
+            history = rag_agent_service.get_session_history(session_id)
 
         return SessionInfoResponse(
             session_id=session_id,
@@ -663,10 +683,14 @@ async def get_session_info(session_id: str) -> SessionInfoResponse:
     "/chat/session/{session_id}/short-term-memory",
     response_model=ShortTermMemoryResponse,
 )
-async def get_short_term_memory(session_id: str) -> ShortTermMemoryResponse:
+async def get_short_term_memory(
+    session_id: str,
+    memory_enabled: bool | None = Query(default=None),
+) -> ShortTermMemoryResponse:
     """查询当前 session 的短期语义记忆。"""
     try:
-        content = str(short_term_memory_service.load_memory(session_id) or "")
+        with memory_enabled_override(memory_enabled):
+            content = str(short_term_memory_service.load_memory(session_id) or "")
         return ShortTermMemoryResponse(
             session_id=session_id,
             exists=bool(content.strip()),
@@ -681,10 +705,14 @@ async def get_short_term_memory(session_id: str) -> ShortTermMemoryResponse:
     "/chat/session/{session_id}/session-state",
     response_model=SessionStateResponse,
 )
-async def get_session_state(session_id: str) -> SessionStateResponse:
+async def get_session_state(
+    session_id: str,
+    memory_enabled: bool | None = Query(default=None),
+) -> SessionStateResponse:
     """查询当前 session 的结构化状态。"""
     try:
-        state = session_state_service.load_state(session_id)
+        with memory_enabled_override(memory_enabled):
+            state = session_state_service.load_state(session_id)
         state_payload = state.model_dump() if hasattr(state, "model_dump") else state
         return SessionStateResponse(
             session_id=session_id,
@@ -701,14 +729,16 @@ async def list_long_term_memory(
     user_id: str = "default",
     include_inactive: bool = False,
     limit: int = 100,
+    memory_enabled: bool | None = Query(default=None),
 ) -> LongTermMemoryListResponse:
     """查询长期记忆列表。"""
     try:
-        memories = long_term_memory_service.list_memories(
-            user_id=user_id,
-            include_inactive=include_inactive,
-            limit=limit,
-        )
+        with memory_enabled_override(memory_enabled):
+            memories = long_term_memory_service.list_memories(
+                user_id=user_id,
+                include_inactive=include_inactive,
+                limit=limit,
+            )
         return LongTermMemoryListResponse(
             user_id=user_id,
             count=len(memories),

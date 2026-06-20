@@ -17,6 +17,7 @@ from langchain_qwq import ChatQwen
 from loguru import logger
 
 from app.config import config
+from app.core.request_context import is_memory_enabled
 from app.services.memory_service import memory_service
 
 
@@ -33,7 +34,7 @@ class ShortTermMemoryService:
 
     def load_memory(self, session_id: str) -> str:
         """Load the current short-term memory markdown for one session."""
-        if not config.memory_enabled:
+        if not is_memory_enabled():
             return ""
 
         path = self._memory_file(session_id)
@@ -53,7 +54,7 @@ class ShortTermMemoryService:
         rounds: int = RECENT_DIALOGUE_ROUNDS,
     ) -> list[dict[str, Any]]:
         """Load recent raw dialogue records used as a small context aid."""
-        if not config.memory_enabled:
+        if not is_memory_enabled():
             return []
 
         limit = max(rounds, 0) * 2
@@ -96,7 +97,7 @@ class ShortTermMemoryService:
         prior_dialogue: list[dict[str, Any]] | None = None,
     ) -> None:
         """Update short-term memory after one completed user/assistant turn."""
-        if not config.memory_enabled:
+        if not is_memory_enabled():
             logger.debug("跳过短期记忆写入: MEMORY_ENABLED=false")
             return
         if not config.memory_write_enabled:

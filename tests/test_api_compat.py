@@ -18,6 +18,7 @@ class FakeRagAgentService:
         self.calls: list[tuple[str, str]] = []
         self.models: list[str | None] = []
         self.dashscope_api_keys: list[str | None] = []
+        self.memory_enabled_values: list[bool] = []
 
     async def query(
         self,
@@ -26,9 +27,12 @@ class FakeRagAgentService:
         model: str | None = None,
         dashscope_api_key: str | None = None,
     ) -> str:
+        from app.core.request_context import is_memory_enabled
+
         self.calls.append((question, session_id))
         self.models.append(model)
         self.dashscope_api_keys.append(dashscope_api_key)
+        self.memory_enabled_values.append(is_memory_enabled())
         if self.delay_seconds:
             await asyncio.sleep(self.delay_seconds)
         return self.answer
@@ -40,8 +44,11 @@ class FakeRagAgentService:
         model: str | None = None,
         dashscope_api_key: str | None = None,
     ):
+        from app.core.request_context import is_memory_enabled
+
         self.models.append(model)
         self.dashscope_api_keys.append(dashscope_api_key)
+        self.memory_enabled_values.append(is_memory_enabled())
         yield {"type": "complete", "data": None}
 
 
@@ -49,7 +56,11 @@ class FakeRagAgentService:
 def competition_client(monkeypatch):
     service = FakeRagAgentService()
     config_module = SimpleNamespace(
-        config=SimpleNamespace(api_bearer_token="secret-token", debug=False)
+        config=SimpleNamespace(
+            api_bearer_token="secret-token",
+            debug=False,
+            memory_enabled=False,
+        )
     )
     service_module = SimpleNamespace(rag_agent_service=service)
     short_term_module = SimpleNamespace(
@@ -104,6 +115,7 @@ def competition_client(monkeypatch):
     monkeypatch.setitem(sys.modules, "app.services.short_term_memory_service", short_term_module)
     monkeypatch.setitem(sys.modules, "app.services.session_state_service", session_state_module)
     monkeypatch.setitem(sys.modules, "app.services.long_term_memory_service", long_term_module)
+    sys.modules.pop("app.core.request_context", None)
     sys.modules.pop("app.api.chat", None)
 
     chat_module = importlib.import_module("app.api.chat")
@@ -248,6 +260,39 @@ def test_competition_chat_passes_optional_dashscope_api_key_to_agent(competition
     assert service.calls == [("这张图是什么？", "judge-key-session")]
     assert service.models == ["qwen-vl-plus"]
     assert service.dashscope_api_keys == ["sk-judge-test"]
+
+
+def test_competition_chat_can_override_memory_enabled_per_request(competition_client):
+    client, service = competition_client
+
+    default_response = client.post(
+        "/chat",
+        json={"question": "默认记忆开关？", "session_id": "memory-default"},
+        headers=auth_headers(),
+    )
+    enabled_response = client.post(
+        "/chat",
+        json={
+            "question": "临时打开记忆",
+            "session_id": "memory-on",
+            "memory_enabled": True,
+        },
+        headers=auth_headers(),
+    )
+    disabled_response = client.post(
+        "/chat",
+        json={
+            "question": "明确关闭记忆",
+            "session_id": "memory-off",
+            "memory_enabled": False,
+        },
+        headers=auth_headers(),
+    )
+
+    assert default_response.status_code == 200
+    assert enabled_response.status_code == 200
+    assert disabled_response.status_code == 200
+    assert service.memory_enabled_values == [False, True, False]
 
 
 def test_competition_chat_accepts_raw_base64_images(competition_client):

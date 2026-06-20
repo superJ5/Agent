@@ -28,6 +28,7 @@ from typing_extensions import TypedDict
 
 from app.agent.mcp_client import get_mcp_client_with_retry
 from app.config import config
+from app.core.request_context import is_memory_enabled
 from app.retrieval.diagnostics import reset_trace_chat_context, set_trace_chat_context
 from app.services.memory_service import memory_service
 from app.services.multimodal_message_builder import build_user_message
@@ -505,7 +506,7 @@ class RagAgentService:
         current_question: str,
     ) -> tuple[list[BaseMessage], list[dict[str, Any]]]:
         """Build short-term semantic memory context for the current request."""
-        if not config.memory_enabled:
+        if not is_memory_enabled():
             return [], []
 
         try:
@@ -536,7 +537,7 @@ class RagAgentService:
 
     def _build_session_state_context_messages(self, session_id: str) -> list[BaseMessage]:
         """Build structured session-state context for the current request."""
-        if not config.memory_enabled:
+        if not is_memory_enabled():
             return []
 
         try:
@@ -557,7 +558,7 @@ class RagAgentService:
         short_term_messages: list[BaseMessage],
     ) -> tuple[list[BaseMessage], list[dict[str, Any]]]:
         """Build relevant long-term memory context for the current request."""
-        if not config.memory_enabled:
+        if not is_memory_enabled():
             return [], []
 
         try:
@@ -729,7 +730,7 @@ class RagAgentService:
         short_term_messages: list[BaseMessage],
     ) -> None:
         """Schedule all context-memory updates for one completed turn."""
-        if not config.memory_enabled:
+        if not is_memory_enabled():
             logger.debug("[会话 {}] 跳过上下文记忆更新: MEMORY_ENABLED=false", session_id)
             return
 

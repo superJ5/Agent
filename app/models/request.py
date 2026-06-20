@@ -81,6 +81,10 @@ class ChatRequest(BaseModel):
         max_length=300,
         description="本次请求使用的 DashScope API Key；不传则使用服务端 .env 配置",
     )
+    memory_enabled: bool | None = Field(
+        default=None,
+        description="本次请求是否启用记忆；不传则使用服务端 .env 配置",
+    )
 
     @field_validator("question")
     @classmethod

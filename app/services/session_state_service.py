@@ -19,6 +19,7 @@ from loguru import logger
 from pydantic import BaseModel, Field
 
 from app.config import config
+from app.core.request_context import is_memory_enabled
 from app.services.memory_service import memory_service
 from app.services.short_term_memory_service import short_term_memory_service
 
@@ -57,7 +58,7 @@ class SessionStateService:
 
     def load_state(self, session_id: str) -> SessionState | None:
         """Load current session state if it exists and has meaningful content."""
-        if not config.memory_enabled:
+        if not is_memory_enabled():
             return None
 
         path = self._state_file(session_id)
@@ -98,7 +99,7 @@ class SessionStateService:
         prior_dialogue: list[dict[str, Any]] | None = None,
     ) -> None:
         """Update state after one completed turn."""
-        if not config.memory_enabled:
+        if not is_memory_enabled():
             logger.debug("跳过 Session State 写入: MEMORY_ENABLED=false")
             return
         if not config.memory_write_enabled:
