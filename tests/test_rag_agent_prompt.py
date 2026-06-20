@@ -76,6 +76,8 @@ def load_rag_agent_service(monkeypatch):
     app_module.__path__ = [str(ROOT / "app")]
     services_module = make_module("app.services")
     services_module.__path__ = [str(ROOT / "app" / "services")]
+    core_module = make_module("app.core")
+    core_module.__path__ = [str(ROOT / "app" / "core")]
     agent_module = make_module("app.agent")
     agent_module.__path__ = []
     models_module = make_module("app.models")
@@ -83,6 +85,7 @@ def load_rag_agent_service(monkeypatch):
 
     monkeypatch.setitem(sys.modules, "app", app_module)
     monkeypatch.setitem(sys.modules, "app.services", services_module)
+    monkeypatch.setitem(sys.modules, "app.core", core_module)
     monkeypatch.setitem(sys.modules, "app.agent", agent_module)
     monkeypatch.setitem(sys.modules, "app.models", models_module)
     monkeypatch.setitem(
@@ -175,6 +178,7 @@ def load_rag_agent_service(monkeypatch):
         ),
     )
     monkeypatch.setitem(sys.modules, "loguru", make_module("loguru", logger=FakeLogger()))
+    sys.modules.pop("app.core.request_context", None)
 
     spec = importlib.util.spec_from_file_location(
         "rag_agent_service_under_test",
