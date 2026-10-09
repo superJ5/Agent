@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field
 from loguru import logger
 
 from app.config import config
-from app.tools import get_current_time, retrieve_knowledge
+from app.tools import get_current_time, retrieve_aiops_knowledge
 from app.agent.mcp_client import get_mcp_client_with_retry
 from .state import PlanExecuteState
 from .utils import format_tools_description
@@ -19,6 +19,7 @@ from .utils import format_tools_description
 
 class Plan(BaseModel):
     """计划的输出格式"""
+
     steps: List[str] = Field(
         description="完成任务所需的不同步骤。这些步骤应该按顺序执行，每一步都建立在前一步的基础上。"
     )
@@ -78,9 +79,7 @@ async def planner(state: PlanExecuteState) -> Dict[str, Any]:
         logger.info("查询内部文档，寻找相关经验...")
         experience_docs = ""
         try:
-            # retrieve_knowledge 使用 response_format="content_and_artifact"
-            # ainvoke() 只返回 content（字符串），不是元组
-            context_str = await retrieve_knowledge.ainvoke({"query": input_text})
+            context_str = await retrieve_aiops_knowledge.ainvoke({"query": input_text})
             if context_str and context_str.strip():
                 experience_docs = context_str
                 logger.info(f"找到相关经验文档，长度: {len(experience_docs)}")
@@ -91,10 +90,7 @@ async def planner(state: PlanExecuteState) -> Dict[str, Any]:
 
         # 步骤2: 获取可用工具列表
         # 获取本地工具
-        local_tools = [
-            get_current_time,
-            retrieve_knowledge
-        ]
+        local_tools = [get_current_time, retrieve_aiops_knowledge]
 
         # 获取 MCP 工具
         mcp_client = await get_mcp_client_with_retry()
@@ -125,17 +121,20 @@ async def planner(state: PlanExecuteState) -> Dict[str, Any]:
         llm = ChatQwen(
             model=config.rag_model,
             api_key=config.dashscope_api_key,
-            temperature=0
+            base_url=config.dashscope_api_base,
+            temperature=0,
         )
 
         planner_chain = planner_prompt | llm.with_structured_output(Plan)
 
         # 调用 LLM 生成计划
-        plan_result = await planner_chain.ainvoke({
-            "messages": [("user", input_text)],
-            "tools_description": tools_description,
-            "experience_context": experience_context
-        })
+        plan_result = await planner_chain.ainvoke(
+            {
+                "messages": [("user", input_text)],
+                "tools_description": tools_description,
+                "experience_context": experience_context,
+            }
+        )
 
         # 提取步骤列表
         if isinstance(plan_result, Plan):
@@ -153,10 +152,4 @@ async def planner(state: PlanExecuteState) -> Dict[str, Any]:
     except Exception as e:
         logger.error(f"生成计划失败: {e}", exc_info=True)
         # 返回一个默认计划
-        return {
-            "plan": [
-                "收集相关信息",
-                "分析数据",
-                "生成报告"
-            ]
-        }
+        return {"plan": ["收集相关信息", "分析数据", "生成报告"]}
