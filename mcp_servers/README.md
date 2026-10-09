@@ -9,17 +9,17 @@
 
 **核心工具：**
 - `get_current_timestamp` - 获取当前时间戳
+- `get_region_code_by_name` - 将地区名称转换成地域代码
 - `get_topic_info_by_name` - 查询日志主题
+- `search_topic_by_service_name` - 按服务或机器名称查询日志主题
 - `search_log` - 日志搜索
-- `search_service_logs` - 服务日志查询（支持级别筛选）
-- `analyze_log_pattern` - 日志模式分析
 
 ### Monitor Server (`monitor_server.py`)
-**监控数据服务** - 端口 8004
+**本机实时监控服务** - 端口 8004
 
 **核心工具：**
-- `query_cpu_metrics` - CPU 使用率查询
-- `query_memory_metrics` - 内存使用查询
+- `query_cpu_metrics` - 读取本机当前真实 CPU 使用率
+- `query_memory_metrics` - 读取本机当前真实内存使用率
 - `query_process_list` - 进程列表
 - `search_historical_tickets` - 历史工单查询
 - `get_service_info` / `list_all_services` - 服务信息
@@ -35,9 +35,9 @@ uv pip install fastmcp
 
 **方式一：使用 Makefile（推荐）**
 ```bash
-make mcp-start   # 启动所有 MCP 服务
-make mcp-stop    # 停止所有 MCP 服务
-make mcp-status  # 查看服务状态
+make start       # 启动所有 MCP 服务和 FastAPI
+make stop        # 停止所有服务
+make status-mcp  # 查看 MCP 服务状态
 ```
 
 **方式二：手动启动**
@@ -51,16 +51,13 @@ python mcp_servers/monitor_server.py
 ### AIOps 诊断场景
 
 ```
-用户: data-sync-service 出现告警，请排查
+用户: 检查当前虚拟机最近一小时是否存在异常日志
 
 Agent 自动执行:
-1. list_all_services() → 查看所有服务状态
-2. get_service_info("data-sync-service") → 获取服务详情
-3. query_cpu_metrics("data-sync-service") → CPU 趋势分析
-4. search_service_logs("data-sync-service", level="error") → 错误日志
-5. analyze_log_pattern("data-sync-service") → 日志模式分析
-6. search_historical_tickets(service_name="data-sync-service") → 历史工单
-7. 综合分析 → 生成诊断报告和修复建议
+1. search_topic_by_service_name("superj-vm") → 获取真实 Topic ID
+2. get_current_timestamp() → 确定查询结束时间
+3. search_log(..., query="error OR warning") → 查询腾讯云 CLS
+4. 综合真实日志证据 → 生成诊断报告和处理建议
 ```
 
 ### 工具参数示例
@@ -74,13 +71,14 @@ query_cpu_metrics(
 )
 ```
 
-**搜索错误日志：**
+**搜索日志：**
 ```python
-search_service_logs(
-    service_name="data-sync-service",
-    log_level="error",
-    keyword="timeout",
-    limit=100
+search_log(
+    topic_id="DescribeTopics 返回的真实 Topic ID",
+    start_time=开始时间戳毫秒,
+    end_time=结束时间戳毫秒,
+    query="error",
+    limit=100,
 )
 ```
 
@@ -95,22 +93,22 @@ search_historical_tickets(
 
 ## 🔧 高级配置
 
-### 接入真实 API
+### 腾讯云 CLS 数据源
 
-当前返回模拟数据。接入真实 API 步骤：
+系统支持两种显式模式：
 
-**腾讯云 CLS：**
+- `CLS_DATA_SOURCE=mock`：本地演示数据（默认）。
+- `CLS_DATA_SOURCE=tencent`：腾讯云 CLS 真实日志；配置或 API 失败时直接返回错误，不回退到模拟数据。
+
+使用交互脚本将密钥安全写入 Git 忽略的 `.env.local`：
+
 ```bash
-# 安装 SDK
-uv pip install tencentcloud-sdk-python
-
-# 配置环境变量
-export TENCENTCLOUD_SECRET_ID="your-id"
-export TENCENTCLOUD_SECRET_KEY="your-key"
-
-# 在 cls_server.py 中集成
-from tencentcloud.cls.v20201016 import cls_client
+uv run python scripts/configure_tencent_cls.py
 ```
+
+需要的配置项为 `TENCENTCLOUD_SECRET_ID`、`TENCENTCLOUD_SECRET_KEY`、
+`TENCENT_CLS_REGION`、`TENCENT_CLS_TOPIC_ID`、`TENCENT_CLS_TOPIC_NAME` 和
+`TENCENT_CLS_SERVICE_NAME`。不要提交 `.env.local`，不要在日志或聊天中发送密钥。
 
 **其他监控系统：**
 - Prometheus
@@ -131,4 +129,6 @@ from tencentcloud.cls.v20201016 import cls_client
 
 ---
 
-**注意**: 当前版本返回模拟数据，生产环境需配置真实 API。
+**注意**：Monitor Server 通过 `psutil` 返回调用时的本机真实快照，不提供历史曲线；
+CLS Server 已支持 mock 和腾讯云真实日志两种模式。需要历史 CPU/内存趋势时，应接入
+Prometheus 等时序监控系统。
