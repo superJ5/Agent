@@ -1,21 +1,21 @@
 # SuperBizAgent
 
-> 企业级智能对话和运维助手，支持 RAG 知识库问答、比赛手册问答和 AIOps 智能诊断。
+> 企业级智能对话与运维辅助系统，支持 RAG 知识库问答、AIOps 只读诊断和多层记忆。
 
-[![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/Python-3.11--3.13-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.109+-green.svg)](https://fastapi.tiangolo.com/)
 [![LangChain](https://img.shields.io/badge/LangChain-latest-orange.svg)](https://www.langchain.com/)
 [![Milvus](https://img.shields.io/badge/Milvus-vector_db-purple.svg)](https://milvus.io/)
 
-当前主线面向比赛手册问答：读取结构化手册 chunks，写入 Milvus `biz` collection，并通过 RAG Agent 回答用户问题。
+当前主线同时覆盖手册问答和运维诊断：手册 chunks 写入 Milvus `biz` collection，运维知识写入独立的 `aiops_knowledge` collection；Agent 可结合知识检索、日志和主机监控工具生成诊断建议。
 
 ## ✨ 核心能力
 
-- RAG 手册问答：基于 `data/manuals/chunks/*.jsonl` 入库检索。
-- 多轮对话：LangGraph Agent + 会话上下文。
+- RAG 知识问答：向量召回、BM25 召回与重排，手册和运维知识分 collection 管理。
+- AIOps 辅助诊断：Plan-Execute-Replan 流程，支持腾讯云 CLS 或 mock 日志，以及本机 CPU/内存快照。
+- 多轮记忆：原始会话、短期摘要、结构化 Session State 和 Milvus 长期记忆。
 - 多模态输入：接口支持文本与图片。
-- AIOps 辅助诊断：保留日志、监控 MCP 工具链。
-- 比赛评测脚本：批量读取问题 CSV，默认生成 `output/submission_时间戳.csv`。
+- 评测工具：比赛 CSV 批量问答、Cloud-OpsBench 离线回放和 LongMemEval 记忆回放。
 
 ## 🛠️ 技术栈
 
@@ -30,7 +30,7 @@
 
 要求：
 
-- Python 3.10+
+- Python 3.11、3.12 或 3.13
 - Docker / Docker Compose
 - DashScope API Key
 
@@ -45,12 +45,14 @@ uv venv
 uv pip install -e .
 ```
 
-配置 `.env`：
+创建仅供本机使用的 `.env.local`：
 
 ```bash
-cp .env.template .env  # 如果仓库里没有模板，就直接编辑 .env
-vim .env
+touch .env.local
+vim .env.local
 ```
+
+配置按 `.env`、`.env.local` 的顺序加载。建议把个人密钥和本机覆盖项放在 `.env.local`，不要提交这两个文件中的敏感信息。
 
 至少需要配置：
 
@@ -83,6 +85,8 @@ make init
 第一次入库时，如果 `biz` 不存在，代码会创建 `biz` collection，并按当前代码里的索引配置建立向量索引。当前主线索引配置是 `COSINE + HNSW`。
 
 注意：如果 `biz` 已经存在，`make init` 只会重新执行手册入库，不会删除整个 `biz` collection，也不会改变已有索引结构。
+
+`make init` 不会构建 AIOps 知识库。需要运维诊断知识检索时，还要单独执行 `make index-aiops`。
 
 ### 日常启动
 
@@ -209,6 +213,35 @@ metric_type: COSINE
 index_type: HNSW
 ```
 
+## AIOps 运维诊断
+
+### 运维知识库
+
+运维知识源文件位于 `aiops-docs/*.md`，切分产物位于 `data/aiops/chunks/*.jsonl`，入库到独立的 Milvus `aiops_knowledge` collection：
+
+```bash
+make up
+make index-aiops
+```
+
+`make index-aiops` 会重新切分 Markdown，并重建 `aiops_knowledge`；它不会修改手册使用的 `biz` collection。
+
+### 日志、监控与安全边界
+
+- `CLS_DATA_SOURCE=mock`：使用内置模拟日志，适合本地联调。
+- `CLS_DATA_SOURCE=tencent`：从腾讯云 CLS 查询真实日志，还需配置 `TENCENTCLOUD_SECRET_ID`、`TENCENTCLOUD_SECRET_KEY`、`TENCENT_CLS_REGION` 和 `TENCENT_CLS_TOPIC_ID` 等参数。
+- Monitor MCP 通过 `psutil` 获取运行服务所在主机的当前 CPU、内存等快照；它不等同于历史监控平台。
+- 当前运维工具只负责查询、分析和给出建议，不执行重启服务、修改配置或变更集群等写操作。
+
+调用诊断接口：
+
+```bash
+curl -X POST "http://localhost:9900/api/aiops" \
+  -H "Content-Type: application/json" \
+  -d '{"session_id":"aiops-demo"}' \
+  --no-buffer
+```
+
 ## 比赛评测
 
 评测脚本：
@@ -296,6 +329,25 @@ index_type: HNSW
 --workers 2/4/8 更快，但更容易造成模型接口拥堵或超时。
 ```
 
+## Cloud-OpsBench 运维评测
+
+仓库内的 `data/aiops_eval/cloud_ops_bench_30/` 是 Cloud-OpsBench 的 30 个用例子集。评测使用缓存的 Kubernetes 可观测数据进行确定性回放，不连接线上集群，也不代表生产环境实测。
+
+准备标准化输入，并先各跑一条验证环境：
+
+```bash
+uv run python scripts/prepare_cloud_ops_bench_eval.py
+uv run python scripts/evaluate_cloud_ops_bench.py --limit 1
+uv run python scripts/evaluate_cloud_ops_bench_agent.py --limit 1
+```
+
+两种评测的边界不同：
+
+- `evaluate_cloud_ops_bench.py` 是“证据到诊断”的 LLM 基线，会跳过 Planner、Executor、Replanner 和工具选择；`results.jsonl`、`results.summary.json` 属于这条链路。
+- `evaluate_cloud_ops_bench_agent.py` 回放真实 Plan-Execute-Replan Agent，并记录计划、步骤和工具调用；`agent_results.jsonl` 属于这条链路。
+
+仓库中的 Agent 结果当前不是完整 30 条，因此不能把它描述为完整 Agent 分数。数据来源、筛选方式和文件边界见 `data/aiops_eval/cloud_ops_bench_30/README.md`。
+
 ## API
 
 服务地址：
@@ -332,21 +384,28 @@ curl -X POST "http://localhost:9900/chat" \
 当前已接入四层上下文记忆：
 
 ```text
-原始会话日志：data/memory/sessions/<session_id>.jsonl
-短期语义记忆：data/memory/short_term/<session_id>.md
-当前会话状态：data/memory/session_state/<session_id>.json
+原始会话日志：data/memory/sessions/...
+短期语义记忆：data/memory/short_term/...
+当前会话状态：data/memory/session_state/...
 长期记忆：Milvus collection long_term_memory
 ```
 
-Milvus 里通常会同时存在多个 collection。当前项目里，`biz` 用于手册/知识库检索，`long_term_memory` 用于长期记忆；它们不是两个数据库，而是同一个 Milvus 服务里的两张向量表。
+默认用户仍使用 `<session_id>` 平铺文件；非默认用户写入各目录下的 `users/<user_id哈希>/` 子目录。消息带单调递增的 `message_seq`，短期摘要用 `summary_through_message_seq` 标记已经覆盖到的位置，避免压缩后重复注入历史内容。长期记忆的读写也按可信用户身份隔离。
 
-带 `session_id` 调用 `/chat` 时，系统会自动写入原始会话日志。回答前会检索长期记忆，并读取结构化 Session State、短期语义记忆和最近 1-3 轮原始对话作为上下文；回答结束后会后台更新短期语义记忆、Session State 和长期记忆。
+Milvus 里通常会同时存在多个 collection。当前项目里，`biz` 用于手册知识检索，`aiops_knowledge` 用于运维知识检索，`long_term_memory` 用于长期记忆；它们是同一个 Milvus 服务里的不同 collection。
+
+带 `session_id` 调用 `/chat` 时，系统会写入原始会话日志，并在回答前组合 Session State、短期摘要、未被摘要覆盖的近期原始对话和检索到的长期记忆。短期摘要不是每轮都生成：只有上下文达到预算阈值时才会压缩较早的消息，并保留最近 3 轮用户对话原文；压缩后系统会重新核算硬预算。
 
 记忆开关：
 
 ```env
 MEMORY_ENABLED=true
 MEMORY_WRITE_ENABLED=true
+MEMORY_CONTEXT_WORKING_WINDOW_TOKENS=32768
+MEMORY_CONTEXT_OUTPUT_RESERVE_TOKENS=4096
+MEMORY_CONTEXT_RETRIEVAL_RESERVE_TOKENS=4096
+MEMORY_CONTEXT_SAFETY_MARGIN_TOKENS=2048
+MEMORY_CONTEXT_COMPACT_RATIO=0.8
 ```
 
 `MEMORY_ENABLED=false` 会关闭整个业务记忆系统的读取、上下文注入和写入，包括原始会话日志、短期语义记忆、Session State 和长期记忆。`MEMORY_WRITE_ENABLED=false` 只关闭写入/更新，已有记忆仍可能被读取并注入上下文。
@@ -454,7 +513,7 @@ docs/context_memory_system.md
 
 这个脚本测试记忆系统，不测试比赛手册 RAG。它将数据集里的历史问答原样写入隔离的会话，逐轮更新结构化状态和长期记忆；短期摘要只在达到上下文预算阈值时生成。历史助手回答不会重新调用模型生成，只有最后的测试问题会由模型回答，数据集的标准答案不会放进提示词。
 
-运行前确保 Milvus 服务可连接、`.env` 中已配置 `DASHSCOPE_API_KEY`，并且 `MEMORY_WRITE_ENABLED=true`。无需启动 FastAPI，也无需给数据集新增 `user_id`：程序会为每道题、每次运行自动生成隔离的内部身份。默认读取 `/home/superj/LongMemEval/data/longmemeval_s_cleaned.json`；数据集放在其他位置时用 `--data` 指定。
+运行前确保 Milvus 服务可连接、环境配置中已有 `DASHSCOPE_API_KEY`，并且 `MEMORY_WRITE_ENABLED=true`。无需启动 FastAPI，也无需给数据集新增 `user_id`：程序会为每道题、每次运行自动生成隔离的内部身份。默认路径要求 `LongMemEval` 仓库与本项目处于同级目录；数据集放在其他位置时用 `--data` 指定。
 
 在项目根目录先检查准备运行的题目：
 
@@ -468,7 +527,7 @@ uv run python -m scripts.run_longmemeval --limit 1
 uv run python -m scripts.run_longmemeval --limit 1 --execute
 ```
 
-回放使用项目 `.env` 中的模型配置：`RAG_MODEL` 用于最终答题，`SHORT_TERM_MEMORY_MODEL`、`SESSION_STATE_MODEL`、`LONG_TERM_MEMORY_MODEL` 分别用于摘要、结构化状态和长期记忆更新。当前这些生成模型均配置为 `qwen3.7-flash`；需要更换时直接修改 `.env` 并重新启动回放。Embedding 仍使用 `DASHSCOPE_EMBEDDING_MODEL=text-embedding-v4`。
+回放使用项目环境中的模型配置：`RAG_MODEL` 用于最终答题，`SHORT_TERM_MEMORY_MODEL`、`SESSION_STATE_MODEL`、`LONG_TERM_MEMORY_MODEL` 分别控制摘要、结构化状态和长期记忆更新；这些子模型配置为空时会沿回退链使用通用模型配置。Embedding 由 `DASHSCOPE_EMBEDDING_MODEL` 控制。README 不固定声明某台机器当前使用的模型，以实际环境配置为准。
 
 也可以指定题号或数据文件：
 
@@ -515,6 +574,10 @@ make start           # 启动 FastAPI/MCP 服务
 make stop            # 停止 FastAPI/MCP 服务
 make restart         # 重启 FastAPI/MCP 服务
 make index-manuals   # 入库手册 chunks
+make index-aiops     # 切分并重建 AIOps 运维知识库
+make status-mcp      # 查看 MCP 服务状态
+make start-cls       # 单独启动 CLS MCP
+make start-monitor   # 单独启动 Monitor MCP
 make logs            # 查看日志
 make clean           # 清理临时文件
 ```
@@ -528,15 +591,24 @@ app/
   tools/                       Agent 工具
   core/                        Milvus、LLM 等核心组件
   agent/                       LangGraph Agent 逻辑
+  evaluation/                  LongMemEval 等评测适配
+
+aiops-docs/                    AIOps 运维知识源文档
 
 data/
-  manuals/chunks/              手册结构化 chunks，当前主知识库来源
-  memory/                      记忆系统数据
+  manuals/chunks/              手册结构化 chunks
+  aiops/chunks/                AIOps 知识切分产物
+  aiops_eval/                  Cloud-OpsBench 数据和结果
+  memory/                      日常记忆数据（运行时生成）
+  memory_eval/                 隔离的记忆评测数据（运行时生成）
 
 mcp_servers/                   MCP 服务
 scripts/
   index_manual_chunks.py       手册 chunks 入库
+  index_aiops_knowledge.py     AIOps 文档切分与入库
   competition_eval.py          比赛批量评测脚本
+  evaluate_cloud_ops_bench.py  运维诊断基线评测
+  run_longmemeval.py           记忆回放评测
 
 vector-database.yml            Milvus Docker Compose
 Makefile                       常用任务命令
