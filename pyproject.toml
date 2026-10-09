@@ -32,6 +32,7 @@ dependencies = [
     "langchain-qwq>=0.3.4",
     "rank-bm25>=0.2.2",
     "jieba>=0.42.1",
+    "tencentcloud-sdk-python-cls>=3.1.169",
     "psutil>=7.0.0",
 ]
 

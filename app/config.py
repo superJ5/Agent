@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     """Typed application settings loaded from environment variables."""
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=(".env", ".env.local"),
         env_file_encoding="utf-8",
         case_sensitive=False,
         extra="ignore",
@@ -77,6 +77,14 @@ class Settings(BaseSettings):
     # MCP services
     mcp_cls_transport: str = "streamable-http"
     mcp_cls_url: str = "http://localhost:8003/mcp"
+    cls_data_source: str = "mock"
+    tencentcloud_secret_id: str = ""
+    tencentcloud_secret_key: str = ""
+    tencent_cls_region: str = "ap-guangzhou"
+    tencent_cls_topic_id: str = ""
+    tencent_cls_topic_name: str = ""
+    tencent_cls_service_name: str = ""
+    tencent_cls_endpoint: str = "cls.tencentcloudapi.com"
     mcp_monitor_transport: str = "streamable-http"
     mcp_monitor_url: str = "http://localhost:8004/mcp"
 
