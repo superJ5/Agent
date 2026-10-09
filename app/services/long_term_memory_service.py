@@ -7,9 +7,9 @@ of keeping pending candidates.
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
 import json
 import uuid
+from datetime import UTC, datetime
 from textwrap import dedent
 from typing import Any
 
@@ -17,13 +17,20 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_qwq import ChatQwen
 from loguru import logger
 from pydantic import BaseModel, Field
-from pymilvus import Collection, CollectionSchema, DataType, FieldSchema, MilvusException, utility
+from pymilvus import (
+    Collection,
+    CollectionSchema,
+    DataType,
+    FieldSchema,
+    MilvusException,
+    connections,
+    utility,
+)
 
 from app.config import config
-from app.core.request_context import is_memory_enabled
-from app.core.milvus_client import milvus_manager
+from app.core.request_context import current_memory_user_id, is_memory_enabled
+from app.services.structured_output_diagnostics import invoke_structured_output
 from app.services.vector_embedding_service import vector_embedding_service
-
 
 VECTOR_DIM = 1024
 ID_MAX_LENGTH = 100
@@ -85,7 +92,7 @@ class LongTermMemoryService:
         session_id: str,
         session_state_context: str = "",
         short_term_context: str = "",
-        user_id: str = "default",
+        user_id: str | None = None,
     ) -> tuple[str, list[dict[str, Any]]]:
         """Retrieve and render relevant long-term memories for one answer."""
         if not is_memory_enabled():
@@ -116,12 +123,14 @@ class LongTermMemoryService:
         question: str,
         session_state_context: str = "",
         short_term_context: str = "",
-        user_id: str = "default",
+        user_id: str | None = None,
         top_k: int | None = None,
     ) -> list[dict[str, Any]]:
         """Search Milvus, filter inactive/expired/low-confidence memories."""
         if not is_memory_enabled():
             return []
+
+        user_id = user_id or current_memory_user_id()
 
         query = self._build_retrieval_query(
             question=question,
@@ -140,6 +149,7 @@ class LongTermMemoryService:
                 data=[query_vector],
                 anns_field="vector",
                 param={"metric_type": "COSINE", "params": {"ef": 64}},
+                expr=f'user_id == {json.dumps(user_id, ensure_ascii=False)}',
                 limit=raw_limit,
                 output_fields=["memory_id", "content", "type", "metadata"],
             )
@@ -147,7 +157,7 @@ class LongTermMemoryService:
             logger.warning("长期记忆检索失败，跳过注入: {}", exc)
             return []
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         hits: list[dict[str, Any]] = []
         for hit_group in results:
             for hit in hit_group:
@@ -164,7 +174,7 @@ class LongTermMemoryService:
                 if not self._is_same_user(memory, user_id):
                     continue
                 if self._is_expired(memory, now):
-                    self._deactivate_memory(memory_id, reason="expires_at 已过期")
+                    self._deactivate_memory(memory_id, user_id=user_id, reason="expires_at 已过期")
                     continue
                 if not self._passes_runtime_filter(memory):
                     continue
@@ -183,7 +193,7 @@ class LongTermMemoryService:
         short_term_memory: str = "",
         prior_dialogue: list[dict[str, Any]] | None = None,
         retrieved_memories: list[dict[str, Any]] | None = None,
-        user_id: str = "default",
+        user_id: str | None = None,
     ) -> None:
         """Update long-term memory after one completed turn."""
         if not is_memory_enabled():
@@ -192,6 +202,8 @@ class LongTermMemoryService:
         if not config.memory_write_enabled:
             logger.debug("跳过长期记忆写入: MEMORY_WRITE_ENABLED=false")
             return
+
+        user_id = user_id or current_memory_user_id()
 
         user_text = str(user_message or "").strip()
         assistant_text = str(assistant_message or "").strip()
@@ -223,13 +235,15 @@ class LongTermMemoryService:
     def list_memories(
         self,
         *,
-        user_id: str = "default",
+        user_id: str | None = None,
         include_inactive: bool = False,
         limit: int = 100,
     ) -> list[dict[str, Any]]:
         """List long-term memories for debugging."""
         if not is_memory_enabled():
             return []
+
+        user_id = user_id or current_memory_user_id()
 
         try:
             collection = self.ensure_collection()
@@ -243,7 +257,7 @@ class LongTermMemoryService:
             return []
 
         memories: list[dict[str, Any]] = []
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         for row in rows:
             metadata = dict(row.get("metadata") or {})
             memory = {
@@ -253,7 +267,7 @@ class LongTermMemoryService:
                 "type": str(row.get("type") or metadata.get("type") or "stable_fact"),
             }
             if self._is_expired(memory, now):
-                self._deactivate_memory(memory["memory_id"], reason="expires_at 已过期")
+                self._deactivate_memory(memory["memory_id"], user_id=user_id, reason="expires_at 已过期")
                 memory["status"] = STATUS_INACTIVE
             if not include_inactive and memory.get("status") != STATUS_ACTIVE:
                 continue
@@ -265,7 +279,15 @@ class LongTermMemoryService:
         if self._collection is not None:
             return self._collection
 
-        _ = milvus_manager.connect()
+        # Memory-only evaluation must not initialize or rebuild the unrelated
+        # product-manual collection owned by milvus_manager.connect().
+        if not connections.has_connection("default"):
+            connections.connect(
+                alias="default",
+                host=config.milvus_host,
+                port=str(config.milvus_port),
+                timeout=config.milvus_timeout / 1000,
+            )
         if not utility.has_collection(self.collection_name):
             logger.info("长期记忆 collection '{}' 不存在，正在创建...", self.collection_name)
             self._create_collection()
@@ -289,7 +311,6 @@ class LongTermMemoryService:
         retrieved_memories: list[dict[str, Any]],
     ) -> LongTermMemoryUpdate:
         llm = self._build_llm()
-        structured_llm = llm.with_structured_output(LongTermMemoryUpdate)
         messages = [
             SystemMessage(content=self._update_system_prompt()),
             HumanMessage(
@@ -322,10 +343,9 @@ class LongTermMemoryService:
                 """).strip()
             ),
         ]
-        result = await structured_llm.ainvoke(messages)
-        if isinstance(result, LongTermMemoryUpdate):
-            return result
-        return LongTermMemoryUpdate.model_validate(result)
+        return await invoke_structured_output(
+            llm, LongTermMemoryUpdate, messages, session_id=session_id,
+        )
 
     @staticmethod
     def _update_system_prompt() -> str:
@@ -366,12 +386,12 @@ class LongTermMemoryService:
         target_id = str(action.target_memory_id or "").strip()
         if action_name == "delete":
             if target_id:
-                self._delete_memory(target_id)
+                self._delete_memory(target_id, user_id=user_id)
             return
 
         if action_name == "deactivate":
             if target_id:
-                self._deactivate_memory(target_id, reason=action.reason)
+                self._deactivate_memory(target_id, user_id=user_id, reason=action.reason)
             return
 
         if action_name == "update":
@@ -385,10 +405,11 @@ class LongTermMemoryService:
             )
             if memory is None:
                 return
-            old_memory = self._load_memory_by_id(target_id)
-            if old_memory:
-                memory.created_at = str(old_memory.get("created_at") or memory.created_at)
-            self._delete_memory(target_id)
+            old_memory = self._load_memory_by_id(target_id, user_id=user_id)
+            if old_memory is None:
+                return
+            memory.created_at = str(old_memory.get("created_at") or memory.created_at)
+            self._delete_memory(target_id, user_id=user_id)
             self._insert_memory(memory)
             return
 
@@ -412,7 +433,7 @@ class LongTermMemoryService:
         user_id: str,
         existing_memory_id: str | None = None,
     ) -> LongTermMemory | None:
-        now = datetime.now(timezone.utc).isoformat()
+        now = datetime.now(UTC).isoformat()
         content = self._clean_text(memory.content, max_chars=CONTENT_MAX_LENGTH)
         evidence = self._clean_text(memory.evidence, max_chars=MAX_EVIDENCE_CHARS)
         memory_type = str(memory.type or "stable_fact").strip()
@@ -470,13 +491,16 @@ class LongTermMemoryService:
         except Exception as exc:
             logger.warning("写入长期记忆失败: memory_id={}, error={}", memory.memory_id, exc)
 
-    def _load_memory_by_id(self, memory_id: str) -> dict[str, Any] | None:
+    def _load_memory_by_id(self, memory_id: str, *, user_id: str) -> dict[str, Any] | None:
         if not memory_id:
             return None
         try:
             collection = self.ensure_collection()
             rows = collection.query(
-                expr=f'memory_id == {json.dumps(memory_id, ensure_ascii=False)}',
+                expr=(
+                    f'memory_id == {json.dumps(memory_id, ensure_ascii=False)}'
+                    f' && user_id == {json.dumps(user_id, ensure_ascii=False)}'
+                ),
                 output_fields=["memory_id", "content", "type", "metadata"],
                 limit=1,
             )
@@ -494,8 +518,8 @@ class LongTermMemoryService:
             "type": str(row.get("type") or metadata.get("type") or "stable_fact"),
         }
 
-    def _deactivate_memory(self, memory_id: str, *, reason: str = "") -> None:
-        old = self._load_memory_by_id(memory_id)
+    def _deactivate_memory(self, memory_id: str, *, user_id: str, reason: str = "") -> None:
+        old = self._load_memory_by_id(memory_id, user_id=user_id)
         if not old or old.get("status") == STATUS_INACTIVE:
             return
         try:
@@ -513,10 +537,10 @@ class LongTermMemoryService:
                 expires_at=old.get("expires_at"),
             )
         memory.status = STATUS_INACTIVE
-        memory.updated_at = datetime.now(timezone.utc).isoformat()
+        memory.updated_at = datetime.now(UTC).isoformat()
         if reason:
             memory.evidence = self._clean_text(f"{memory.evidence}；废弃原因：{reason}", max_chars=MAX_EVIDENCE_CHARS)
-        self._delete_memory(memory_id)
+        self._delete_memory(memory_id, user_id=user_id)
         self._insert_memory_allow_inactive(memory)
 
     def _insert_memory_allow_inactive(self, memory: LongTermMemory) -> None:
@@ -539,10 +563,15 @@ class LongTermMemoryService:
         except Exception as exc:
             logger.warning("写入 inactive 长期记忆失败: memory_id={}, error={}", memory.memory_id, exc)
 
-    def _delete_memory(self, memory_id: str) -> None:
+    def _delete_memory(self, memory_id: str, *, user_id: str) -> None:
         try:
             collection = self.ensure_collection()
-            _ = collection.delete(expr=f'memory_id == {json.dumps(memory_id, ensure_ascii=False)}')
+            _ = collection.delete(
+                expr=(
+                    f'memory_id == {json.dumps(memory_id, ensure_ascii=False)}'
+                    f' && user_id == {json.dumps(user_id, ensure_ascii=False)}'
+                )
+            )
             collection.flush()
         except Exception as exc:
             logger.warning("删除长期记忆失败: memory_id={}, error={}", memory_id, exc)
@@ -627,6 +656,9 @@ class LongTermMemoryService:
             if not content or role not in {"user", "assistant"}:
                 continue
             label = "用户" if role == "user" else "助手"
+            metadata = record.get("metadata")
+            if isinstance(metadata, dict) and metadata.get("source_date"):
+                label += f"（{metadata['source_date']}）"
             lines.append(f"{label}: {content}")
         return "\n".join(lines)
 
@@ -642,7 +674,7 @@ class LongTermMemoryService:
         try:
             expires = datetime.fromisoformat(expires_at.replace("Z", "+00:00"))
             if expires.tzinfo is None:
-                expires = expires.replace(tzinfo=timezone.utc)
+                expires = expires.replace(tzinfo=UTC)
             return expires <= now
         except ValueError:
             return False
@@ -665,7 +697,7 @@ class LongTermMemoryService:
         try:
             parsed = datetime.fromisoformat(text.replace("Z", "+00:00"))
             if parsed.tzinfo is None:
-                parsed = parsed.replace(tzinfo=timezone.utc)
+                parsed = parsed.replace(tzinfo=UTC)
             return parsed.isoformat()
         except ValueError:
             return None
