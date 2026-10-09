@@ -1,0 +1,10 @@
+{
+  "total": 30,
+  "completed": 30,
+  "errors": 0,
+  "completion_rate": 1.0,
+  "root_cause_accuracy": 0.9,
+  "fault_object_accuracy": 0.9667,
+  "joint_accuracy": 0.9,
+  "average_latency_seconds": 6.692
+}
