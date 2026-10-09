@@ -450,6 +450,62 @@ PY
 docs/context_memory_system.md
 ```
 
+## LongMemEval 记忆回放评测
+
+这个脚本测试记忆系统，不测试比赛手册 RAG。它将数据集里的历史问答原样写入隔离的会话，逐轮更新结构化状态和长期记忆；短期摘要只在达到上下文预算阈值时生成。历史助手回答不会重新调用模型生成，只有最后的测试问题会由模型回答，数据集的标准答案不会放进提示词。
+
+运行前确保 Milvus 服务可连接、`.env` 中已配置 `DASHSCOPE_API_KEY`，并且 `MEMORY_WRITE_ENABLED=true`。无需启动 FastAPI，也无需给数据集新增 `user_id`：程序会为每道题、每次运行自动生成隔离的内部身份。默认读取 `/home/superj/LongMemEval/data/longmemeval_s_cleaned.json`；数据集放在其他位置时用 `--data` 指定。
+
+在项目根目录先检查准备运行的题目：
+
+```bash
+uv run python -m scripts.run_longmemeval --limit 1
+```
+
+默认只检查数据，不调用模型、不创建评测结果。确认题目和历史会话数量后，再真实回放一题：
+
+```bash
+uv run python -m scripts.run_longmemeval --limit 1 --execute
+```
+
+回放使用项目 `.env` 中的模型配置：`RAG_MODEL` 用于最终答题，`SHORT_TERM_MEMORY_MODEL`、`SESSION_STATE_MODEL`、`LONG_TERM_MEMORY_MODEL` 分别用于摘要、结构化状态和长期记忆更新。当前这些生成模型均配置为 `qwen3.7-flash`；需要更换时直接修改 `.env` 并重新启动回放。Embedding 仍使用 `DASHSCOPE_EMBEDDING_MODEL=text-embedding-v4`。
+
+也可以指定题号或数据文件：
+
+```bash
+uv run python -m scripts.run_longmemeval --case-id e47becba --execute
+uv run python -m scripts.run_longmemeval --data /path/to/longmemeval_s_cleaned.json --limit 5 --execute
+```
+
+如果使用 `data/memory_eval/longmemeval/datasets/first10_evidence_plus_2distractors.json` 精简诊断集，并且第一题已单独跑完，可用一条命令跳过它、连续运行剩下 9 题：
+
+```bash
+uv run python -m scripts.run_longmemeval \
+  --data data/memory_eval/longmemeval/datasets/first10_evidence_plus_2distractors.json \
+  --skip 1 --limit 9 --execute
+```
+
+`--skip` 是按数据文件顺序跳过题目，不会读取之前的运行状态；剩下 9 题会写入新的结果文件。精简集使用了答案位置标签来选证据会话，只适合排障和回归，不代表官方 LongMemEval-S 分数。
+
+`--limit` 限制题目数，不限制每题的历史对话量；即使只跑一题，也可能触发多次模型、Embedding 调用并产生费用。建议先用默认检查模式看会话数量，再决定是否加 `--execute`。`--run-id` 可指定本次运行标识；不指定时自动生成。已有同名结果不会被覆盖。
+
+真实回放会自动检查或创建 Milvus `long_term_memory_eval` collection，并将原始会话、摘要和状态保存在 `data/memory_eval/longmemeval/`，不写入日常记忆目录或 `long_term_memory` collection。结果文件在 `data/memory_eval/longmemeval/results/`：`<run-id>.jsonl` 保存 `question_id` 和模型回答 `hypothesis`，`<run-id>.diagnostics.jsonl` 保存成功/失败及回放轮次等记录。脚本目前只生成预测结果，不自动计算评测分数。
+
+已有答案可单独评分，不会重新回放对话。下面的示例把已跑完的三份结果合并评为 10 题；评分器从 `.env` 读取 `DASHSCOPE_API_KEY` 和 API 地址，使用 `qwen3.7-flash`，输出逐题 yes/no 和总正确率。输出文件不能与已有文件重名：
+
+```bash
+uv run python -m scripts.score_longmemeval \
+  data/memory_eval/longmemeval/results/20260919_151206_7db659.jsonl \
+  data/memory_eval/longmemeval/results/20260920_005303_6764c1.jsonl \
+  data/memory_eval/longmemeval/results/20260920_010836_20689e.jsonl \
+  --model qwen3.7-flash \
+  --output data/memory_eval/longmemeval/results/first10_qwen37flash.eval.jsonl
+```
+
+评分提示词遵循 LongMemEval 的问答判定规则，但裁判模型已换成 Qwen，因此这是“Qwen 裁判的精简集分数”，不是官方 GPT-4o 裁判或完整 LongMemEval-S 分数。评分也会调用模型并产生费用；需要评分其他数据集时用 `--references` 指定相应的标准答案 JSON。
+
+如果评测中的 Session State 或长期记忆结构化更新解析失败，未解析的模型消息与解析错误会追加到 `data/memory_eval/longmemeval/traces/<run-id>.jsonl`；没有这类失败就不会创建该文件。此日志可能含对话事实，仅供本地排障，不要公开上传。已启动的旧进程不会自动加载后来修改的诊断代码，需在新进程中重新运行才能捕获后续失败。
+
 ## 常用 Make 命令
 
 ```bash
