@@ -53,6 +53,10 @@ class Settings(BaseSettings):
     rag_enable_scan_fallback: bool = True
     rag_scan_candidate_limit: int = 4096
 
+    # AIOps knowledge base
+    aiops_knowledge_collection_name: str = "aiops_knowledge"
+    aiops_knowledge_top_k: int = 4
+
     # Memory
     memory_enabled: bool = True
     memory_write_enabled: bool = True

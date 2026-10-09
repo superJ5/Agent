@@ -27,7 +27,7 @@ RED = \033[0;31m
 CYAN = \033[0;36m
 NC = \033[0m
 
-.PHONY: help init start stop restart check upload index-manuals clean up down status wait \
+.PHONY: help init start stop restart check upload index-manuals index-aiops clean up down status wait \
         install install-dev dev run test test-quick format lint fix type-check \
         security pre-commit-install pre-commit check-all coverage docs shell \
         ipython watch add add-dev remove list-docs test-upload sync logs \
@@ -70,6 +70,7 @@ help:
 	@echo ""
 	@echo "$(CYAN)【文档管理】$(NC)"
 	@echo "  $(YELLOW)make index-manuals$(NC) - 📚 入库 data/manuals/chunks 手册知识库"
+	@echo "  $(YELLOW)make index-aiops$(NC)   - 🛠️  按章节切分并入库 AIOps 运维知识库"
 	@echo ""
 	@echo "$(CYAN)【依赖管理】$(NC)"
 	@echo "  $(YELLOW)make install$(NC)      - 📦 安装生产依赖"
@@ -472,6 +473,15 @@ index-manuals:
 		exit 1; \
 	fi
 	.venv/bin/python scripts/index_manual_chunks.py --directory $(MANUAL_CHUNKS_DIR)
+
+# 按 Markdown 章节切分并重建 AIOps 运维知识库
+index-aiops:
+	@echo "$(YELLOW)🛠️  开始切分并入库 AIOps 运维知识库: $(DOCS_DIR)$(NC)"
+	@if [ ! -d "$(DOCS_DIR)" ]; then \
+		echo "$(RED)❌ 目录 $(DOCS_DIR) 不存在！$(NC)"; \
+		exit 1; \
+	fi
+	.venv/bin/python scripts/index_aiops_knowledge.py --source $(DOCS_DIR) --rebuild
 
 # 上传所有文档
 upload:
