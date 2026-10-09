@@ -15,7 +15,7 @@ from langchain.agents.middleware import AgentMiddleware
 from langchain_core.messages import (
     AIMessage,
     BaseMessage,
-    HumanMessage,
+    HumanMessage as HumanMessage,
     RemoveMessage,
     SystemMessage,
     ToolMessage,
@@ -28,8 +28,13 @@ from typing_extensions import TypedDict
 
 from app.agent.mcp_client import get_mcp_client_with_retry
 from app.config import config
-from app.core.request_context import is_memory_enabled
+from app.core.request_context import current_memory_user_id, is_memory_enabled
 from app.retrieval.diagnostics import reset_trace_chat_context, set_trace_chat_context
+from app.services.context_budget import (
+    ContextBudgetEstimate,
+    assess_context_budget,
+    extract_model_usage,
+)
 from app.services.memory_service import memory_service
 from app.services.multimodal_message_builder import build_user_message
 from app.services.query_router import should_use_manual_rag
@@ -76,6 +81,11 @@ except Exception:  # pragma: no cover - keeps lightweight tests importable with 
         def load_memory(self, session_id: str) -> str:
             return ""
 
+        def load_answer_context(
+            self, session_id: str, *, current_question: str | None = None
+        ) -> tuple[str, list[dict[str, Any]]]:
+            return "", []
+
         def load_recent_dialogue(
             self,
             session_id: str,
@@ -87,9 +97,6 @@ except Exception:  # pragma: no cover - keeps lightweight tests importable with 
         def format_dialogue(self, records: list[dict[str, Any]]) -> str:
             return ""
 
-        async def update_after_turn(self, **kwargs: Any) -> None:
-            return None
-
     _short_term_memory_service = _NoopShortTermMemoryService()
 
 short_term_memory_service = _short_term_memory_service
@@ -97,6 +104,10 @@ short_term_memory_service = _short_term_memory_service
 EMPTY_IMAGE_ALT_RE = re.compile(r"!\[\]\(([^)]+)\)")
 PIC_ID_IN_PATH_RE = re.compile(r"([A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+)")
 RETRIEVE_KNOWLEDGE_TOOL_NAME = "retrieve_knowledge"
+
+
+class ContextBudgetExceededError(ValueError):
+    """The final pre-call prompt exceeds the configured input budget."""
 
 # 阿里千问大模型和langchain集成参考： https://docs.langchain.com/oss/python/integrations/chat/qwen
 # 注意：需要配置环境变量 DASHSCOPE_API_BASE=https://dashscope.aliyuncs.com/compatible-mode/v1 否则默认访问的是新加坡站点
@@ -269,7 +280,6 @@ class RagAgentService:
         self.agent = None
         self.customer_service_agent = None
         self._agent_initialized = False
-        self._memory_update_tasks: set[asyncio.Task[Any]] = set()
         self._session_state_update_tasks: set[asyncio.Task[Any]] = set()
         self._long_term_memory_update_tasks: set[asyncio.Task[Any]] = set()
 
@@ -419,7 +429,7 @@ class RagAgentService:
 
             记忆使用规则:
             1. 当前旧版 daily/MEMORY.md 记忆工具已移除，不要使用工具获取历史偏好或项目背景。
-            2. 原始 session JSONL 只做日志和后续记忆更新原材料，不会直接进入当前回答上下文。
+            2. 原始 session JSONL 是会话记录；未压缩的近期对话可能作为短期上下文提供，旧消息由摘要承接。
             3. 历史信息不足时，要明确说明未找到足够历史信息。
 
             回答要求:
@@ -510,12 +520,15 @@ class RagAgentService:
             return [], []
 
         try:
-            memory = short_term_memory_service.load_memory(session_id)
+            memory, answer_dialogue = short_term_memory_service.load_answer_context(
+                session_id,
+                current_question=current_question,
+            )
             recent_dialogue = short_term_memory_service.load_recent_dialogue(
                 session_id,
                 current_question=current_question,
             )
-            recent_text = short_term_memory_service.format_dialogue(recent_dialogue)
+            recent_text = short_term_memory_service.format_dialogue(answer_dialogue)
         except Exception as exc:
             logger.warning("[会话 {}] 构造短期记忆上下文失败: {}", session_id, exc)
             return [], []
@@ -524,7 +537,7 @@ class RagAgentService:
         if memory:
             sections.append("【短期语义记忆】\n" + memory)
         if recent_text:
-            sections.append("【最近 1-3 轮原始对话】\n" + recent_text)
+            sections.append("【未压缩的原始对话】\n" + recent_text)
         if not sections:
             return [], recent_dialogue
 
@@ -534,6 +547,114 @@ class RagAgentService:
             + "\n\n".join(sections)
         )
         return [SystemMessage(content=content)], recent_dialogue
+
+    @staticmethod
+    def _assess_context_budget(messages: list[BaseMessage]) -> ContextBudgetEstimate:
+        return assess_context_budget(
+            messages,
+            working_window_tokens=getattr(config, "memory_context_working_window_tokens", 32768),
+            output_reserve_tokens=getattr(config, "memory_context_output_reserve_tokens", 4096),
+            retrieval_reserve_tokens=getattr(config, "memory_context_retrieval_reserve_tokens", 4096),
+            safety_margin_tokens=getattr(config, "memory_context_safety_margin_tokens", 2048),
+            compact_ratio=getattr(config, "memory_context_compact_ratio", 0.8),
+        )
+
+    @staticmethod
+    def _log_context_budget(session_id: str, messages: list[BaseMessage]) -> bool:
+        """Estimate the assembled prompt and return whether compaction is due."""
+        if not is_memory_enabled():
+            return False
+        try:
+            budget = RagAgentService._assess_context_budget(messages)
+        except ValueError as exc:
+            logger.warning("[会话 {}] 上下文预算配置无效: {}", session_id, exc)
+            return False
+        logger.info(
+            "[会话 {}] 上下文预算估算: input={}, trigger={}, available={}, "
+            "should_compact={}, over_budget={}",
+            session_id,
+            budget.estimated_input_tokens,
+            budget.compact_trigger_tokens,
+            budget.available_input_tokens,
+            budget.should_compact,
+            budget.over_budget,
+        )
+        return budget.should_compact
+
+    @staticmethod
+    def _ensure_context_budget(session_id: str, messages: list[BaseMessage]) -> None:
+        """Stop before the answer model if the final prompt exceeds the hard limit."""
+        if not is_memory_enabled():
+            return
+        budget = RagAgentService._assess_context_budget(messages)
+        if budget.over_budget:
+            logger.warning(
+                "[会话 {}] 回答前上下文超过可用输入预算: input={}, available={}",
+                session_id, budget.estimated_input_tokens, budget.available_input_tokens,
+            )
+            raise ContextBudgetExceededError(
+                "上下文超过可用输入预算，已停止本次回答；"
+                f"估算输入 {budget.estimated_input_tokens} tokens，"
+                f"可用 {budget.available_input_tokens} tokens"
+            )
+
+    async def _compact_if_needed(
+        self, session_id: str, question: str, messages: list[BaseMessage],
+        *, model: str | None, dashscope_api_key: str | None,
+    ) -> bool:
+        """Compact an older raw prefix once, before the answer model is called."""
+        if not self._log_context_budget(session_id, messages):
+            return False
+        prepare = getattr(short_term_memory_service, "prepare_compaction", None)
+        if prepare is None:
+            return False
+        plan = prepare(session_id, current_question=question)
+        if plan is None:
+            logger.info("[会话 {}] 已达预算阈值，但没有可压缩的旧轮次", session_id)
+            return False
+        summarizer = ChatQwen(
+            model=getattr(config, "short_term_memory_model", "") or model or self.model_name,
+            api_key=cast(Any, dashscope_api_key or config.dashscope_api_key),
+            base_url=config.dashscope_api_base,
+            temperature=0,
+            streaming=False,
+        )
+        prompt = (
+            "请将旧摘要与新增对话合并成一份当前会话摘要。只依据给定内容，不编造。"
+            "保留目标、设备型号和编号、关键数字和时间、已确认事实、当前及已推翻假设、"
+            "未完成任务和用户约束。用户问题若未得到有效回答，可记录为待处理；"
+            "标记为回答失败的助手内容不能当成已确认结论。只输出摘要正文，不要代码块。"
+            "尽量精炼，控制在约 1800 token 内。"
+        )
+        dialogue = short_term_memory_service.format_dialogue(plan.messages_to_summarize)
+        try:
+            response = await summarizer.ainvoke([
+                SystemMessage(content=prompt),
+                HumanMessage(content=f"旧摘要：\n{plan.old_summary or '（无）'}\n\n新增对话：\n{dialogue}"),
+            ])
+            summary = self._message_text(response).strip()
+            short_term_memory_service.save_summary_with_boundary(
+                session_id, summary, through_message_seq=plan.through_message_seq,
+            )
+        except Exception as exc:
+            logger.warning("[会话 {}] 压缩失败，继续使用原始上下文: {}", session_id, exc)
+            return False
+        self._log_actual_usage(session_id, response, source="short_term_compaction")
+        logger.info("[会话 {}] 已压缩原始消息至序号 {}", session_id, plan.through_message_seq)
+        return True
+
+    @staticmethod
+    def _log_actual_usage(session_id: str, response: Any, *, source: str) -> None:
+        usage = extract_model_usage(response)
+        if usage is None:
+            return
+        logger.info(
+            "[会话 {}] 模型实际用量: source={}, input={}, output={}",
+            session_id,
+            source,
+            usage.input_tokens,
+            usage.output_tokens,
+        )
 
     def _build_session_state_context_messages(self, session_id: str) -> list[BaseMessage]:
         """Build structured session-state context for the current request."""
@@ -567,6 +688,7 @@ class RagAgentService:
             context, memories = long_term_memory_service.build_context_block(
                 question=question,
                 session_id=session_id,
+                user_id=current_memory_user_id(),
                 session_state_context=session_state_context,
                 short_term_context=short_term_context,
             )
@@ -576,49 +698,6 @@ class RagAgentService:
         if not context:
             return [], memories
         return [SystemMessage(content=context)], memories
-
-    async def _update_short_term_memory_after_turn(
-        self,
-        *,
-        session_id: str,
-        question: str,
-        answer: str,
-        prior_dialogue: list[dict[str, Any]],
-    ) -> None:
-        try:
-            await short_term_memory_service.update_after_turn(
-                session_id=session_id,
-                user_message=question,
-                assistant_message=answer,
-                prior_dialogue=prior_dialogue,
-            )
-        except Exception as exc:
-            logger.warning("[会话 {}] 短期记忆更新异常，已忽略: {}", session_id, exc)
-
-    def _schedule_short_term_memory_update(
-        self,
-        *,
-        session_id: str,
-        question: str,
-        answer: str,
-        prior_dialogue: list[dict[str, Any]],
-    ) -> None:
-        """Schedule memory update without delaying the user-facing answer."""
-        if not str(answer or "").strip():
-            return
-        try:
-            task = asyncio.create_task(
-                self._update_short_term_memory_after_turn(
-                    session_id=session_id,
-                    question=question,
-                    answer=answer,
-                    prior_dialogue=prior_dialogue,
-                )
-            )
-            self._memory_update_tasks.add(task)
-            task.add_done_callback(self._memory_update_tasks.discard)
-        except RuntimeError:
-            logger.warning("[会话 {}] 无可用事件循环，跳过短期记忆后台更新", session_id)
 
     async def _update_session_state_after_turn(
         self,
@@ -677,6 +756,7 @@ class RagAgentService:
         try:
             await long_term_memory_service.update_after_turn(
                 session_id=session_id,
+                user_id=current_memory_user_id(),
                 user_message=question,
                 assistant_message=answer,
                 session_state_context="\n\n".join(str(message.content) for message in session_state_messages),
@@ -734,12 +814,7 @@ class RagAgentService:
             logger.debug("[会话 {}] 跳过上下文记忆更新: MEMORY_ENABLED=false", session_id)
             return
 
-        self._schedule_short_term_memory_update(
-            session_id=session_id,
-            question=question,
-            answer=answer,
-            prior_dialogue=prior_dialogue,
-        )
+        # The short-term summary is updated only by the compaction path.
         self._schedule_long_term_memory_update(
             session_id=session_id,
             question=question,
@@ -830,10 +905,32 @@ class RagAgentService:
                 *self._build_persistent_history_messages(session_id, question),
                 build_user_message(question, images),
             ]
+            if await self._compact_if_needed(
+                session_id, question, messages, model=model,
+                dashscope_api_key=dashscope_api_key,
+            ):
+                short_term_messages, prior_dialogue = self._build_short_term_context_messages(
+                    session_id, question,
+                )
+                long_term_messages, retrieved_long_term_memories = self._build_long_term_context_messages(
+                    session_id=session_id, question=question,
+                    session_state_messages=session_state_messages,
+                    short_term_messages=short_term_messages,
+                )
+                messages = [
+                    SystemMessage(content=self._build_effective_system_prompt(manual_rag_enabled=manual_rag_enabled)),
+                    *long_term_messages, *session_state_messages, *short_term_messages,
+                    *self._build_persistent_history_messages(session_id, question),
+                    build_user_message(question, images),
+                ]
+                self._log_context_budget(session_id, messages)
+
+            self._ensure_context_budget(session_id, messages)
 
             if not manual_rag_enabled:
                 request_model = self._model_for_request(model, dashscope_api_key)
                 response = await request_model.ainvoke(messages)
+                self._log_actual_usage(session_id, response, source="direct")
                 answer_text = self._ensure_image_placeholders(
                     self._message_text(response)
                 )
@@ -865,6 +962,8 @@ class RagAgentService:
                 input=agent_input,
                 config=config_dict,
             )
+            for response_message in result.get("messages", []):
+                self._log_actual_usage(session_id, response_message, source="agent_call")
 
             # 提取最终答案
             messages_result = result.get("messages", [])
@@ -1012,11 +1111,39 @@ class RagAgentService:
                 *self._build_persistent_history_messages(session_id, question),
                 build_user_message(question, images),
             ]
+            if await self._compact_if_needed(
+                session_id, question, messages, model=model,
+                dashscope_api_key=dashscope_api_key,
+            ):
+                short_term_messages, prior_dialogue = self._build_short_term_context_messages(
+                    session_id, question,
+                )
+                long_term_messages, retrieved_long_term_memories = self._build_long_term_context_messages(
+                    session_id=session_id, question=question,
+                    session_state_messages=session_state_messages,
+                    short_term_messages=short_term_messages,
+                )
+                messages = [
+                    SystemMessage(content=self._build_effective_system_prompt(manual_rag_enabled=manual_rag_enabled)),
+                    *long_term_messages, *session_state_messages, *short_term_messages,
+                    *self._build_persistent_history_messages(session_id, question),
+                    build_user_message(question, images),
+                ]
+                self._log_context_budget(session_id, messages)
+
+            try:
+                self._ensure_context_budget(session_id, messages)
+            except ContextBudgetExceededError as exc:
+                yield {"type": "error", "data": str(exc)}
+                return
 
             if not manual_rag_enabled:
                 request_model = self._model_for_request(model, dashscope_api_key)
                 answer_parts: list[str] = []
+                last_usage_message: Any | None = None
                 async for token in request_model.astream(messages):
+                    if extract_model_usage(token) is not None:
+                        last_usage_message = token
                     text_content = self._message_text(token)
                     if text_content:
                         answer_parts.append(text_content)
@@ -1026,6 +1153,8 @@ class RagAgentService:
                             "node": "customer_service_llm",
                         }
 
+                if last_usage_message is not None:
+                    self._log_actual_usage(session_id, last_usage_message, source="direct_stream")
                 logger.info(f"[会话 {session_id}] 客服直连 LLM 查询完成（流式）")
                 self._schedule_context_memory_updates(
                     session_id=session_id,
@@ -1052,6 +1181,7 @@ class RagAgentService:
             selected_agent = await self._agent_for_request(model, dashscope_api_key)
 
             answer_parts: list[str] = []
+            last_agent_usage_message: Any | None = None
             async for token, metadata in selected_agent.astream(
                 input=agent_input,
                 config=config_dict,
@@ -1059,6 +1189,8 @@ class RagAgentService:
             ):
                 node_name = metadata.get('langgraph_node', 'unknown') if isinstance(metadata, dict) else 'unknown'
                 message_type = type(token).__name__
+                if extract_model_usage(token) is not None:
+                    last_agent_usage_message = token
 
                 if message_type in ("AIMessage", "AIMessageChunk"):
                     content_blocks = getattr(token, 'content_blocks', None)
@@ -1075,6 +1207,8 @@ class RagAgentService:
                                         "node": node_name
                                     }
 
+            if last_agent_usage_message is not None:
+                self._log_actual_usage(session_id, last_agent_usage_message, source="last_agent_stream_call")
             logger.info(f"[会话 {session_id}] RAG Agent 查询完成（流式）")
             self._schedule_context_memory_updates(
                 session_id=session_id,

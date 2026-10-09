@@ -6,6 +6,8 @@ import sys
 from pathlib import Path
 from types import ModuleType, SimpleNamespace
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -326,6 +328,14 @@ def test_query_injects_and_updates_short_term_memory(monkeypatch):
             assert session_id == "memory-session"
             return "目标：定位支付接口变慢原因。"
 
+        def load_answer_context(self, session_id: str, *, current_question: str | None = None):
+            assert session_id == "memory-session"
+            assert current_question == "下一步查什么？"
+            return self.load_memory(session_id), [
+                {"role": "user", "content": "接口 22:10 后变慢"},
+                {"role": "assistant", "content": "先排查数据库慢查询"},
+            ]
+
         def load_recent_dialogue(self, session_id: str, *, current_question: str | None = None):
             assert session_id == "memory-session"
             assert current_question == "下一步查什么？"
@@ -339,9 +349,6 @@ def test_query_injects_and_updates_short_term_memory(monkeypatch):
                 f"{item['role']}: {item['content']}"
                 for item in records
             )
-
-        async def update_after_turn(self, **kwargs):
-            self.updated_payload = kwargs
 
     class FakeSessionStateService:
         def build_context_block(self, session_id: str) -> str:
@@ -398,7 +405,7 @@ def test_query_injects_and_updates_short_term_memory(monkeypatch):
     assert "第三方回调超时可能导致接口变慢" in context_text
     assert "【短期语义记忆】" in context_text
     assert "目标：定位支付接口变慢原因。" in context_text
-    assert "【最近 1-3 轮原始对话】" in context_text
+    assert "【未压缩的原始对话】" in context_text
     assert "接口 22:10 后变慢" in context_text
     assert context_text.index("【长期记忆】") < context_text.index("【当前会话状态】")
     assert context_text.index("【当前会话状态】") < context_text.index("【短期语义记忆】")
@@ -409,6 +416,156 @@ def test_query_injects_and_updates_short_term_memory(monkeypatch):
     assert scheduled_payload["retrieved_memories"][0]["memory_id"] == "ltm-test"
 
 
+def test_answer_compacts_before_model_call_and_rebuilds_context(monkeypatch):
+    module = load_rag_agent_service(monkeypatch)
+    module.config.memory_context_working_window_tokens = 1000
+    module.config.memory_context_output_reserve_tokens = 0
+    module.config.memory_context_retrieval_reserve_tokens = 0
+    module.config.memory_context_safety_margin_tokens = 0
+    module.config.memory_context_compact_ratio = 0.1
+
+    class FakeSummaryMemory:
+        def __init__(self):
+            self.saved = None
+
+        def load_answer_context(self, session_id, *, current_question=None):
+            if self.saved:
+                return self.saved, [{"role": "user", "content": "最近的问题"}]
+            return "", [{"role": "user", "content": "很早的对话" * 100}]
+
+        def load_recent_dialogue(self, session_id, *, current_question=None):
+            return []
+
+        def format_dialogue(self, records):
+            return "\n".join(item["content"] for item in records)
+
+        def prepare_compaction(self, session_id, *, current_question=None):
+            return SimpleNamespace(
+                old_summary="", messages_to_summarize=[{"role": "user", "content": "很早的问题"}],
+                through_message_seq=2,
+            )
+
+        def save_summary_with_boundary(self, session_id, content, *, through_message_seq):
+            assert through_message_seq == 2
+            self.saved = content
+
+    class FakeAnswerModel:
+        def __init__(self):
+            self.messages = None
+
+        async def ainvoke(self, messages):
+            self.messages = messages
+            return FakeMessage("最终回答")
+
+    class FakeSummarizer:
+        def __init__(self, **kwargs):
+            assert kwargs["streaming"] is False
+
+        async def ainvoke(self, messages):
+            return FakeMessage("压缩后的摘要")
+
+    memory = FakeSummaryMemory()
+    answer_model = FakeAnswerModel()
+    monkeypatch.setattr(module, "short_term_memory_service", memory)
+    monkeypatch.setattr(module, "should_use_manual_rag", lambda *args, **kwargs: False)
+    service = module.RagAgentService()
+    monkeypatch.setattr(module, "ChatQwen", FakeSummarizer)
+    monkeypatch.setattr(service, "_model_for_request", lambda *args, **kwargs: answer_model)
+    monkeypatch.setattr(service, "_schedule_context_memory_updates", lambda **kwargs: None)
+
+    assert asyncio.run(service.query("当前问题", "compact-test")) == "最终回答"
+    assert memory.saved == "压缩后的摘要"
+    answer_context = "\n".join(str(message.content) for message in answer_model.messages)
+    assert "压缩后的摘要" in answer_context
+    assert "最近的问题" in answer_context
+    assert "很早的对话" not in answer_context
+
+
+def test_trigger_is_allowed_but_hard_budget_stops_answer(monkeypatch):
+    module = load_rag_agent_service(monkeypatch)
+    module.config.memory_context_working_window_tokens = 100
+    module.config.memory_context_output_reserve_tokens = 0
+    module.config.memory_context_retrieval_reserve_tokens = 0
+    module.config.memory_context_safety_margin_tokens = 0
+    module.config.memory_context_compact_ratio = 0.4
+    monkeypatch.setattr(module, "should_use_manual_rag", lambda *args, **kwargs: False)
+
+    service = module.RagAgentService()
+    monkeypatch.setattr(service, "_build_effective_system_prompt", lambda **kwargs: "system")
+    monkeypatch.setattr(service, "_build_short_term_context_messages", lambda *args: ([], []))
+    monkeypatch.setattr(service, "_build_session_state_context_messages", lambda *args: [])
+    monkeypatch.setattr(service, "_build_long_term_context_messages", lambda **kwargs: ([], []))
+    monkeypatch.setattr(service, "_schedule_context_memory_updates", lambda **kwargs: None)
+
+    assert asyncio.run(service.query("x" * 150, "below-hard-limit")) == "customer"
+    with pytest.raises(module.ContextBudgetExceededError, match="超过可用输入预算"):
+        asyncio.run(service.query("x" * 400, "above-hard-limit"))
+
+    async def collect_stream():
+        return [event async for event in service.query_stream("x" * 400, "stream-hard-limit")]
+
+    stream_events = asyncio.run(collect_stream())
+    assert len(stream_events) == 1
+    assert stream_events[0]["type"] == "error"
+    assert "超过可用输入预算" in stream_events[0]["data"]
+
+
+def test_hard_budget_is_checked_again_after_compaction(monkeypatch):
+    module = load_rag_agent_service(monkeypatch)
+    module.config.memory_context_working_window_tokens = 100
+    module.config.memory_context_output_reserve_tokens = 0
+    module.config.memory_context_retrieval_reserve_tokens = 0
+    module.config.memory_context_safety_margin_tokens = 0
+    module.config.memory_context_compact_ratio = 0.4
+    monkeypatch.setattr(module, "should_use_manual_rag", lambda *args, **kwargs: False)
+
+    service = module.RagAgentService()
+    monkeypatch.setattr(service, "_build_effective_system_prompt", lambda **kwargs: "system")
+    monkeypatch.setattr(
+        service, "_build_short_term_context_messages",
+        lambda *args: ([FakeMessage("近期原文" * 100)], []),
+    )
+    monkeypatch.setattr(service, "_build_session_state_context_messages", lambda *args: [])
+    monkeypatch.setattr(service, "_build_long_term_context_messages", lambda **kwargs: ([], []))
+
+    async def pretend_compacted(*args, **kwargs):
+        return True
+
+    monkeypatch.setattr(service, "_compact_if_needed", pretend_compacted)
+    with pytest.raises(module.ContextBudgetExceededError, match="超过可用输入预算"):
+        asyncio.run(service.query("当前问题", "still-over-after-compact"))
+
+
+def test_agent_passes_trusted_user_identity_to_long_term_memory(monkeypatch):
+    module = load_rag_agent_service(monkeypatch)
+    from app.core.request_context import memory_user_identity
+
+    seen = []
+
+    class FakeLongTermMemory:
+        def build_context_block(self, **kwargs):
+            seen.append(("read", kwargs["user_id"]))
+            return "", []
+
+        async def update_after_turn(self, **kwargs):
+            seen.append(("write", kwargs["user_id"]))
+
+    monkeypatch.setattr(module, "long_term_memory_service", FakeLongTermMemory())
+    service = module.RagAgentService()
+    with memory_user_identity("eval-question-a"):
+        service._build_long_term_context_messages(
+            session_id="history-1", question="问题",
+            session_state_messages=[], short_term_messages=[],
+        )
+        asyncio.run(service._update_long_term_memory_after_turn(
+            session_id="history-1", question="问题", answer="回答",
+            prior_dialogue=[], retrieved_memories=[],
+            session_state_messages=[], short_term_messages=[],
+        ))
+
+    assert seen == [("read", "eval-question-a"), ("write", "eval-question-a")]
+
+
 def test_memory_enabled_false_skips_context_memory(monkeypatch):
     module = load_rag_agent_service(monkeypatch)
     module.config.memory_enabled = False
@@ -416,6 +573,9 @@ def test_memory_enabled_false_skips_context_memory(monkeypatch):
     class DisabledMemoryService:
         def load_memory(self, *args, **kwargs):
             raise AssertionError("memory should not be read")
+
+        def load_answer_context(self, *args, **kwargs):
+            raise AssertionError("answer context should not be read")
 
         def load_recent_dialogue(self, *args, **kwargs):
             raise AssertionError("recent dialogue should not be read")
@@ -449,4 +609,4 @@ def test_memory_enabled_false_skips_context_memory(monkeypatch):
     assert "【长期记忆】" not in context_text
     assert "【当前会话状态】" not in context_text
     assert "【短期语义记忆】" not in context_text
-    assert "【最近 1-3 轮原始对话】" not in context_text
+    assert "【未压缩的原始对话】" not in context_text

@@ -15,7 +15,7 @@ from loguru import logger
 from sse_starlette.sse import EventSourceResponse
 
 from app.config import config
-from app.core.request_context import memory_enabled_override
+from app.core.request_context import current_memory_user_id, memory_enabled_override
 from app.models.request import ChatRequest, ClearRequest
 from app.models.response import (
     ApiResponse,
@@ -726,7 +726,6 @@ async def get_session_state(
 
 @router.get("/chat/memory/long-term", response_model=LongTermMemoryListResponse)
 async def list_long_term_memory(
-    user_id: str = "default",
     include_inactive: bool = False,
     limit: int = 100,
     memory_enabled: bool | None = Query(default=None),
@@ -734,6 +733,7 @@ async def list_long_term_memory(
     """查询长期记忆列表。"""
     try:
         with memory_enabled_override(memory_enabled):
+            user_id = current_memory_user_id()
             memories = long_term_memory_service.list_memories(
                 user_id=user_id,
                 include_inactive=include_inactive,

@@ -7,8 +7,8 @@ validate, merge, and inject into the model as a concise status block.
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
 import json
+from datetime import UTC, datetime
 from pathlib import Path
 from textwrap import dedent
 from typing import Any
@@ -22,7 +22,7 @@ from app.config import config
 from app.core.request_context import is_memory_enabled
 from app.services.memory_service import memory_service
 from app.services.short_term_memory_service import short_term_memory_service
-
+from app.services.structured_output_diagnostics import invoke_structured_output
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 MAX_LIST_ITEMS = 8
@@ -162,7 +162,6 @@ class SessionStateService:
         assistant_message: str,
     ) -> SessionStateUpdate:
         llm = self._build_llm()
-        structured_llm = llm.with_structured_output(SessionStateUpdate)
         messages = [
             SystemMessage(content=self._update_system_prompt()),
             HumanMessage(
@@ -189,10 +188,9 @@ class SessionStateService:
                 """).strip()
             ),
         ]
-        result = await structured_llm.ainvoke(messages)
-        if isinstance(result, SessionStateUpdate):
-            return result
-        return SessionStateUpdate.model_validate(result)
+        return await invoke_structured_output(
+            llm, SessionStateUpdate, messages, session_id=session_id,
+        )
 
     @staticmethod
     def _update_system_prompt() -> str:
@@ -220,8 +218,9 @@ class SessionStateService:
 
     def _write_state(self, state: SessionState) -> None:
         try:
-            self.session_state_dir.mkdir(parents=True, exist_ok=True)
-            self._state_file(state.session_id).write_text(
+            path = self._state_file(state.session_id)
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(
                 json.dumps(state.model_dump(), ensure_ascii=False, indent=2) + "\n",
                 encoding="utf-8",
             )
@@ -229,8 +228,7 @@ class SessionStateService:
             logger.warning("写入 Session State 失败: session_id={}, error={}", state.session_id, exc)
 
     def _state_file(self, session_id: str) -> Path:
-        safe_session_id = memory_service._safe_session_id(session_id)
-        return self.session_state_dir / f"{safe_session_id}.json"
+        return memory_service.scoped_session_path(self.session_state_dir, session_id, ".json")
 
     def _clean_state(self, state: SessionState, *, session_id: str) -> SessionState:
         rejected = self._clean_items(state.rejected_hypotheses)
@@ -247,7 +245,7 @@ class SessionStateService:
             rejected_hypotheses=rejected,
             next_actions=self._clean_items(state.next_actions),
             user_constraints=self._clean_items(state.user_constraints),
-            updated_at=datetime.now(timezone.utc).isoformat(),
+            updated_at=datetime.now(UTC).isoformat(),
         )
 
     @staticmethod

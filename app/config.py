@@ -69,6 +69,11 @@ class Settings(BaseSettings):
     long_term_memory_top_k: int = 5
     long_term_memory_min_confidence: float = 0.7
     long_term_memory_min_relevance: float = 0.2
+    memory_context_working_window_tokens: int = Field(default=32768, gt=0)
+    memory_context_output_reserve_tokens: int = Field(default=4096, ge=0)
+    memory_context_retrieval_reserve_tokens: int = Field(default=4096, ge=0)
+    memory_context_safety_margin_tokens: int = Field(default=2048, ge=0)
+    memory_context_compact_ratio: float = Field(default=0.8, gt=0, le=1)
 
     # Chunking
     chunk_max_size: int = 800
