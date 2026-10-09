@@ -19,6 +19,7 @@ from app.retrieval.schemas import (
 
 DEFAULT_PROVIDER = "none"
 LEXICAL_PROVIDER = "lexical"
+FUSION_PROVIDER = "fusion"
 DASHSCOPE_PROVIDER = "dashscope"
 DEFAULT_DASHSCOPE_MODEL = "qwen3-rerank"
 DEFAULT_DASHSCOPE_ENDPOINT = "https://dashscope.aliyuncs.com/compatible-api/v1/reranks"
@@ -150,7 +151,7 @@ def rerank_candidates(
     options: RetrievalOptions,
     diagnostics: RetrievalDiagnostics,
 ) -> RerankResult:
-    """Run the configured reranker and degrade to lexical fallback when needed."""
+    """Run the configured reranker and preserve fusion order when it fails."""
     provider = normalize_provider(getattr(options, "reranker_provider", DEFAULT_PROVIDER))
     candidate_list = list(candidates or [])
     trace = _reranker_trace(diagnostics)
@@ -190,8 +191,7 @@ def rerank_candidates(
         if not result.candidates:
             message = "reranker returned empty result"
             _add_warning(diagnostics, message)
-            return lexical_fallback(
-                query,
+            return fusion_fallback(
                 candidate_list,
                 diagnostics,
                 warnings=[message],
@@ -219,8 +219,7 @@ def rerank_candidates(
         _summary(diagnostics)["timeout"] = True
         trace["timeout"] = True
         trace["error"] = message
-        return lexical_fallback(
-            query,
+        return fusion_fallback(
             candidate_list,
             diagnostics,
             warnings=[message],
@@ -229,12 +228,49 @@ def rerank_candidates(
         message = f"reranker failed: {exc}"
         _add_warning(diagnostics, message)
         trace["error"] = str(exc)
-        return lexical_fallback(
-            query,
+        return fusion_fallback(
             candidate_list,
             diagnostics,
             warnings=[message],
         )
+
+
+def fusion_fallback(
+    candidates: list[RecallCandidate],
+    diagnostics: RetrievalDiagnostics,
+    warnings: Sequence[str] | None = None,
+) -> RerankResult:
+    """Keep the upstream fusion order when the configured reranker is unavailable."""
+    candidate_list = list(candidates or [])
+    for candidate in candidate_list:
+        candidate_diagnostics = getattr(candidate, "diagnostics", None)
+        if not isinstance(candidate_diagnostics, dict):
+            continue
+        candidate_diagnostics.pop("reranker_score", None)
+        candidate_diagnostics.pop("reranker_rank", None)
+        candidate_diagnostics.pop("reranker_score_missing", None)
+
+    trace = _reranker_trace(diagnostics)
+    trace.setdefault("pre_rank", _rank_snapshot(candidate_list))
+    trace["provider"] = FUSION_PROVIDER
+    trace["fallback_used"] = True
+    trace["fallback_reason"] = list(warnings or [])
+    trace["post_rank"] = _rank_snapshot(candidate_list)
+    trace["rank_changes"] = _rank_changes(candidate_list, candidate_list)
+
+    _update_summary(
+        diagnostics,
+        provider=FUSION_PROVIDER,
+        fallback_used=True,
+        timeout=bool(_summary(diagnostics).get("timeout", False)),
+    )
+    return RerankResult(
+        candidates=candidate_list,
+        provider=FUSION_PROVIDER,
+        fallback_used=True,
+        warnings=list(warnings or []),
+        score_field="merged_score",
+    )
 
 
 def lexical_fallback(
@@ -702,10 +738,12 @@ def _safe_float(value: Any) -> float:
 __all__ = [
     "BaseReranker",
     "DashScopeReranker",
+    "FUSION_PROVIDER",
     "ReservedReranker",
     "RerankerTimeoutError",
     "RerankerUnavailableError",
     "create_reranker",
+    "fusion_fallback",
     "lexical_fallback",
     "normalize_provider",
     "rerank_candidates",

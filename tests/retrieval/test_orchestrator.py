@@ -90,12 +90,12 @@ def load_orchestrator_module():
     sys.modules["app.retrieval.reranker"] = make_module(
         "app.retrieval.reranker",
         rerank_candidates=lambda *args, **kwargs: schemas.RerankResult(),
-        lexical_fallback=lambda query, candidates, diagnostics, warnings=None: schemas.RerankResult(
+        fusion_fallback=lambda candidates, diagnostics, warnings=None: schemas.RerankResult(
             candidates=list(candidates),
-            provider="lexical",
+            provider="fusion",
             fallback_used=True,
             warnings=list(warnings or []),
-            score_field="lexical_score",
+            score_field="merged_score",
         ),
     )
     sys.modules["app.retrieval.evidence"] = make_module(
@@ -365,7 +365,7 @@ def test_recall_exception_degrades_to_empty_candidates(monkeypatch):
     assert bundle.metadata["degraded"] is True
 
 
-def test_reranker_exception_uses_lexical_fallback(monkeypatch):
+def test_reranker_exception_preserves_fusion_order(monkeypatch):
     orchestrator, schemas, _ = load_orchestrator_module()
     low = schemas.RecallCandidate(
         result=Result("low", metadata={"chunk_id": "low"}),
@@ -399,19 +399,17 @@ def test_reranker_exception_uses_lexical_fallback(monkeypatch):
         lambda *args, **kwargs: (_ for _ in ()).throw(RuntimeError("bad model")),
     )
 
-    def lexical_fallback(query, candidates, diagnostics, warnings=None):
+    def fusion_fallback(candidates, diagnostics, warnings=None):
         fallback_calls.append({"candidates": list(candidates), "warnings": list(warnings or [])})
-        high.diagnostics["lexical_score"] = 9.0
-        low.diagnostics["lexical_score"] = 1.0
         return schemas.RerankResult(
-            candidates=[high, low],
-            provider="lexical",
+            candidates=list(candidates),
+            provider="fusion",
             fallback_used=True,
             warnings=list(warnings or []),
-            score_field="lexical_score",
+            score_field="merged_score",
         )
 
-    monkeypatch.setattr(orchestrator, "lexical_fallback", lexical_fallback)
+    monkeypatch.setattr(orchestrator, "fusion_fallback", fusion_fallback)
     monkeypatch.setattr(
         orchestrator,
         "build_retrieval_bundle",
@@ -431,8 +429,8 @@ def test_reranker_exception_uses_lexical_fallback(monkeypatch):
             "warnings": ["reranker failed: bad model"],
         }
     ]
-    assert bundle.hits == [high.result]
-    assert bundle.metadata["reranker_provider"] == "lexical"
+    assert bundle.hits == [low.result]
+    assert bundle.metadata["reranker_provider"] == "fusion"
     assert bundle.metadata["reranker_fallback"] is True
     assert bundle.metadata["warnings"] == ["reranker failed: bad model"]
 
