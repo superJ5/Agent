@@ -213,18 +213,16 @@ def test_model_provider_success_records_reranker_result(monkeypatch):
     }
 
 
-def test_model_exception_falls_back_to_lexical_score(monkeypatch):
-    candidates = [make_candidate("first"), make_candidate("second")]
+def test_model_exception_preserves_fusion_order(monkeypatch):
+    candidates = [
+        make_candidate("first", merged_score=0.9),
+        make_candidate("second", merged_score=0.8),
+    ]
 
     def raise_provider(provider: str):
         raise RuntimeError("no endpoint")
 
     monkeypatch.setattr(reranker, "create_reranker", raise_provider)
-    monkeypatch.setattr(
-        reranker,
-        "_score_candidate",
-        lambda result, **kwargs: 10.0 if result.metadata["chunk_id"] == "second" else 1.0,
-    )
     diagnostics = RetrievalDiagnostics()
 
     result = reranker.rerank_candidates(
@@ -234,11 +232,16 @@ def test_model_exception_falls_back_to_lexical_score(monkeypatch):
         diagnostics,
     )
 
-    assert [candidate.chunk_id for candidate in result.candidates] == ["second", "first"]
-    assert result.provider == "lexical"
+    assert [candidate.chunk_id for candidate in result.candidates] == ["first", "second"]
+    assert result.provider == "fusion"
     assert result.fallback_used is True
+    assert result.score_field == "merged_score"
     assert diagnostics.warnings == ["reranker failed: no endpoint"]
     assert result.warnings == ["reranker failed: no endpoint"]
+    assert diagnostics.trace["reranker"]["rank_changes"] == [
+        {"chunk_id": "first", "before_rank": 1, "after_rank": 1, "delta": 0},
+        {"chunk_id": "second", "before_rank": 2, "after_rank": 2, "delta": 0},
+    ]
 
 
 def test_timeout_falls_back_and_sets_timeout_summary(monkeypatch):
@@ -252,11 +255,6 @@ def test_timeout_falls_back_and_sets_timeout_summary(monkeypatch):
             return RerankResult(candidates=list(reversed(candidates)), provider="custom")
 
     monkeypatch.setattr(reranker, "create_reranker", lambda provider: SlowReranker())
-    monkeypatch.setattr(
-        reranker,
-        "_score_candidate",
-        lambda result, **kwargs: 5.0 if result.metadata["chunk_id"] == "first" else 1.0,
-    )
     diagnostics = RetrievalDiagnostics()
 
     result = reranker.rerank_candidates(
@@ -267,6 +265,8 @@ def test_timeout_falls_back_and_sets_timeout_summary(monkeypatch):
     )
 
     assert [candidate.chunk_id for candidate in result.candidates] == ["first", "second"]
+    assert result.provider == "fusion"
+    assert result.score_field == "merged_score"
     assert result.fallback_used is True
     assert diagnostics.summary["timeout"] is True
     assert diagnostics.trace["reranker"]["timeout"] is True
@@ -283,11 +283,6 @@ def test_empty_model_result_falls_back(monkeypatch):
             return RerankResult(candidates=[], provider="custom")
 
     monkeypatch.setattr(reranker, "create_reranker", lambda provider: EmptyReranker())
-    monkeypatch.setattr(
-        reranker,
-        "_score_candidate",
-        lambda result, **kwargs: 2.0 if result.metadata["chunk_id"] == "first" else 8.0,
-    )
     diagnostics = RetrievalDiagnostics()
 
     result = reranker.rerank_candidates(
@@ -297,8 +292,9 @@ def test_empty_model_result_falls_back(monkeypatch):
         diagnostics,
     )
 
-    assert [candidate.chunk_id for candidate in result.candidates] == ["second", "first"]
-    assert result.provider == "lexical"
+    assert [candidate.chunk_id for candidate in result.candidates] == ["first", "second"]
+    assert result.provider == "fusion"
+    assert result.score_field == "merged_score"
     assert diagnostics.warnings == ["reranker returned empty result"]
     assert result.warnings == ["reranker returned empty result"]
 
@@ -390,14 +386,9 @@ def test_dashscope_provider_posts_index_text_and_records_scores(monkeypatch):
     assert diagnostics.trace["reranker"]["endpoint"] == "https://example.test/reranks"
 
 
-def test_dashscope_missing_key_falls_back_to_lexical(monkeypatch):
+def test_dashscope_missing_key_preserves_fusion_order(monkeypatch):
     candidates = [make_candidate("first"), make_candidate("second")]
     monkeypatch.setattr(reranker, "_config_value", lambda name, default: "")
-    monkeypatch.setattr(
-        reranker,
-        "_score_candidate",
-        lambda result, **kwargs: 3.0 if result.metadata["chunk_id"] == "first" else 1.0,
-    )
     diagnostics = RetrievalDiagnostics()
 
     result = reranker.rerank_candidates(
@@ -408,7 +399,8 @@ def test_dashscope_missing_key_falls_back_to_lexical(monkeypatch):
     )
 
     assert [candidate.chunk_id for candidate in result.candidates] == ["first", "second"]
-    assert result.provider == "lexical"
+    assert result.provider == "fusion"
+    assert result.score_field == "merged_score"
     assert result.fallback_used is True
     assert diagnostics.summary["reranker_fallback"] is True
     assert diagnostics.warnings == ["reranker failed: dashscope api key is missing"]

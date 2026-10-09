@@ -12,7 +12,7 @@ from app.retrieval.diagnostics import build_summary_metadata, write_trace_if_ena
 from app.retrieval.evidence import build_retrieval_bundle
 from app.retrieval.query_understanding import analyze_query
 from app.retrieval.recall import recall_candidates
-from app.retrieval.reranker import lexical_fallback, rerank_candidates
+from app.retrieval.reranker import fusion_fallback, rerank_candidates
 from app.retrieval.schemas import (
     QueryAnalysis,
     RecallCandidate,
@@ -130,19 +130,19 @@ def _run_reranker(
         diagnostics.trace.setdefault("reranker", {})["error"] = str(exc)
 
     try:
-        return lexical_fallback(query, candidates, diagnostics, warnings=[message])
+        return fusion_fallback(candidates, diagnostics, warnings=[message])
     except Exception as fallback_exc:
-        fallback_message = f"reranker lexical fallback failed: {fallback_exc}"
+        fallback_message = f"reranker fusion fallback failed: {fallback_exc}"
         diagnostics.add_warning(fallback_message)
         diagnostics.trace.setdefault("reranker", {})["fallback_error"] = str(fallback_exc)
-        diagnostics.summary["reranker_provider"] = "lexical"
+        diagnostics.summary["reranker_provider"] = "fusion"
         diagnostics.summary["reranker_fallback"] = True
         return RerankResult(
             candidates=list(candidates),
-            provider="lexical",
+            provider="fusion",
             fallback_used=True,
             warnings=[message, fallback_message],
-            score_field="lexical_score",
+            score_field="merged_score",
         )
 
 
